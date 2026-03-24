@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+    <section class="topbar">
+        <div class="container-fluid">
+            <div class="tophead">
+                <div class="logout">
+                    <span class="signout">
+                        <a th:href="@{/logout}">Sign Out</a>
+                        <img th:src="@{/images/logout.png}" alt="">
+                        <a th:href="@{/getChangePasswrdInLogin}">Change Password</a>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div id="block" class="container-fluid">
+            <div class="headnav" sec:authorize="hasAuthority('10004')">
+                <div class="headernav" th:insert="~{fragments/header/mbHeader}">
+                </div>
+            </div>
+            <div class="headnav" sec:authorize="hasAuthority('10005')">
+                <div class="headernav" th:insert="~{fragments/header/coHeader}">
+                </div>
+            </div>
+            <div class="headnav" sec:authorize="hasAuthority('10006')">
+                <div class="headernav" th:insert="~{fragments/header/paoHeader}">
+                </div>
+            </div>
+            <div class="headnav" sec:authorize="hasAuthority('10007')">
+                <div class="headernav" th:insert="~{fragments/header/cdaHeader}">
+                </div>
+            </div>
+            <div class="headnav" sec:authorize="hasAuthority('10008')">
+                <div class="headernav" th:insert="~{fragments/header/cgdaHeader}">
+                </div>
+            </div>
+            <div class="headnav" sec:authorize="hasAuthority('10009')">
+                <div class="headernav" th:insert="~{fragments/header/adgHeader}">
+                </div>
+            </div>
+            <div class="headnav" sec:authorize="hasAuthority('10010')">
+                <div class="headernav" th:insert="~{fragments/header/serviceProviderHeader}">
+                </div>
+            </div>
+            <div class="headnav" sec:authorize="hasAuthority('10011')">
+                <div class="headernav" th:insert="~{fragments/header/saoHeader}">
+                </div>
+            </div>
+            <p>Welcome <span th:text="${session.loginUser}"/>
+                <br>
+                <span class="lastlogin">
+                    You last logged in on <span th:text="${#dates.format(#dates.createNow(),'dd-MMM-yyyy HH:mm')}"/>
+                </span>
+            </p>
+        </div>
+    </section>

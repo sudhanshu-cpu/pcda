@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+
+<script type="text/javascript" th:src="@{/js/common/crypto.js}"></script>
+
+<script th:src="@{/js/MB/Grievance/complaintRedressal/grievance.js(random=${session.jsToken})}"></script>
+<body>
+	
+	<div th:insert="~{fragments/header/mainHeader}"></div>
+
+	<section id="midpart" class="midpart">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-1"></div>
+				<div class="col-lg-10">
+
+					<!-- Search Section -->
+						<form th:action="@{/mb/getComplaintStatus}" method="get" id="complaintForm">
+						<div id="program" class="programBlock">
+							<div class="welcomebox" style="margin-bottom:1rem">
+								<div class="welcomeHead">
+								<span>Grievance Redressal Module Status</span>
+							</div>
+
+								<span th:text="${error}" style="color: red;"></span>
+
+								<div class="welcomecont">
+									<table class="filtersearch">
+										<tbody class="all1">
+										<tr>
+												<td style="width:30%">Grievance No <span style="color: red">*</span></td>
+												<td style="width:70%">
+													<input name="complaint" type="text" id="complaintId" 
+													autocomplete="off" th:value="${complaint}"  onkeyup="getSuggestion(this)" onblur="clearField(this)">
+													<div class="suggestionsBox" id="suggestionsTo"  style="display: none;">
+														<div class="suggestionList" id="autoSuggestionsListTo"></div>
+													</div>
+												</td>
+										</tr>
+										<tr>
+												<td colspan="2" style="text-align: right;">
+													<button type="button" class="butn" id="editsearch" onclick="showDiv()">Search</button>
+												</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						</div>
+						</form>
+
+					
+					<div class="welcomebox" th:unless="${beanList}==null" style="margin-top:1rem">
+						<div class="welcomeHead">
+							<span>Grievance Status</span>
+					</div>
+
+						<div class="welcomecont">
+							<table class="filtersearch">
+								<thead class="head">
+									<tr>
+										<th style="width: 30%">Action Date</th>
+										<th style="width: 30%">Current Status</th>
+										<th style="width: 30%">Remark</th>
+									</tr>
+								</thead>
+								<tbody class="all1">
+									<tr th:each="status :${beanList}">
+										<td th:text="${#dates.format(status.actionDate, 'dd-MM-yyyy HH:mm')}"></td>
+										<td th:text="${status.currentSatus}"></td>
+										<td th:text="${status.remark}"></td>
+									</tr>
+								</tbody>
+							</table>
+
+							
+							<div th:if="${flag==true}" style="margin-top:1rem; text-align:right;">
+								<form th:action="@{/mb/viewComplaintHistory}" method="post">
+									<input type="hidden" name="personalNo" th:value="${personalNo}" />
+									<button type="submit" class="butn" id="backButton">Back</button>
+								</form>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+		</div>
+	</section>
+
+	<section>
+		<div class="blank"></div>
+	</section>
+</body>
+</html>

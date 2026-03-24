@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+
+<script th:src="@{/js/MB/RequestDashBoard/RailCanDashBoard/RailCanDash.js(random=${session.jsToken})}"> </script>
+
+
+<body oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+	<div th:insert="~{fragments/header/mainHeader}"></div>
+	<section class="midpart">
+		<div class="container-fluid">
+			<div class="row" style="width: 100%">
+				<div class="col-lg-1"></div>
+				<div class="col-lg-10">
+
+					<form th:action="@{/mb/preCancelRailDashPage}" method="post" name="railCanDashReq" id="railCanDashReq">
+                    
+                    		              <input type="hidden" th:value="${bkgModel.currbookingStatus}" name="tktCanType" />
+                    		              <input type="hidden" th:value="${bkgModel.totalPax}" name="totalPsnger" />
+                                          <input type="hidden" th:value="${bkgModel.ticketNo}" name="dodRefNo" />
+									      <input type="hidden" th:value="${bkgModel.bookingId}" name="bookingId" />
+										  <input type="hidden" th:value="${bkgModel.operatorTxnId}" name="transactionId" />
+                                          <input type="hidden" name="irctcTckType" id="irctcTckType" th:value="${bkgModel.irctcTktType.ordinal}" />
+
+
+                         <div class="panel" id="panel">
+						<div id="program" class="programBlock">
+							<div class="welcomebox" style="margin-bottom: 1rem;">
+								<div class="welcomeHead">
+									<p th:text="#{mb.travel.requestdashboard.ticinfo}"></p>
+
+								</div>
+								<div class="welcomecont">
+									<table class="filtersearch">
+										<tbody class="all">
+											<tr>
+												<td style="width: 25%"><span
+														th:text="#{mb.travel.requestdashboard.tkt}"></span></td>
+												<td style="width: 25%"><span th:text="${bkgModel.ticketNo}"></span></td>
+												<td style="width: 25%"><span
+														th:text="#{mb.travel.requestdashboard.pnr}"></span></td>
+												<td style="width: 25%"><span th:text="${bkgModel.pnrNo}"></span></td>
+											</tr>
+											<tr>
+												<td style="width: 25%"><span
+														th:text="#{mb.travel.requestdashboard.tno}"></span></td>
+												<td style="width: 25%"><span th:text="${bkgModel.trainNo}"></span></td>
+												<td style="width: 25%"><span
+														th:text="#{mb.travel.requestdashboard.tname}"></span></td>
+												<td style="width: 25%"><span th:text="${bkgModel.trainName}"></span></td>
+											</tr>
+											<tr>
+												<td style="width: 25%"><span
+														th:text="#{mb.travel.requestdashboard.datej}"></span></td>
+												<td style="width: 25%"><span th:text="${bkgModel.journeyDateStr}"></span></td>
+												<td STYLE="WIDTH: 25%"><span
+														th:text="#{mb.travel.requestdashboard.cls}"></span></td>
+												<td style="width: 25%"><span th:text="${bkgModel.journeyClass}"></span></td>
+											</tr>
+											<tr>
+												<td style="width: 25%"><span
+														th:text="#{mb.travel.requestdashboard.qut}"></span></td>
+												<td style="width: 25%"><span th:text="${bkgModel.journeyQuota}"></span></td>
+												<td style="width: 25%"><span
+														th:text="#{mb.travel.requestdashboard.Dateb}"></span></td>
+												<td style="width: 25%"><span th:text="${bkgModel.bookingDateStr}"></span></td>
+											</tr>
+											<tr>
+												<td style="width: 25%"><span
+														th:text="#{mb.travel.requestdashboard.bstatus}"></span></td>
+												<td style="width: 25%"><span th:text="${bkgModel.currbookingStatus}"></span>
+												</td>
+												<td style="width: 25%"><span
+														th:text="#{mb.travel.requestdashboard.ttype}"></span></td>
+												<td style="width: 25%"><span th:text="${bkgModel.travelType}"></span></td>
+
+											</tr>
+
+
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+						<div id="program" class="programBlock">
+							<div class="welcomebox" style="margin-bottom: 1rem;">
+								<div class="welcomeHead">
+									<p th:text="#{mb.travel.requestdashboard.pdetails}"></p>
+								</div>
+								<div class="welcomecont">
+									<table class="filtersearch">
+										<tbody class="all">
+
+											<tr>
+												<td> </td>
+												<td>S.No.</td>
+												<td th:text="#{mb.travel.requestdashboard.name}"></td>
+												<td th:text="#{mb.travel.requestdashboard.age}"></td>
+												<td th:text="#{mb.travel.requestdashboard.gen}"></td>
+												<td th:text="#{mb.travel.requestdashboard.coach}"></td>
+												<td th:text="#{mb.travel.requestdashboard.seat}"></td>
+												<td th:text="#{mb.travel.requestdashboard.berth}"></td>
+												<td th:text="#{mb.travel.requestdashboard.status}"></td>
+												<td th:text="#{mb.travel.requestdashboard.oog}"></td>
+												<td th:text="#{mb.travel.requestdashboard.canstatus}">
+												</td>
+												<td th:text="#{mb.travel.requestdashboard.aoog}"></td>
+											</tr>
+											<tr th:each="sr,stat : ${bkgModel.passengerList}">
+											<td th:if="${sr.currentCancelStatus}=='Booked'">
+											<input type="checkBox" class="checkbox" th:name="@{|chk_${stat.index}|}" th:id="@{|chk_${stat.index}|}"  disabled="true">
+											 </td>
+											 <td th:if="${sr.currentCancelStatus}=='For Cancellation'">
+											<input type="checkBox" class="checkbox" th:name="@{|chk_${stat.index}|}" th:id="@{|chk_${stat.index}|}"  checked="true" 
+											th:attr="onclick='nocheck(\''+${stat.index}+'\');'" onkeydown="false" />
+											 </td>
+											<td th:if="${sr.currentCancelStatus}=='Cancellation in Process'">
+											<input type="checkBox" class="checkbox" th:name="@{|chk_${stat.index}|}" th:id="@{|chk_${stat.index}|}"  checked="true" 
+											th:attr="onclick='nocheck(\''+${stat.index}+'\');'" onkeydown="false"/>
+											 </td>
+											 <td th:if="${sr.currentCancelStatus}=='Cancelled'">
+											<input type="checkBox" class="checkbox" th:name="@{|chk_${stat.index}|}" th:id="@{|chk_${stat.index}|}"  disabled="true" />
+											 </td>
+												<td th:text="${sr.passangerNo}"> </td>
+												<td th:text="${sr.passangerName}"> </td>
+												<td th:text="${sr.passangerAge}"> </td>
+
+												<td th:if="${sr.passangerSex}=='0'">Male </td>
+												<td th:if="${sr.passangerSex}=='1'">Female </td>
+												<td th:text="${sr.trnCoach}"> </td>
+												<td th:text="${sr.trnSeat}"> </td>
+												<td th:text="${sr.trnBerth}"> </td>
+												<td>
+												<span th:text="${sr.currentStatus}"> </span>
+												<input type="hidden" th:if="${sr.currentStatus}=='CNF'" th:name="@{|currentStatus_${stat.index}|}" th:id="@{|currentStatus_${stat.index}|}" value="CNF" />
+												<input type="hidden" th:if="${sr.currentStatus}=='NOSB'" th:name="@{|currentStatus_${stat.index}|}" th:id="@{|currentStatus_${stat.index}|}" value="NOSB" />
+												<input type="hidden" th:if="${sr.currentStatus}=='WL'" th:name="@{|currentStatus_${stat.index}|}" th:id="@{|currentStatus_${stat.index}|}" value="WL" />
+												</td>
+												
+												<td >
+												<span th:text="${sr.isOfficial}"> </span>
+											    <input type="hidden" th:id="@{|isOfficial_${stat.index}|}" th:value="${sr.isOfficial}" />
+												 </td>
+												<td th:text="${sr.currentCancelStatus}"> </td>
+												<td th:text="${sr.isOnGovtInt}"> </td>
+												
+												
+
+											</tr>
+										</tbody>
+										
+									</table>
+								</div>
+							</div>
+						</div>
+
+
+						<div id="program" class="programBlock">
+							<div class="welcomebox" style="margin-bottom: 1rem;">
+								<div class="welcomeHead">
+									<p th:text="#{mb.travel.railCancellation.fdetails}"></p>
+								</div>
+								<div class="welcomecont">
+									<table class="filtersearch">
+										<tbody class="all">
+											<tr>
+												<td th:text="#{mb.travel.requestdashboard.base}"></td>
+												<td th:text="${bkgModel.irlFare}"></td>
+											</tr>
+											<tr>
+												<td th:text="#{mb.travel.requestdashboard.irctc}"></td>
+												<td th:text="${bkgModel.irctcSerCharge}"></td>
+											</tr>
+											<tr>
+												<td th:text="#{mb.travel.requestdashboard.stax}"></td>
+												<td th:text="${bkgModel.totalServiceTax}"></td>
+											</tr>
+											<tr>
+												<td th:text="#{mb.travel.requestdashboard.tamount}"></td>
+												<td th:text="${bkgModel.totalAmount}"></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+
+
+						<div id="program" class="programBlock" th:if="${bkgModel.isCanApproved}=='Approved'">
+							<div class="welcomebox" style="margin-bottom: 1rem;">
+								<div class="welcomeHead">
+									<p th:text="#{mb.travel.requestdashboard.canreason}"></p>
+								</div>
+								<div class="welcomecont">
+									<span th:text="${bkgModel.canceltnReason}"></span>
+								</div>
+							</div>
+							<div style="text-align:right"  th:if="!${allCan}">
+							<input type="button" class="butn" value="Proceed For Cancel" th:attr="onclick='proceedToCancel(\''+${bkgModel.totalPax}+'\')'"/>
+		                   <input type="button" class="butn" value="Abort Cancellation" onclick="abortCancellation();"/>
+						</div>
+						</div>
+						
+						<div id="program" class="programBlock" th:if="${bkgModel.isCanApproved}=='Requested'">
+							<div class="welcomebox" style="margin-bottom: 1rem;">
+								<div class="welcomeHead">
+									<p th:text="#{mb.travel.requestdashboard.canreason}"></p>
+								</div>
+								<div class="welcomecont">
+									<span th:text="${bkgModel.canceltnReason}"></span>
+								</div>
+							</div>
+							
+							
+			 <div class="welcomecont">
+			 <span style="color: red;">Firstly approve request from CO then you can proceed to cancel</span>
+			 </div>
+		 
+						</div>
+						</div>
+						
+						
+						
+	<div id="abortCancelDiv" class="filtersearch" >
+		<div id="program" class="programBlock">
+							<div class="welcomebox" style="margin-bottom: 1rem;">
+								<div class="welcomeHead">
+									<p>Abort Cancel  Reason</p>
+								</div>
+							<div class="welcomecont">
+    <!-- <input type="hidden" name="ticketNoAbort" th:value="${bkgModel.ticketNo}" /> -->
+     <input type="hidden" name="bookingIdAbort" th:value="${bkgModel.bookingId}" />
+     <input type="hidden" name="isAbortCancel" id="isAbortCancel" value="" />
+     <table class="filtersearch">
+		<tbody class="all">
+			<tr>
+			<td>
+				<textarea style="border:1px solid #ccc; width:50%; height:80px;" id="abortReason"  name="abortReason"></textarea>
+ 	  		</td>
+ 	  		<tr>
+ 	  		<td style="text-align:right">
+		<button  type="button" class="butn" onclick="submitAbortCancel();">Submit</button>
+	   </td>
+	   </tr>
+	   </tbody>
+	   </table>
+	    </div>
+</div>
+</div>
+</div>
+
+
+
+					</form>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section>
+		<div class="blank"></div>
+	</section>
+	<section>
+		<div th:insert="~{fragments/login/footer}"></div>
+	</section>
+</body>
+
+</html>

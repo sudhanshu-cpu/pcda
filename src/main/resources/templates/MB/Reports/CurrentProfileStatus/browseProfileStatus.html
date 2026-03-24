@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html  lang="en" xmlns:th="http://www.thymeleaf.org">
+<head  th:insert="~{fragments/login/head}"></head>
+<script type="text/javascript" th:src="@{/js/common/crypto.js}"></script>
+<script type="text/javascript">
+
+function validateForm(){
+
+var userAlias=$("#userAlias").val().trim();
+if(userAlias.trim()==''){
+	alert("Please Enter Personal No.");
+}else{
+	var encryptPNo = CryptoJS.AES.encrypt(userAlias,"Hidden Pass");
+		$("#userAlias").val(encryptPNo);
+	$("#currProfileStat").submit();
+}	
+}
+	
+</script>
+<body>
+<div th:insert="~{fragments/header/mainHeader}"></div>
+
+<section id="midpart" class="midpart">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-1"></div>
+				<div class="col-lg-10">
+
+<form name="currProfileStat" id="currProfileStat"  th:formaction="@{browseProfileStatus}" th:method="post" >
+
+    
+	 <div id="program" class="programBlock">
+							<div class="welcomebox" style="margin-bottom: 1rem;">
+								<div class="welcomeHead">
+									<p> Current Profile Status</p>
+								</div>
+
+								<div class="welcomecont">
+         <table class="filtersearch">
+			
+			
+            <tr>
+           		<td>Personal No.</td>
+				<td><input type="text" name="userAlias" id="userAlias" class="txtfldM" size="15" maxlength="20"  th:value="${userAlias}" autocomplete="off" /> </td>
+				
+				
+			</tr>
+		<tr>
+		  <td colspan="10" id="downLoadFile" style="text-align:right">
+		    <a href="javascript:void(0);"><input id="generateButton" class="butn" type="button" onClick="validateForm();" value="Search"/> </a>
+		  </td>
+		</tr> 
+	 
+	 </table>
+	 </div>
+	 </div>
+	 </div>
+	 
+         
+         
+			<div class="welcomebox" style="margin-bottom: 1rem;"  th:if="${profileModel!=null}">
+								
+			 <table  class="filtersearch">
+		   	<thead class="head">
+	                 <tr>
+								<th>Personal No.</th>
+								<th>Name</th>
+								<th>Approval State</th>
+								<th>Action Type</th>
+								<th>Remark</th>
+								
+								
+							</tr>
+				</thead>
+				<tbody class="all1">
+				
+								<tr class="lablevaluebgalt">
+									<td th:text="${profileModel.userAlias}"></td>
+									<td th:text="${profileModel.name}"></td>
+									<td th:text="${profileModel.profileStatus}"></td>
+									<td th:text="${profileModel.userEditType}"></td>
+									<td th:text="${profileModel.remark}"></td>
+									
+	
+                                 </tr>
+								
+							</tbody>
+ </table>
+	  
+
+	  
+  </div>
+	   <table class="filtersearch">
+         <tr>
+       <td> <span th:text="${noData}" class="error"> </span></td>
+	  </tr>
+ </table>  
+        
+  
+    		
+  
+
+     		
+</form>
+</div>
+</div>
+</div>
+   </section>
+	<section>
+		<div class="blank"></div>
+	</section>
+	<section>
+		<div th:insert="~{fragments/login/footer}"></div>
+   </section>
+</body>
+</html>

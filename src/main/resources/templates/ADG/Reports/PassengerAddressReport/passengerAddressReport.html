@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+
+
+
+<script type="text/javascript">
+function generateReport()
+ {
+	var pnrNo=$("#pnrNumber").val().trim();
+	if(pnrNo !=''){
+	   $("#adgmovPassAddReportForm").submit();
+ }
+	else {
+		alert("Please Enter PNR No ");
+ 
+	}
+	  
+ }
+   
+</script>
+
+<body oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+
+	<div th:insert="~{fragments/header/mainHeader}"></div>
+
+	<section id="midpart" class="midpart">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-1"></div>
+				<div class="col-lg-10">
+					<form name="adgmovPassAddReportForm" th:action="@{/adg/passengerAddresDtls}" th:method="post"
+						id="adgmovPassAddReportForm">
+						<input type="hidden" name="event" id="event" />
+						<div id="program" class="programBlock">
+							<div class="welcomebox" style="margin-bottom: 1rem">
+								<div class="welcomeHead">
+									<p> <span
+											th:text="#{adg.reports.passenger.address.repo.assengerAddressReport}"></span>
+									</p>
+
+								</div>
+								<div class="welcomecont">
+									<table class="filtersearch">
+										<tbody class="all1">
+											<tr>
+												<td style="width:20%"
+													th:text="#{adg.reports.passenger.address.repo.pnrNum}">
+												</td>
+												<td><input name="pnrNo" type="text" id="pnrNumber" size="15" maxlength="10" autocomplete="off"
+														th:value="${pnr}" >
+												</td>
+
+											</tr>
+
+											<tr>
+												<td colspan="4" class="lablevalue" style="text-align:right">
+													<input type="button" name="btn_action" class="butn" value="Generate Report" onclick="generateReport()">
+														
+												</td>
+												<!--													<button type="submit" name="btn_action" class="save-butn" value="Search">Search</button>-->
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+
+						<div id="program" class="programBlock">
+							<div class="welcomebox" style="margin-bottom: 1rem" th:if="${passengerDtls}!=null">
+
+								<table class="filtersearch"  >
+
+									<tbody class="all1" th:if="${passengerDtls.showData}=='YES'")>
+										<tr>
+											<td style="width:7%" class="heading" th:text="#{adg.reports.passenger.address.repo.pnrNo}">
+											</td>
+											<td style="width:7%" class="heading"
+												th:text="#{adg.reports.passenger.address.repo.trainNo}"></td>
+											<td style="width:7%" class="heading"
+												th:text="#{adg.reports.passenger.address.repo.trainName}"></td>
+											<td style="width:10%" class="heading"
+												th:text="#{adg.reports.passenger.address.repo.dateofJourney}"></td>
+											<td style="width:13%" class="heading"
+												th:text="#{adg.reports.passenger.address.repo.passengerName}"></td>
+											<td style="width:20%" class="heading"
+												th:text="#{adg.reports.passenger.address.repo.destinationAddress}"></td>
+											<td style="width:14%" class="heading" th:text="#{adg.reports.passenger.address.repo.fromStn}">
+											</td>
+											<td style="width:14%" class="heading" th:text="#{adg.reports.passenger.address.repo.toStn}">
+											</td>
+											<td style="width:10%" class="heading"
+												th:text="#{adg.reports.passenger.address.repo.unitName}"></td>
+										</tr>
+
+										<tr>
+											<td th:text="${passengerDtls.pnrNo}"></td>
+											<td th:text="${passengerDtls.trainNo}"></td>
+											<td style="white-space: nowrap;" th:text="${passengerDtls.trainName}"></td>
+											<td th:text="${passengerDtls.journeyDateFormat}"></td>
+											<td th:text="${passengerDtls.passengerName}"></td>
+											<td th:text="${passengerDtls.destinationAddress}"></td>
+											<td th:text="${passengerDtls.frmStn}"></td>
+											<td th:text="${passengerDtls.toStn}"></td>
+											<td th:text="${passengerDtls.unitName}"></td>
+										</tr>
+									</tbody>
+
+								</table>
+
+
+
+							</div>
+
+							<!-- Error message -->
+							<div>
+								<p class="errors" th:text="${errorMessage}" style="margin-bottom:0"></p>
+							</div>
+
+						</div>
+</form>
+				</div>
+
+
+				
+			</div>
+		</div>
+	</section>
+	<section>
+		<div class="blank"></div>
+	</section>
+	<section>
+		<div th:insert="~{fragments/login/footer}"></div>
+	</section>
+
+
+</body>
+
+</html>

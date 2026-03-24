@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{fragments/login/head}"></head>
+
+
+<script
+	th:src="@{/js/MB/AddUsers/UserMasterMissDasboard/userMasterMissDasboardEditPao.js(random=${session.jsToken})}"></script>
+
+<body>
+<body>
+	<div th:insert="~{fragments/header/mainHeader}"></div>
+	
+	<section id="midpart" class="midpart">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-1"></div>
+				<div class="col-lg-10">
+
+
+	<form th:action="@{/mb/updatePaoAfterEdit}"
+		method="post" name="profileApproval" id="profileApproval">
+		<input type="hidden" id="personalNo" th:value="${userDtls.personalNo}">
+		<input type="hidden" id="userAlias" name="userAlias" th:value="${userDtls.userAlias}">
+		<div id="program" class="programBlock">
+                        <div class="welcomebox" style="margin-bottom:1rem">
+                            <div class="welcomeHead">
+                                <p th:text="#{mb.addUser.usermastermissdasboard.profileDtls}">
+                                </p>
+                            </div>
+                            <div class="welcomecont">
+		
+         <input type="hidden" th:value="${officesList}" id="officesList">
+
+<input type="hidden" id="userServiceId" th:value="${userServiceId}">
+<input type="hidden" id="categoryId" th:value="${categoryId}">
+         
+		<table id="loginForm" class="filtersearch" width="100%" cellspacing="0"
+			cellpadding="0" border="0">
+			
+
+							<tbody class="all1"  th:each="srAp : ${userDtls}">
+								
+
+								<tr align="left">
+									<td class="lablevalue" th:text="#{mb.addUser.usermastermissdasboard.unitSer}"></td>
+									<td><span th:text="${srAp.userService}"></span></td>
+									<td class="lablevalue" th:text="#{mb.addUser.usermastermissdasboard.travelerServ}"></td>
+									<td class="lablevalue" id="Service"><span th:text="${srAp.unitService}"></span></td>
+								</tr>
+								<tr align="left">
+									<td class="lablevalue" th:text="#{mb.addUser.usermastermissdasboard.catName}"></td>
+									<td ><span th:text="${srAp.categoryName}" ></span></td>
+									<td class="lablevalue" th:text="#{mb.addUser.usermastermissdasboard.lName}"></td>
+									<td  id="Service"><span th:text="${srAp.levelName}"></span></td>
+								</tr>
+								<tr align="left">
+									<td class="lablevalue" th:text="#{mb.addUser.usermastermissdasboard.gPay/Rank}"></td>
+									<td ><span th:text="${srAp.rankName}" ></span></td>
+									<td class="lablevalue" th:text="#{mb.addUser.usermastermissdasboard.prnlNo}"></td>
+									<td id="Service"><span th:text="${srAp.userAlias}"></span></td>
+								</tr>
+
+
+								<tr align="left">
+									<td class="lablevalue"  th:text="#{mb.addUser.usermastermissdasboard.railPayAccOffice}"></td>
+									<td><select name="payAccOff" id="payAcOff" class="combo">
+											<option value="-1">Select</option>
+											<option th:each="rail : ${railOffices}" th:text="${rail.name}" th:value="${rail.acuntoficeId}"></option>
+
+									</select></td>
+
+									<td class="lablevalue" th:text="#{mb.addUser.usermastermissdasboard.airPayAccOffice}"></td>
+									<td><select name="airAccOff" id="airAcOff" class="combo">
+											<option value="-1">select</option>
+											<option th:each="air : ${airOffices}" th:text="${air.name}" th:value="${air.acuntoficeId}"></option>
+									</select></td>
+								</tr>
+							
+				<tr>
+					<td colspan="4" style="text-align:right">
+					<button type="button" class="butn" onclick="saveProfile()">Save Profile</button></td>
+				</tr>
+			</tbody>
+		</table>
+	</form>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section>
+	<div class="blank"></div>
+	</section>
+	<section>
+    <div th:insert="~{fragments/login/footer}"></div>
+    </section>
+
+</body>
+
+</html>

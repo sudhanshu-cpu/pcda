@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+<link rel="stylesheet" type="text/css" th:href="@{/css/common/popup/LightFace.css}">
+<script th:src="@{/js/common/popup/mootools.js}"></script>
+<script th:src="@{/js/common/popup/LightFace.js}"></script>
+<script th:src="@{/js/common/popup/LightFace.Request.js}"></script>
+
+<script type="text/javascript">
+
+	function viewClaimIdTaDaDetails(claimId) {
+		$("#tada_claim_Id").val(claimId);
+		$("#requestPool").submit();
+	}
+</script>
+
+<body>
+	<div th:insert="~{fragments/header/mainHeader}">...</div>
+	<section id="midpart" class="midpart">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-1"></div>
+				<div class="col-lg-10">
+					<!-- <form name="viewAllTADAPaginationForm" method="post" id="viewAllTADAPaginationForm"> -->
+					<!-- 	<input type="hidden" name="dataSize" id="data_size"> -->
+					<!-- </form> -->
+
+					<form name="requestPool" method="post" id="requestPool" th:action="@{/co/viewClaimRequest}">
+						<input type="hidden" name="tadaclaimId" id="tada_claim_Id">
+					</form>
+					<div id="program" class="programBlock">
+						<div class="welcomebox">
+							<div class="welcomeHead">
+								<p>
+									Claim For Approval
+								</p>
+							</div>
+							<div class="welcomecont">
+								<table class="filtersearch" cellspacing="0" cellpadding="0" width="100%" border="0">
+									<tbody class="all1">
+										<tr>
+											<td bgcolor="#fbfac8" height="15"></td>
+										</tr>
+										<tr>
+											<td style="font:13px arial;"><b>List of Claims Received (showing <span th:text="${size}"></span>
+													out of <span th:text="${size}"></span>)</b></td>
+										</tr>
+										<tr>
+											<td style="padding:0">
+												<table border="0" width="100%" class="filtersearch">
+													<tbody class="all1">
+														<tr class="lablevalue">
+															<td style="background-color:#B6E3FD;border-right:1px solid white">Claim ID</td>
+															<td style="background-color:#B6E3FD;border-right:1px solid white">Claim Type</td>
+															<td style="background-color:#B6E3FD;border-right:1px solid white">Personal No</td>
+															<td style="background-color:#B6E3FD;border-right:1px solid white">CDAO A/c No</td>
+															<td style="background-color:#B6E3FD;border-right:1px solid white">Travel Type</td>
+															<td style="background-color:#B6E3FD;border-right:1px solid white">Claim Received On</td>
+															<td style="background-color:#B6E3FD;border-right:1px solid white">Total Amount Spent on Journey</td>
+															<td style="background-color:#B6E3FD;">Claimed Amount</td>
+														</tr>
+
+														<tr th:each="src : ${claimList}">
+															<!--  		<tr> -->
+															<td align="center"><a href="javascript:void(0);"
+																	th:attr="onclick='viewClaimIdTaDaDetails(\''+${src.tadaClaimId}+'\')'"
+																	th:text="${src.tadaClaimId}"></a></td>
+															<td align="center"><span th:text="${src.claimType.getDisplayValue}"></span>
+															</td>
+															<td align="center"><span th:text="${src.personalNo}"></span>
+															</td>
+															<td align="center"><span th:text="${src.payAccntNo}"></span>
+															</td>
+															<td align="center"><span th:text="${src.travelTypeName}"></span>
+															</td>
+															<td align="center"><span
+																	th:text="${src.creationTime}"></span></td>
+															<td align="center"><span
+																	th:text="${src.totalSpentAmount}"></span></td>
+															<td align="center"><span
+																	th:text="${src.totalClaimedAmount}"></span></td>
+														</tr>
+													</tbody>
+												</table>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section>
+	<div class="blank"></div>
+	</section>
+	<section>
+    <div th:insert="~{fragments/login/footer}"></div>
+    </section>
+</body>
+
+</html>

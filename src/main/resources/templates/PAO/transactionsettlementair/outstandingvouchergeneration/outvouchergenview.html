@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+
+<body oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+	<div th:insert="~{fragments/header/mainHeader}"></div>
+	<section id="midpart" class="midpart">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-1"></div>
+				<div class="col-lg-10">
+
+					<div id="program" class="programBlock">
+						<div class="welcomebox">
+							<div class="welcomecont">
+							<span style="font-size: 15px; color:red;" th:text="${responseData.message}"></span>
+								<table class="filtersearch">
+									<tbody class="all1">
+										
+										<tr>
+											<td class="lablevalue">Voucher No.</td>
+											<td>
+												<span th:text="${responseData.voucherNo}">
+												</span>
+
+											</td>
+											<td  class="lablevalue">Creation Date</td>
+											<td><span th:text="${responseData.creationDate}">
+												</span>
+
+											</td>
+										</tr>
+										<tr>
+											<td class="lablevalue">status</td>
+											<td th:text="${responseData.status}">
+											</td>
+
+											<td class="lablevalue">account Office Name</td>
+											<td th:text="${responseData.accountOfficeName}">
+											</td>
+										</tr>
+										<tr>
+											<td class="lablevalue">total Due Amount</td>
+											<td th:text="${responseData.totalDueAmount}">
+											</td>
+
+											<td class="lablevalue">totalOutstandingAmount</td>
+											<td th:text="${responseData.totalOutstandingAmount}"> </td>
+
+										</tr>
+
+									</tbody>
+								</table>
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section>
+		<div class="blank"></div>
+	</section>
+	<section>
+		<div th:insert="~{fragments/login/footer}"></div>
+	</section>
+</body>
+
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+
+<style type="text/css">
+
+.screen-freeze {
+	background-color: white;
+	display: none;
+	height: 100%;
+	left: 0;
+	opacity: 0.7;
+	position: absolute;
+	right: 0;
+	top: 0;
+	z-index: 99999;
+	
+}
+</style>
+
+<script type="text/javascript">
+
+function processDraftTADAClaim(claimId){
+
+	$("#tada_claim_Id").val(claimId);
+	$("#requestPoolForm").submit();
+
+}
+
+</script>
+
+<body>
+
+   <div th:insert="~{fragments/header/mainHeader}"></div>
+	<section id="midpart" class="midpart">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-1"></div>
+				<div class="col-lg-10">
+<form name="requestPool" method="post" id="requestPoolForm" th:action="@{/mb/processDraftClaim}">
+	<input type="hidden" name="tadaclaimId" id="tada_claim_Id">
+</form>
+<div id="program" class="programBlock">
+							<div class="welcomebox">
+								<div class="welcomeHead">
+									<p>Draft Claim</p>
+								</div>
+								<div class="welcomecont">
+	<table class="filtersearch" cellspacing="0" cellpadding="0" width="100%" border="0">
+		<tr><td bgcolor="#fbfac8" height="15"></td></tr>
+		
+		<tr><td>
+			<table border="0" width="100%" class="filtersearch">
+			<tbody class="all1">
+ 		<tr class="lablevalue">
+ 			<td  style="text-align: center;">Claim ID</td>
+ 			<td  style="text-align: center;">Personal No</td>
+ 			<td  style="text-align: center;">CDAO A/c No</td>
+	 		<td  style="text-align: center;">Travel Type</td>
+	 		<td  style="text-align: center;">Action</td>
+ 		</tr>
+
+ 		<tr th:each="src : ${claimList}">
+ 			<td style="text-align: center;" th:text="${src.tadaClaimId}"></td>
+		 	<td style="text-align: center;" th:text="${src.personalNo}"></td>
+		 	<td style="text-align: center;" th:text="${src.cdacAccNo}"></td>
+		 	<td style="text-align: center;" th:text="${src.travelType}"></td>
+			<td style="text-align: center;"><a href="javascript:void(0);" th:attr="onclick='processDraftTADAClaim('+${src.tadaClaimId}+');'">Process</a></td>
+ 	 	</tr>
+ 	 	</tbody>
+  	</table>
+  </td></tr>
+  </table>
+  </div>
+  </div>
+  </div>
+  
+   <div class="screen-freeze" id="screen-freeze" >
+	<div style="margin:15% 0% 0% 45%">
+		<img th:src="@{/images/spinning_wheel_96x96px.gif}" alt="">
+	</div>
+</div>
+
+</div>
+</div>
+</div>
+</section>
+	<section>
+		<div class="blank"></div>
+	</section>
+	<section>
+		<div th:insert="~{fragments/login/footer}"></div>
+	</section>
+
+</body>
+</html>

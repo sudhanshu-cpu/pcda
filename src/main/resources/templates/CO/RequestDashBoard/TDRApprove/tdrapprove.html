@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+<script th:src="@{/js/CO/RequestDashBoard/tdrApprove/tdrapprove.js(random=${session.jsToken})}"></script>
+
+<body oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+	<div th:insert="~{fragments/header/mainHeader}">...</div>
+	<section id="midpart" class="midpart">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-1"></div>
+				<div class="col-lg-10">
+					<form th:action="@{approveDisapproveTdr}" name="irtdrreqpage" id="irtdrreqpage" method="POST">
+						<input type="hidden" name="bookingId" id="bookingId" th:value="${dataModel.bookingId}" />
+						<input type="hidden" name="event" id="event" />
+
+
+                         <div id="approveDiv">  
+						<div id="program" class="programBlock">
+							<div class="welcomebox">
+								<div class="welcomeHead">
+									<p>Ticket Details For TDR</p>
+								</div>
+								<div class="welcomecont">
+									<table class="filtersearch" cellpadding="4" cellspacing="1" width="100%" border="0">
+
+										<tbody class="all1">
+
+											<tr align="left">
+												<td class="lablevalue">Ticket Number</td>
+												<td><span th:text="${dataModel.ticketNo}"> </span>
+												</td>
+												<td class="lablevalue">PNR Number</td>
+												<td><span th:text="${dataModel.pnrNo}"> </span></td>
+											</tr>
+
+											<tr align="left">
+												<td class="lablevalue">Train Number</td>
+												<td><span th:text="${dataModel.trainNumber}"> </span>
+												</td>
+												<td class="lablevalue">Train Name</td>
+												<td><span th:text="${dataModel.trainName}"> </span>
+												</td>
+											</tr>
+
+											<tr align="left">
+												<td class="lablevalue">Date of Booking</td>
+												<td><span th:text="${#dates.format(dataModel.bookingDate, 'dd-MM-yyyy')}"> </span>
+												</td>
+												<td class="lablevalue">Date of Journey</td>
+												<td><span th:text="${#dates.format(dataModel.boardingDate, 'dd-MM-yyyy')}">
+													</span></td>
+											</tr>
+
+											<tr align="left">
+												<td class="lablevalue">Quota</td>
+												<td><span th:text="${dataModel.journeyQuota}">
+													</span>
+												</td>
+												<td class="lablevalue">Class</td>
+												<td><span th:text="${dataModel.journeyClass}">
+													</span></td>
+											</tr>
+
+											<tr align="left">
+												<td class="lablevalue">Approval State</td>
+												<td><span th:text="${dataModel.tdrApprovalState}">
+													</span></td>
+												<td class="lablevalue">Total Fare</td>
+												<td><span th:text="${dataModel.totalFare}"> </span>
+												</td>
+											</tr>
+
+											<tr align="left">
+												<td class="lablevalue">TDR Reason</td>
+												<td colspan="3"><span th:text="${dataModel.reasonOfTdr}"> </span>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+
+
+						<div id="program" class="programBlock">
+							<div class="welcomebox">
+								<div class="welcomeHead">
+									<p>Passenger Details </p>
+								</div>
+								<div class="welcomecont">
+									<table id='pnrDetails' class="filtersearch" cellpadding="4" cellspacing="1"
+										width="100%" border="0">
+										<tbody class="all1">
+											<tr class="lablevalue">
+
+												<td>S.No</td>
+												<td>Name</td>
+												<td>Gender</td>
+												<td>Age</td>
+												<td>Coach</td>
+												<td>Seat</td>
+												<td>Berth</td>
+											</tr>
+										</tbody>
+
+										<tbody th:if="${dataModel.isTdr.ordinal} == 0">
+											<tr th:each="src,stat :${dataModel.passengerList} ">
+
+
+												<td><span th:text="${stat.index+1}"> </span>
+												</td>
+												<td><span th:text="${src.passangerName}"> </span>
+												</td>
+												<td><span th:text="${src.passSex}"> </span></td>
+												<td><span th:text="${src.passangerAge}"> </span></td>
+												<td><span th:text="${src.trnCoach}"> </span></td>
+												<td><span th:text="${src.seat}"> </span></td>
+												<td><span th:text="${src.trnBerth}"> </span></td>
+
+
+												<input type="hidden" th:name="@{|BOOK_DTLS_NO_${stat.index}|}"
+													th:value="${stat.index}" />
+												<input type="hidden" th:name="@{|pxnName_${stat.index}|}"
+													th:value="${src.passangerName}" />
+
+												<input type="hidden" th:name="@{|pxnAge_${stat.index}|}"
+													th:value="${src.passangerAge}" />
+
+												<td th:if="${src.passangerSex}==0">
+													<input type="hidden" th:name="@{|pxnSex_${stat.index}|}" value=0 />
+												</td>
+
+												<td th:if="${src.passangerSex}==1">
+													<input type="hidden" th:name="@{|pxnSex_${stat.index}|}" value=1 />
+												</td>
+												<input type="hidden" th:name="@{|coach_${stat.index}|}"
+													th:value="${src.trnCoach}" />
+												<input type="hidden" th:name="@{|seat_${stat.index}|}"
+													th:value="${src.trnSeat}" />
+												<input type="hidden" th:name="@{|berth_${stat.index}|}"
+													th:value="${src.trnBerth}" />
+												<input type="hidden" id="TotalPassenger" name="totalNoOfPassenger"
+													th:value="${src.totalPassenger}" />
+
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+
+						<div class="welcomebox" th:if="${dataModel.isGc.ordinal}==0">
+
+							<table id='pnrDetails' class="filtersearch" cellpadding="4" cellspacing="1" width="100%"
+								border="0">
+								<tbody class="all1">
+									<tr>
+										<td>
+											<span class="lablevalue">Guard Certificate Slip Amount:</span>
+											<span th:text="${dataModel.gcAmount}"> </span>
+										</td>
+										<td>
+											<span class="lablevalue">Guard Certificate Slip No.:</span>
+											<span th:text="${dataModel.gcNumber}"> </span>
+										</td>
+										<td>
+											<span class="lablevalue">Guard Certificate Date:</b>
+											<span th:text="${#dates.format(dataModel.gcDate, 'dd-MM-yyyy')}"> </span>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+
+
+
+						<div id="program" class="programBlock">
+							<div class="welcomebox">
+								<div class="welcomeHead">
+									<p>On Official Ground </p>
+								</div>
+								<div class="welcomecont">
+									<table id='pnrDetails' class="filtersearch" cellpadding="4" cellspacing="1"
+										width="100%" border="0">
+										<tbody class="all1">
+											<tr>
+
+												<td colspan="7">
+													<span th:text="${dataModel.tdrOnOfficalGround}"> </span>
+												</td>
+											</tr>
+											<tr>
+												<td width="30%" th:if="${dataModel.journeyQuota}=='GN'">
+													<span>Approving on Official Ground</span>
+												</td>
+												<td width="30%" th:if="${dataModel.journeyQuota}=='CK'">
+													<span>Are you approving Tatkal </span>
+												</td>
+												<td colspan="7" class="lablevalue" >
+													<input type="radio" name="isTdrGovtInt" id="isTdrGovtInt" value="0"
+														onclick="chkForGovtInt();" />Yes
+													<input type="radio" name="isTdrGovtInt" id="isTdrGovtInt" value="1"
+														onclick="chkForGovtInt();" />No
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+
+
+
+						<div class="welcomebox">
+							<table id='pnrDetails' class="filtersearch" cellpadding="4" cellspacing="1" width="100%"
+								border="0">
+								<tbody class="all1">
+									<tr>
+										<td>
+											<div id="requestPoolDiv">
+												<a href="javascript:void(0);"
+													th:attr="onclick='submitRequestForm(\''+${dataModel.bookingId}+'\',\''+'approve'+'\')'"><input
+														class="butn" type="button" value="Approve" /></a>
+												<a href="javascript:void(0);"
+													th:attr="onclick='submitRequestForm(\''+${dataModel.bookingId}+'\',\''+'disapprove'+'\')'"><input
+														class="butn" type="button" value="Disapprove" /></a>
+												<input type="submit" class="butn" value="Back"
+													th:formaction="@{/co/approveTdr}" th:formmethod="post" />
+												<input type="button" class="butn" value=" Print this page "
+													onclick="window.print();" />
+											</div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+                         </div>
+
+						<div id="disApproveDiv">
+							<div id="program" class="programBlock">
+								<div class="welcomebox">
+									<div class="welcomeHead">
+										<p>Disapprove Request Reason </p>
+									</div>
+									<div class="welcomecont">
+										<table id="loginForm" class="filtersearch" cellpadding="4" cellspacing="1"
+											width="100%" border="0">
+											<tbody class="all1">
+												<tr>
+													<td align="left"><textarea rows="4" cols="40" id="disaproveReason"
+															name="disaproveReason" autocomplete="off"> </textarea></td>
+												</tr>
+												<tr>
+													<td style="text-align:right"><input type="button" class="butn"
+															value="submit" onclick="submitDisapprove()">
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+
+				</div>
+			</div>
+		</div>
+	</section>
+	<section>
+		<div class="blank"></div>
+	</section>
+	<section>
+		<div th:insert="~{fragments/login/footer}"></div>
+	</section>
+</body>
+
+</html>

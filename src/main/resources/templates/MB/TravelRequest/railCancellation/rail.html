@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{fragments/login/head}"></head>
+<script
+	th:src="@{/js/MB/TravelRequest/railCancellation/railCancellation.js(random=${session.jsToken})}"></script>
+<body
+	oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+	<div th:insert="~{fragments/header/mainHeader}"></div>
+	<section class="midpart">
+		<div class="container-fluid">
+			<div class="row" style="width: 100%">
+				<div class="col-lg-1"></div>
+				<div class="col-lg-10">
+
+
+
+
+					<form th:action="@{saveAirCancellationTicket}" method="post"
+						name="bookingDetails" id="bookingDetails">
+
+
+
+						<div id="program" class="programBlock">
+							<div class="welcomebox" style="margin-bottom: 1rem;">
+								<div class="welcomeHead">
+									<p th:text="#{mb.travel.railCancellation.info}"></p>
+								</div>
+								<div class="welcomecont">
+									<table class="filtersearch">
+										<tbody class="all" th:each="src : ${ticketDetails}">
+											<tr>
+												<td style="width: 25%"><span
+													th:text="#{mb.travel.railCancellation.tckno}"></span></td>
+												<td style="width: 25%"><span th:text="${src.ticketNo}"></span></td>
+												<td style="width: 25%"><span
+													th:text="#{mb.travel.railCancellation.pnr}"></span></td>
+												<td style="width: 25%"><span th:text="${src.pnrNo}"></span></td>
+											</tr>
+											<tr>
+												<td style="width: 25%"><span
+													th:text="#{mb.travel.railCancellation.trnno}"></span></td>
+												<td style="width: 25%"><span th:text="${src.trainNo}"></span></td>
+												<td style="width: 25%"><span
+													th:text="#{mb.travel.railCancellation.tname}"></span></td>
+												<td style="width: 25%"><span th:text="${src.trainName}"></span></td>
+											</tr>
+											<tr>
+												<td style="width: 25%"><span
+													th:text="#{mb.travel.railCancellation.datej}"></span></td>
+												<td style="width: 25%"><span
+													th:text="${src.journeyDate}"></span></td>
+												<td STYLE="WIDTH: 25%"><span
+													th:text="#{mb.travel.railCancellation.cls}"></span></td>
+												<td style="width: 25%"><span
+													th:text="${src.journeyClass}"></span></td>
+											</tr>
+											<tr>
+												<td style="width: 25%"><span
+													th:text="#{mb.travel.railCancellation.qut}"></span></td>
+												<td style="width: 25%"><span
+													th:text="${src.journeyQuota}"></span></td>
+												<td style="width: 25%"><span
+													th:text="#{mb.travel.railCancellation.Dateb}"></span></td>
+												<td style="width: 25%"><span
+													th:text="${src.bookingDate}"></span></td>
+											</tr>
+											<tr>
+												<td style="width: 25%"><span
+													th:text="#{mb.travel.railCancellation.bstatus}"></span></td>
+												<td style="width: 25%"><span
+													th:text="${src.currbookingStatus}"></span></td>
+												<td style="width: 25%"><span
+													th:text="#{mb.travel.railCancellation.ttype}"></span></td>
+												<td style="width: 25%"><span
+													th:text="${src.travelType}"></span></td>
+
+
+											</tr>
+											<tr>
+<!-- 												<td></td> -->
+<!-- 												<td></td> -->
+												<td colspan="4" style="text-align: right"><input
+													type="button" class="butn" value="PRINT E-TICKET"
+													onclick="printETicket('${IRTicketDetails/ticketDetails/ticketNo}', '${IRTicketDetails/ticketDetails/bookingId}','bookingDetails','','');" />
+												</td>
+											</tr>
+
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+						<div id="program" class="programBlock">
+							<div class="welcomebox" style="margin-bottom: 1rem;">
+								<div class="welcomeHead">
+									<p
+										th:text="#{mb.travel.railCancellation.pdetails}"></p>
+								</div>
+								<div class="welcomecont">
+									<table class="filtersearch">
+										<tbody class="all" th:each="src : ${ticketDetails}">
+
+											<tr>
+												<td></td>
+												<td>S#</td>
+												<td
+													th:text="#{mb.travel.railCancellation.name}">
+												</td>
+												<td th:text="#{mb.travel.railCancellation.age}">
+												</td>
+												<td th:text="#{mb.travel.railCancellation.gen}">
+												</td>
+												<td
+													th:text="#{mb.travel.railCancellation.coach}">
+												</td>
+												<td
+													th:text="#{mb.travel.railCancellation.seat}">
+												</td>
+												<td
+													th:text="#{mb.travel.railCancellation.berth}">
+												</td>
+												<td
+													th:text="#{mb.travel.railCancellation.status}">
+												</td>
+												<td th:text="#{mb.travel.railCancellation.oog}">
+												</td>
+
+												<td
+													th:text="#{mb.travel.railCancellation.canstatus}">
+												</td>
+												<td
+													th:text="#{mb.travel.railCancellation.aoog}">
+												</td>
+												<td></td>
+											</tr>
+											<tr th:each="sr,stat : ${src.passengerList}">
+												<td th:if="${sr.currentCancelStatus} == 'Booked'"><input
+													type="checkBox" class="checkbox" name="checkBox"
+													th:id="@{|checkBox${stat.index+1}|}" /></td>
+												<td th:if="${sr.currentCancelStatus} == 'Cancelled'"><input
+													type="checkBox" class="checkbox" name="checkBox"
+													id="checkBox" disabled="true" /></td>
+												<td th:if="${sr.currentCancelStatus} == 'For Cancellation'">
+													<input type="checkBox" class="checkbox" name="checkBox"
+													id="checkBox" disabled="true" />
+												</td>
+
+
+												<td th:text="${sr.passangerNo}"></td>
+												<td th:text="${sr.passangerName}"></td>
+												<td th:text="${sr.passangerAge}"></td>
+
+												<td th:text="${sr.pSex}"></td>
+												<td th:text="${sr.trnCoach}"></td>
+												<td th:text="${sr.trnSeat}"></td>
+												<td th:text="${sr.trnBerth}"></td>
+												<td th:text="${sr.currentStatus}"></td>
+
+												<td
+													th:if="${src.isPartyBooking} == 'No' and  ${sr.currentCancelStatus} == '' ">
+													<input type="radio" name="isOfficial"
+													th:id="@{|isOfficial${stat.index+1}|}" value="Yes" />Yes <input
+													type="radio" name="isOfficial"
+													th:id="@{|isOfficial${stat.index+1}|}" value="No" />No
+												</td>
+												<td
+													th:if="${src.isPartyBooking} == 'Yes' and ${sr.currentCancelStatus} == ''">
+													<input type="radio" name="isOfficial"
+													th:id="@{|isOfficial${stat.index+1}|}" value="Yes" />Yes
+												</td>
+												<td th:if="${sr.currentCancelStatus} == 'Cancelled' ">
+													<span th:text="${sr.isOfficial}"> </span>
+												</td>
+
+												<td
+													th:if="${src.isPartyBooking} == 'No' and  ${sr.currentCancelStatus} == 'Booked' ">
+													<input type="radio" name="isOfficial"
+													th:id="@{|isOfficial${stat.index+1}|}" value="Yes" />Yes <input
+													type="radio" name="isOfficial"
+													th:id="@{|isOfficial${stat.index+1}|}" value="No" />No
+												</td>
+												<td
+													th:if="${src.isPartyBooking} == 'Yes' and  ${sr.currentCancelStatus} == 'Booked' ">
+													<input type="radio" name="isOfficial"
+													th:id="@{|isOfficial${stat.index+1}|}" value="Yes" />Yes
+												</td>
+
+												<td th:text="${sr.currentCancelStatus}"></td>
+
+												<td
+													th:if="${src.isPartyBooking} == 'No' and  ${sr.currentCancelStatus} == '' ">
+													<input type="radio" name="isOnGovtInt"
+													th:id="@{|isOnGovtInt${stat.index+1}|}" value="Yes" />Yes <input
+													type="radio" name="isOnGovtInt"
+													th:id="@{|isOnGovtInt${stat.index+1}|}" checked="true"
+													value="No" />No
+												</td>
+
+												<td
+													th:if="${src.isPartyBooking} == 'Yes' and ${sr.currentCancelStatus} == ''">
+													<input type="radio" name="isOnGovtInt"
+													th:id="@{|isOnGovtInt${stat.index+1}|}" value="Yes" />Yes
+												</td>
+												<td th:if="${sr.currentCancelStatus} == 'Booked'"><span
+													th:text=${sr.isOnGovtInt}></span></td>
+
+
+
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+
+
+						<div id="program" class="programBlock">
+							<div class="welcomebox" style="margin-bottom: 1rem;">
+								<div class="welcomeHead">
+									<p
+										th:text="#{mb.travel.railCancellation.fdetails}">
+									</p>
+								</div>
+								<div class="welcomecont">
+									<table class="filtersearch">
+										<tbody class="all" th:each="src : ${ticketDetails}">
+											<tr>
+												<td
+													th:text="#{mb.travel.railCancellation.base}">
+												</td>
+												<td th:text="${src.irlFare}"></td>
+											</tr>
+											<tr>
+												<td
+													th:text="#{mb.travel.railCancellation.irctc}">
+												</td>
+												<td th:text="${src.irctcSerCharge}"></td>
+											</tr>
+											<tr>
+												<td
+													th:text="#{mb.travel.railCancellation.stax}">
+												</td>
+												<td th:text="${src.totalServiceTax}"></td>
+											</tr>
+											<tr>
+												<td
+													th:text="#{mb.travel.railCancellation.tamount}">
+												</td>
+												<td th:text="${src.totalAmount}"></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+
+
+						<div id="program" class="programBlock">
+							<div class="welcomebox" style="margin-bottom: 1rem;">
+								<div class="welcomeHead">
+									<p
+										th:text="#{mb.travel.railCancellation.canreason}">
+									</p>
+								</div>
+								<div class="welcomecont">
+									<table class="filtersearch">
+
+
+										<tbody class="all" th:each="src : ${ticketDetails}">
+											<tr th:if="${isBooked}">
+
+												<td style="width:20%"
+													th:text="#{mb.travel.railCancellation.reason}">
+												</td>
+												<td style="width:50%"><textarea
+														name="cancelReason" id="cancelReason" rows="2" cols="50"> </textarea><span
+													style="color:red">Special Characters are not allowed</span></td>
+
+											</tr>
+											<tr>
+												<td colspan="2" style="text-align: right"
+													th:if="${isBooked}"><input type="submit" class="butn"
+													value="Send Request To CO For Approval"
+													onclick="submitForm(this);"></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section>
+		<div class="blank"></div>
+	</section>
+	<section>
+		<div th:insert="~{fragments/login/footer}"></div>
+		</section>
+</body>
+</html>

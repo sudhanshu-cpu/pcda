@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head ></head>
+<body
+	oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+
+                
+                
+                
+                
+                
+                <div class="mainHeaderBroad"> 
+					<div>
+					<div id="program" class="programBlock">
+				<div class="welcomebox" style="margin-bottom:1rem">
+					<div class="welcomeHead">
+						<p>
+							CTG Details
+						</p>
+					</div>
+					<div class="welcomecont">
+						
+								<table border='0' width="100%" cellpadding='4' cellspacing='1' align='center' class="filtersearch" id='userDetails' th:if="${dataModel.advanceType}==1">
+									<tbody class="all1">			       
+									
+									<tr align="left">
+										<td class="lablevalue" style="width:20%">CTG Amount</td>
+										<td style="width:30%"><span th:text="${dataModel.ctgAmount}"> </span></td>
+									</tr>
+									
+									<tr align="left">
+										<td class="lablevalue">Amount For Transport</td>
+										<td><span th:text="${dataModel.convyncAmount}"> </span></td>
+									</tr>
+							
+									<tr align="left">
+										<td class="lablevalue" style="width:20%">Total Advance</td>
+										<td style="width:30%"><span th:text="${dataModel.daAdvanceAmount}"> </span></td>
+									</tr>
+									</tbody>
+								</table>
+								</div>
+								</div>
+								</div>
+								
+								<div id="program" class="programBlock">
+				<div class="welcomebox" style="margin-bottom:1rem">
+					<div class="welcomeHead">
+						<p>
+							DA Advance Details
+						</p>
+					</div>
+					<div class="welcomecont">
+								<table border='0' width="100%" cellpadding='4' cellspacing='1' align='center' class="filtersearch" id='userDetails'th:if="${dataModel.advanceType}!=1" >
+								<tbody class="all1">
+									
+								 		       
+									
+								<tr align="left">
+											<td class="lablevalue" style="width:20%">Destination City</td>
+										<td style="width:30%"><span th:text="${dataModel.destinationCity}"> </span></td>
+								</tr>  
+								<tr align="left">
+										<td class="lablevalue">DA required till Date</td>
+									<td><span th:text="${#dates.format(dataModel.expectedReturnDate,'dd-MM-yyyy')}"> </span></td>
+								</tr>
+           						 
+           						 <tr align="left">
+										<td class="lablevalue" style="width:22%" height="23">DA Advance Amount</td>
+									<td style="width:28%">Rs. <span th:text="${dataModel.daAdvanceAmount}"> </span></td>
+								</tr>   
+								<tr>
+									<td colspan="4" class="heading">Claimed DA Amount Details</td>
+								</tr>	
+								
+									<tr align="left">
+										<td class="lablevalue" style="width:20%">Hotel Amount</td>
+										<td style="width:30%">Rs. <span th:text="${dataModel.hotelAmount}"> </span></td>
+									</tr>
+									<tr align="left">
+										<td class="lablevalue">Conveyance Amount</td>
+										<td>Rs. <span th:text="${dataModel.convyncAmount}"> </span></td>
+										
+									</tr>
+						           
+									<tr align="left"  >
+										<td class="lablevalue">Food Amount</td>
+										<td>Rs.<span th:text="${dataModel.foodAmount}"> </span></td>
+									</tr>
+						           	<tr align="left"  >
+										<td class="lablevalue" style="width:20%">Entitled DA Amount</td>
+										<td style="width:30%">Rs.<span th:text="${dataModel.ctgAmount}"> </span></td>
+									</tr>
+									<tr align="left" >
+										<td class="lablevalue" style="width:22%" nowrap="true">Total Entitled DA Amount</td>
+										<td style="width:28%" >Rs. <span th:text="${dataModel.totalAmount}"> </span></td>
+									</tr>
+								
+								</tbody>
+								</table>
+								</div>
+								</div>
+								</div>
+								
+					</div>
+					</div>
+                
+                
+                 
+
+
+</body>
+</html>

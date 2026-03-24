@@ -1,0 +1,136 @@
+
+/* body {*/
+/*        margin: 0;*/
+/*        font-family: Arial, Helvetica, sans-serif;*/
+/*        background: #f2f4f7;*/
+/*        display: flex;*/
+/*        justify-content: center;*/
+/*        align-items: center;*/
+/*        height: 100vh;*/
+/*    }*/
+
+    .modal {
+        width: 850px;
+        background: #ffffff;
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        padding: 40px 50px;
+        position: relative;
+        text-align: center;
+        display:block;
+     
+    }
+
+    .close-btn {
+        position: absolute;
+        top: 15px;
+        right: 20px;
+        font-size: 22px;
+        color: #777;
+        cursor: pointer;
+    }
+
+    .header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 25px;
+    }
+
+    .migration-title {
+        font-size: 48px;
+        font-weight: bold;
+        color: #1e3d6b;
+    }
+
+    .migration-title span {
+        color: #f47c20;
+    }
+
+    .servers {
+        display: flex;
+        align-items: center;
+        gap: 25px;
+    }
+
+    .server-box {
+        text-align: center;
+    }
+
+    .server {
+        width: 70px;
+        height: 90px;
+        background: #1e3d6b;
+        border-radius: 6px;
+        margin: 5px auto;
+        position: relative;
+    }
+
+    .server::after {
+        content: "";
+        position: absolute;
+        bottom: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 30px;
+        height: 6px;
+        background: #f47c20;
+        border-radius: 3px;
+    }
+
+    .arrow {
+        font-size: 30px;
+        color: #f47c20;
+    }
+
+    .server-label {
+        font-weight: bold;
+        color: #1e3d6b;
+        background: #e6eef7;
+        padding: 6px 12px;
+        border-radius: 6px;
+        display: inline-block;
+        margin-top: 6px;
+    }
+
+    .important {
+        font-size: 32px;
+        font-weight: bold;
+        color: #d62d20;
+        margin: 25px 0 10px;
+    }
+
+    .message {
+        font-size: 22px;
+        color: #444;
+        line-height: 1.5;
+        margin-bottom: 20px;
+    }
+
+    .message span {
+        font-weight: bold;
+        color: #d62d20;
+    }
+
+    .footer-text {
+        font-size: 20px;
+        color: #555;
+        margin-bottom: 30px;
+    }
+
+    .ok-btn {
+        background: linear-gradient(180deg, #3a78c2, #1e4e91);
+        color: white;
+        border: none;
+        padding: 15px 60px;
+        font-size: 26px;
+        border-radius: 10px;
+        cursor: pointer;
+        box-shadow: 0 5px 10px rgba(0,0,0,0.15);
+        transition: 0.2s ease;
+    }
+
+    .ok-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+    }

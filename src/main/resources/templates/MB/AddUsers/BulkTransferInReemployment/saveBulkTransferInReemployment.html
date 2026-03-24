@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+
+
+<head th:insert="~{fragments/login/head}"></head>
+<link rel="stylesheet" th:href="@{/css/common/autoSuggest.css}">
+
+<script th:src="@{/js/MB/AddUsers/UnitMovement/getStation.js(random=${session.jsToken})}"></script>
+<script th:src="@{/js/MB/AddUsers/UnitMovement/getAirport.js(random=${session.jsToken})}"></script>
+ <script th:src="@{/js/MB/AddUsers/bulkTransferInReemployment/bulkTransferInReemployment.js(random=${session.jsToken})}"></script> 
+<script
+	th:src="@{/js/MB/AddUsers/bulkTransferInReemployment/dateOfRetirementforTransferInReEmp.js(random=${session.jsToken})}">
+	
+</script>
+
+
+<body oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+		<div th:insert="~{fragments/header/mainHeader}">...</div>
+		<section id="midpart" class="midpart">
+			
+			
+			<div class="container-fluid">
+				<div class="row">
+
+
+                   <div class="col-lg-1"></div>
+					<div class="col-lg-10">
+						 <form th:action="@{submitBulkTransferInReEmp}" method="post" id="bulkTransferInReEmpForm">
+							    <input type="hidden" name="unitRelocationDateStr" th:value="${model.unitRelocationDateStr}" /> 
+							    <input type="hidden" name="unitRailDutyNrs" th:value="${model.unitRailDutyNrs}" /> 
+							    <input type="hidden" name="unitDutyStnNa" th:value="${model.unitDutyStnNa}" /> 
+							    <input type="hidden" name="unitMoveAuthority" th:value="${model.unitMoveAuthority}" />
+							    <input type="hidden" name="unitMoveUserIdStr" id="unitMoveUserIdStr" /> 
+							    <input type="hidden" name="event" id="event" />
+								<input type="hidden" name="retireAgePbor" id="retireAgePbor" th:value="${model.retireAgePbor}" />	
+								<input type="hidden" name="retireAgeOther" id="retireAgeOther" th:value="${model.retireAgeOther}" />
+								<input type="hidden" name="rankId" th:value="${model.rankId}" />
+								<input type="hidden" name="railPayAcOff" th:value="${model.railPayAcOff}" />
+								<input type="hidden" name="airPayAcOff" th:value="${model.railPayAcOff}" />
+								<input type="hidden" name="levelId" th:value="${model.levelId}" />
+								<input type="hidden" name="categoryId" id="categoryId" th:value="${model.categoryId}" />
+								<input type="hidden" name="serviceId" th:value="${model.serviceId}" />
+								<input type="hidden" name="groupId" th:value="${groupId}" />
+						<div id="program" class="programBlock">
+											<div class="welcomebox" style="margin-bottom:1rem;">
+												<div class="welcomeHead">
+													<p>Transfer In</p>
+												</div>
+								
+												<div class="welcomecont">
+													<table id="filtersearch" class="filtersearch">
+								<tbody class="all1">
+															<tr>
+																<td style="width: 30%"><span th:text="#{mb.addUser.transferin.personalNo}"></span> <span
+																		class="mandatory">*</span></td>
+																<td style="width: 70%"><input name="personalNo" type="text" class="txtfldM" id="personalNo"
+																		autocomplete="off" minlength=4 maxlength=11
+																		onkeyup="this.value = this.value.toUpperCase()">
+																	<button type="button" name="proceed" class="butn"
+																		onclick="testForAlphaNumericKey(event)">Add</button>
+										</td>
+															</tr>
+														</tbody>
+													</table>
+												</div>
+												<div>
+													<table style="width:100%" border="0" cellpadding="0" cellspacing="0" class="filtersearch" id="personalNoInfo">
+														<tbody class="all1" id="personalNoInfoBulk">
+															
+												
+															<tr align="left" class="showalert lablevalue" >
+																<td style="width:20%">PersonalNo</td>
+																<td style="width:20%">Name</td>
+																<td style="width:20%">Taken on Strength Date</td>
+																<td style="width: 20%">Date Of Retirement</td>
+																<td></td>
+																<td></td>
+															</tr>
+									
+									
+									
+														</tbody>
+													</table>
+												</div>
+												<div style="text-align:right; padding-top: 2rem; padding-bottom: 2rem; padding-right: 2rem">
+									
+													<tr>
+														<td colspan="5" >
+															<input type="button" class="butn" value="Submit" th:attr="onclick='submitBulkTransferInReEmpForm()'">
+										</td>
+									</tr>
+							</div>
+							</div>
+							</div>
+							</div>
+
+					
+				</div>
+				
+			</div>
+					
+          </form>	
+											
+								
+						<div>
+								<p class="errors" th:text="${noRecord}" style="color: red;"></p>
+							</div>				
+			
+		</section>
+
+	<section>
+		<div class="blank"></div>
+	</section>
+	<section>
+		<div th:insert="~{fragments/login/footer}"></div>
+		</section>
+ 	
+
+</body>
+
+</html>

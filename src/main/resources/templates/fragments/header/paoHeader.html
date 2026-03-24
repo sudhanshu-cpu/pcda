@@ -1,0 +1,126 @@
+ <!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+ <ul class="list">
+	 <li class="list-items">
+	    <div class="dropdown">
+	        <a class="nav-link dropdown-toggle" href="javascript:void(0)"
+	            role="button" data-bs-toggle="dropdown">Home</a>
+	        <div class="dropdown-content">
+	            <ul class="navigation">
+	                <li>
+	                    <a th:href="@{/pao/home}">Home</a>
+	                </li>
+	                <li>
+	                    <a href="javascript:void(0)">Travel Rules<span style="margin-left:5px">&rsaquo;</span></a>
+	                    <div class="sub-menu">
+	                        <ul class="submenu-list">
+	                            <li class="submenu-listitems">
+                                <a th:href="@{/pao/trArmedForcesHome}">
+	                                    For Armed Forces
+	                                </a>
+	                            </li>
+	                            <li class="submenu-listitems">
+                                <a th:href="@{/pao/trCivHome}">
+	                                    For Civilians
+	                                </a>
+	                            </li>
+	                        </ul>
+	                    </div>
+	                </li>
+	                <li>
+		                   <a th:href="@{/pao/downloadsHome}">Downloads</a>
+	                </li>
+	                <li>
+		                   <a th:href="@{/pao/instructionsHome}">Gov't Order & Instructions</a>
+	                </li>
+<!-- 	                <li> -->
+<!-- 		                   <a th:href="@{/pao/feedBackSuggestion}">Feedback & Suggestions</a> -->
+<!-- 	                </li> -->
+	                <li>
+		                   <a th:href="@{/pao/usefulLink}">Useful Links</a>
+	                </li>
+	                <li>
+		                   <a th:href="@{/pao/contactHome}">Contact Us</a>
+	                </li>
+	                <li>
+		                   <a th:href="@{/pao/faqs}">FAQ</a>
+	                </li>
+	                <li>
+		                   <a th:href="@{/pao/eTutorial}">e-Tutorials</a>
+	                </li>
+	            </ul>
+	        </div>
+	    </div>
+	</li>
+	<li class="list-items">
+	    <div class="dropdown">
+	        <a class="nav-link dropdown-toggle"
+	            href="javascript:void(0)" role="button" data-bs-toggle="dropdown">Transaction Settlement Air</a>
+	        <div class="dropdown-content">
+	            <ul class="navigation">
+	                <li>
+	                    <a th:href="@{/pao/outstandingVoucherGen}">Outstanding & Voucher Generation Report</a>
+	                </li>
+	                <li>
+	                    <a th:href="@{/pao/createVoucherSettlement}">Voucher Settlement</a>
+	                </li>
+	                <li>
+	                    <a th:href="@{/pao/searchVouchAck}">Voucher Acknowledgement </a>
+	                </li>
+	            </ul>
+	        </div>
+	    </div>
+	</li>
+	<li class="list-items">
+	    <div class="dropdown">
+	        <a class="nav-link dropdown-toggle"
+	            href="javascript:void(0)" role="button" data-bs-toggle="dropdown">Demand</a>
+	        <div class="dropdown-content">
+	            <ul class="navigation">
+	                <li>
+	                    <a th:href="@{/pao/reqForRailIrla}">Rail Demand</a>
+	                </li>
+	                <li>
+	                    <a th:href="@{/pao/reqForAirDemandDwnl}">Air Demand</a>
+	                </li>
+	            </ul>
+	        </div>
+	    </div>
+	</li>
+	<li class="list-items">
+	    <div class="dropdown">
+	        <a class="nav-link dropdown-toggle"
+	            href="javascript:void(0)" role="button" data-bs-toggle="dropdown">Reports</a>
+	        <div class="dropdown-content">
+	            <ul class="navigation">
+	                <li>
+	                    <a th:href="@{/pao/railBookingReport}">Rail Booking Report</a>
+	                </li>
+	                <li>
+	                    <a th:href="@{/pao/userVarification}">User Verification</a>
+	                </li>
+	                <li>
+	                    <a th:href="@{/pao/airBookingReport}">Air Booking Report</a>
+	                </li>
+	                
+	                <li>
+	            		 <a href="javascript:void(0)">Demand Report<span style="margin-left:5px">&rsaquo;</span></a>
+	            		  <div class="sub-menu2">
+                        <ul class="submenu2-list">
+                           
+                             <li class="submenu2-listitems">
+	                    <a th:href="@{/pao/getRailDmdReport}">Rail Demand Report</a>
+	                </li>
+                             <li class="submenu2-listitems">
+	                    <a th:href="@{/pao/getAirDmdReport}">Air Demand Report</a>
+	                </li>
+                           
+                        </ul>
+                    	</div>
+	            	</li>
+	            </ul>
+	        </div>
+	    </div>
+	</li>
+ </ul>

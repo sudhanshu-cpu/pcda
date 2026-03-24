@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+
+<script th:src="@{/js/MB/RequestDashBoard/tdr/tdrEdit.js(random=${session.jsToken})}"> </script>
+<body oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+
+	<div th:insert="~{fragments/header/mainHeader}">...</div>
+
+	<section id="midpart" class="midpart">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-1"></div>
+				<div class="col-lg-10">
+					<form th:action="@{/mb/saveTdr}" id="tdrEditForm" name= "tdrBkgForm" method="post">
+					<input type="hidden" name="tdrReason" id="tdrReasonTxt" th:value="${tktBkgData.reasonOfTdr}">
+					 <input type="hidden" name="totalNoOfPsnger" th:value="${totalNoPassenger}">
+                      <input type="hidden" name="bookingId" th:value="${tktBkgData.bookingId}">
+                      <input type="hidden" name="pnrNo" th:value="${tktBkgData.pnrNo}">
+                       <input type="hidden" name="isTdrFile" value="0">
+						<div id="program" class="programBlock">
+							<div class="welcomebox" style="margin-bottom:1rem">
+								<div class="welcomeHead">
+									<p>
+										Ticket Details For TDR
+									</p>
+								</div>
+								<div class="welcomecont">
+									<table class="filtersearch">
+										<tbody class="all1">
+
+
+											<tr>
+												<td class="lablevalue"> Ticket Number </td>
+												<td><span th:text="${tktBkgData.ticketNo}"> </span>
+												</td>
+												<td class="lablevalue"> PNR Number </td>
+												<td><span th:text="${tktBkgData.pnrNo}"> </span></td>
+											</tr>
+
+											<tr>
+												<td class="lablevalue">Train Number</td>
+												<td><span th:text="${tktBkgData.trainNumber}">
+													</span></td>
+												<td class="lablevalue">Train Name</td>
+												<td><span th:text="${tktBkgData.trainName}"> </span>
+												</td>
+											</tr>
+
+											<tr>
+												<td class="lablevalue">Date of Booking</td>
+												<td><span th:text="${tktBkgData.bookingDateStr}">
+													</span></td>
+												<td class="lablevalue">Date of Journey</td>
+												<td><span th:text="${tktBkgData.boardingDateStr}">
+													</span></td>
+											</tr>
+
+											<tr>
+												<td class="lablevalue">Quota</td>
+												<td><span th:text="${tktBkgData.journeyQuota}">
+													</span></td>
+												<td class="lablevalue">Class</td>
+												<td><span th:text="${tktBkgData.journeyClass}">
+													</span></td>
+											</tr>
+
+											<tr>
+												<td class="lablevalue">Personal No</td>
+												<td><span th:text="${tktBkgData.personalNo}"> </span>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+						<div id="program" class="programBlock">
+							<div class="welcomebox" style="margin-bottom:1rem">
+								<div class="welcomeHead">
+									<p>
+										Passenger Details
+									</p>
+								</div>
+								<div class="welcomecont">
+									<table id='pnrDetails' class="filtersearch" cellpadding="4" cellspacing="1"
+										width="100%" border="0">
+										<tbody class="all1">
+											<tr class="lablevalue">
+												<td></td>
+												<td> S.No </td>
+												<td> Name </td>
+												<td> Gender </td>
+												<td> Age </td>
+												<td> Coach </td>
+												<td> Seat </td>
+												<td> Berth </td>
+											</tr>
+
+										</tbody>
+										
+
+										<tbody class="all1"	th:each="src,stat: ${tktBkgData.passengerList}" th:if="${src.isTdrFile.ordinal}==0">
+											<tr>
+
+											
+												<td th:if="${tktBkgData.tdrApprovalState.ordinal}==2"><input type="checkbox" th:name="@{|chk_${stat.index+1}|}"
+														th:id="@{|chk_${stat.index+1}|}">
+												</td>
+
+											    <td th:if="${tktBkgData.tdrApprovalState.ordinal}==0"> </td>
+												
+												<td ><span th:text="${src.passangerNo}"> </span>
+												</td>
+												<td ><span th:text="${src.passangerName}"> </span>
+												</td>
+												<td ><span th:text="${src.passSex}"> </span></td>
+												<td ><span th:text="${src.passangerAge}"> </span></td>
+												<td ><span th:text="${src.trnCoach}"> </span></td>
+												<td ><span th:text="${src.seat}"> </span></td>
+												<td ><span th:text="${src.trnBerth}"> </span></td>
+											
+											</tr>
+										</tbody>
+
+
+
+
+
+										<tr th:each="src,stat: ${tktBkgData.passengerList}" >
+											<td th:if="${src.passangerSex}==0"> <input type="hidden"
+													th:name="@{|pxnSex_${stat.index+1}|}" value="0" /></td>
+											<td th:if="${src.passangerSex}==1"> <input type="hidden"
+													th:name="@{|pxnSex_${stat.index+1}|}" value="1" /> </td>
+													
+	                                    <td> <input type="hidden" th:name="@{|passangerNo_${stat.index+1}|}"
+														th:value="${src.passangerNo}" />
+													<input type="hidden" th:name="@{|pxnName_${stat.index+1}|}"
+														th:value="${src.passangerName}" />
+													<input type="hidden" th:name="@{|pxnAge_${stat.index+1}|}"
+														th:value="${src.passangerAge}" />
+												
+                                           
+                                                  
+											<input type="hidden" th:name="@{|coach_${stat.index+1}|}"
+												th:value="${src.trnCoach}" />
+											<input type="hidden" th:name="@{|seat_${stat.index+1}|}"
+												th:value="${src.seat}" />
+											<input type="hidden" th:name="@{|berth_${stat.index+1}|}"
+												th:value="${src.trnBerth}" />
+											<input type="hidden" th:name="@{|tktCurrentStatus_${stat.index+1}|}"
+												th:value="${src.currentStatus}" />
+	                                     </td>
+										</tr>
+
+
+
+
+									</table>
+								</div>
+							</div>
+						</div>
+
+<div class="welcomebox"  style="margin-bottom:1rem">
+						<table id='pnrDetails' class="filtersearch">
+<tbody class="all1">
+							
+									<tr>
+										<td style="width:30%" class="lablevalue">
+												On Official Ground</td>
+										<td style="width:70%">
+											<input type="radio" name="isTdrOfficial" id="isTdrOfficial" value="0"
+												 th:checked="${tktBkgData.tdrOnOfficalGround.ordinal} == 0" />Yes
+											<input type="radio" id="isTdrOfficial" name="isTdrOfficial" value="1"
+												 th:checked="${tktBkgData.tdrOnOfficalGround.ordinal} == 1" />No
+										</td>
+									</tr>
+							</tbody>
+
+						</table>
+						</div>
+
+
+						<!--   TDR Reason and Approval Block End -->
+						<br />
+
+
+								<div id="program" class="programBlock">
+									<div class="welcomebox" style="margin-bottom:1rem">
+										<div class="welcomeHead">
+
+											<p>
+												TDR Reason
+											</p>
+										</div>
+										<div class="welcomecont">
+
+											<table id='pnrDetails' class="filtersearch" cellpadding="4" cellspacing="1"
+												width="100%" border="0">
+												<tbody class="all1" >
+													<tr th:if="${tktBkgData.tdrApprovalState.ordinal}==2">
+														<td style="width:30%" class="lablevalue">Guard Certificate Slip</td>
+														<td style="width:70%">
+															<input type="radio" name="isTdrGuardSlip"
+																id="isTdrGuardSlip_0" value="0" onclick="guardClick()" th:checked="${tktBkgData.isGc} == 'yes'">Yes
+															<input type="radio" name="isTdrGuardSlip"
+																id="isTdrGuardSlip_1" value="1" onclick="guardClick()" th:checked="${tktBkgData.isGc} == 'no'"/>No
+														</td>
+													</tr>
+													<tr th:if="${tktBkgData.tdrApprovalState.ordinal}==2">
+														<td style="width:30%" class="lablevalue">Guard Certificate Slip Amount</td>
+														<td style="width:70%">
+															<input type="text" name="tdrGuardSlipAmount" autocomplete="off"
+																id="tdrGuardSlipAmount" th:value="${tktBkgData.gcAmount}"
+																maxlength="10" />
+														</td>
+													</tr>
+													<tr th:if="${tktBkgData.tdrApprovalState.ordinal}==2">
+														<td style="width:30%" class="lablevalue">Guard Certificate Slip No.</td>
+														<td style="width:70%">
+															<input type="text" name="tdrGuardSlipNo" id="tdrGuardSlipNo" autocomplete="off"
+																 maxlength="50" th:value="${tktBkgData.gcNumber}" />
+														</td>
+													</tr>
+													<tr th:if="${tktBkgData.tdrApprovalState.ordinal}==2">
+														<td style="width:30%" class="lablevalue">Guard Certificate Date</td>
+														<td style="width:70%">
+															<input type="text" name="tdrGuardSlipDate" 
+																id="tdrGuardSlipDate"  readonly="readonly" th:value="${tktBkgData.gcDate}" />
+														</td>
+													</tr>
+													<tr>
+														<td class="lablevalue">Reason to file TDR</td>
+														<td th:if="${tktBkgData.tdrApprovalState.ordinal}==2">
+															<select name="tdrReasonIndex" id="tdrReason" class="combo" onChange="setReason()">
+																<option value="">Select Reason For TDR</option>
+											<option th:each="tdr : ${tdrReasonList}" th:text="${tdr.tdrReason}"
+											 th:value="${tdr.reasonIndex}" th:selected="${tdr.tdrReason}==${tktBkgData.reasonOfTdr}"></option>
+
+															</select>
+																
+														</td>
+														
+														<td th:if="${tktBkgData.tdrApprovalState.ordinal}==0">
+														<span th:text="${tktBkgData.reasonOfTdr}"> </span>
+														</td>
+														
+													</tr>
+
+													<tr th:if="${tktBkgData.tdrApprovalState.ordinal}==2">
+														<td colspan="11" style="text-align:right">
+
+															<input type="button" class="butn"
+																value="Send For CO Approval"
+																th:attr="onclick='submitForm(\''+${tktBkgData.bookingId}+'\',\''+${totalNoPassenger}+'\',\''+'false'+'\',\''+'ProceedForApproval'+'\')'" />
+															<input type="submit" value="Back" class="butn"
+																th:formaction="@{/mb/getPnrData}" th:formmethod="post" >
+															<input type="button" class="butn" value=" Print this page "
+																onclick="window.print();" />
+														</td>
+													</tr>
+													<tr th:if="${tktBkgData.tdrApprovalState.ordinal}==0">
+													<td> 
+													<span style="color: red;">
+													Firstly approve request From CO then you can proceed for TDR
+													</span>
+													</td>
+													</tr>
+												</tbody>
+												
+											</table>
+										</div>
+									</div>
+								</div>
+							
+
+					</form>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section>
+<div class="blank"></div>
+</section>
+    <section>
+			<div th:insert="~{fragments/login/footer}"></div>
+		</section>
+</body>
+
+</html>

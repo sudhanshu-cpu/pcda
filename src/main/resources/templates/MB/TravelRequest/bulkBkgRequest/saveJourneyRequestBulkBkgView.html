@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+
+<body>
+
+<div th:insert="~{fragments/header/mainHeader}"></div>
+<section id="midpart" class="midpart">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-lg-1"></div>
+                <div class="col-lg-10">
+                <div class="welcomebox">
+	<table border="0" width="100%" cellpadding="4" cellspacing="1" align="center" class="filtersearch">
+	<tbody class="all1">
+		<tr>
+						<td colspan="4"><span style="color:red;" th:unless="${requestType} == 'offlinebooking'"> Journey request made successfully, Please get it approved from CO</span></td>
+					</tr>
+					</tbody>
+				</table>
+				<table border="0" width="100%" cellpadding="4" cellspacing="1" align="center" class="filtersearch">
+				
+	</table>
+
+	<div th:each="list :${request.travelRequestList}">
+		<div th:if="${list.journeyType} == 0">
+			<div th:insert="~{MB/TravelRequest/bulkBkgRequest/onwardRequestBulkBkgView}"></div>
+		</div>
+		<div th:if="${list.journeyType} == 1">
+			<div th:insert="~{MB/TravelRequest/bulkBkgRequest/returnRequestBulkBkgView}"></div>
+		</div>
+	</div>
+	<input type="button" class="butn" value=" Print this page " onclick="window.print()">
+	</div>
+</div>
+</div>
+</div>
+
+</section>
+<section>
+<div class="blank"></div>
+</section>
+    <section>
+			<div th:insert="~{fragments/login/footer}"></div>
+		</section>
+</body>
+</html>

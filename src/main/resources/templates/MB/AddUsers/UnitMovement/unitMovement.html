@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+<link rel="stylesheet" th:href="@{/css/common/style.css}">
+<link rel="stylesheet" th:href="@{/css/common/autoSuggest.css}">
+<script th:src="@{/js/MB/AddUsers/UnitMovement/getStation.js(random=${session.jsToken})}"></script>
+<script th:src="@{/js/MB/AddUsers/UnitMovement/getAirport.js(random=${session.jsToken})}"></script>
+<script th:src="@{/js/MB/AddUsers/UnitMovement/unitMovement.js(random=${session.jsToken})}"></script>
+<body oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+
+<!-- 	<div class="container-fluid"> -->
+		<div th:insert="~{fragments/header/mainHeader}">...</div>
+
+		<section id="midpart" class="midpart">
+			<div class="container-fluid">
+				<div class="row">
+
+				<div class="col-lg-1"></div>
+				<div class="col-lg-10">
+						<form th:action="@{createUnitMovement}" method="post"
+							id="saveUnitMovement">
+							<input type="hidden" name="serviceId" id="service"
+								th:value="${serviceId}" />
+
+
+										<div id="program" class="programBlock">
+							<div class="welcomebox">
+								<div class="welcomeHead">
+													<p>Unit Movement</p>
+												</div>
+								<div class="welcomecont">
+									<table class="filtersearch">
+										<tbody class="all1">
+															<tr>
+																<td colspan="6">This menu is meant to change the
+																	Nearest Railway Station and Airport to Duty Station for
+																	multiple user in case of Unit Movement.</td>
+															</tr>
+															<tr>
+																<td colspan="6">You have the option to update the
+																	details for all or selected users who are currently
+																	present in your unit.</td>
+															</tr>
+															<tr>
+																<td style="width: 30%" th:text="#{mb.addusers.unitmovement.unit}"></td>
+																<td colspan="3"><input name="unitRelocationDateStr"
+																	placeholder="dd-mm-yyyy" type="text" class="txtfldM"
+																	id="unitRelocationDate" autocomplete="off" readonly="readonly"></td>
+															</tr>
+															<tr>
+																<td style="width: 30%"><label th:text="#{mb.addusers.unitmovement.nrs}"></label>
+																 <span class="mandatory">*</span>
+																</td>
+																<td colspan="3"><input class="txtfldM" type="text"
+																	style="width: auto;" id="dutyStations_0"
+																	name="unitRailDutyNrs"
+																	onblur="fillRecordRailStationNRS('',0)"
+																	onkeyup="filsRailStationNRS(this.value,0)" autocomplete="off">
+																	<div class="suggestionsBox"
+																		id="suggestionsRailStationNRS_0"
+																		style="display: none;">
+																		<div class="suggestionList"
+																			id="autoSuggestionsListRailStationNRS_0"></div>
+																	</div></td>
+															</tr>
+															<tr>
+																<td style="width: 30%" th:text="#{mb.addusers.unitmovement.nrsairport}"></td>
+																<td colspan="3"><input type="text" class="txtfldM"
+																	id="airportStationText_0" name="unitDutyStnNa"
+																	onblur="fillRecordOffice('',0)"
+																	onkeyup="getStationAir(this.value,0)" autocomplete="off">
+
+																	<div class="suggestionsBox"
+																		id="suggestionsOfficeNRS1_0" style="display: none;">
+																		<div class="suggestionList"
+																			id="autoSuggestionsListOfficeNRS1_0"></div>
+																	</div></td>
+															</tr>
+															<tr>
+																<td style="width: 30%"th:text="#{mb.addusers.unitmovement.unitauthority}"></td>
+																<td colspan="3"><textarea name="unitMoveAuthority"
+																		class="txtfldM" onkeyup="ismaxlength(this,50);"
+																		id="unitMoveAuthority" rows="2" cols="25"></textarea>
+																</td>
+															</tr>
+															<tr>
+
+																<td colspan="6" style="text-align: center">
+																	<button class="butn" type="button" onclick="validateUnitMovement()">Submit</button>
+																</td>
+															</tr>
+														</tbody>
+													</table>
+												</div>
+											</div>
+										</div>
+
+
+						</form>
+					</div>
+
+				</div>
+
+			</div>
+
+		</section>
+		<section>
+		<div class="blank"></div>
+	</section>
+	<section>
+		<div th:insert="~{fragments/login/footer}"></div>
+		</section>
+</body>
+
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+
+<script>
+
+function viewPno(obj) {
+		$("#personalNoView").val(obj);
+		$("#viewForm").submit();
+	}
+
+function editPNo(obj) {
+		$("#personalNoEdit").val(obj);
+		$("#editForm").submit();
+	}
+
+</script>
+
+<body oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+
+	<div th:insert="~{fragments/header/mainHeader}"></div>
+
+	<form th:action="@{/mb/viewDisapproved}" method="post" id="viewForm">
+		<input type="hidden" name="personalNo" id="personalNoView">
+<input type="hidden" name="officeId" th:value="${groupId}">
+	</form>
+
+	<form th:action="@{/mb/editDisapproved}" method="post" id="editForm">
+		<input type="hidden" name="personalNo" id="personalNoEdit">
+		<input type="hidden" name="officeId" th:value="${groupId}">
+	</form>
+
+	<section id="midpart" class="midpart">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-1"></div>
+				<div class="col-lg-10">
+					<div id="program" class="programBlock">
+
+						<div class="welcomebox">
+							<div class="welcomeHead">
+								<span th:text="#{mb.addusers.disapproved.profile.dis.userList}"></span>
+							</div>
+							<div class="welcomecont">
+								<table class="filtersearch" style="width: 100%" th:unless="${disapprovedProfile.empty}">
+									<tbody class="all1">
+										<tr>
+											<td class="lablevalue"
+												th:text="#{mb.addusers.disapproved.profile.prsonalNo}"></td>
+											<td class="lablevalue"
+												th:text="#{mb.addusers.disapproved.profile.na}"></td>
+											<td class="lablevalue"
+												th:text="#{mb.addusers.disapproved.profile.offName}"></td>
+											<td class="lablevalue"
+												th:text="#{mb.addusers.disapproved.profile.cr}"></td>
+
+											<td class="lablevalue"
+												th:text="#{mb.addusers.disapproved.profile.re}"></td>
+											<td class="lablevalue"
+												th:text="#{mb.addusers.disapproved.profile.action}"></td>
+										</tr>
+
+										<tr th:each="list:${disapprovedProfile}">
+											<td><a href="#" th:attr="onclick='viewPno(\''+${list.signInId}+'\')'" th:text="${list.signInId}"></a>
+											</td>
+											<td th:text="${list.name}"></td>
+											<td th:text="${officeName}"></td>
+											<td th:text="${list.role}"></td>
+											<td th:text="${list.remark}"></td>
+											<td>
+											<a href="#" th:attr="onclick='editPNo(\''+${list.signInId}+'\')'" >Edit</a>
+											
+											</td>
+										</tr>
+									</tbody>
+								</table>
+								<div th:if="${disapprovedProfile.empty}"><p class="errors" style="margin-bottom:0">No results Found</p></div>
+							</div>
+						</div>
+						<div th:text="${error}" class="errors"></div>
+						
+						
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section>
+<div class="blank"></div>
+</section>
+		<section>
+			<div th:insert="~{fragments/login/footer}"></div>
+		</section>
+</body>
+
+</html>

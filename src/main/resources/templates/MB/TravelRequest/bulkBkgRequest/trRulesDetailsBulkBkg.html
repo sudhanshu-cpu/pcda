@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="bgborder" align="center">
+<tr>
+   <td>
+	  <table border="0" cellpadding="4" cellspacing="1" width="100%" class="formtxt">
+	   <tr align="left" >
+	     <td> <strong th:text="#{travel.request.tr.rule.news}"></strong>:- <font color="red" th:text="${ruleDtls.trRuleNews}"></font></td>
+	   </tr>
+	  </table>
+  </td>
+</tr>
+</table>
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="bgborder"><tr><td>
+<table border="0" cellpadding="4" cellspacing="1" width="100%" class="formtxt">
+  <tr><td class="heading" align="center"  colspan="30" th:text="#{travel.request.tr.rule.heading}"><span th:text="${ruleDtls.trRuleNo}"></span></td></tr>
+
+<tr align="left" bgcolor="#fbfac8">
+
+    <td width="20%" class="lablevalue"><span th:text="#{travel.request.tr.rule.travel.purpose}"></span></td>
+    <td width="30%" ><span th:text="${ruleDtls.travelType}"></span></td>
+    
+    <td width="20%" class="lablevalue"><span th:text="#{travel.request.tr.rule.no}"></span></td>
+    <td width="30%" colspan="8"><span th:text="${ruleDtls.trRuleNo}"></span></td>
+  </tr>      
+  
+   <tr align="left" bgcolor="#fbfac8">
+    <td class="lablevalue"><span th:text="#{travel.request.tr.rule.title}"></span></td>
+    <td colspan="8" ><span th:text="${ruleDtls.trRuleTitle}"></span></td>
+    </tr>
+    <tr  align="left" >
+    <td class="lablevalue"><span th:text="#{travel.request.tr.rule.desc}"></span></td>
+    <td  colspan="8"><span th:text="${ruleDtls.trRuleDesc}"></span></td>
+  </tr> 
+  
+<tr align="left" bgcolor="#fbfac8">
+<td  class="lablevalue" ><span th:text="#{travel.request.tr.rule.elib.category}"></span></td>
+<td th:each="src : ${ruleDtls.categories}">
+     <span th:text="${src}"></span>
+</td>
+</tr>
+
+ <tr align="left" bgcolor="#fbfac8">
+    <td  class="lablevalue"><span th:text="#{travel.request.tr.rule.eligb.location}"></span></td>
+    <td colspan="8"  th:each="src : ${ruleDtls.locations}">
+     <span th:text="${src}"></span>
+   </td>
+  </tr>
+
+
+ <tr align="left" bgcolor="#fbfac8">
+    <td class="lablevalue" colspan="9"><span th:text="#{travel.request.tr.rule.no.travel.allowed}"></span>:<span style="font-weight:normal" th:text="${ruleDtls.journeyCountTR}"></span></td>
+   
+   </tr>
+
+  <tr align="left" bgcolor="#fbfac8">
+    <td class="lablevalue" colspan="9"><span th:text="#{travel.request.tr.rule.no.travel.allowed.year}"></span> : <span style="font-weight:normal" th:text="${ruleDtls.journeyCountYear}"></span></td>
+  
+   </tr>
+
+  </table>
+
+
+    </td></tr>
+</table><br/>
+
+ <table width="100%" border="0" cellpadding="0" cellspacing="0" class="bgborder" align="center"><tr><td>
+
+  <table border="0" cellpadding="4" cellspacing="1" width="100%" class="formtxt">
+   <tr align="left" bgcolor="#fbfac8">
+     <td colspan="30" align="left" class="heading"><span th:text="#{travel.request.tr.rule.elig.member}"></span></td>
+   </tr>
+    <tr align="left" class="lablevalue">
+     <td width="50%"><span th:text="#{travel.request.tr.rule.elig.member.type}"></span>  </td>
+     <td width="50%"><span th:text="#{travel.request.tr.rule.elig.member.count}"></span> </td>
+   </tr>
+
+
+   <tr align="left"  th:each="src : ${ruleDtls.eligbleMembers}">
+     <td>  <span th:text="${src.relationType}"></span> </td>
+     <td>  <span th:text="${src.perMemberCount}"></span> </td>
+   </tr>
+
+  </table>
+  </td></tr></table>
+<br/>
+  
+  <table width="100%" border="0" cellpadding="0" cellspacing="0" class="bgborder"><tr><td>
+
+  <table border="0" cellpadding="4" cellspacing="1" width="100%" class="formtxt">
+  <tr align="left" class="lablevalue" >
+     
+     <td><span th:text="#{travel.request.onward}"></span></td>
+     <td colspan="8"><span th:text="#{travel.request.tr.rule.from}"></span></td>
+     <td colspan="8"><span th:text="#{travel.request.tr.rule.to}"></span> </td>
+   </tr>
+     
+   <tr >
+    <td> </td>
+      <td align="left" th:each="src : ${ruleDtls.journeys}"><span th:text="${src.fromStnOnward}"></span> </td>
+      
+      <td align="left" th:each="src : ${ruleDtls.journeys}"><span th:text="${src.toStnOnward}"></span>  </td>
+   </tr>
+     
+   <tr align="left" class="lablevalue">
+     <td  align="left"><b><span th:text="#{travel.request.return}"></span></b></td>
+    <td colspan="8">   <span th:text="#{travel.request.tr.rule.from}"></span></td>
+     <td colspan="8">    <span th:text="#{travel.request.tr.rule.to}"></span></td>
+   </tr>
+     
+   <tr>
+      <td> </td>
+      <td align="left" th:each="src : ${ruleDtls.journeys}"><span th:text="${src.fromStnReturn}"></span> </td>
+      
+      <td align="left" th:each="src : ${ruleDtls.journeys}"><span th:text="${src.toStnReturn}"></span>  </td>
+   </tr>
+  </table>
+    </td>
+  </tr>
+</table>
+
+  <table width="100%" border="0" cellpadding="0" cellspacing="0" class="bgborder"><tr><td>
+
+     <table border="0" cellpadding="2" cellspacing="1" width="100%" class="formtxt">
+     <tr>
+     <td colspan="30" height="23" align="left" class="heading"> <span th:text="#{travel.request.questions}"></span></td>
+     </tr>
+     <tr  class="lablevalue">
+     <td height="23" width="15%"> <span th:text="#{travel.request.question}"></span></td>
+     <td width="79%"> <span th:text="#{travel.request.question.desc}"></span></td>
+     <td width="6%"> <span th:text="#{travel.request.question.answer}"></span></td>
+     
+     </tr>
+    
+     
+     <tr th:each="src : ${ruleDtls.questions}">
+     <td height="23"> <span th:text="${src.question}"></span></td>
+     <td> <span th:text="${src.questionDesc}"></span></td>
+     <td> <span th:text="${src.answer}"></span> </td></tr>
+     </repeat>
+     </table>
+</td></tr></table>
+<br/>
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0" align="center" class="bgborder"><tr><td>
+<table border="0" cellpadding="4" cellspacing="1" width="100%" class="formtxt">
+    <tr align="left" bgcolor="#fbfac8">
+    <td width="20%" class="lablevalue" ><span th:text="#{travel.request.tr.rule.notes}"></span></td>
+    <td width="80%" th:text="${ruleDtls.notes}"></td>  
+    </tr>
+    
+    <tr align="left" bgcolor="#fbfac8">
+    <td class="lablevalue"><span th:text="#{travel.request.tr.rule.remarks}"></span></td>
+    <td  th:text="${ruleDtls.remarks}"></td>  
+    </tr>
+   
+    <tr align="left" bgcolor="#fbfac8">
+    <td class="lablevalue"><span th:text="#{travel.request.tr.rule.status}"></span></td>
+    <td  th:text="${ruleDtls.status}" ></td>  
+    </tr>
+    </table>
+</td></tr></table>
+

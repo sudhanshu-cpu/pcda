@@ -1,0 +1,70 @@
+ <!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+ <ul class="list">
+	 <li class="list-items">
+	    <div class="dropdown">
+	        <a class="nav-link dropdown-toggle" href="javascript:void(0)"
+	            role="button" data-bs-toggle="dropdown">Home</a>
+	        <div class="dropdown-content">
+	            <ul class="navigation">
+	                <li>
+	                    <a th:href="@{/sao/home}">Home</a>
+	                </li>
+	                <li>
+	                    <a href="javascript:void(0)">Travel Rules<span style="margin-left:5px">&rsaquo;</span></a>
+	                    <div class="sub-menu">
+	                        <ul class="submenu-list">
+	                            <li class="submenu-listitems">
+	                                <a th:href="@{/sao/trArmedForcesHome}">
+	                                    For Armed Forces
+	                                </a>
+	                            </li>
+	                            <li class="submenu-listitems">
+	                                <a th:href="@{/sao/trCivHome}">
+	                                    For Civilians
+	                                </a>
+	                            </li>
+	                        </ul>
+	                    </div>
+	                </li>
+	                <li>
+	                    <a th:href="@{/sao/downloadsHome}">Downloads</a>
+	                </li>
+	                <li>
+	                    <a th:href="@{/sao/instructionsHome}">Gov't Order & Instructions</a>
+	                </li>
+<!-- 	                <li> -->
+<!-- 	                    <a th:href="@{/sao/feedBackSuggestion}">Feedback & Suggestions</a> -->
+<!-- 	                </li> -->
+	                <li>
+	                    <a th:href="@{/sao/usefulLink}">Useful Links</a>
+	                </li>
+	                <li>
+	                    <a th:href="@{/sao/contactHome}">Contact Us</a>
+	                </li>
+	                <li>
+	                    <a th:href="@{/sao/faqs}">FAQ</a>
+	                </li>
+	                <li>
+	                    <a th:href="@{/sao/eTutorial}">e-Tutorials</a>
+	                </li>
+	            </ul>
+	        </div>
+	    </div>
+	</li>
+
+	<li class="list-items">
+	    <div class="dropdown">
+	        <a class="nav-link dropdown-toggle"
+	            href="javascript:void(0)" role="button" data-bs-toggle="dropdown">Air Demand</a>
+	        <div class="dropdown-content">
+	            <ul class="navigation">
+	                <li style="height:38px;">
+	                    <a th:href="@{/sao/createDemandRequest}">Request For Air Demand Download</a>
+	                </li>
+	            </ul>
+	        </div>
+	    </div>
+	</li>
+ </ul>

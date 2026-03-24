@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+<link rel="stylesheet" type="text/css" th:href="@{/css/common/popup/LightFace.css}">
+<script th:src="@{/js/common/popup/mootools.js}"></script>
+<script th:src="@{/js/common/popup/LightFace.IFrame.js}"></script>
+<script th:src="@{/js/common/popup/LightFace.js}"></script>
+<script th:src="@{/js/common/popup/LightFace.Request.js}"></script>
+<script th:src="@{/js/ADG/Reports/dtsTokenIssueReportJs/dtsToken.js(random=${session.jsToken})}"></script>
+
+<body oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+
+<div th:insert="~{fragments/header/mainHeader}"></div>
+
+<section id="midpart" class="midpart">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-1">
+                <div id="navigation"></div>
+            </div>
+
+            <div class="col-lg-10">
+
+                <form th:action="@{/adg/getTokenReport}" method="get" name="adgRailAirBkgReportForm"
+                      id="dtsTokenIssueReportFormId">
+
+                    <div id="program" class="programBlock">
+                        <div class="welcomebox" style="margin-bottom: 1rem;">
+                            <div class="welcomeHead">
+                                <p th:text="#{adg.reports.dtsTokenIssue.report.dtsTokenIssuedReport}"></p>
+                            </div>
+                            <div class="welcomecont">
+                                <table class="filtersearch" cellspacing="1" cellpadding="4" width="100%" border="0">
+                                    <tbody class="all1">
+                                    <tr align="left">
+                                        <td>
+                                            From Issue Date
+                                        </td>
+                                        <td><input type="text" name="fromDate" id="fromIssueDate"
+                                                   class="txtfldM" size="15"
+                                                   th:value="${dtsTokenInputModel.fromDate}" autocomplete="off" />
+                                        </td>
+
+                                        <td>
+                                            To Issue Date
+                                        </td>
+                                        <td><input type="text" name="toDate" id="toIssueDate" class="txtfldM"
+                                                   size="15" th:value="${dtsTokenInputModel.toDate}"
+                                                   autocomplete="off" />
+                                        </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" class="lablevalue" style="text-align: right;">
+                                            <button type="button" value="" class="butn" onclick="doGenerate()">
+                                                Generate Report</button>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <form th:action="@{/adg/getDtsTokenReportDetails}" method="get" id="tokenReportFormId">
+
+                    <input type="hidden" name="tokenIssueDate" id="tokenIssue_Date">
+
+                    <!-- it is used for display data on same page -->
+                    <div class="welcomebox"
+                         th:if="${dtsTokenReportList != null and !#lists.isEmpty(dtsTokenReportList)}">
+                        <div class="welcomeHead">
+                            <p> Token Issued Count Details </p>
+                        </div>
+                        <table id="data_info_list" class="filtersearch" width="100%" cellspacing="1" cellpadding="4"
+                               border="0" align="center">
+                            <thead class="head">
+                            <tr>
+                                <th style="text-align: left;"> Token Issue Date </th>
+                                <th style="text-align: left;"> Token Count</th>
+                            </tr>
+                            </thead>
+
+
+                            <tbody class="all1">
+                            <tr th:each=" tokenList : ${dtsTokenReportList}">
+                                <td th:if="${tokenList.tokenIssuedCount} != 0">
+                                    <a href="#" class="links"
+                                       th:attr="onclick='viewDTSTokenIssueReports(\''+${tokenList.tokenIssueDate}+'\')'"
+                                       th:text="${tokenList.tokenIssueDate}"></a>
+                                </td>
+
+                                <td th:unless="${tokenList.tokenIssuedCount} != 0">
+                                    <span th:text="${tokenList.tokenIssueDate}"></span>
+                                </td>
+
+                                <td><span th:text="${tokenList.tokenIssuedCount}"></span> </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </form>
+
+                <div>
+                    <p class="errors" th:text="${error}" style="margin-bottom:0"></p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+
+</html>

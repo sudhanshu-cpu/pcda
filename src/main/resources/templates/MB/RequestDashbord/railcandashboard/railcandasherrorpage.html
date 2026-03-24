@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+<script>
+$(document).ready(function(){
+	var error=$("#errorId").val();
+	$("#error").html(error);
+	});
+</script>
+<body>
+
+<div class="container-fluid">
+
+   <div th:insert="~{fragments/header/mainHeader}"></div>
+
+	<section id="midpart" class="midpart">
+		<div class="container-fluid">
+			<div class="row">
+<div class="col-lg-1"></div>
+		<div class="col-lg-10">
+<input type="hidden" th:value="${errors}" id="errorId">
+<table border="0" width="100%" cellpadding="0" cellspacing="0" align="center"  bgcolor="#ABABAB">
+<tr>
+	<td>
+		<table border="0" width="100%" cellpadding="0" cellspacing="0" align="center"  class="formtxt">
+		<tr>
+			<td class="tdborder1" width="100%" align="center">		
+				<div style="width:auto;padding:5px;">
+					<div style="width:auto;text-align:left;padding:5px;background-color:#F4F4F4;border:1px solid black;">
+						<FONT SIZE="6" COLOR="#CC0033">Dear User</FONT>
+						<hr/>
+						<BR/>
+						<FONT SIZE="4" COLOR="#484B91">
+							There has been an error encountered due to which we will not be able to proceed further. 
+						</FONT>	
+						<FONT SIZE="4" COLOR="#484B91">
+						<div id="error">
+							
+						</div>
+						</FONT>
+						<br/>					
+					</div>
+				</div>
+			</td>
+		</tr>
+		</table>
+</td>
+</tr>
+</table>
+
+		</div>
+		
+			</div>
+		</div>
+	</section>
+
+	<section>
+		<div th:insert="~{fragments/login/footer}"></div>
+	</section>
+
+</div>
+
+</body>
+
+</html>

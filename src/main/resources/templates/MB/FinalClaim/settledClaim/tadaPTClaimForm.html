@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+<link rel="stylesheet" type="text/css"
+	th:href="@{/css/common/popup/LightFace.css}">
+<script
+	th:src="@{/js/common/popup/mootools.js}"></script>
+<script
+	th:src="@{/js/common/popup/LightFace.IFrame.js}"></script>
+<script
+	th:src="@{/js/common/popup/LightFace.js}"></script>
+<script
+	th:src="@{/js/common/popup/LightFace.Request.js}"></script>
+
+
+<script type="text/javascript"> 
+function viewMainClaimDetails(mainClaimId)
+{
+	var that = this;
+   ajaxRequestFace = new LightFace.Request(
+   {
+		width: 1000,
+		height: 500,
+		url: $("#context_path").val()+"mb/viewClaimDetails",
+		buttons: [
+			{ title: 'Close', event: function() { this.close(); } }
+		],
+		request: { 
+			data: { 
+				tadaClaimId: mainClaimId,
+			},
+			method: 'post'
+			
+		},
+		title: 'Claim View'
+		
+			 
+	});
+   ajaxRequestFace.open();
+}
+</script> 
+<body
+	oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+	<div th:insert="~{fragments/header/mainHeader}">...</div>
+	<section id="midpart" class="midpart">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-1"></div>
+				<div class="col-lg-10">
+					<form>
+						<table class="formtxt" width="100%" cellspacing="1"
+							cellpadding="4" border="0">
+							<tr>
+								<td class="heading" colspan="11" style="text-align: center;"><b>TRAVELLING
+										ALLOWANCE CLAIM FOR MOVES ON PERMANENT TRANSFER</b></td>
+							</tr>
+						</table>
+
+						<div th:if="${taDaClaimDetails.claimType}==1">
+							<table class="formtxt" cellspacing="1" cellpadding="4"
+								width="100%" border="0">
+								<tr>
+									<td colspan="11" style="text-align: center;"><b>This
+											is supplementary claim for claim id 
+											<a href="javascript:void(0);" th:attr="onclick='viewMainClaimDetails(\''+${taDaClaimDetails.mainClaimId}+'\')'">
+											<span th:text="${taDaClaimDetails.mainClaimId}"></span> </a>
+									</b></td>
+								</tr>
+							</table>
+						</div>
+
+						<table class="formtxt" width="100%" cellspacing="1"
+							cellpadding="4" border="0">
+							<tr>
+								<td class="heading" colspan="11" align="left"><b>Details
+										in respect of the Claimant</b></td>
+							</tr>
+							<tr class="lablevalue">
+								<td width="12%"><b>Name</b></td>
+								<td width="13%" th:text="${taDaClaimDetails.name}"></td>
+								<td width="12%"><b>Corps/Office</b></td>
+								<td width="13%" th:text="${taDaClaimDetails.unitName}"></td>
+								<td width="12%"><b>Personal/Staff No</b></td>
+								<td width="13%" th:text="${taDaClaimDetails.personalNo}"></td>
+								<td width="12%" th:if="${taDaClaimDetails.armedfrc}==1"><b>DAD
+										Account No</b></td>
+								<td width="12%" th:unless="${taDaClaimDetails.armedfrc}==1"><b>PCDAO
+										Pay Account No</b></td>
+								<td width="13%" th:text="${taDaClaimDetails.payAccntNo}"></td>
+							</tr>
+
+							<tr class="lablevalue">
+								<td width="12%"><b>Pay Level</b> (<font color="red">Last
+										Pay Drawn before Transfer</font>)</td>
+								<td width="13%" th:text="${taDaClaimDetails.levelName}"></td>
+								<td width="12%"><b>Basic Pay</b> (<font color="red">Last
+										Pay Drawn before Transfer</font>)</td>
+								<td width="13%" th:text="${taDaClaimDetails.basicPay}"></td>
+								<td width="12%"><b>Transferred from</b></td>
+								<td width="13%" th:text="${taDaClaimDetails.trnsfrFrom}"></td>
+								<td width="12%"><b>Transferred To</b></td>
+								<td width="13%" th:text="${taDaClaimDetails.trnsfrTo}"></td>
+							</tr>
+
+							<tr class="lablevalue">
+								<td width="12%"><b>Departure Place</b></td>
+								<td width="13%" th:text="${taDaClaimDetails.jrnyStrtdFrom}"></td>
+								<td width="12%"><b>Departure Date</b></td>
+								<td width="13%" th:text="${taDaClaimDetails.jrnyStrtdTime}"></td>
+								<td width="12%"><b>Arrival Place</b></td>
+								<td width="13%" th:text="${taDaClaimDetails.jrnyStrtdTo}"></td>
+								<td width="12%"><b>Arrival Date</b></td>
+								<td width="13%" th:text="${taDaClaimDetails.jrnyFnshTime}"></td>
+							</tr>
+
+							<tr class="lablevalue">
+								<td width="12%"><b>Rule in TR/SR</b></td>
+								<td width="13%" th:text="${taDaClaimDetails.trRuleName}">></td>
+								<td width="12%"><b>Move Sanction No</b></td>
+								<td width="13%" th:text="${taDaClaimDetails.moveSanctionNo}">></td>
+								<td width="12%"><b>Move Sanction Date</b></td>
+								<td width="13%" th:text="${taDaClaimDetails.movSanctionDate}">></td>
+								<td width="12%"><b>Move Issuing Authority</b></td>
+								<td width="13%" th:text="${taDaClaimDetails.moveIssungAuth}">></td>
+							</tr>
+						</table>
+						<table class="formtxt" width="100%" cellspacing="1"
+							cellpadding="4" border="0">
+							<tr class="tadaHeading">
+								<td align="left"><b>DTS Journey Details</b></td>
+							</tr>
+						</table>
+						<table class="formtxt" width="100%" cellspacing="1"
+							cellpadding="4" border="0">
+
+							<div th:if="${taDaClaimDetails.taDaJourneyDetails}==null">
+
+							
+							</div>
+							<!--    <tbody th:if="${taDaClaimDetails.taDaJourneyDetails}!=null" > -->
+							<div th:if="${taDaClaimDetails.taDaJourneyDetails}!=null">
+								<tbody
+									th:each="src:${taDaClaimDetails.taDaJourneyDetails.taDaJourney}">
+									<tr>
+										<td colspan="11" bgcolor="#AAAAAA" align="right"><b>Journey
+												Type:</b><span th:text="${src.journeyType}"></span></td>
+									</tr>
+
+									<tr class="lablevalue" style="background-color: rowCssClass;">
+										<td><b>Mode of Travel</b></td>
+
+										<td
+											th:if="${src.travelMode}=='Flight' or ${src.travelMode}=='Air'">
+											<span th:text="${src.travelMode}"></span>(<span
+											th:text="${src.travelMode}"></span>)
+										</td>
+										<td
+											th:unless="${src.travelMode}=='Flight' or ${src.travelMode}=='Air'">
+											<p style="text-decoration: underline;">
+												<span th:text="${src.travelMode}"></span>
+											</p>
+										</td>
+
+										<!--   		  <div class="tooltip" > -->
+										<!-- 		           <p style="text-decoration: underline;"><span th:text="${src.travelMode}"></span>(<span th:text="${src.travelMode}"></span>)</p>  -->
+										<!-- 			           <table class="tooltiptext" cellspacing="1" cellpadding="4" width="100%" border="0" style="text-align:left"> -->
+										<!-- 			           <tr class="lablevalue"> -->
+										<!-- 				           <td nowrap="true"><b> Reason for Other Airline:</b> <span th:text="${src}"></span></td> -->
+										<!-- 				       </tr>    -->
+										<!-- 				       <tr class="lablevalue">    -->
+										<!-- 				           <td nowrap="true"><b> Authority No:</b> <output ref="AUTHORITY_NO"/></td> -->
+										<!-- 				        </tr>    -->
+										<!-- 				       <tr class="lablevalue">    -->
+										<!-- 				           <td nowrap="true"><b> Authority Date:</b> <output ref="AUTHORITY_DATE"/></td> -->
+										<!-- 			            </tr>   -->
+										<!-- 			           </table> -->
+										<!-- 		            </div> -->
+
+										<!--   		  </td> -->
+										<!-- 	         <td th:unless="${src.travelMode}=='Flight' || ${src.travelMode}=='Air'" th:text="${src.travelMode}"></td> -->
+										<td><b>Departure Place</b></td>
+										<td th:text="${src.fromStation}"></td>
+										<td><b>Arrival Place</b></td>
+										<td th:text="${src.toStation}"></td>
+										<td><b>Class of Accommodation</b></td>
+										<td th:text="${src.journeyClass}"></td>
+									</tr>
+									<tr class="lablevalue" style="background-color: rowCssClass">
+										<td><b>Departure Time</b></td>
+										<td th:text="${src.journeyDate}"></td>
+										<td><b>Arrival Time</b></td>
+										<td th:text="${src.journeyEndDate}"></td>
+										<td><b>Sector</b></td>
+										<td th:text="${src.sector}"></td>
+										<td><b>Bill/PNR/ Ticket No.</b></td>
+										<td th:text="${src.pnrOrAirTxnd}"></td>
+									</tr>
+									<tr class="lablevalue" style="background-color: rowCssClass">
+										<td><b>Distance(KM)</b></td>
+										<td th:text="${src.distance}"></td>
+										<td><b>Total Fare</b></td>
+										<td th:text="${src.bookingAmount}"></td>
+										<td><b>Total Refund</b></td>
+										<td th:text="${src.refundAmount}"></td>
+										<td><b>Total Claimed Amount</b></td>
+										<td th:text="${src.claimedAmount}"></td>
+									</tr>
+									
+									<tr>
+										<td colspan="11" bgcolor="#003A70" align="left">
+											<table class="formtxt" width="100%" cellspacing="1"
+												cellpadding="4" border="0">
+												<tr class="lablevalue">
+													<!-- 		  		style="background-color: ${$rowCssClass};" -->
+													<td><b>Traveler Name</b></td>
+													<td><b>Relation</b></td>
+													<td><b>Age</b></td>
+													<td><b>Ticket No</b></td>
+													<td><b>Journey Performed?</b></td>
+													<td><b>Booking Amount</b></td>
+													<td><b>Refund Amount</b></td>
+													<td><b>Claimed Amount</b></td>
+												</tr>
+
+												<tr class="lablevalue" style="background-color: rowCssClass"
+													th:each="sr:${src.taDaPassDetails}">
+													<td th:text="${sr.travellerName}"></td>
+													<td th:text="${sr.relation}"></td>
+													<td th:text="${sr.age}"></td>
+													<td th:text="${sr.ticketNo}"></td>
+													<td th:if="${sr.journeyPerformed}.equalsIgnoreCase('yes')"
+														th:text="${sr.journeyPerformed}"></td>
+													<td
+														th:unless="${sr.journeyPerformed}.equalsIgnoreCase('yes')">
+														<div class="tooltip">
+															<p style="text-decoration: underline;margin-bottom:0"
+																th:text="${sr.journeyPerformed}"></p>
+															<table class="tooltiptext"
+																style="text-align: left">
+																<tr class="lablevalue">
+																	<td nowrap="true"><b> Cancellation Ground:</b> <span
+																		th:text="${sr.cancellationGrnd}"></span></td>
+																</tr>
+																<tr class="lablevalue">
+																	<td nowrap="true"><b> Sanction No:</b> <span
+																		th:text="${sr.cancellationRmrk}"></span></td>
+																</tr>
+																<tr class="lablevalue">
+																	<td nowrap="true"><b> Sanction Date:</b> <span
+																		th:text="${sr.cancellationDate}"></span></td>
+																</tr>
+															</table>
+														</div>
+													</td>
+													<td th:text="${sr.bookingAmount}"></td>
+													<td th:text="${sr.refundAmount}"></td>
+													<td th:text="${sr.claimedAmount}"></td>
+												</tr>
+
+
+											</table>
+										</td>
+									</tr>
+								</tbody>
+							</div>
+						</table>
+						<table class="formtxt" width="100%" cellspacing="1"
+							cellpadding="4" border="0">
+							<tr class="tadaHeading">
+								<td><b>CTG &amp; Personal Effects</b></td>
+							</tr>
+						</table>
+						<table class="formtxt" width="100%" cellspacing="2"
+							cellpadding="0" border="0">
+							<tr class="lablevalue">
+								<td style="width: 20%;"></td>
+								<td style="width: 20%;"><b>Claimed Amount</b></td>
+								
+							</tr>
+							<tr class="lablevalue">
+								<td style="width: 20%;"><b>Composite Transfer and
+										Packing Grant (CTG)</b></td>
+								<td style="width: 20%;"
+									th:text="${taDaClaimDetails.claimAdvanceDtls.ctgAmount}"></td>
+								
+							</tr>
+						</table>
+						<table class="formtxt" width="100%" cellspacing="2"
+							cellpadding="0" border="0">
+							<tr class="lablevalue">
+								<td style="width: 15%;" bgcolor="#EBF4FA"><b>Particulars</b></td>
+								<td style="width: 15%;" bgcolor="#EBF4FA"><b>Weight (in
+										Kg)</b></td>
+								<td style="width: 15%;" bgcolor="#EBF4FA"><b>Mode of
+										Conveyance</b></td>
+								<td style="width: 15%;" bgcolor="#EBF4FA"><b>Distance
+										(in Kms)</b></td>
+								<td style="width: 15%;" bgcolor="#EBF4FA"><b>Claimed
+										Amount</b></td>
+								
+							</tr>
+							<!-- 	<repeat ref="taDaClaimDetails/personalEffects/Effects_0"> -->
+							<tr class="lablevalue"
+								th:each="src:${taDaClaimDetails.claimPersonalEffectsBean}">
+								<td style="width: 15%;" th:text="${src.particulars}"></td>
+								<td style="width: 15%;" th:text="${src.weight}"></td>
+								<td style="width: 15%;" th:text="${src.modeOfConveyance}"></td>
+								<td style="width: 15%;" th:text="${src.distance}"></td>
+								<td style="width: 15%;" th:text="${src.claimedAmt}"></td>
+								
+							</tr>
+							<!-- 	 </repeat> -->
+						</table>
+						<table class="formtxt" width="100%" cellspacing="2"
+							cellpadding="0" border="0">
+							<tr class="lablevalue">
+								<td style="width: 25%;"><b>Is Conveyance part of
+										Luggage?</b></td>
+								<td style="width: 25%;"
+									th:text="${taDaClaimDetails.claimAdvanceDtls.convPartOfLugg}">></td>
+							</tr>
+							<tr class="lablevalue"
+								th:if="${taDaClaimDetails.claimAdvanceDtls.convPartOfLugg}==1">
+								<td style="width: 25%;"><b>Transportation of Conveyance</b></td>
+								<td style="width: 25%;"
+									th:text="${taDaClaimDetails.claimAdvanceDtls.conveyanceName}"></td>
+							</tr>
+						</table>
+						<table class="formtxt" width="100%" cellspacing="2"
+							cellpadding="0" border="0"
+							th:if="${taDaClaimDetails.claimAdvanceDtls.convPartOfLugg}==1">
+							<tr class="lablevalue">
+								<td style="width: 15%;" bgcolor="#EBF4FA"><b>Weight (in
+										Kg)</b></td>
+								<td style="width: 15%;" bgcolor="#EBF4FA"><b>Mode of
+										Conveyance</b></td>
+								<td style="width: 15%;" bgcolor="#EBF4FA"><b>Distance
+										(in Kms)</b></td>
+								<td style="width: 15%;" bgcolor="#EBF4FA"><b>Claimed
+										Amount</b></td>
+								
+							</tr>
+							<tr class="lablevalue"
+								th:each="al:${taDaClaimDetails.claimPersonalEffectsBean}">
+								<td style="width: 15%;" th:text="${al.weight}"></td>
+								<td style="width: 15%;" th:text="${al.modeOfConveyance}"></td>
+								<td style="width: 15%;" th:text="${al.distance}"></td>
+								<td style="width: 15%;" th:text="${al.claimedAmt}"></td>
+								
+							</tr>
+						</table>
+						<table class="formtxt" width="100%" cellspacing="1"
+							cellpadding="4" border="0">
+							<tr class="tadaHeading">
+								<td><b>Advances Drawn</b></td>
+							</tr>
+						</table>
+						<table class="formtxt" width="100%" cellspacing="2"
+							cellpadding="0" border="0">
+							<tr class="lablevalue">
+								<td style="width: 12%;"><b>Advance Drawn From</b></td>
+								<td style="width: 12%;"><b>Date of Advance</b></td>
+								<td style="width: 12%;"><b>Luggage including Cartage if
+										any</b></td>
+								<td style="width: 12%;"><b>Coveyance</b></td>
+								<td style="width: 12%;"><b>CTG</b></td>
+								<td style="width: 12%;"><b>Total</b></td>
+								
+							</tr>
+							<tr class="lablevalue">
+								<td style="width: 12%;">DTS</td>
+								<td style="width: 12%;"
+									th:text="${taDaClaimDetails.claimAdvanceDtls.daAdvanceDate}"></td>
+								<td style="width: 12%;"
+									th:text="${taDaClaimDetails.claimAdvanceDtls.daAdvanceLuggage}"></td>
+								<td style="width: 12%;"
+									th:text="${taDaClaimDetails.claimAdvanceDtls.daAdvanceConveyance}"></td>
+								<td style="width: 12%;"
+									th:text="${taDaClaimDetails.claimAdvanceDtls.daAdvanceCtg}"></td>
+								<td style="width: 12%;" colspan="3"
+									th:text="${taDaClaimDetails.claimAdvanceDtls.daAdvanceAmount}"></td>
+							</tr>
+							<tr class="lablevalue">
+								<td style="width: 12%;">PAO</td>
+								<td style="width: 12%;"
+									th:text="${taDaClaimDetails.claimAdvanceDtls.paoAdvanceDate}"></td>
+								<td style="width: 12%;"
+									th:text="${taDaClaimDetails.claimAdvanceDtls.paoAdvLugg}"></td>
+								<td style="width: 12%;"
+									th:text="${taDaClaimDetails.claimAdvanceDtls.paoAdvConvyance}"></td>
+								<td style="width: 12%;"
+									th:text="${taDaClaimDetails.claimAdvanceDtls.paoAdvCtg}"></td>
+								<td style="width: 12%;"
+									th:text="${taDaClaimDetails.claimAdvanceDtls.paoAdvanceAmount}"></td>
+								
+							</tr>
+						</table>
+
+						<table class="formtxt" width="100%" cellspacing="1"
+							cellpadding="4" border="0">
+							<tr class="tadaHeading">
+								<td>Advances Refunded</td>
+							</tr>
+						</table>
+
+						<table style="table-layout: fixed" width="100%" cellspacing="2"
+							cellpadding="0" border="0" class="formtxt">
+							<tr class="lablevalue">
+								<td><b>eMRO/MRO/Refund Amount</b></td>
+								<td><b>eMRO/MRO/Refund No</b></td>
+								<td><b>eMRO/MRO Submission Date/Refund Date</b></td>
+								<td><b>MRO Received</b></td>
+								
+							</tr>
+							<tr class="lablevalue">
+								<td><span
+									th:text="${taDaClaimDetails.claimAdvanceDtls.mroRefundAmount}"></span>
+									<input type="hidden" id="mroRefundAmount"
+									th:value="${taDaClaimDetails.claimAdvanceDtls.mroRefundAmount}" /></td>
+								<td
+									th:text="${taDaClaimDetails.claimAdvanceDtls.mroRefundRefId}"></td>
+								<td th:text="${taDaClaimDetails.claimAdvanceDtls.mroRefundDate}"></td>
+								<td th:text="${taDaClaimDetails.claimAdvanceDtls.mroReceived}"></td>
+								
+							</tr>
+						</table>
+
+						<table class="formtxt" width="100%" border="0" align="center">
+							<tr class="tadaHeading">
+								<td colspan="4">&#160;</td>
+							</tr>
+							<tr class="lablevalue">
+								<td width="25%"><b>Any other Deduction from Officer</b></td>
+								<td width="25%"
+									th:text="${taDaClaimDetails.claimAdvanceDtls.otherDeduction}"></td>
+								<td width="20%"><b>Reason</b></td>
+								<td width="30%"
+									th:text="${taDaClaimDetails.claimAdvanceDtls.otherDeductionReason}"></td>
+							</tr>
+						</table>
+
+						<table class="formtxt" width="100%" border="0" align="center">
+							<tr class="tadaHeading">
+								<td colspan="4">Details of Recovery against this Travel (if
+									any)</td>
+							</tr>
+							<tr class="lablevalue">
+								<td><b>IRLA Recovery Amount</b></td>
+								<td><b>Demand Recovery Amount</b></td>
+								
+							</tr>
+							<tr class="lablevalue">
+								<td
+									th:text="${taDaClaimDetails.claimAdvanceDtls.irlaRecvryAmnt}"></td>
+								<td th:text="${taDaClaimDetails.claimAdvanceDtls.recvryAmnt}"></td>
+								
+
+							</tr>
+						</table>
+
+						<table class="bgborder" width="100%" cellspacing="10"
+							cellpadding="4" border="0">
+						</table>
+
+						<table class="formtxt" width="100%" border="0" align="center">
+							<tr class="lablevalue">
+								<td><b><span th:text="#{claim.mb.amount.label.claim}"></span>:&#160;&#160;<span
+										th:text="${taDaClaimDetails.totalSpentAmount}"></span> </b></td>
+								<td><b><span th:text="#{claim.PAO.amount.label.claim}"></span>:&#160;&#160;<span
+										th:text="${taDaClaimDetails.totalApprovedAmnt}"></span> </b></td>
+							</tr>
+							<tr class="lablevalue">
+								<td><b><span th:text="#{claim.mb.amount.label.advance}"></span>:&#160;&#160;<span
+										th:text="${taDaClaimDetails.totalAdvanceAmount}"></span></b></td>
+								<td><b><span
+										th:text="#{claim.PAO.amount.label.advance}"></span>:&#160;&#160;<span
+										th:text="${taDaClaimDetails.totalApprovdAdvnc}"></span></b></td>
+							</tr>
+							<tr class="lablevalue">
+								<td><b><span th:text="#{claim.mb.amount.label.refund}"></span>:&#160;&#160;<span
+										th:text="${taDaClaimDetails.totalRefundAmount}"></span></b></td>
+								<td><b><span th:text="#{claim.PAO.amount.label.refund}"></span>:&#160;&#160;<span
+										th:text="${taDaClaimDetails.totalApprovdRfnd}"></span></b></td>
+							</tr>
+							<tr class="lablevalue">
+								<td><b><span th:text="#{claim.mb.amount.label.payable}"></span>:&#160;&#160;<span
+										th:text="${taDaClaimDetails.totalClaimedAmount}"></span></b><span
+									class="mandatory">*</span></td>
+								<td><b><span
+										th:text="#{claim.PAO.amount.label.payable}"></span>:&#160;&#160;<span
+										th:text="${taDaClaimDetails.passedAmount}"></span></b><span
+									class="mandatory">*</span></td>
+							</tr>
+							<tr class="lablevalue">
+								<td colspan="2"><font color="red"><span
+										th:text="#{claim.negativen.amount.msg}"></span></font></td>
+							</tr>
+						</table>
+
+
+						<table class="formtxt" width="100%" cellspacing="1"
+							cellpadding="4" border="0">
+							<tr>
+								<td class="heading" colspan="7" align="left">Certify that</td>
+							</tr>
+							<tr class="lablevalue"
+								th:each="certify:${taDaClaimDetails.claimCertifyView}">
+								<td width="5%" th:text="${certify.seqNo}"></td>
+								<td width="95%" th:text="${certify.certifyQuestion}"></td>
+							</tr>
+						</table>
+
+						<div th:if="${#lists.isEmpty(taDaClaimDetails.claimDocDtls)}"></div>
+						<div th:unless="${#lists.isEmpty(taDaClaimDetails.claimDocDtls)}">
+							<table class="formtxt" width="100%" cellspacing="1"
+								cellpadding="4" border="0">
+								<tr class="tadaHeading">
+									<td>Uploaded documents:</td>
+								</tr>
+							</table>
+
+							<table style="table-layout: fixed" width="100%" cellspacing="2"
+								cellpadding="0" border="0" class="formtxt">
+								<tr class="lablevaluebg">
+									<td><b>Document Name</b></td>
+									<td><b>File</b></td>
+								</tr>
+								<tr class="lablevalue"
+									th:each="file:${taDaClaimDetails.claimDocDtls}">
+									<td th:text="${file.docName}"></td>
+									<td th:if="${file.filePath}==''"></td>
+									<td th:unless="${file.filePath}==''"><a
+										th:href="'/com/download/'+${file.filePath}"><img
+											th:src="@{images/pdfImage.png}" style="width:25px;height:25px" alt=""></a></td>
+								</tr>
+							</table>
+						</div>
+
+						<table class="bgborder" width="100%" cellspacing="10"
+							cellpadding="4" border="0">
+						</table>
+
+						<table align="center" width="100%" border="0" class="formtxt">
+							<tr class="lablevalue" th:if="${taDaClaimDetails.armedfrc}==1">
+								<td><b>Counter Singing Authority</b></td>
+								<td colspan="3"
+									th:text="${taDaClaimDetails.claimAdvanceDtls.authorityName}"></td>
+							</tr>
+
+							<tr class="lablevalue"
+								th:unless="${taDaClaimDetails.armedfrc}==1">
+								<td><b>Counter Singing Authority Personal No</b></td>
+								<td
+									th:text="${taDaClaimDetails.claimAdvanceDtls.authorityPersonal}"></td>
+								<td th:text="${taDaClaimDetails.claimAdvanceDtls.authorityName}"></td>
+								<td
+									th:text="${taDaClaimDetails.claimAdvanceDtls.authorityLevel}"></td>
+							</tr>
+
+							<tr class="lablevalue">
+								<td colspan="2"><b>Date of Claim preferred by the
+										Individual to the Office</b></td>
+								<td colspan="2"
+									th:text="${taDaClaimDetails.claimAdvanceDtls.claimSubmitDate}"></td>
+							</tr>
+							<tr class="lablevalue">
+								<td colspan="3"><b>If Date of Claim Preferred is more
+										than 60 days from last date of Journey then whether time
+										barred sanction taken?</b> <span
+									th:text="${taDaClaimDetails.claimAdvanceDtls.delayClaimPrfrd}"></span>
+								</td>
+							</tr>
+							<tr class="lablevalue">
+								<td><b>Sanction No:</b> <span
+									th:text="${taDaClaimDetails.claimAdvanceDtls.delayClaimAuth}"></span></td>
+								<td colspan="3"><b>Sanction Date:</b> <span
+									th:text="${taDaClaimDetails.claimAdvanceDtls.delayClaimDate}"></span></td>
+							</tr>
+
+						</table>
+
+					</form>
+				</div>
+			</div>
+		</div>
+	</section>
+</body>
+</html>

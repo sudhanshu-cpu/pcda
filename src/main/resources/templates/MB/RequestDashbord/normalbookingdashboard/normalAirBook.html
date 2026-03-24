@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+
+<link rel="stylesheet" type="text/css" th:href="@{/css/common/model.css}">
+
+<link rel="stylesheet" type="text/css" th:href="@{/css/common/popup/LightFace.css}">
+
+<script th:src="@{/js/common/popup/mootools.js}"> </script>
+
+
+<script th:src="@{/js/common/popup/LightFace.js}"> </script>
+
+<script th:src="@{/js/common/popup/LightFace.Request.js}"> </script>
+
+
+<script th:src="@{/js/common/popup/LightFace.IFrame.js}"> </script>
+
+
+<style type="text/css">
+	.screen-freeze {
+		background-color: white;
+		display: none;
+		height: 100%;
+		left: 0;
+		opacity: 0.7;
+		position: absolute;
+		right: 0;
+		top: 0;
+		z-index: 99999;
+	}
+
+	.action-tab {
+		width: 100%;
+		height: 100%;
+		padding: 2px;
+		border: 0px solid #D7CDCD;
+		margin-top: 3%;
+	}
+
+	.fare-icon {
+		margin-top: -4%;
+	}
+
+	.row .col {
+		width: 18%;
+	}
+
+	.row .col .col-pass {
+		width: 30%;
+		padding-right: 3px;
+	}
+
+	.row .col:last-child {
+		width: 10%;
+		float: right;
+		margin-top: 0.6%;
+	}
+
+	.re-approve {
+		text-decoration: none;
+	}
+
+	.book-button {
+		padding: 5px;
+		margin-left: -2%;
+		width: 75%;
+	}
+
+	.book-button a {
+		text-decoration: none;
+		color: #F8F8F8;
+		font-size: 80%;
+	}
+
+	.reason-box {
+		margin-top: -4%;
+		margin-left: 23%;
+	}
+
+	.refundable-flag {
+		white-space: nowrap;
+	}
+
+	.not-refundable-flag {
+		white-space: nowrap;
+	}
+	
+    
+</style>
+<script th:src="@{/js/common/jquery.tablesorter.js}"> </script>
+
+<script th:src="@{/js/MB/RequestDashBoard/normalbookingdashboard/normalBookDashFlight.js}"> </script>
+
+<body oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+
+
+	<div th:insert="~{fragments/header/mainHeader}"></div>
+	<section id="midpart" class="midpart">
+		<div class="container-fluid">
+			<div class="row">
+		
+				<div class="col-lg-12">
+				<input type="hidden" id="booking_type" th:value="${airBookParent.bookingType}"/>
+
+
+					<form id="BLBookingForm" name="BLBookingForm" th:action="@{/mb/bookBLLFlight}" method="post">
+
+
+						<input type="hidden" name="requestId" id="blRequestId" value="">
+						<input type="hidden" name="flightKey" id="blFlightKey" value="">
+						<input type="hidden" name="domint" id="blDomint" value="">
+						<input type="hidden" name="isValidatedCase" id="blIsValidatedCase" value="No" />
+						<input type="hidden" id="blValidatedReason" name="validatedReason" value="" />
+
+
+					</form>
+
+
+					<form id="AttBookingForm" name="AttBookingForm" th:action="@{/mb/bookATTFlight}" method="post">
+
+						<input type="hidden" name="requestId" id="requestId" value="">
+						<input type="hidden" name="flightKey" id="flightKey" value="">
+						<input type="hidden" name="domint" id="domint" value="">
+						<input type="hidden" name="serviceProvider" id="serviceProvider" value="">
+						<input type="hidden" name="isValidatedCase" id="isValidatedCase" value="No" />
+						<input type="hidden" id="validatedReason" name="validatedReason" value="" />
+
+						<input type="hidden" id="reqTimeSlot" name="reqTimeSlot"
+							th:value="${airBookParent.reqTimeSlot}" />
+
+						<div style="margin:0px 0px 0px 0px;border:0px solid #9ED9FE; border-radius:5px;height:25px;">
+							<marquee style="margin:-20px 0px 15px 0px;animation-play-state: paused;">
+								<span>
+									<img th:src="@{/images/AnimatedNew.gif}" height="50" width="50">
+									<strong class="rainbow">
+										Flight ticket cancellations on DTS portal are allowed up to 6 hours before scheduled departure. For
+										cancellations within 6 hours of departure, users are requested to contact the respective airline
+										directly.
+									</strong>
+                                    </span>
+								<span><img th:src="@{/images/AnimatedNew.gif}" height="50" width="50"><strong class="rainbow">
+										<a style="color: inherit;text-decoration: none;" download="download"
+											th:href="@{/com/downloadFile?dwnFilePath=/data/pcdahome/pcdaConfig/pcdaDoc/Excess_Baggage.pdf}">Now
+											enjoy 5kg extra baggage at no additional cost on IndiGo tickets booked via Balmer Lawrie on
+											DTS!Exclusively through DTS Portal. </a>
+									</strong> </span>
+							</marquee>
+						</div>
+						
+		
+							
+						<div class="welcomebox" id="searchContainer">
+							<div class="welcomecont">
+								<!-- Section for showing the journey information (start) -->
+
+								<div class="row">
+									<div class="col-lg-5">
+
+										<span class="lablevalue">One Way</span>
+
+										<p class="sub-title" style="padding-top:5px;margin-bottom:0">
+											<span th:text="${airBookParent.travellerOrigin}"></span><br/> 
+											<span style="color:red"> To</span><br/>
+											<span th:text="${airBookParent.travellerDestination}"></span>
+										</p>
+									</div>
+									<div class="col-lg-1">
+										<span class="lablevalue">Request Id</span><br>
+										<span class="date-icon block travel-info-sub-val"
+											th:text="${airRequestId}"></span>
+									</div>
+									<div class="col-lg-2">
+										<span class="lablevalue">Journey Date</span><br>
+										<span class="date-icon block travel-info-sub-val"
+											th:text="${airBookParent.onwardJourneyDate}"></span>
+									</div>
+
+
+									<div class="col-lg-2">
+										<span class="lablevalue">Journey Class</span><br>
+										<span class="lablevalue-icon block travel-info-sub-val"
+											th:text="${airBookParent.travelClass}">Journey-Class</span>
+									</div>
+									<div class="col-lg-2">
+										<div class="row">
+											<div class="col-lg-2">
+												<span class="passenger-count lablevalue">Adult</span><br>
+												<span class="block count-val"
+													th:text="${airBookParent.aduldCount}"></span>
+											</div>
+											<div class="col-lg-2">
+												<span class="passenger-count lablevalue">Child</span><br>
+												<span class="block count-val"
+													th:text="${airBookParent.childCount}"></span>
+											</div>
+											<div class="col-lg-2">
+												<span class="passenger-count lablevalue">Infant</span><br>
+												<span class="block count-val"
+													th:text="${airBookParent.infantCount}"></span>
+											</div>
+										</div>
+									</div>
+
+
+								</div>
+							</div>
+						</div>
+
+
+							<!-- section for showing the journey information (End) -->
+
+
+
+							<!-- Result Populate field start from here -->
+							<div id="body-page">
+								<div class="filter-pane">
+
+
+									<!-- Time Band AI filter added (start from here) -->
+									<div class="filter-subdivisions" id="time-band-ai" style="padding: 5px 0;">
+										<span class="lablevalue" style="padding: 0 5px;">Time Band Details</span>
+										<div id="time-band-filter-ai" class="model-window" style="padding: 4px 5px;">
+											<table class="inner-table" style="border: 1px solid;">
+												<tr>
+													<td style="border: 1px solid;">
+													   <input type="radio" name="timeBand" id="timeBand1" value="1" onclick="filterTimeBands();">&#160;00:00 - 03:00
+													</td>
+													<td style="border: 1px solid;">  
+													   <input type="radio" name="timeBand" id="timeBand2" value="2" onclick="filterTimeBands();">&#160;03:00 - 06:00
+													 </td>
+											     </tr>
+											     <tr>
+											         <td style="border: 1px solid;">
+													   <input type="radio" name="timeBand" id="timeBand3" value="3" onclick="filterTimeBands();">&#160;06:00 - 09:00
+													 </td>
+													 <td style="border: 1px solid;">
+													   <input type="radio" name="timeBand" id="timeBand4" value="4" onclick="filterTimeBands();">&#160;09:00 - 12:00
+													 </td>
+											     </tr>	 
+												  <tr>
+											         <td style="border: 1px solid;">
+													   <input type="radio" name="timeBand" id="timeBand5" value="5" onclick="filterTimeBands();">&#160;12:00 - 15:00
+											         </td>
+											         <td style="border: 1px solid;">  
+													   <input type="radio" name="timeBand" id="timeBand6" value="6" onclick="filterTimeBands();">&#160;15:00 - 18:00
+											         </td>
+												  </tr>
+												  <tr>
+												      <td style="border: 1px solid;">   
+													   <input type="radio" name="timeBand" id="timeBand7" value="7" onclick="filterTimeBands();">&#160;18:00 - 21:00
+												      </td>
+												      <td style="border: 1px solid;">
+													   <input type="radio" name="timeBand" id="timeBand8" value="8" onclick="filterTimeBands();">&#160;21:00 - 24:00
+													</td>
+												</tr>
+													
+											</table>
+										</div>
+									</div>
+
+									<!-- Time Band AI filter added (end here) -->
+
+									<!-- Stop over AI filter added (start from here) -->
+									<div class="filter-subdivisions" id="stopFilter-ai">
+										<span class="title lablevalue">Stop Overs</span>
+										<div id="stop-over-filter-ai" class="model-window">
+											<table class="inner-table filtersearch">
+												<tr>
+													<td>
+														<div id="" class="sub-title"><span
+																style="font-size: 2.5em;">0</span><span>Stop</span>
+														</div>
+													</td>
+													<td>
+														<span style="float:right;"><input type="checkbox"
+																onclick="filterFlightNew();" checked="true" id="zero"
+																value="zero" class="zero" name="aiStop"> </input></span>
+													</td>
+												</tr>
+												<tr>
+													<td>
+														<div id="" class="sub-title"><span
+																style="font-size: 2.5em;">1</span><span>Stop</span>
+														</div>
+													</td>
+													<td>
+														<span style="float:right;"><input type="checkbox"
+																onclick="filterFlightNew();" checked="true" id="one"
+																value="one" class="one" name="aiStop"> </span>
+													</td>
+												</tr>
+												<tr>
+													<td>
+														<div id="" class="sub-title"><span
+																style="font-size: 2.5em;">1</span><span
+																style="font-size: 1.5em;vertical-align: super;">+</span><span>Stop</span>
+														</div>
+													</td>
+													<td>
+														<span style="float:right;"><input type="checkbox"
+																onclick="filterFlightNew();" checked="true"
+																id="one-plus" value="one-plus" class="one-plus"
+																name="aiStop">
+															</span>
+													</td>
+												</tr>
+											</table>
+										</div>
+									</div>
+
+									<!-- Stop over AI filter added (end here) -->
+
+
+								</div>
+								<div class="right-result">
+
+									<div id="popDiv" style="display:none">
+										<table border="2" id="popup"
+											style="position: fixed; background-color: #f7f7f7;">
+											<tr>
+												<td align="center" id='flightReason'></td>
+											</tr>
+
+											<tr>
+												<td style="text-align:center" colspan="3">
+													<textarea class="combo" name="intended" id="intended" rows="2"
+														cols="70"
+														onkeyup="this.value = this.value.replace(/[^a-zA-Z 0-9\n\r.;]+/g, '')"
+														maxlength="150"> </textarea>
+													<br /><br /><br />
+													<input type="button" value="Proceed" name="Proceed"
+														onClick="proceedBooking(this.form)" />
+													<input type="button" value="Cancel" name="Cancel"
+														onClick="hide('popDiv')" />
+
+												</td>
+											</tr>
+										</table>
+									</div>
+
+
+									<!-- Air India search result page start from here -->
+									<div id="tabairindia">
+
+										<table id="noAiFlight" class=""
+											th:if="${#lists.isEmpty(airBookParent.flightOption)}">
+											<tr style="height: 100px">
+												<td colspan="6"><b>No Flights Available</b></td>
+											</tr>
+										</table>
+
+
+
+										<table id="AITable" class="tablesorter" style="border-collapse: separate;border-spacing: 0 0.1em;"
+											th:unless="${#lists.isEmpty(airBookParent.flightOption)}">
+											<thead> 
+												<tr>
+													<td> </td>
+													<th>Flight</th>
+													<th>Service Provider</th>
+													<th>Booking Class</th>
+													<th>Departs</th>
+													<th>Arrives</th>
+													<th>Duration</th>
+													<th>Fare(INR)</th>
+													<th> </th>
+												</tr>
+											</thead>
+
+											<tbody>
+
+												<tr th:each="src : ${airBookParent.flightOption}" th:class="@{|AI_${src.stopOverClass} TimeBand_${src.flightLegs[0].filterTimeSlot}|}"
+													th:id="@{|ai-${srcStat.index}|}">
+													<td th:style="${$ltcCSSClass}">
+
+														<span>
+															<input type="radio" th:id="@{|checkBox_${srcStat.index}|}" 
+																th:value="${src.flightKey}" name="flightCheckBox" th:attr="onclick='otherRadioOff(\''+${srcStat.index}+'\');'">
+
+														</span>
+
+													</td>
+
+													<td th:style="${$ltcCSSClass}">
+													<div>
+						    	                 	<span class="append_bottom">
+														
+																<table>
+																	<tr th:each="item, stats : ${src.flightLegs}">
+																	
+																		<td th:if="${stats.size}==1" id="flightCondition">
+																			<span th:class="@{|flight-icon ${item.carrierImageClass}|}">
+																			</span>
+																			<br/>
+																			<span
+																				class="flight-icon_name block sub-title"
+																				th:text="${item.carrierName}"></span><br>
+																			
+																			<span class="flight-icon_name sub-title"
+																				th:text="${item.flightNumber}"></span>
+																		</td>
+																		<td th:if="${stats.size} &gt; 1 and ${stats.index} == 0" id="flightCondition"> 
+																			<span class="flight-icon multi-flight">
+																			</span>
+																			<span
+																				class="flight-icon_name block sub-title"
+																				th:text="${item.carrierName}"></span><br>
+																			
+																			<span class="flight-icon_name sub-title"
+																				th:text="${item.flightNumber}"></span>
+																		</td>
+																	</tr>
+																</table>
+						    		                </span>
+													</div>
+															
+													</td>
+													<td style="text-align:center">
+
+														<img th:if="${src.serviceProvider}=='BL'"
+																th:src="@{/images/BL-Logo.png}" alt="BL" style="width:75%">
+													
+														<img th:if="${src.serviceProvider}=='ATT'"
+																th:src="@{/images/ATT-Logo.png}" alt="ATT" style="width:75%">
+
+
+													</td>
+													<td style="text-align:center">
+														<font size="2"><b th:text="${src.displayBookingClass}"></b>
+														</font>
+													</td>
+
+													<td th:style="${$ltcCSSClass}" id="flightCondition">
+														<table>
+															<tr th:each="sr, stats : ${src.flightLegs}">
+																<td th:if="${stats.size}==1">
+																	<span class="time"
+																		th:text="${sr.departureTime}"></span>
+																	<span class="city-name"
+																		th:text="${sr.originName} +'('+${sr.origin}+')'"></span>
+																</td>
+																<td th:if="${stats.size} &gt; 1 and ${stats.index} == 0">
+																	<span class="time"
+																		th:text="${sr.departureTime}"></span>
+																	<span class="city-name"
+																		th:text="${sr.originName} +'('+${sr.origin}+')'"></span>
+																</td>
+															</tr>
+														</table>
+													</td>
+
+
+													<td th:style="${$ltcCSSClass}"  id="flightCondition">
+														<table>
+															<tr th:each="it, stats : ${src.flightLegs}">
+																<td th:if="${stats.size}==1">
+																	<span class="time"
+																		th:text="${it.arrivalTime}"></span>
+																	<span class="city-name"
+																		th:text="${it.destinationName} +'('+${it.destination}+')'"></span>
+																</td>
+																<td th:if="${stats.size} &gt; 1 and ${stats.count} == ${stats.size}">
+																	<span class="time"
+																		th:text="${it.arrivalTime}"></span>
+																	<span class="city-name"
+																		th:text="${it.destinationName} +'('+${it.destination}+')'"></span>
+																</td>
+															</tr>
+														</table>
+													</td>
+
+
+													<td th:style="${$ltcCSSClass}">
+														<span class="time" th:text="${src.totalJourneyDuration}"></span>
+													</td>
+
+													<td th:style="${$ltcCSSClass}">
+														<span class="price-info WebRupee"
+															th:text="${src.totalFare}"></span>
+													</td>
+													<td th:style="${$ltcCSSClass}">
+														<a th:href="@{|#openModal-ai-${srcStat.index}|}">Details</a><br>
+
+														<a href="javascript:void(0);"
+															th:attr="onclick='viewAirFareRule(\''+${src.flightKey}+'\',\''+${src.serviceProvider}+'\',\''+${airBookParent.searchType} +'\')'">Fare
+															Rule</a><br>
+
+														<button type="button"  class="book-button butn"
+																th:if="${src.bookingAllow}"
+																th:attr="onclick='submitBooking(\''+${src.flightKey}+'\',\''+${src.serviceProvider}+'\',\''+${airRequestId}+'\',\''+${airBookParent.searchType} +'\',\''+${srcStat.index}+'\',\''+${src.intendedTravelFlag}+'\')'">
+																Book</button>
+
+														<div th:id="@{|openModal-ai-${srcStat.index}|}"
+															class="modalDialog">
+															<div>
+																<a href="#close" title="Close" class="close">X</a>
+
+																<table class="filtersearch">
+
+																	<tbody>
+																		<tr>
+																			<td>
+																				<table id="model-table">
+																					<thead>
+																						<tr>
+																							<td style="text-align:center">Flight</td>
+																							<td style="text-align:center">Departs</td>
+																		 					<td style="text-align:center">Arrives</td>
+																							<td style="text-align:center">Duration</td>
+
+																						</tr>
+																					</thead>
+																					<tbody>
+
+
+
+																						<tr
+																							th:each="sr : ${src.flightLegs}">
+																							<td style="text-align:center">
+																								<span
+																									th:class="@{|flight-icon ${sr.carrierImageClass}|}">
+																								</span>
+																								<span
+																									class="flight-icon_name block sub-title"
+																									th:text="${sr.carrierName}"></span>
+																								<span
+																									class="flight-icon_name sub-title"
+																									th:text="${sr.flightNumber}">
+																								</span>
+																							</td>
+																							<td style="text-align:center">
+																								<span class="time"
+																									th:text="${sr.departureTime}"></span>
+																								<span class="city-name"
+																									th:text="${sr.displayDepartureDate}"></span>
+																								<span class="city-name"
+																									th:text="${sr.originName} +'('+${sr.origin}+')'">
+																								</span>
+
+																							</td>
+																							<td style="text-align:center">
+																								<span class="time"
+																									th:text="${sr.arrivalTime}"></span>
+																								<span class="city-name"
+																									th:text="${sr.displayArrivalDate}">
+																									</span>
+																										<span
+																											class="city-name"
+																											th:text="${sr.destinationName} +'('+${sr.destination}+')'">
+																										</span>
+
+																							</td>
+																							<td style="text-align:center">
+																								<span class="time"
+																									th:text="${sr.journeyDuration}">
+																								</span>
+																							</td>
+
+
+																						</tr>
+																						</repeat>
+																					</tbody>
+																				</table>
+																			</td>
+																			<td id="flightCondition">
+																				<table id="flightCondition">
+																					<tr>
+																						<td style="text-align:center;text-transform: uppercase;background-color: green;font-weight: bold;color:white;"
+																							th:if="${src.flightFareBean.refundableInfo}=='Y'">
+																							Refundable</td>
+																						<td style="text-align:center;text-transform: uppercase;background-color: red;font-weight: bold;color:white;"
+																							th:if="${src.flightFareBean.refundableInfo}=='N'">
+																							Not refundable</td>
+																					</tr>
+
+																					<tr
+																						th:if="${src.overlayoutDuration}=='0'">
+																						<td> </td>
+																					</tr>
+
+																					<tr
+																						th:if="${src.overlayoutDuration}!='0'">
+																						<td style="text-align:center">
+																							<span> Layover:</span>
+																							<span
+																								th:text="${src.overlayoutDuration}">
+																							</span>
+																						</td>
+																					</tr>
+
+
+
+																					<tr>
+																						<td style="text-align:center">
+																							<span
+																								class="price-info WebRupee">Rs.</span>
+																							<span class="price-info WebRupee"
+																								th:text="${src.totalFare}">
+																							</span>
+																						</td>
+																					</tr>
+
+																				</table>
+
+
+																			</td>
+																		</tr>
+																	</tbody>
+																</table>
+
+																<table class="details"
+																	style="margin-top: 1%; font-family: Times New Roman;">
+																	<tr>
+																		<td colspan="2" style="text-align:left">
+																			<span class="title">Fare Details</span>
+
+																		</td>
+																	</tr>
+
+																	<tr th:if="${airBookParent.aduldCount} !=0">
+																		<td style="text-align:center"><span>Base fare :</span><span
+																				th:text="${airBookParent.aduldCount}"></span><span>Adult(s)</span>
+																		</td>
+																		<td style="text-align:center"
+																			th:text="${src.flightFareBean.adultBaseFare}">
+																		</td>
+																	</tr>
+
+																	
+
+
+																	<tr th:if="${airBookParent.childCount}!=0">
+																		<td style="text-align:center"><span>Base fare:</span><span
+																				th:text="${airBookParent.childCount}"></span>
+																			<span>Child(s)</span></td>
+																		<td style="text-align:center"
+																			th:text="${src.flightFareBean.childBaseFare}">
+																		</td>
+																	</tr>
+
+
+																	
+
+																	<tr th:if="${airBookParent.infantCount}!=0">
+																		<td style="text-align:center"><span>Base fare:</span><span
+																				th:text="${airBookParent.infantCount}"></span>
+																			<span>Infant(s)</span></td>
+																		<td style="text-align:center"
+																			th:text="${src.flightFareBean.infantBaseFare}">
+																		</td>
+																	</tr>
+
+																	<tr>
+																		<td  style="font-weight: bold;text-align:center">Total (Base fare)
+																		</td>
+																		<td style="font-weight: bold;text-align:center"
+																			th:text="${src.flightFareBean.totalBaseFare}">
+																		</td>
+
+																	</tr>
+
+																	
+																	<tr th:if="${airBookParent.aduldCount} !=0">
+																		<td style="text-align:center"><span>Fuel charge:</span><span
+																				th:text="${airBookParent.aduldCount}"></span><span>Adult(s)</span>
+																		</td>
+																		<td style="text-align:center" th:text="${src.flightFareBean.adultQ}"></td>
+																	</tr>
+
+																	
+
+
+																	<tr th:if="${airBookParent.childCount}!=0">
+																		<td style="text-align:center"><span>Fuel charge:</span><span
+																				th:text="${airBookParent.childCount}"></span>
+																			<span>Child(s)</span></td>
+																		<td style="text-align:center" th:text="${src.flightFareBean.childQ}"></td>
+																	</tr>
+																	
+
+																	<tr th:if="${airBookParent.infantCount}!=0">
+																		<td style="text-align:center"><span>Fuel charge:</span><span
+																				th:text="${airBookParent.infantCount}"></span>
+																			<span>Infant(s)</span></td>
+																		<td style="text-align:center" th:text="${src.flightFareBean.infantQ}">
+																		</td>
+																	</tr>
+
+
+																	<tr>
+																		<td style="font-weight: bold;text-align:center">Total Airline
+																			fuel charge</td>
+																		<td style="font-weight: bold;text-align:center"
+																			th:text="${src.flightFareBean.totalQ}"></td>
+
+																	</tr>
+
+
+
+
+																	<tr th:if="${airBookParent.aduldCount} !=0">
+																		<td style="text-align:center"><span>Tax:</span><span
+																				th:text="${airBookParent.aduldCount}"></span><span>Adult(s)</span>
+																		</td>
+																		<td style="text-align:center" th:text="${src.flightFareBean.adultTax}">
+																		</td>
+																	</tr>
+
+																	
+
+
+																	<tr th:if="${airBookParent.childCount}!=0">
+																		<td style="text-align:center"><span>Tax:</span><span
+																				th:text="${airBookParent.childCount}"></span>
+																			<span>Child(s)</span></td>
+																		<td style="text-align:center" th:text="${src.flightFareBean.childTax}">
+																		</td>
+																	</tr>
+																	
+
+																	<tr th:if="${airBookParent.infantCount}!=0">
+																		<td style="text-align:center"><span>Tax:</span><span
+																				th:text="${airBookParent.infantCount}"></span>
+																			<span>Infant(s)</span></td>
+																		<td style="text-align:center" th:text="${src.flightFareBean.infantTax}">
+																		</td>
+																	</tr>
+
+
+																	<tr>
+																		<td style="font-weight: bold;text-align:center">Total
+																			Tax(Including fuel charge)</td>
+																		<td style="font-weight: bold;text-align:center"
+																			th:text="${src.flightFareBean.totalTax}">
+																		</td>
+
+																	</tr>
+																	<tr>
+																		<td style="text-align:center">Transaction fees</td>
+																		<td style="text-align:center"
+																			th:text="${src.flightFareBean.transactionFee}">
+																		</td>
+
+																	</tr>
+																	<tr>
+																		<td style="text-align:center">Service fees</td>
+																		<td style="text-align:center" th:text="${src.flightFareBean.serviceFee}">
+																		</td>
+
+																	</tr>
+
+																	<tr>
+																		<td style="font-weight: bold;color:red;text-align:center">Gross
+																			Payable Amount</td>
+																		<td style="font-weight: bold;color:red;text-align:center"
+																			th:text="${src.flightFareBean.totalNet}">
+																		</td>
+
+																	</tr>
+																</table>
+
+
+
+
+															</div>
+														</div>
+
+
+													</td>
+												</tr>
+
+
+											</tbody>
+										</table>
+
+
+									</div>
+									<!-- Air India search result page start from here -->
+								</div>
+								<!--End of flight result panel -->
+
+							</div>
+					</form>
+					<!-- Result Populate field End here -->
+				</div>
+			</div>
+		</div>
+	</section>
+	<section>
+	<div class="blank"></div>
+	</section>
+	<section>
+    <div th:insert="~{fragments/login/footer}"></div>
+    </section>
+
+
+	<div class="screen-freeze" id="screen-freeze">&#160;</div>
+
+</body>
+
+</html>

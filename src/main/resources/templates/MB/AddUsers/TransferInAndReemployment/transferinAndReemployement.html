@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{fragments/login/head}"></head>
+
+<link rel="stylesheet" th:href="@{/css/common/autoSuggest.css}">
+<script
+	th:src="@{/js/MB/AddUsers/TransferInAndReemployment/TransferInAndReemployment.js(random=${session.jsToken})}">
+</script>
+
+<script
+	th:src="@{/js/common/dateOfRetirement.js(random=${session.jsToken})}">
+</script>
+<script type="text/javascript" th:src="@{/js/common/crypto.js}"></script>
+<body>
+	<div th:insert="~{fragments/header/mainHeader}"></div>
+	<section class="midpart">
+		<div class="container-fluid">
+			
+				<div class="row" style="width:100%">
+				<div class="col-lg-2"></div>
+					<div class="col-lg-10">
+
+						<div style="text-left: center; margin-left: 12%; color: #FF0000;">
+							<span>For transfer in of Re-Employed Service Personnel in DSC service, Use 'Transfer In and Re-employment'</span>
+						</div>
+
+						<form th:action="@{/mb/saveTransferInReemployement}" method="post"
+							id="transferInReemployement">
+							<span th:text="${errorList}"></span> <input type="hidden"
+								name="groupId" id="groupId" value="" /> 
+                                                         <input type="hidden" id="currentUnit" name="currentUnit">
+                                              <input type="hidden"
+								id="groupString" name="groupString" /> <input type="hidden"
+								name="retireAgePbor" th:value="${retirAgePBOR}"
+								id="retireAgePbor" /> <input type="hidden"
+								name="retireAgeOther" th:value="${retirAgeOther}"
+								id="retireAgeOther" /> <input type="hidden" id="retireAge"
+								name="retireAge" /> <input type="hidden" id="transferInFormId"
+								value="true" /> <input type="hidden" id="visitorUnitId"
+								name="visitorUnitId" th:value="${visitorUnitId}" /> <input
+								type="hidden" id="originalServiceId" name="originalServiceId" />
+							<input type="hidden" id="dob" name="dob"> <input
+								type="hidden" name="currentOfficeId" id="currentOfficeId">
+							<input type="hidden" name="userId" id="userId"> <input
+								type="hidden" name="loginUserId" th:value="${loginUserId}">
+							<div id="program" class="programBlock">
+								<div class="welcomebox" style="width: 75%;">
+									<div class="welcomeHead">
+										<span th:text="#{mb.addUser.transferinreemployement.in.ree}"></span>
+									</div>
+									<div class="welcomecont">
+										<table id="filtersearch" class="filtersearch">
+											<tbody class="all1">
+												<tr>
+													<td style="width: 30%"><span
+														th:text="#{mb.addUser.transferinreemployement.personalNo}"></span><span class="mandatory">*</span></td>
+													<td style="width: 70%">
+													<div class="inpt-fields errorMessage">
+													<input name="personalNo"
+														type="text" class="txtfldM" id="personalNo" minlength=4 maxlength=11 autocomplete="off">
+														
+														<button type="button" name="proceed" class="butn" onclick="testForAlphaNumericKey(event)">Proceed</button>
+														</div>
+														</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								
+								<table class="filtersearch">
+								<tbody class="">
+									<tr>
+										<td colspan="4" class="showalert" align="center"><div
+												class="showalert" id="personalNoInfo"></div></td>
+									</tr>
+									</tbody>
+								</table>
+								</div>
+
+								<div class="welcomebox" style="width: 75%; margin-top: 1rem">
+									<div class="welcomeHead">
+										<span th:text="#{mb.addUser.transferinreemployement.tr.detai}"></span>
+									</div>
+									<div class="welcomecont">
+										<table id="filtersearch" class="filtersearch">
+											<tbody class="all1">
+												<tr>
+													<td><span
+														th:text="#{mb.addUser.transferinreemployement.service}"></span>
+														<span class="mandatory">*</span></td>
+<!-- 													<td><select name="serviceId" id="alternateService" -->
+													<td><select name="altServiceId" id="alternateService"
+														th:attr="onchange='getCategoryIdOnTraveller()'" class="combo" style="width:70%">
+															<option value="">Select</option>
+															<option th:text="${list.serviceName}"
+																th:each="list:${serviceList}"
+																th:value="${list.serviceId}"></option>
+													</select></td>
+													<td><span
+														th:text="#{mb.addUser.transferinreemployement.unit}"></span>
+														<span class="mandatory">*</span></td>
+													<td id="unitTdId">
+													
+												<!--	<select name="unitNo" id="unitNo" style="width:70%"
+														class="combo">
+															<option value="">Select</option>
+													</select>-->
+													<input type="text" th:value="${name}" readonly="readonly" style="border: none;" name="unitNo" id="unitNo">
+												
+													
+													</td>
+												</tr>
+												<tr>
+													<td><span
+														th:text="#{mb.addUser.transferinreemployement.cat.name}"></span>
+														<span class="mandatory">*</span></td>
+													<td><select name="category" id="category_Id" style="width:70%"
+														class="combo">
+															<option value="">Select</option>
+													</select></td>
+													<td><span
+														th:text="#{mb.addUser.transferinreemployement.level.name}"></span>
+														<span class="mandatory">*</span></td>
+													<td><select id="levelId" class="combo" name="level_Id" style="width:70%">
+															<option value="">Select</option>
+													</select> <input type="hidden" id="levelName" name="levelName">
+
+													<span id="rank" class="mandatory"></span> <input type="hidden"
+														id="rankId" name="rankId"></td>
+
+												</tr>
+												<tr>
+													<td><span
+														th:text="#{mb.addUser.transferinreemployement.rail.ac.off}"></span>
+														<span class="mandatory">*</span></td>
+													<td><select name="railPayAcOff" id="payAcOff"
+														class="combo" style="width:70%">
+															<option value="-1">Select</option>
+													</select></td>
+													<td><span
+														th:text="#{mb.addUser.transferinreemployement.air.ac.off}"></span>
+														<span class="mandatory">*</span></td>
+													<td><select name="airPayAcOff" id="airAcOff"
+														class="combo" style="width:70%">
+															<option value="-1">Select</option>
+													</select></td>
+												</tr>
+												<tr align="left">
+													<td>
+														<span th:text="#{mb.addUser.transferinreemployement.tak.on.stre.date}"></span> <span class="mandatory">*</span></td>
+													<td>
+														<div id="calendar1_container"></div> <input type="text"
+														class="txtfldM" name="sosDateString" size="15"
+														id="sosDate" placeholder="dd/mm/yyyy"
+														 autocomplete="off">
+													</td>
+													<td><span
+														th:text="#{mb.addUser.transferinreemployement.date.reti}"></span> <span class="mandatory">*</span></td>
+													<td><input type="text" readonly="readonly"
+														class="txtfldM" name="dateOfRetirement"
+														id="dateOfRetirement" placeholder="dd/mm/yyyy" maxlength="15"
+														size="15" autocomplete="off"></td>
+												</tr>
+
+												<tr>
+													<td><span
+														th:text="#{mb.addUser.transferinreemployement.nrsDuty.station}"></span> <span class="mandatory">*</span></td>
+													<td colspan="3">
+														<div class="inpt-fields errorMessage">
+															<input type="text" style="width: auto;" class="txtfldM"
+																id="dutyStations_0" name="nrsDutyStn"
+																onblur="fillRecordRailStationNRS('',0)"
+																onkeyup="filsRailStationNRS(this.value,0)" autocomplete="off">
+															<div class="suggestionsBox"
+																id="suggestionsRailStationNRS_0" style="display: none;">
+																<div class="suggestionList"
+																	id="autoSuggestionsListRailStationNRS_0"></div>
+															</div>
+														</div>
+													</td>
+												</tr>
+												<tr>
+													<td><span
+														th:text="#{mb.addUser.transferinreemployement.naDuty.station}"></span> <span class="mandatory">*</span></td>
+													<td colspan="3">
+														<div class="inpt-fields errorMessage">
+															<input type="text" class="txtfldM"
+																id="airportStationText_0" name="dutyStnNa"
+																onblur="fillRecordOffice('',0)"
+																onkeyup="getStationAir(this.value,0)" autocomplete="off">
+
+															<div class="suggestionsBox" id="suggestionsOfficeNRS1_0"
+																style="display: none;">
+																<div class="suggestionList"
+																	id="autoSuggestionsListOfficeNRS1_0"></div>
+															</div>
+														</div>
+													</td>
+												</tr>
+												<tr>
+													<td
+														th:text="#{mb.addUser.transferinreemployement.isGov.Accomdation}"></td>
+													<td colspan="3"><input id="isUnitInPeaceLoc" class="peace"
+														name="isUnitInPeaceLoc" type="radio" value="Y"
+														onclick="chkForGovtAccom('YES');"> YES <input  class="peace1"
+														id="isUnitInPeaceLoc" name="isUnitInPeaceLoc" type="radio"
+														value="N" onclick="chkForGovtAccom('NO');"
+														checked="checked"> NO</td>
+												</tr>
+												<tr>
+													<td th:text="#{mb.addUser.transferinreemployement.spr}"></td>
+													<td colspan="3">
+
+														<div class="inpt-fields errorMessage">
+															<input type="text" style="width: auto;" class="txtfldM"
+																id="sprStation_0" name="sprSfa"
+																onblur="fillSPRStation('',0)"
+																onkeyup="sprStation(this.value,0)" autocomplete="off">
+															<div class="suggestionsBox" id="suggestionsSPR_0"
+																style="display: none;">
+																<div class="suggestionList"
+																	id="autoSuggestionsListSPR_0"></div>
+															</div>
+														</div>
+													</td>
+												</tr>
+												<tr>
+													<td th:text="#{mb.addUser.transferinreemployement.spr.nrs}"></td>
+													<td colspan="3">
+														<div class="inpt-fields errorMessage">
+															<input type="text" style="width: auto;" class="txtfldM"
+																id="sprStationNRS_0" name="sprNrs"
+																onblur="fillSPRNRS('',0)" onkeyup="sprNRS(this.value,0)" autocomplete="off">
+															<div class="suggestionsBox" id="suggestionsSPRNRS_0"
+																style="display: none;">
+																<div class="suggestionList"
+																	id="autoSuggestionsListSPRNRS_0"></div>
+															</div>
+														</div>
+
+													</td>
+												</tr>
+												<tr>
+													<td th:text="#{mb.addUser.transferinreemployement.spr.na}"></td>
+													<td colspan="3"><div class="inpt-fields errorMessage">
+															<input type="text" class="txtfldM"
+																id="airPortSPRNAText_0" name="sprNa"
+																onblur="fillRecordSPRNA('',0)"
+																onkeyup="getSPRNA(this.value,0)" autocomplete="off">
+															<div class="suggestionsBox" id="suggestionsSPRNA_0"
+																style="display: none;">
+																<div class="suggestionList"
+																	id="autoSuggestionsListSPRNA_0"></div>
+
+															</div>
+														</div></td>
+												</tr>
+
+
+
+												<tr style="display: none;">
+													<td>Pay Accounting Office<span class="mandatory">*</span></td>
+													<td colspan="3" id="paoOffId"><select
+														name="payAccountOffice" id="payAccountOffice"
+														class="combo">
+															<option value="-1">Select</option>
+															<option th:value="${GroupID}">
+																	</option>
+															
+													</select></td>
+												</tr>
+
+
+
+																								<tr th:if="${visitorServiceId}==100015">
+																									<td
+																										th:text="#{mb.addUser.transferinreemployement.pay.ac.off}"></td>
+													<td colspan="3">
+																										<div class="inpt-fields errorMessage">
+																											<input type="text" class="txtfldM"
+																												name="payAccountOffice" id="payAccountOffice" autocomplete="off">
+																										</div>
+																									</td>
+																								</tr>
+												<tr>
+													<td><span
+														th:text="#{mb.addUser.transferinreemployement.transfer.autho}"></span> <span class="mandatory">*</span></td>
+													<td colspan="3"><div class="inpt-fields errorMessage">
+															<textarea name="reason" id="reason" rows="2" cols="25"> </textarea>
+														</div></td>
+												</tr>
+
+
+												<tr>
+													<td></td>
+
+													<td colspan="3"><button id="transferBtnDiv" class="butn"
+															type="button" style="display: none;"  th:attr="onclick='transferOutReemployment()'">Transfer
+															Traveler</button></td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		<section>
+			<div class="blank"></div>
+		</section>
+		<section>
+			<div th:insert="~{fragments/login/footer}"></div>
+		</section>
+	</section>
+</body>
+
+</html>

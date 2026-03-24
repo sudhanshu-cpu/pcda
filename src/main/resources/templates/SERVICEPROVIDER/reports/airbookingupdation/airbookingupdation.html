@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+<script
+	th:src="@{/js/SERVICEPROVIDER/reports/airbookingupdation/airbookingupdate.js(random=${session.jsToken})}"></script>
+
+<body oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+
+	<div th:insert="~{fragments/header/mainHeader}">...</div>
+
+	<section id="midpart" class="midpart">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-1"></div>
+				<div class="col-lg-10">
+					<div id="program" class="programBlock">
+						<div class="welcomebox">
+							<div class="welcomeHead">
+								<p th:text="#{serviceprovider.reports.airbookingupdation.form}"> </p>
+							</div>
+							<div class="welcomecont">
+								<form th:action="@{getBookingIdFormData}" name="airBookingUpdationform"
+									id="airBookingUpdationform" method="post">
+												<table class="filtersearch" cellspacing="1" cellpadding="" width="100%"
+													border="0">
+												<tbody class="all1">
+													<tr>
+														<td>
+															<span th:text="#{serviceprovider.reports.airbookingupdation.bkgid}"> </span>
+
+														</td>
+														<td><input type="text" name="bookingId" id="bookingId" size="15"
+																th:value="${bkgId}" maxlength="20" autocomplete="off"/></td>
+													</tr>
+													<tr>
+														<td colspan="10" style="text-align:right">
+															<a href="javascript:void(0);" align="right"><input class="butn" type="submit"
+																	onclick="getBookingDtls();" value="Search" /></a>
+														</td>
+													</tr>
+													</tbody>
+									</table>
+								</form>
+							</div>
+						</div>
+					</div>
+
+
+					<div id="program" class="programBlock" th:if="${dataBkgModel}!=null">
+						<div class="welcomebox">
+							<div class="welcomeHead">
+								<p th:text="#{serviceprovider.reports.airbookingupdation.tbook}"> </p>
+							</div>
+							<div class="welcomecont">
+								<form name="airBookingUpdation" id="airBookingUpdation" th:action="@{saveAirUpdation}"
+									method="post">
+
+
+									<input type="hidden" name="bookingId" th:value="${dataBkgModel.bookingOid}" />
+
+									<input type="hidden" name="passCount" id="passangerCount"
+										th:value="${dataBkgModel.passCount}" />
+
+									<input type="hidden" name="serviceProviderInt"
+										th:value="${dataBkgModel.serviceProviderInt}" />
+
+									<table class="filtersearch" cellspacing="0" cellpadding="0" width="100%" border="0">
+
+
+                                <tbody th:if="${dataBkgModel.bookingData}=='YES'">
+										<tr>
+											<td>
+												<table class="filtersearch" width="100%" border="0" >
+
+													<tbody class="all1" th:each="src : ${dataBkgModel.airTicketBookData}">
+														<tr>
+															<td class="lablevalue" th:text="#{serviceprovider.reports.airbookingupdation.bkgid}"> </td>
+															<td th:text="${dataBkgModel.bookingOid}">
+															</td>
+															<td class="lablevalue" th:text="#{serviceprovider.reports.airbookingupdation.reqid}"> </td>
+															<td th:text="${src.requestId}">
+															</td>
+															<td class="lablevalue" th:text="#{serviceprovider.reports.airbookingupdation.sp}"> </td>
+															<td 
+																th:text="${serviceProvider}">
+															</td>
+														</tr>
+
+														<tr>
+															<td class="lablevalue" th:text="#{serviceprovider.reports.airbookingupdation.otxn}"> </td>
+															<td><input type="text"
+																	name="newOperatorTxnId" id="newOperatorTxnId"
+																	th:value="${src.operatorTxnId}" class="txtfldM"
+																	size="19" maxlength="20"
+																	placeholder="${src.operatorTxnId}" />
+															</td>
+															<td class="lablevalue" th:text="#{serviceprovider.reports.airbookingupdation.tinvo}"> </td>
+															<td colspan="3"><input
+																	style="background: #dddddd;" type="text"
+																	readonly="readonly" name="newTotalInvoice"
+																	id="newTotalInvoice" th:value="${src.totalInvoice}"
+																	class="txtfldM" size="19" maxlength="20"
+																	placeholder="${src.totalInvoice}" /></td>
+														</tr>
+													</tbody>
+
+													<tr>
+														<td>
+													<tr>
+														<td class="heading" align="left" colspan="8" th:text="#{serviceprovider.reports.airbookingupdation.ctb}">
+															
+															</td>
+													</tr>
+
+<tr>
+<td colspan="6">
+													<table class="filtersearch" border-spacing="15px" width="100%">
+														<tbody class="all1" th:each="item,stat : ${dataBkgModel.airTicketBookChild}">
+															<tr><td>
+																<input type="hidden"
+																	th:name="@{|passangerNo${stat.index+1}|}"
+																	th:value="${item.passangerNo}" />
+																<input type="hidden"
+																	th:name="@{|passangerName${stat.index+1}|}"
+																	th:value="${item.passangerName}" />
+																<input type="checkbox"
+																		th:id="@{|checkbox${stat.index+1}|}"
+																		th:name="@{|checkbox${stat.index+1}|}"
+																		th:attr="onclick='getCheckBox(\''+${stat.index+1}+'\')'">
+																</td>
+																<td style="width:20%"><span
+																		th:text="${item.passangerName}"> </span>
+																</td>
+																<td class="lablevalue" th:text="#{serviceprovider.reports.airbookingupdation.pid}"> </td>
+																<td><input type="text"
+																		disabled="disabled"
+																		th:name="@{|newOnwardPaxId${stat.index+1}|}"
+																		th:id="@{|newOnwardPaxId${stat.index+1}|}"
+																		th:value="${item.onwardPaxId}" size="19"
+																		maxlength="20" >
+																</td>
+																<td class="lablevalue" th:text="#{serviceprovider.reports.airbookingupdation.ino}"> </td>
+																<td><input type="text"
+																		disabled="disabled"
+																		th:name="@{|newInvoiceNo${stat.index+1}|}"
+																		th:id="@{|newInvoiceNo${stat.index+1}|}"
+																		th:value="${item.invoiceNo}" size="19"
+																		maxlength="20" ></td>
+																<td class="lablevalue" th:text="#{serviceprovider.reports.airbookingupdation.idate}"> </td>
+																<td><input type="text"
+																		disabled="disabled"
+																		th:name="@{|newInvoiceDate${stat.index+1}|}"
+																		th:id="@{|newInvoiceDate${stat.index+1}|}"
+																		th:value="${item.invoiceDate}"
+																		readonly="readonly" size="19" maxlength="20">
+																</td>
+															</tr>
+															<tr>
+																<td class="lablevalue" th:text="#{serviceprovider.reports.airbookingupdation.tinvo}"> </td>
+																<td><input
+																		style="background: #dddddd;" type="text"
+																		readonly="readonly"
+																		th:name="@{|newTotalInvoice${stat.index+1}|}"
+																		th:id="@{|newTotalInvoice${stat.index+1}|}"
+																		th:value="${item.totalInvoice}" size="19"
+																		maxlength="20" >
+																</td>
+																<td class="lablevalue" th:text="#{serviceprovider.reports.airbookingupdation.bfare}"> </td>
+																<td><input type="text"
+																		th:attr="onblur='getCalcInvoiceAmount(\''+${stat.index+1}+'\')'"
+																		disabled="disabled"
+																		th:name="@{|newBaseFare${stat.index+1}|}"
+																		th:id="@{|newBaseFare${stat.index+1}|}"
+																		th:value="${item.baseFare}" size="19"
+																		maxlength="20" ></td>
+																<td class="lablevalue" th:text="#{serviceprovider.reports.airbookingupdation.tax}"></td>
+																<td><input type="text"
+																		th:attr="onblur='getCalcInvoiceAmount(\''+${stat.index+1}+'\')'"
+																		disabled="disabled"
+																		th:name="@{|newTax${stat.index+1}|}"
+																		th:id="@{|newTax${stat.index+1}|}"
+																		th:value="${item.tax}" size="19"
+																		maxlength="20" ></td>
+																<td class="lablevalue" th:text="#{serviceprovider.reports.airbookingupdation.fcharge}"> </td>
+																<td><input type="text"
+																		th:attr="onblur='getCalcInvoiceAmount(\''+${stat.index+1}+'\')'"
+																		disabled="disabled"
+																		th:name="@{|newFuelCharge${stat.index+1}|}"
+																		th:id="@{|newFuelCharge${stat.index+1}|}"
+																		th:value="${item.fuelCharge}" size="19"
+																		maxlength="20" ></td>
+															</tr>
+															<tr>
+																<td class="lablevalue" th:text="#{serviceprovider.reports.airbookingupdation.psf}"> </td>
+																<td><input type="text"
+																		th:attr="onblur='getCalcInvoiceAmount(\''+${stat.index+1}+'\')'"
+																		disabled="disabled"
+																		th:name="@{|newPsfFee${stat.index+1}|}"
+																		th:id="@{|newPsfFee${stat.index+1}|}"
+																		th:value="${item.psfFee}" size="19"
+																		maxlength="20"></td>
+																<td class="lablevalue" th:text="#{serviceprovider.reports.airbookingupdation.otax}"> </td>
+																<td><input type="text"
+																		th:attr="onblur='getCalcInvoiceAmount(\''+${stat.index+1}+'\')'"
+																		disabled="disabled"
+																		th:name="@{|newOtherTax${stat.index+1}|}"
+																		th:id="@{|newOtherTax${stat.index+1}|}"
+																		th:value="${item.otherTax}"
+																		th:class="@{|.checkbox${stat.index+1}|}"
+																		size="19" maxlength="20" ></td>
+																<td class="lablevalue" th:text="#{serviceprovider.reports.airbookingupdation.cgst}"> </td>
+																<td><input type="text"
+																		th:attr="onblur='getCalcInvoiceAmount(\''+${stat.index+1}+'\')'"
+																		disabled="disabled"
+																		th:name="@{|newCgstTax${stat.index+1}|}"
+																		th:id="@{|newCgstTax${stat.index+1}|}"
+																		th:value="${item.cgstTax}" size="19"
+																		maxlength="20" ></td>
+																<td class="lablevalue" th:text="#{serviceprovider.reports.airbookingupdation.sgst}"> </td>
+																<td><input type="text"
+																		th:attr="onblur='getCalcInvoiceAmount(\''+${stat.index+1}+'\')'"
+																		disabled="disabled"
+																		th:name="@{|newSgstTax${stat.index+1}|}"
+																		th:id="@{|newSgstTax${stat.index+1}|}"
+																		th:value="${item.sgstTax}" size="19"
+																		maxlength="20" ></td>
+															</tr>
+															<tr>
+																<td class="lablevalue" th:text="#{serviceprovider.reports.airbookingupdation.igst}"> </td>
+																<td><input type="text"
+																		th:attr="onblur='getCalcInvoiceAmount(\''+${stat.index+1}+'\')'"
+																		disabled="disabled"
+																		th:name="@{|newIgstTax${stat.index+1}|}"
+																		th:id="@{|newIgstTax${stat.index+1}|}"
+																		th:value="${item.igstTax}" size="19"
+																		maxlength="20" ></td>
+																<td class="lablevalue" th:text="#{serviceprovider.reports.airbookingupdation.gst}"></td>
+																<td><input type="text"
+																		th:attr="onblur='getCalcInvoiceAmount(\''+${stat.index+1}+'\')'"
+																		disabled="disabled"
+																		th:name="@{|newGst${stat.index+1}|}"
+																		th:id="@{|newGst${stat.index+1}|}"
+																		th:value="${item.gst}" size="19"
+																		maxlength="20" ></td>
+															</tr>
+														</tbody>
+													</table>
+
+
+											</td>
+										</tr>
+										<tr>
+											<td colspan="10" id="downLoadFile" style="text-align:right">
+												<a href="#"><input class="butn" type="button"
+														onclick="saveAirBookingDtls();" value="Save" ></a>
+											</td>
+										</tr>
+									</table>
+									</td>
+									</tr>
+                      </tbody>
+
+
+								
+
+
+									</table>
+
+								</form>
+							</div>
+							
+						</div>
+					</div>
+					<div th:if="${dataBkgModel}==null">
+					<p class="errors"  th:text="${errorMessage}"  style="margin-bottom:0"> </p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section>
+		<div class="blank"></div>
+	</section>
+	<section>
+		<div th:insert="~{fragments/login/footer}"></div>
+	</section>
+</body>
+
+</html>

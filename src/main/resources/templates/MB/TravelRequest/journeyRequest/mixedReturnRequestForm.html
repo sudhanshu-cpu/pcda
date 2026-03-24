@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+	<input  type="hidden" name="returnTotalTraveller" id="returnTotalTraveller"/>
+	<input  type="hidden" name="returnViaRuteOne" id="returnViaRuteOne" value="NO" />
+	<input  type="hidden" name="returnViaRuteTwo" id="returnViaRuteTwo" value="NO" />
+	<input  type="hidden" name="returnBreakJourneyClicked" id="returnBreakJourneyClicked" value="NO" />
+	
+	
+	<table id="returnAirJourneyTable" border="0" cellpadding="4" cellspacing="1" width="100%" class="filtersearch">
+	  
+	   <tr align="left" bgcolor="#fbfac8"> 
+			<td><label th:text="#{travel.request.is.tatkal}"></label>
+					
+					<input type="checkbox" name="returnIsTatkalMixed" id="returnIsTatkalMixed" onclick="isReturnMixedTatkalSet(this);"/>
+					<input type="hidden" name="returnIsTatkalFlagMixed" id="returnIsTatkalFlagMixed" value="0"/>
+			</td>
+			<td>Rail Entitled Class
+				<select id="returnMixedRailEntitledClass" name="returnMixedRailEntitledClass" class="combo">
+					<option value="">Select</option>
+				</select>
+			</td>
+		
+			<td>Air Entitled Class</td>
+			<td>
+				<select id="returnMixedAirEntitledClass" name="returnMixedAirEntitledClass" class="combo">
+			    	<option value="">Select</option>
+				</select>
+			</td>
+		</tr>
+		
+		
+		<tr align="left" bgcolor="#fbfac8"> 
+		<td><label th:text="#{travel.request.from.station}"></label><span class="mandatory">*</span></td>
+		<td><div id="returnFixedOrgStnDropDown"></div> </td>
+	
+	  			<td id="returnFixedOrgContainer" colspan="2" th:if="${reqType} == 'ramBaanBooking'">
+			  			<input type="text" name="returnFixedOrigin" class="txtfldM" id="returnFixedOrigin" size="50" autocomplete="off" onblur="fillReturnOrgStn('');" /> 
+	   					<div class="suggestionsBox" id="returnFixedOrgSuggestion" style="display: none;">
+							<div class="suggestionList" id="returnFixedOrgSuggestionsList"></div>
+						</div>
+				</td>
+  			
+		   		<td id="returnFixedOrgContainer" style="display:none" colspan="2" th:if="${reqType} != 'ramBaanBooking'">
+		   				
+			    </td>
+		        <td id="returnTrfixedOrgStn" colspan="2" ></td>
+			
+    	</tr>
+    
+		<tr align="left">
+		<td><label th:text="#{travel.request.to.station}"></label><span class="mandatory">*</span></td> 
+		<td><div id="returnFixedDestStnDropDown" ></div></td>
+		
+	            <td id="returnFixedDestContainer" colspan="2" th:if="${reqType} == 'ramBaanBooking'">
+		               	<input type="text" name="returnFixedDestination" class="txtfldM" autocomplete="off" size="50" id="returnFixedDestination"  onblur="fillReturnDestStn('');"/>
+				    	<div class="suggestionsBox" id="returnFixedDestSuggestion" style="display: none;">
+		            		<div class="suggestionList" id="returnFixedDestSuggestionsList"></div>
+		            	</div>
+		        </td>
+         
+			   <td id="returnFixedDestContainer" style="display:none" colspan="2" th:if="${reqType} != 'ramBaanBooking'">
+						
+			   </td>
+		       <td id="returnTrfixedDestStn" colspan="2" ></td>
+	      
+		</tr>	
+	
+	 	<tr>
+			<td colspan="4" style="text-align:right">
+				<div id="returnBeakJrnyBtnDiv"> 
+	 				<input type="button" value="Break Journey" class="butn" id="returnBeakJrnyBtnId" onClick="initReturnMixedJourneyRow();"/>
+			  	</div>
+			</td>
+		</tr>
+	 	<tr>
+			<td colspan="4" style="text-align:right">
+				<div id="returnBeakMixedJrnyDiv" style="display:none" class="datagrid"> 
+					
+			  	</div>
+			  	
+			</td>
+		</tr>
+	 	
+	 	
+	 </table>

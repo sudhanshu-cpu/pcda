@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+	
+
+	<form action="" method="post" name="commentForm" id="commentForm">
+		<input name="personalNo" type="hidden" id="personalNo"> <input
+			name="event" type="hidden" value="next" id="event">
+<div id="program" class="programBlock">
+                        <div class="welcomebox" style="margin-bottom:1rem">
+                            <div class="welcomeHead">
+                                <span th:text="#{mb.addUser.usermastermissdasboard.masterMissComntHis}">
+                                </span><span th:text="${personalNo}"></span>
+                            </div>
+                            <div class="welcomecont">
+		
+						<div id="reqPoolDiv">
+							<table id="loginForm" class="filtersearch" width="100%"
+								cellspacing="1" cellpadding="5" border="0">
+
+								<tbody class="all1">
+
+									<tr class="lablevalue">
+										<td th:text="#{mb.addUser.usermastermissdasboard.sNum#}"><b></b></td>
+										<td th:text="#{mb.addUser.usermastermissdasboard.comnt}"><b></b></td>
+										<td th:text="#{mb.addUser.usermastermissdasboard.comntDate}"><b></b></td>
+										<td th:text="#{mb.addUser.usermastermissdasboard.comntBy}"><b></b></td>
+									</tr>
+
+									<tr  th:each="src : ${userMmHistory}">
+										<td th:text="${src.seqNumber}"></td>
+										<td th:text="${src.comment}"></td>
+										<td th:text="${src.comunctionDateStr}"></td>
+										<td th:text="${src.commentBy}"></td>
+									</tr>
+
+								</tbody>
+							</table>
+									</div>
+									</div>
+									</div>
+									</div>
+
+							</form>
+							
+</body>
+
+
+</html>

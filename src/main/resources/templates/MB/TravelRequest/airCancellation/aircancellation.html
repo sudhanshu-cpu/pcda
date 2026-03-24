@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+
+<script
+	th:src="@{/js/MB/travelRequest/aircancellation/airTicketCanRequest.js(random=${session.jsToken})}"></script>
+
+<body oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+	<div th:insert="~{fragments/header/mainHeader}"></div>
+	<section id="midpart" class="midpart">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-1">
+					<input type="hidden" name="bookingId" id="bookingId" /> <input
+						type="hidden" name="bookingTxnId" id="bookingTxnId" /> <input
+						type="hidden" name="event" id="event" value="next" /> <input
+						type="hidden" name="isExpCan" id="isExpCan" />
+				</div>
+				<div class="col-lg-10">
+					<div class="container" th:if="${#lists.isEmpty(cancellationRe)}">
+						<div class="row user-detail-row">
+							<div class="col-12 user-detail">
+								<p class="error">No Request Found..</p>
+
+							</div> 
+						</div>
+
+					</div>
+
+					<div id="program" class="programBlock"
+						th:unless="${#lists.isEmpty(cancellationRe)}">
+						<div class="welcomebox" style="margin-bottom: 1rem">
+							<div class="welcomeHead">
+								<p>Tickets Booking Details</p>
+							</div>
+
+
+							<div class="welcomecont">
+
+
+								<table class="filtersearch ">
+									<tbody class="all1">
+										<tr>
+
+											<td class="lablevalue"
+												th:text="#{mb.travel.request.air.cancellation.s}"></td>
+											<td class="lablevalue"
+												th:text="#{mb.travel.request.air.cancellation.bo.tra.id}"></td>
+											<td class="lablevalue"
+												th:text="#{mb.travel.request.air.cancellation.booking.id}"></td>
+											<td class="lablevalue"
+												th:text="#{mb.travel.request.air.cancellation.reg.id}"></td>
+
+											<td class="lablevalue"
+												th:text="#{mb.travel.request.air.cancellation.org}"></td>
+											<td class="lablevalue"
+												th:text="#{mb.travel.request.air.cancellation.dest}"></td>
+
+											<td class="lablevalue"
+												th:text="#{mb.travel.request.air.cancellation.jur.date}"></td>
+											<td class="lablevalue"
+												th:text="#{mb.travel.request.air.cancellation.ta}"></td>
+
+											<td class="lablevalue"
+												th:text="#{mb.travel.request.air.cancellation.bo.st}"></td>
+											<td class="lablevalue"
+												th:text="#{mb.travel.request.air.cancellation.cn.app.st}"></td> 
+										</tr>
+
+										<tr th:each="src,stat: ${cancellationRe}">
+											<td th:text="${stat.count}"></td>
+											<td>
+												<form th:action="@{/mb/airTicketCancellation}" method="post">
+													<input type="submit" th:value="${src.operatorTxnId}"
+														style="border: none; text-decoration: underline; color: #1caafd;">
+													<input type="hidden" name="bookingId"
+														th:value="${src.bookingId}">
+												</form>
+											</td>
+											<td th:text="${src.bookingId}"></td>
+											<td th:text="${src.requestId}"></td>
+											<td th:text="${src.origin}"></td>
+											<td th:text="${src.destination}"></td>
+											<td th:text="${src.journeyDate}"></td>
+											<td th:text="${src.totalInvoice}"></td>
+											<td th:text="${src.currentBookingStatus}"></td>
+											<td th:text="${src.canApproved}"></td>
+										</tr>
+
+									</tbody>
+								</table>
+
+							</div>
+
+						</div>
+
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+	</section>
+<section>
+		<div class="blank"></div>
+	</section>
+	<section>
+		<div th:insert="~{fragments/login/footer}"></div>
+		</section>
+</body>
+
+</html>

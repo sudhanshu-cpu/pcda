@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{fragments/login/head}"></head>
+
+<body>
+
+   <div th:insert="~{fragments/header/mainHeader}"></div>
+<section id="midpart" class="midpart">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-lg-2"></div>
+                <div class="col-lg-9">
+	<table class="filtersearch">
+		<tr>
+			<td class="tdborder1" width="100%" align="center">		
+				<div>
+					<div style="width:900px;text-align:left;padding:5px;border:1px solid black;">
+						<FONT SIZE="4" COLOR="#484B91">Error Message</FONT>
+				<hr/>
+				<BR/>
+							<FONT SIZE="3" COLOR="red">
+					 <UL>							
+						<span th:text='${errorMessage}'></span>
+	       			</UL>
+				</FONT><br/>					
+				</div>
+			</div>
+			</td>
+		</tr>
+		</table>
+	</div>
+</div>
+</div>
+</section>
+<section>
+<div class="blank"></div>
+</section>
+    <section>
+			<div th:insert="~{fragments/login/footer}"></div>
+		</section>
+
+</body>
+</html>

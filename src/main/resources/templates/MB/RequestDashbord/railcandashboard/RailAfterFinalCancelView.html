@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+
+
+<body oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+	<div th:insert="~{fragments/header/mainHeader}"></div>
+
+
+	<section id="midpart" class="midpart">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-1"></div>
+				<div class="col-lg-10">
+
+					<div id="program" class="programBlock">
+						<div class="welcomebox">
+							<div class="welcomeHead">
+								<p>
+									Ticket Cancellation Details
+								</p>
+							</div>
+							<div class="welcomecont">
+								<table class="filtersearch">
+									<tbody class="all1">
+
+										<tr>
+											<td style="width:20%" class="lablevalue">Booking Id</td>
+											<td style="width:30%"><span th:text="${finalModel.bookingId}"></span></td>
+											<td style="width:20%" class="lablevalue">Refund Id</td>
+											<td style="width:30%"><span th:text="${finalModel.refundId}"></span>
+											</td>
+										</tr>
+										<tr>
+											<td style="width:20%" class="lablevalue">Cancellation Id</td>
+											<td style="width:30%"><span th:text="${finalModel.cancellationId}"></span></td>
+											<td style="width:20%" class="lablevalue">Agent Cancellation Txn Id</td>
+											<td style="width:30%"><span th:text="${finalModel.agentCanTxnId}"></span></td>
+										</tr>
+										<tr>
+											<td style="width:20%" class="lablevalue">PNR No</td>
+											<td style="width:30%"><span th:text="${finalModel.pnrNo}"></span>
+											</td>
+											<td class="lablevalue">
+												<span th:text="#{ticketDetails.form.label.cancelledDate}"></span>
+											</td>
+											<td colspan="3"><span th:text="${finalModel.cancelledDate}"></span>
+											</td>
+										</tr>
+
+										<tr>
+											<td style="width:20%" class="lablevalue">
+												<span th:text="#{ticketDetails.form.label.amountCollected}"></span>(Rs.)
+											</td>
+											<td style="width:30%"><span th:text="${finalModel.amountCollected}"></span></td>
+											<td style="width:20%" class="lablevalue">
+												<span th:text="#{ticketDetails.form.label.amountRefunded}"></span>(Rs.)
+											</td>
+											<td style="width:30%"><span th:text="${finalModel.refundAmount}"></span></td>
+										</tr>
+
+										<tr>
+											<td class="lablevalue">
+												<span th:text="#{ticketDetails.form.label.cashDeducted}"></span>(Rs.)
+											</td>
+											<td><span th:text="${finalModel.cashDeducted}"></span>
+											</td>
+											<td class="lablevalue">Service Tax</td>
+											<td><span th:text="${finalModel.serviceTax}"></span>
+											</td>
+										</tr>
+
+										
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+
+					<div id="program" class="programBlock">
+						<div class="welcomebox">
+							<div class="welcomeHead">
+								<p>
+									<span th:text="#{dod.form.label.psngerDetailsLabel}"></span>
+								</p>
+							</div>
+							<div class="welcomecont">
+								<table class="filtersearch">
+
+									<tbody class="all1">
+
+										<tr class="lablevalue">
+											<td style="width:5%">
+												<span th:text="#{dod.form.label.sNo}"></span>
+											</td>
+											<td style="width:55%">
+												<span th:text="#{dod.form.label.psngrName}"></span>
+											</td>
+											<td style="width:40%">
+												<span th:text="#{ticketDetails.form.label.cancelStatusLabel}"></span>
+											</td>
+										</tr>
+										<tr th:each="src,stat:${finalModel.passengerDetail}">
+											<td><span th:text="${stat.index+1}"></span></td>
+											<td><span th:text="${src.passangerName}"></span></td>
+											<td><span th:text="${src.passangerCurrentStatus}"></span></td>
+										</tr>
+
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section>
+		<div class="blank"></div>
+	</section>
+	<section>
+		<div th:insert="~{fragments/login/footer}"></div>
+	</section>
+</body>
+
+</html>

@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+<link rel="stylesheet" type="text/css" th:href="@{/css/common/popup/LightFace.css}">
+<script th:src="@{/js/common/popup/mootools.js}"></script>
+<script th:src="@{/js/common/popup/LightFace.js}"></script>
+<script th:src="@{/js/common/popup/LightFace.IFrame.js}"></script> 
+<script th:src="@{/js/common/popup/LightFace.Request.js}"></script>
+<script th:src="@{/js/MB/FinalClaim/FinalClaimRequest/airTravelRequest.js(random=${session.jsToken})}"></script>
+<script th:src='@{/js/MB/FinalClaim/FinalClaimRequest/report.js(random=${session.jsToken})}'></script>
+<script th:src="@{/js/MB/FinalClaim/FinalClaimRequest/tadaSettlement.js(random=${session.jsToken})}"></script>
+<script type="text/javascript" th:src="@{/js/common/crypto.js}"></script>
+<style>
+div.ui-datepicker {
+    font-size: 10px;
+}
+
+.screen-freeze {
+	background-color: white;
+	display: none;
+	height: 100%;
+	left: 0;
+	opacity: 0.7;
+	position: absolute;
+	right: 0;
+	top: 0;
+	z-index: 99999;
+	
+}
+
+</style>
+<script type="text/javascript">
+
+$(document).ready(function() {
+	$("#finalclaimrequest").submit(function(event) {
+		event.preventDefault();
+		if ($("#personalNo").val() == "") {
+			alert("Please Enter Personal Number.")
+		}
+		else {
+			var prsnlNo= $("#personalNo").val();
+			var encryptPNo = CryptoJS.AES.encrypt(prsnlNo,"Hidden Pass");
+		$("#personalNo").val(encryptPNo);
+			event.currentTarget.submit();
+		}
+	});
+
+});
+
+/*window.onload=function ()
+{
+ 	
+   	var personalNo='<output ref="personalNo"/>';
+  	if(personalNo!='')
+     	document.getElementById("personalNo").value=personalNo;
+    var travelTypeId='<output ref="travelTypeId"/>';
+  	if(travelTypeId!='')
+     	document.getElementById("travelType").value=travelTypeId; 
+}*/
+
+function doSearch(){ 
+
+   if($("#personalNo").val()=="")
+{
+		alert("Please Enter Traveler Personal No.");
+ 		return false ;
+	} 
+		    	
+    $("#travelTypeId").val($("#travelType").val());  	     	
+    $("#personal_No").val(document.getElementById("personalNo").value); 
+  	document.requestPoolForTADA.method="post";
+  	var actionOriginal=document.requestPoolForTADA.action;
+    document.requestPoolForTADA.action=actionOriginal.replace('/page', "");
+    document.requestPoolForTADA.submit();	
+    } 	
+
+
+function submitSettlement(travelId){
+
+    var calHeight=document.body.offsetHeight+20;
+    $("#screen-freeze").css({"height":calHeight + "px"} );
+    $("#screen-freeze").css("display", "block");
+
+    $("#travelId").val(travelId);
+    $("#event").val('claim');
+//   	document.requestPoolForTADA.method="post";
+//   	var actionOriginal=document.requestPoolForTADA.action;
+//     document.requestPoolForTADA.action=actionOriginal.replace('/page', "");
+    $("#requestPoolForTADA").submit();
+
+}
+
+</script>
+
+<style type="text/css">
+
+table.sample {
+	
+}
+table.sample td {
+	border-width: 1px;
+	padding: 1px;
+	border-style: ridge;
+	border-color: white;
+	
+}
+.tdmixedodd 
+{ 
+	border-top :dashed;
+	border-left:dashed;
+	border-right:dashed;
+}
+.tdmixedeven
+{ 
+	border-bottom :dashed;
+	border-left:dashed;
+	border-right:dashed;
+}
+</style>
+
+<body oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+
+
+   <div th:insert="~{fragments/header/mainHeader}"></div>
+<section id="midpart" class="midpart">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-lg-1"></div>
+                <div class="col-lg-10">
+<form name="requestPoolForTADA" id="requestPoolForTADA" th:action="@{/mb/requestClaimAction}" method="post">
+  <input type="hidden" name="travelId" id="travelId" />
+</form>
+<div id="program" class="programBlock">
+                        <div class="welcomebox" style="margin-bottom:1rem">
+                            <div class="welcomeHead">
+                                <p th:text="#{mb.finalclaim.finalclaimrequest.fcr}">
+                                 
+                                </p>
+                            </div>
+                            <div class="welcomecont">
+
+<table id="loginForm" class="filtersearch" cellspacing="0" cellpadding="0" width="100%" border="0">
+	
+   	<tr>
+	  <td>
+		 <div class="datagrid">
+
+		 <form method="post" th:action="@{/mb/finalclaimrequest}" id="finalclaimrequest">
+		<table class="filtersearch">
+		<tbody class="all">
+			<tr align="left">
+			    <td>
+					<span th:text="#{mb.finalclaim.finalclaimrequest.traveltype}"></span><span class="mandatory">*</span>
+				</td>
+				<td>
+				    <select id="travelType" class="combo" name="travelType">
+				    	<option th:each="src : ${travelTypeList}" th:value="${src.travelTypeId}" th:text="${src.travelName}" th:selected="${travelType} == ${src.travelTypeId}"></option>
+					</select>
+				</td>
+				
+		        <td>
+					<span th:text="#{mb.finalclaim.finalclaimrequest.pno}"></span><span class="mandatory">*</span>
+				</td>
+				<td>
+					<input type="text" name="personalNo" class="txtfldM" id="personalNo" style="width:120px;" maxlength="20" autocomplete="off" th:value="${personalNo}"> 
+				</td>
+			</tr>
+			<tr>
+				<td colspan="4" style="text-align:right">
+					<input type="submit" class="butn" value="Search"> 
+				</td>
+			    
+			</tr>
+			</tbody>
+	 	</table>
+	 	</form>
+	</div>
+     </td>
+   	</tr> 
+  </table> 
+  </div>
+</div>
+</div>	 
+ <div class="welcomebox" th:if="${claimList} != null">
+	<table class="filtersearch">
+	<tbody class="all1">
+ 		<tr>
+ 			<td style="text-align: center;" class="lablevalue"><span th:text="#{mb.finalclaim.finalclaimrequest.travelid}"></span></td>
+ 			<td style="text-align: center;" class="lablevalue"><span th:text="#{mb.finalclaim.finalclaimrequest.pno}"></span></td>
+	 		<td style="text-align: center;" class="lablevalue"><span th:text="#{mb.finalclaim.finalclaimrequest.sdate}"></span></td>
+	 		<td style="text-align: center;" class="lablevalue"><span th:text="#{mb.finalclaim.finalclaimrequest.edate}"></span></td>
+	 		<td style="text-align: center;" class="lablevalue"><span th:text="#{mb.finalclaim.finalclaimrequest.acion}"></span></td>
+ 		</tr>
+ 		<tr th:each="src : ${claimList}">
+ 			<td style="text-align: center"><span th:text="${src.travelId}"></span></td>
+		 	<td style="text-align: center"><span th:text="${src.personalNo}"></span></td>
+		 	<td style="text-align: center"><span th:text="${src.startDate}"></span></td>
+		 	<td style="text-align: center"><span th:text="${src.endDate}"></span></td>
+			<td style="text-align: center"><input type="button" class="butn" value="Claim" th:attr="onclick='submitSettlement(\''+${src.travelId}+'\')'"/></td>	 
+ 	 	</tr>
+ 	 	</tbody>
+  	</table>
+</div>
+  	 <div class="welcomebox" th:if="${errorMessage} != null">
+  	 <p class="showalert" th:text="${errorMessage}" style="margin-bottom:0"></p>
+  	 </div>
+<!-- <table class="filtersearch"> -->
+<!-- <tbody class="all1"> -->
+<!-- <tr th:if="${errorMessage} != null"><td colspan="9"><p class="errors" th:text="${errorMessage}" style="margin-bottom:0"></p></td></tr> -->
+<!-- </tbody> -->
+<!-- </table> -->
+
+
+</div>
+</div>
+</div>
+</section>
+<section>
+<div class="blank"></div>
+</section>
+    <section>
+			<div th:insert="~{fragments/login/footer}"></div>
+		</section>
+
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+	<div class="mainHeaderBroad"> 
+		<div id="program" class="programBlock">
+                        <div class="welcomebox">
+   		<div class="welcomeHead">
+   		<p>Max Entitled Advance amount per day details</p>
+   		 </div>
+                            <div class="welcomecont">
+			<table border='0' width="100%" cellpadding='4' cellspacing='1' align='center' class="filtersearch" >
+						<tbody class="all1">	
+						<tr th:if="${daData.hotelAllowed} == 0">
+							<td style="width:20%" class="lablevalue">Hotel Amount</td>
+							<td style="width:30%" >Rs. <span th:text="${daData.maxHotelAmt}"></span></td>
+						</tr>
+						
+						<tr th:if="${daData.conveyanceAllowed} == 0">
+							<td class="lablevalue">Conveyance Amount</td>
+							<td>Rs. <span th:text="${daData.maxConveyanceAmt}"></span></td>
+						  </tr>
+							
+                        <tr th:if="${daData.foodAllowed} == 0">
+							<td class="lablevalue">Food Amount</td>
+							<td>Rs. <span th:text="${daData.maxFoodAmt}"></span></td>
+						</tr>
+         
+						  <tr th:if="${daData.miscAllowed} == 0">
+							<td style="width:22%" class="lablevalue">Misc Amount</td>
+							<td style="width:28%">Rs. <span th:text="${daData.maxMiscAmt}"></span></td>
+						  </tr>
+						</tbody>
+			</table>
+			</div>
+			</div>
+			</div>
+			
+					
+			<div id="program" class="programBlock">
+                        <div class="welcomebox">
+   		<div class="welcomeHead">
+   		<p>Total max entitlement per day</p>
+   		 </div>
+                            <div class="welcomecont">
+			<table border='0' width="100%" cellpadding='4' cellspacing='1' align='center' class="filtersearch" >
+					<tbody class="all1">
+						<tr>
+							<td style="width:20%" class="lablevalue">Total Amount</td>
+							<td style="width:30%">Rs.  <span th:text="${daData.totalAmount}"></span>
+							</td>
+							
+						</tr>
+						</tbody>
+			</table>
+			</div>
+			</div>
+			</div>
+			
+			
+		</div>
+			
+</body>
+</html>

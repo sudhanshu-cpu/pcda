@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{fragments/login/head}"></head>
+<body oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+
+	<div id="program" class="programBlock">
+		<div class="welcomebox" th:unless="${claimInfo}==null" style="margin-bottom:1rem">
+			<div class="welcomeHead">
+				<p>
+					Claim Information
+				</p>
+			</div>
+			<div class="welcomecont">
+
+
+
+				<table class="filtersearch" cellspacing="1" cellpadding="4" width="100%" border="0">
+					<tbody class="all1">
+
+
+						<tr class="lablevalue">
+							<td width="4%">SNo.</td>
+							<td width="15%">Claim Id</td>
+							<td width="12%">Personal No </td>
+							<td width="12%">Name</td>
+							<td width="12%">Travel Id </td>
+							<td width="12%">Submitted Date</td>
+					
+
+						</tr>
+
+
+						<tr th:each="src,stat:${claimInfo}">
+
+							<td th:text="${stat.index+1}"></td>
+							<td th:text="${src.claimId}"></td>
+							<td th:text="${src.personalNo}"></td>
+							<td th:text="${src.name}"></td>
+							<td th:text="${src.travelId}"></td>
+							<td th:text="${src.submittedDate}"></td>
+						</tr>
+
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+
+<head>
+<title>PCDA Travel System</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" th:href="@{/css/style.css}">
+
+
+</head>
+
+<body>
+<div class="container"></div>
+		<div th:replace="fragments/mainHeader::${navigation}">...</div>
+		
+	<section id="topbar" class="topbar">
+
+		<div id="element" class="container-fluid">
+			<marquee
+				style="margin: -20px 0px 15px 0px; position: relative; top: 15px;"
+				onmouseout="start()" onmouseover="stop()" scrollamount="3">
+				<font color="red"> <b>NEW:</b>
+				</font> <font color="green"> Now i-Ticket can be booked upto 04 HRS
+					before departure of train or upto chart preparation. </font> <font
+					color="black"> 1) All travelers who have booked their
+					ticket through Defence Travel System must submit their final
+					settlement claim to their respective PAO Offices within 30 days of
+					Return Journey w.r.t. Air Travel 2) Air Travel facility has been
+					extended for LTC-HT and LTC-AI for Armed Forced Personnels. 3)To
+					download procedure and receipt format for collecting of I-Ticket
+					(total 2 pages)<a href="javascript:void(0);" target="_blank" rel="noopener noreferrer">click here</a>
+
+				</font>
+
+			</marquee>
+		</div>
+	</section>
+
+	<section id="midpart" class="midpart">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-3">
+					<div id="navigation">
+
+						<div
+							th:replace="fragments/Navbar/requestDashbordLeftNavbar::${requestDashbordLeftNavbar}">...</div>
+					</div>
+				</div>
+				
+
+			</div>
+		</div>
+	
+	
+		<footer id="footer">
+			<div class="container-fluid">
+				<div class="footerframe">
+					<div class="footercont">
+						<div class="row">
+							<div class="col-lg-4">
+								<p>Copyright © 2009 - PCDA. All Rights Reserved.</p>
+							</div>
+							<div class="col-lg-4"></div>
+							<div class="col-lg-4">
+								<span class="helplinerail"> New IVR Helpline Number For
+									Air and Rail- 011-26700300 </span>
+							</div>
+						</div>
+					</div>
+					
+					<div class="footercont">
+						<div class="row">
+							<div class="col-lg-4"></div>
+							<div class="col-lg-4"></div>
+							<div class="col-lg-4">
+								<span class="helplinerail"> BL Air Helpline No:
+									0124-4603500/ 0124- 6282500 </span>
+							</div>
+						</div>
+					</div>
+					<div class="footercont">
+						<div class="row">
+							<div class="col-lg-4"></div>
+							<div class="col-lg-4"></div>
+							<div class="col-lg-4">
+								<span class="helplinerail"> ATT Air Helpline No:
+									022-48946701/ 9372818685/ 8169668269 </span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</footer>
+		
+	</section>
+
+</body>
+
+</html>

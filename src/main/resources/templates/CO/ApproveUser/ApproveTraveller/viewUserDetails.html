@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+
+			<div class="container-fluid">
+				
+				<div id="program" class="programBlock">
+							<div class="welcomebox" style="margin-bottom:1rem">
+								<div class="welcomeHead">
+				<p>User Information</p>
+						</div>
+						<div class="welcomecont">
+	<table class="filtersearch">
+		<tbody class="all1">
+			
+			<tr>
+				<td class="lablevalue">User Id</td>
+				<td th:text="${traveller.userAlias}"></td>
+				<td class="lablevalue">Name</td>
+				<td th:text="${traveller.name}"></td>
+			</tr>
+			<tr>
+				<td class="lablevalue">Gender</td>
+				<td th:text="${traveller.gender}"></td>
+				<td class="lablevalue">Email Id</td>
+				<td th:text="${traveller.email}"></td>
+			</tr>
+			<tr>
+				<td class="lablevalue">Mobile Number</td>
+				<td th:text="${traveller.mobileNo}"></td>
+				<td class="lablevalue">Category Name</td>
+				<td th:text="${traveller.category}"></td>
+			</tr>
+			<tr>
+				<td class="lablevalue">Unit Service</td>
+				<td th:text="${traveller.unitService}"></td>
+				<td class="lablevalue">Traveler Service</td>
+				<td th:text="${traveller.userService}"></td>
+			</tr>
+			
+			<tr th:if="${traveller.serviceNo} !=null">
+			   <td class="lablevalue">Service No</td>
+			   <td th:text="${traveller.serviceNo}"></td>
+			  </tr> 
+			
+			<tr>
+				<td class="lablevalue">Level Name</td>
+				<td th:text="${traveller.levelName}"></td>
+				<td class="lablevalue">Grade Pay/Rank</td>
+				<td th:text="${traveller.rank}"></td>
+			</tr>
+			<tr>
+				<td class="lablevalue">Date of Birth</td>
+				<td th:text="${traveller.dob}"></td>
+				<td class="lablevalue">Date of Retirement</td>
+				<td th:text="${traveller.dateOfRetirement}"></td>
+			</tr>
+			<tr>
+				<td class="lablevalue">Date of Enrollment</td>
+				<td th:text="${traveller.dateOfEnrolment}"></td>
+				<td class="lablevalue" th:if="${traveller.category} != 'Officer'">Concession Voucher Used</td>
+				<td class="lablevalue" th:if="${traveller.category} == 'Officer'">Form D Used</td>
+				<td th:text="${traveller.cvfdCount}"></td>
+			</tr>
+			<tr th:if="${traveller.category} == 'Officer'">
+						<td id="cdaoLabel" class="lablevalue">CDA(O) Account Number</td>
+						<td colspan="3" id="cdaoValue" th:text="${traveller.cdaAcNo}"></td>
+			</tr>
+             <tr>
+			   <td class="lablevalue"><span th:text="#{mb.addusers.travelerconfirm.accno}"></span></td>
+			   <td><span th:text="${traveller.accountNo}"></span></td>
+			   <td class="lablevalue"><span th:text="#{mb.addusers.travelerconfirm.ifsc}"></span></td>
+			   <td><span th:text="${traveller.ifscCode}"></span></td>
+			  </tr> 
+			<tr>
+				<td class="lablevalue">Rail Pay Account Office</td>
+				<td th:text="${traveller.railPayAccountOffice}"></td>
+				<td class="lablevalue">Air Pay Account Office</td>
+				<td th:text="${traveller.airPayAccountOffice}"></td>
+			</tr>
+			<tr>
+				<td class="lablevalue">Nearest Railway Station (Duty Station)</td>
+				<td th:text="${traveller.nrsRailDutyStn}"></td>
+				<td class="lablevalue">Nearest Railway Station (Home Town)</td>
+				<td th:text="${traveller.nrsRailHomeTown}"></td>
+			</tr>
+			<tr>
+				<td class="lablevalue">Nearest Railway Station for Reservation (Home Town)</td>
+				<td th:text="${traveller.nrsrHomeTown}"></td>
+				<td class="lablevalue">Nearest Airport (Duty Station)</td>
+				<td th:text="${traveller.naDutyStn}"></td>
+			</tr>
+			<tr>
+				<td class="lablevalue">Nearest Airport (Home Town)</td>
+				<td th:text="${traveller.naHomeTown}"></td>
+				<td class="lablevalue">Nearest Railway Station (SPR)</td>
+				<td th:text="${traveller.nrsSpr}"></td>
+			</tr>
+			<tr>
+				<td class="lablevalue">Nearest Railway Station for Reservation (SPR)</td>
+				<td th:text="${traveller.nrsrSpr}"></td>
+				<td class="lablevalue">Nearest Airport (SPR)</td>
+				<td th:text="${traveller.naSpr}"></td>
+			</tr>
+		</tbody>
+	</table>
+	</div>
+	</div>
+	</div>
+	<div id="program" class="programBlock">
+		<div class="welcomebox" th:if="${isDep}" style="margin-bottom:1rem">
+			<div class="welcomeHead">
+				<p>Dependent Details</p>
+			</div>	
+		<div class="welcomecont">
+	<table class="filtersearch">
+		<tbody class="all1">
+			<tr class="lablevalue">
+				<td>S#</td>
+				<td>Name</td>
+				<td>Gender</td>
+				<td>Relationship</td>
+				<td>Marital Status</td>
+				<td>Status</td>
+				<td  th:if="${traveller.userService}=='Navy'" ><span>GX No</span></td>
+				<td  th:if="${traveller.userService}=='Navy'" ><span>GX Date</span></td>
+				<td  th:if="${traveller.userService}=='AirForce'" ><span>POR No</span></td>		
+				<td  th:if="${traveller.userService}=='AirForce'" ><span>POR Date</span></td>
+				<td  th:if="${traveller.userService} != 'Navy' and ${traveller.userService} != 'AirForce'">DOII Part No</td>
+				<td  th:if="${traveller.userService} != 'Navy' and ${traveller.userService} != 'AirForce'">DOII Date</td>
+				<td>Date Of Birth</td>
+				<td>Reason</td>
+				<td>Hostel NRS</td>
+				<td>Hostel NAP</td>
+			</tr>
+			<tr th:each="src : ${traveller.dependents}">
+				<td th:text="${srcStat.count}"></td>
+				<td th:text="${src.name}"></td>
+				<td th:text="${src.gender}"></td>
+				<td th:text="${src.relationship}"></td>
+				<td th:text="${src.martialStatus}"></td>
+				<td th:text="${src.depStatus}"></td>
+				<td th:text="${src.doPartNo}"></td>
+				<td th:text="${src.doPartDate}"></td>
+				<td th:text="${src.dob}"></td>
+				<td th:text="${src.reason}"></td>
+				<td th:text="${src.hostelNRS}"></td>
+				<td th:text="${src.hostelNAP}"></td>
+			</tr>
+		</tbody>
+	</table>
+	</div>
+	</div>
+	</div>
+	</div>
+
+
+
+</body>
+
+</html>

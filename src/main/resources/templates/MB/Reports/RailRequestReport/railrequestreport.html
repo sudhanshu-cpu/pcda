@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+<link rel="stylesheet" type="text/css" th:href="@{/css/common/popup/LightFace.css}">
+<script th:src="@{/js/common/popup/mootools.js}"> </script>
+<script th:src="@{/js/common/popup/LightFace.js}"> </script>
+<script th:src="@{/js/common/popup/LightFace.Request.js}"> </script>
+<script th:src="@{/js/MB/Reports/RailRequestReport/railrequestreport.js(random=${session.jsToken})}"></script>
+<script type="text/javascript" th:src="@{/js/common/crypto.js}"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	
+    $('#requestDetailsTR').DataTable({
+searching: false,
+info: false,
+ordering:false
+    });
+});
+</script>
+
+<body oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+
+	<div th:insert="~{fragments/header/mainHeader}">...</div>
+
+	<section id="midpart" class="midpart">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-1"></div>
+				<div class="col-lg-10">
+
+
+					<div id="program" class="programBlock">
+						<div class="welcomebox">
+							<div class="welcomeHead">
+								<p>
+									Report Filter of Travel Request For Which No Booking Has
+									Been Done...
+								</p>
+							</div>
+							<div class="welcomecont">
+								<form th:action="@{/reports/getRailReqReportData}" method="post" name="requestRptFilter"
+									id="requestRptFilter">
+
+									<input type="hidden" name="groupID" th:value="${gropuId}">
+									<table class="filtersearch" cellspacing="1" cellpadding="4" width="100%" border="0">
+
+										<tbody class="all1">
+											<tr align="left">
+												<td>
+													Personal No.
+												</td>
+												<td><input type="text" name="personalNo" id="personalNo" class="txtfldM"
+														size="15" autocomplete="off" maxlength="20"
+														th:value="${railReqModel.personalNo}" />
+												</td>
+
+												<td>
+													Request Id
+												</td>
+												<td><input type="text" name="requestId" id="requestId" class="txtfldM"
+														size="15" autocomplete="off" maxlength="20"
+														th:value="${railReqModel.requestId}" /></td>
+											
+												<td align="left">
+													From Date
+												</td>
+												<td><input type="text" name="fromXdate" id="frmBookingDt"
+														class="txtfldM" size="15" th:value="${railReqModel.fromXdate}"
+														readonly="readonly" autocomplete="off" /></td>
+
+												<td>
+													To Date
+												</td>
+												<td><input type="text" name="toXdate" id="toBookingDt" class="txtfldM"
+														size="15" th:value="${railReqModel.toXdate}" readonly="true"
+														autocomplete="off" /> </td>
+											</tr>
+
+											<tr align="left">
+												<td>
+													Booking Type
+												</td>
+												<td><select name="bookingType" class="comboM" id="bookingType">
+														<option value="">All</option>
+
+														<option value="1"
+															th:selected="${railReqModel.bookingType}=='1'">
+															Exceptional</option>
+                                                         
+														<option value="2"
+															th:selected="${railReqModel.bookingType}=='2'">
+															Flexi Booking</option>
+															
+														<option value="0"
+															th:selected="${railReqModel.bookingType}=='0'">
+															Normal</option>
+	
+
+														<option value="3"
+															th:selected="${railReqModel.bookingType}=='3'">
+															Offline Booking</option>
+													</select>
+
+												</td>
+												<td align="left">
+													Ticket Type
+												</td>
+												<td> <select name="ticketType" class="comboM" id="ticketType">
+														<option value="">All</option>
+
+														<option value=0 th:selected="${railReqModel.ticketType}=='0'">
+															e-ticket
+														</option>
+														<option value=1 th:selected="${railReqModel.ticketType}=='1'">
+															i-ticket
+														</option>
+
+													</select>
+												</td>
+												<td align="left">
+													Travel Type
+												</td>
+												<td> <select name="traveType" class="comboM" id="travelType">
+														<option value="">All</option>
+
+														<option th:each="src:${travelTypeList}"
+															th:text="${src.travelName}" th:value="${src.travelTypeId}"
+															th:selected="${src.travelTypeId}== ${railReqModel.traveType}">
+
+													</select>
+												</td>
+
+
+
+												<td>
+													Code Head
+												</td>
+												<td> <select name="codeHead" class="comboM" id="codeHead">
+														<option value="">All</option>
+														<option th:each="src:${codeHeadList}"
+															th:text="${src.railCodehead}" th:value="${src.railCodehead}"
+															th:selected="${src.railCodehead}== ${railReqModel.codeHead}">
+													</select>
+												</td>
+											</tr>
+											<tr align="left">
+												<td>
+													Request Status
+												</td>
+												<td> <select name="bookingStatus" class="comboM" id="requestStatus">
+														<option value="">All</option>
+
+														<option value="1"
+															th:selected="${railReqModel.bookingStatus}=='1'">
+															Approved</option>
+															
+														<option value="5"
+															th:selected="${railReqModel.bookingStatus}=='5'">
+															Booked</option>	
+															
+														<option value="4"
+															th:selected="${railReqModel.bookingStatus}=='4'">
+															Closed</option>	
+														
+														<option value="7"
+															th:selected="${railReqModel.bookingStatus}=='7'">
+															Cancelled By MB</option>	
+															
+														
+														<option value="3"
+															th:selected="${railReqModel.bookingStatus}=='3'">
+															In Process</option>		
+
+														<option value="0"
+															th:selected="${railReqModel.bookingStatus}=='0'">
+															Requested</option>
+
+														<option value="2"
+															th:selected="${railReqModel.bookingStatus}=='2'">
+															Rejected</option>
+
+													</select>
+												</td>
+
+												<td>
+													Account Office
+												</td>
+												<td> <select name="accountOffice" class="comboM" id="accountOffice">
+														<option value="">All</option>
+
+														<option th:each="src:${accountOfficeList}" th:text="${src.name}"
+															th:value="${src.groupId}"
+															th:selected="${src.groupId}== ${railReqModel.accountOffice}">
+															</repeat>
+													</select>
+												</td>
+
+
+												<td>
+													Tatkal Flag
+												</td>
+												<td colspan="4">
+													<select name="tatkalFlag" class="comboM" id="tatkalFlag">
+														<option value="">All</option>
+                                                         
+                                                        <option value="1" th:selected="${railReqModel.tatkalFlag}=='1'">
+															Non Tatkal</option>
+                                                         
+														<option value="0" th:selected="${railReqModel.tatkalFlag}=='0'">
+															Tatkal</option>
+
+														
+
+														</repeat>
+													</select>
+												</td>
+											</tr>
+
+											<tr>
+												<td colspan="8" id="downLoadFile" style="text-align:right">
+													<a href="#" align="right"><input class="butn" type="button"
+															onclick="doGenerate();" value="Generate Report" /></a>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</form>
+							</div>
+						</div>
+					</div>
+					
+					
+					
+					<form>
+						<div class="welcomebox" th:unless="${#lists.isEmpty(reportDataList)}">
+						
+									<table id="requestDetailsTR" class="filtersearch" cellspacing="1" cellpadding="4"
+										width="100%" border="0">
+										
+											<thead class="head">
+											<tr>
+
+												<th>Request Id</th>
+												<th>Personal No.</th>
+												<th>Travel Type</th>
+												<th>Code Head</th>
+
+												<th>Account Office</th>
+												<th>Booking Type</th>
+												<th>Ticket Type</th>
+												<th>Request Date</th>
+												<th>Tatkal Approval Status</th>
+
+											</tr>
+											</thead>
+											<tbody class="all1">
+											<tr class="lablevaluebgalt" align="left" th:each="src:${reportDataList}">
+												<td>
+
+<!-- 													<button th:value="${src.requestId}" name="requestId" -->
+<!-- 														th:text="${src.requestId}" type="button" -->
+<!-- 														style="border: none ;color: mediumblue;background-color:white;text-decoration: underline;" -->
+<!-- 														onclick="viewRequestReports()"> -->
+<!-- 													</button> -->
+												
+	<a class="links" href="#"  th:attr="onclick='viewRequestRailReports(\''+${src.requestId}+'\')'"><span th:text="${src.requestId}" > </span> </a>			</td>									
+												<td th:text="${src.personalNo}"> </td>
+												<td th:text="${src.travelTypeName}"> </td>
+												<td th:text="${src.codeHead}"> </td>
+
+												<td th:text="${src.accountOffice}">
+												</td>
+												<td th:text="${src.bookingType}"> </td>
+												<td th:text="${src.ticketType}"> </td>
+												<td th:text="${src.requestDate}"> </td>
+												<td th:text="${src.status}">
+												</td>
+											</tr>
+										</tbody>
+									</table>
+						</div>
+					</form>
+
+					
+
+
+					<div id="norequestDetailsTR">
+						<p class="errors" th:text="${noRecord}"> </p>
+					</div>
+
+
+
+				</div>
+			</div>
+
+		</div>
+
+	</section>
+	<section>
+	<div class="blank"></div>
+	</section>
+	<section>
+    <div th:insert="~{fragments/login/footer}"></div>
+    </section>
+</body>
+
+</html>

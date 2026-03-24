@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+
+<link rel="stylesheet" type="text/css" th:href="@{/css/common/popup/jquery.popup.css}">
+<script type="text/javascript"
+	th:src="@{/js/CDA/transactionsettlementair/voucheracknowledgement/vocheracknowledgementcda.js(random=${session.jsToken})}"></script>
+
+<script th:src="@{/js/common/popup/jquery.popup.js}"></script>
+
+
+<script>
+
+	$(document).ready(function () {
+		$(".js__p_start").simplePopup();
+	});
+	function acknowledgementHistory(voucherNo) {
+		$.ajax({
+			url:$("#context_path").val()+ "cda/voucherAckHistoryCda",
+			data: {voucherNo: voucherNo},
+			method: "post",
+
+			success: function (result) {
+
+				$("#voucher_Ack_History_Id").html(result);
+				$("#voucher_Ack_Close_Id").show();
+				$(".js__p_start").click();
+
+			}
+		});
+	}
+</script>
+
+<body oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+	<div th:insert="~{fragments/header/mainHeader}"></div>
+
+	<section id="midpart" class="midpart">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-1"></div>
+				<div class="col-lg-10">
+					<form th:action="@{/cda/getAckSearchDataCda}" method="post" name="ackSearchDataForm"
+						id="ackSearchDataForm">
+						<div id="program" class="programBlock">
+							<div class="welcomebox" style="margin-bottom:1rem;">
+								<div class="welcomeHead">
+									<p th:text="#{cda.transactionsettlement.voucherack.filter}"> </p>
+
+								</div>
+								<div class="welcomecont">
+									<table id="filtersearch" class="filtersearch">
+										<tbody class="all1">
+
+											<tr>
+												<td th:text="#{cda.transactionsettlement.voucherack.vgfromdate}"> </td>
+												<td><input name="fromDate" type="text" id="frmBookingDt" class="txtfldM"
+														size="15" readonly="readonly"
+														th:value="${searchModel.fromDate}" autocomplete="off"></td>
+												<td th:text="#{cda.transactionsettlement.voucherack.vgtodate}"> </td>
+												<td><input name="toDate" type="text" id="toBookingDt" class="txtfldM"
+														size="15" readonly="readonly" th:value="${searchModel.toDate}" autocomplete="off">
+												</td>
+											
+												<td th:text="#{cda.transactionsettlement.voucherack.txfrdate}"> </td>
+												<td><input name="fromTxnDate" type="text" id="frmTransactionDt"
+														class="txtfldM" size="15" readonly="readonly"
+														th:value="${searchModel.fromTxnDate}" autocomplete="off"></td>
+
+												<td th:text="#{cda.transactionsettlement.voucherack.txtodate}"> </td>
+												<td><input name="toTxnDate" type="text" id="toTransactionDt"
+														class="txtfldM" size="15" readonly="readonly"
+														th:value="${searchModel.toTxnDate}" autocomplete="off"> </td>
+											</tr>
+
+											<tr>
+												<td th:text="#{cda.transactionsettlement.voucherack.pno}"> </td>
+												<td><input name="personalNo" type="text" id="personalNo" class="txtfldM"
+														size="20" maxlength="20" th:value="${searchModel.personalNo}" autocomplete="off">
+												</td>
+
+												<td th:text="#{cda.transactionsettlement.voucherack.ttype}"> </td>
+												<td> <select name="travelType" class="comboM" id="travelType">
+														<option value="">All</option>
+														<option th:each="src : ${travelTypeList}"
+															th:text="${src.travelName}" th:value="${src.travelTypeId}"
+															th:selected="${src.travelTypeId} == ${searchModel.travelType}">
+														</option>
+													</select>
+												</td>
+											
+												<td th:text="#{cda.transactionsettlement.voucherack.vno}"> </td>
+												<td><input name="voucherNo" type="text" id="voucherNo" class="txtfldM"
+														size="15" maxlength="20" th:value="${searchModel.voucherNo}" autocomplete="off">
+												</td>
+
+												<td th:text="#{cda.transactionsettlement.voucherack.txnid}"> </td>
+												<td><input name="invoiceNo" type="text" id="invoiceNo" class="txtfldM"
+														size="15" maxlength="20" th:value="${searchModel.invoiceNo}" autocomplete="off">
+												</td>
+											</tr>
+
+											<tr>
+												<td th:text="#{cda.transactionsettlement.voucherack.vstatus}"> </td>
+												<td> <select name="statusType" class="comboM" id="statusType">
+														<option value="-1">All</option>
+
+														<option value="0" th:selected="${searchModel.statusType}==0">
+															Open</option>
+
+														<option value="1" th:selected="${searchModel.statusType}==1">
+															Partially Settled</option>
+
+														<option value="2" th:selected="${searchModel.statusType}==2">
+															Fully Settled</option>
+
+														<option value="3" th:selected="${searchModel.statusType}==3">
+															Cancelled</option>
+
+													</select>
+												</td>
+
+												<td><label th:text="#{cda.transactionsettlement.voucherack.ao}"></label> <span
+														class="mandatory">*</span></td>
+												<td>
+												  <select name="accountOffice" class="comboM" id="accountOffice" style="width: 84%;">
+														<option value="">Select</option>
+														<option th:each="src : ${accountMap}"
+															th:text="${src.value}" th:value="${src.key}" th:selected="${src.key} == ${searchModel.accountOffice}">
+														</option>
+													</select>	
+												</td>
+											
+												<td th:text="#{cda.transactionsettlement.voucherack.spro}"> </td>
+												<td colspan="4">
+													<select name="serviceProvider" class="comboM"
+														id="serviceProviderType" style="width: 27%;">
+														<option value="">Select</option>
+
+														<option value="0"
+															th:selected="${searchModel.serviceProvider}==0">BL</option>
+
+														<option value="1"
+															th:selected="${searchModel.serviceProvider}==1">ATT</option>
+
+													</select>
+												</td>
+
+
+											</tr>
+
+											<tr>
+												<td colspan="8" id="downLoadFile" style="text-align:right">
+													<a href="javascript:void(0);"><input type="button"
+															th:attr="onclick='doGenerate(this.value)'" value="Generate Report"
+															class="butn"></a>
+												</td>
+											</tr>
+
+
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</form>
+					<div>
+						<p th:text="${noResult}" class="errors"> </p>
+					</div>
+					<div id="program" class="programBlock" th:unless="${#lists.isEmpty(ackdataList)}">
+						<form name="voucherSettlementRprtFilter" id="voucherSettlementRprtFilter"
+							enctype="multipart/form-data" th:action="@{/cda/saveVoucherAckCda}" method="post">
+							<input type="hidden" name="voucherNo" id="voucherNoo" value="" />
+					    	 <input type="hidden" name="payment_ids" id="payment_ids" value="" />
+							<div class="welcomebox" style="margin-bottom:1rem;">
+
+								<div class="welcomecont">
+												<table class="filtersearch" id="voucherSettlementDetailsTRResult">
+										<tr>
+											<td>
+															<table class="filtersearch" id="outstandingDetailsTR">
+																<tbody class="all1">
+													<tr>
+																	<!--<td class="lablevalue" style="text-align:center">Select</td>-->
+																	<td class="lablevalue" style="text-align:center" th:text="#{cda.transactionsettlement.voucherack.vno}">
+																	</td>
+																	<td class="lablevalue" style="text-align:center" th:text="#{cda.transactionsettlement.voucherack.vdate}">
+																	</td>
+																	<td class="lablevalue" style="text-align:center" th:text="#{cda.transactionsettlement.voucherack.vstatus}">
+																	</td>
+																	<td class="lablevalue" style="text-align:center" th:text="#{cda.transactionsettlement.voucherack.vdueamt}">
+																	</td>
+																	<td class="lablevalue" style="text-align:center" th:text="#{cda.transactionsettlement.voucherack.voutamt}">
+																	</td>
+																	<td class="lablevalue" style="text-align:center" th:text="#{cda.transactionsettlement.voucherack.ackhistory}">
+																	</td>
+																	<!--<td class="lablevalue" style="text-align:center" th:text="#{cda.transactionsettlement.voucherack.action}">
+																	</td>-->
+																</tr>
+
+
+																<tr th:each="src,stat : ${ackdataList}">
+
+																	<td style="text-align:center">
+																	
+																<!--	<input type="radio"
+																			th:attr="onchange='selectVoucherRadio(\''+${src.voucherNo}+'\')'"
+																			name="voucherRadio"
+																			th:value="${src.voucherNo}"
+																			th:id="@{|radio_${stat.index}|}" />-->
+																	</td>
+
+																	<td style="text-align:center" th:text="${src.voucherNo}">
+
+																	</td>
+																	<td style="text-align:center" th:text="${src.creationTime}">
+																	</td>
+																	<td style="text-align:center" th:text="${src.voucherStatus}"> </td>
+																	<td style="text-align:center" th:text="${src.totalAmount}"> </td>
+																	<td style="text-align:center" th:text="${src.balanceTotalAmount}">
+																	</td>
+
+																	<td style="text-align:center"> <a href="javascript:void(0);"
+																			th:attr="onclick='acknowledgementHistory(\''+${src.voucherNo}+'\')'">History
+																			Link</a></td>
+																	<!--<td style="text-align:center">
+																		<div>
+																			<a th:id="@{|button_${stat.index}|}"
+																				style="display:none"
+																				href="javascript:void(0);"><input
+																					class="butn" type="button"
+																					onclick=" submitAcknowledgementData();"
+																					value="Upload" /></a>
+																		</div>
+																	</td>-->
+																</tr>
+
+																<tr th:each="src,stat : ${ackdataList}">
+																	<td colspan="9">
+																		<table class="filtersearch" th:id="@{|txn_row_${stat.index}|}"
+																			style="display:none">
+																			<tbody class="all1" th:if="${src.settlementFound}=='No'">
+																				<tr>
+																					<td class="showalert"
+																						colspan="8" style="font-weight:bold">
+																						No Settlement's
+																						Found</td>
+																				</tr>
+																			</tbody>
+																			<tbody class="all1" th:unless="${src.settlementFound}=='No'">
+																				<tr>
+																					<td style="width:3%"> </td>
+																					<td class="lablevalue" style="width:9%;text-align:center"><label th:text="#{cda.transactionsettlement.voucherack.pid}">
+																						</label></td>
+																					<td class="lablevalue" style="width:11%;text-align:center"><label th:text="#{cda.transactionsettlement.voucherack.paidamt}">
+																						</label>
+																					</td>
+																					<td class="lablevalue" style="width:12%;text-align:center"><label th:text="#{cda.transactionsettlement.voucherack.paydate}">
+																						</label>
+																					</td>
+																					<td class="lablevalue" style="width:10%;text-align:center"><label th:text="#{cda.transactionsettlement.voucherack.paydesc}">
+																						</label>
+																					</td>
+																					<td class="lablevalue" style="width:10%;text-align:center"><label th:text="#{cda.transactionsettlement.voucherack.ackstatus}">
+																						</label>
+																					</td>
+																					<td class="lablevalue" style="width:10%;text-align:center"><label th:text="#{cda.transactionsettlement.voucherack.ackno}">
+																						</label><span class="mandatory">*</span>
+																					</td>
+																					<td class="lablevalue" style="width:10%;text-align:center"><label th:text="#{cda.transactionsettlement.voucherack.ackdate}">
+																						</label><span class="mandatory">*</span>
+																					</td>
+																					<td class="lablevalue" style="text-align:center"><label th:text="#{cda.transactionsettlement.voucherack.ftupload}">
+																						</label><span class="mandatory">*</span>
+																					</td>
+																				</tr>
+
+
+																				<tr th:each="sr,ind : ${src.voucherAckPayment}">
+																					<td style="text-align:center"
+																						th:if="${sr.paymentAckStatus} == 'Pending'">
+																						<input
+																							th:attr="onchange='onChangePaymentCheckbox(\''+this+'\',\''+${src.voucherNo}+'\',\''+${ind.index}+'\',\''+${sr.paymentId}+'\')'"
+																							th:value="${sr.paymentId}"
+																							type="checkbox"
+																							th:id="@{|check_${src.voucherNo}_${ind.index}|}"
+																							th:name="@{|check_${src.voucherNo}|}" />
+																					</td>
+
+
+																					<td style="text-align:center"
+																						th:unless="${sr.paymentAckStatus} == 'Pending'">
+																						<input disabled="true"
+																							type="checkbox"
+																							th:id="@{|check_${src.voucherNo}_${ind.index}|}"
+																							th:name="@{|check_${src.voucherNo}|}" />
+																					</td>
+
+
+
+																					<td style="text-align:center"><span
+																							th:text="${sr.paymentId}"></span>
+																						<input type="hidden" 
+																							maxlength="45"
+																							th:name="@{|paymentId_${src.voucherNo}_${sr.paymentId}|}"
+																							th:value="${sr.paymentId}" />
+
+																						<input type=hidden ></td>
+																					<td style="text-align:center"><span
+																							th:text="${sr.amountPaid}"></span>
+																						
+																					</td>
+																					<td style="text-align:center" th:text="${sr.paymentDate}">
+																					</td>
+																					<td style="text-align:center" th:text="${sr.paymentDesc}">
+																					</td>
+																					<td style="text-align:center"
+																						th:text="${sr.paymentAckStatus}">
+																					</td>
+																					<td style="text-align:center"><input type="text" value=""
+																							maxlength="45"
+																							disabled="true"
+																							th:name="@{|ack_${src.voucherNo}_${sr.paymentId}|}"
+																							th:id="@{|ack_${src.voucherNo}_${ind.index}|}" />
+																					</td>
+																					<td style="text-align:center"> <input type="text"
+																							disabled="true" size="10"
+																							readonly="readonly"
+																							th:name="@{|ack_date_${src.voucherNo}_${sr.paymentId}|}"
+																							th:id="@{|ack_date_${src.voucherNo}_${ind.index}|}" />
+																					</td>
+																					<td style="text-align:center"><input type="file"
+																							disabled="true"
+																							th:name="@{|file_${src.voucherNo}_${sr.paymentId}|}"
+																							th:id="@{|file_${src.voucherNo}_${ind.index}|}"
+																							accept=".pdf" />
+																					</td>
+																				</tr>
+
+
+																		</table>
+
+																	</td>
+																</tr>
+
+																</tbody>
+															</table>
+														</td>
+													</tr>
+												</table>
+								</div>
+							</div>
+
+
+						</form>
+					</div>
+					<div class="popup js__popup js__slide_top">
+						<table style="display:none;width:100%" id="voucher_Ack_Close_Id" class="p_content">
+							<tr>
+								<td><a href="javascript:void(0);" class="p_close js__p_close button_ok"
+										title="Close">Close</a></td>
+							</tr>
+						</table>
+					</div>
+					<div class="p_anch">
+						<a href="javascript:void(0);" class="js__p_start"></a>
+					</div>
+					<div class="p_body js__p_body js__fadeout">&#160;</div>
+					<div class="popup js__popup js__slide_top">
+						<div class="p_content" id="voucher_Ack_History_Id">
+							<table style="width:100%">
+								<tr style="background-color:#ccc;">
+									<td class="p_content_alert">Alert!</td>
+									<td>
+										<a href="javascript:void(0);" class="js__p_close" title="Close">
+											<img th:src="@{/images/close.png}" alt="Close" width="20" height="20"
+												title="Close" />
+										</a>
+									</td>
+								</tr>
+
+								<tr id="pendingUserCountBlock" style="display:none">
+									<td colspan="2">
+										<table style="width:100%">
+											<tr>
+												<td id="pendingUserCount" style="padding-bottom:60px;font-size: 18px;">
+												</td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+
+
+
+							</table>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section>
+		<div class="blank"></div>
+	</section>
+	<section>
+		<div th:insert="~{fragments/login/footer}"></div>
+	</section>
+</body>
+
+</html>

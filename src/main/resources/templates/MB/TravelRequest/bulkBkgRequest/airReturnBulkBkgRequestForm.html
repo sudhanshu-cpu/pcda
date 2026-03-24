@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<input type="hidden" name="totalTraveller" id="totalTraveller" />
+
+
+<table id="returnAirJourneyTable" border="0" cellpadding="4"
+	cellspacing="1" width="100%" class="filtersearch">
+
+	<tr align="left" bgcolor="#fbfac8">
+		<td>Trip Type</td>
+		<td colspan="3">
+			<div id="returnAirJrnyTypeDiv0" class="d-flex"
+				style="float: left; column-gap: 0.2rem">
+				<input type="radio" ref="returnAirJourneyType"
+					id="returnAirJourneyType" onclick="showReturnHideReturnDate(this);"
+					value="0" checked="checked">Oneway
+				<![CDATA[&nbsp;&nbsp;]]>
+				</radio>
+			</div> <input name="returnTripType" id="returnTripType" type="hidden"
+			value="0" />
+		</td>
+
+	</tr>
+	<tr align="left" bgcolor="#fbfac8">
+		<td><label th:text="#{travel.request.journey.date}"></label><span
+			class="mandatory">*</span></td>
+		<td id="onwordJourneyValue"><input id="returnOnwordJourneyDate"
+			type="text" name="returnOnwordJourneyDate" autocomplete="off"
+			readonly="readonly" /></td>
+		<td th:text="#{travel.request.entitled.class}"></td>
+		<td><select id="returnAirEntitledClass"
+			name="returnAirEntitledClass" class="combo">
+				<option value="">Select</option>
+		</select></td>
+	</tr>
+
+	<tr align="left" bgcolor="#fbfac8" id="returnReturnDateRow"
+		style="display: none">
+		<td>Return Date<span class="mandatory">*</span></td>
+		<td colspan="3"><input id="returnReturnJourneyDate" type="text"
+			placeholder="dd/mm/yyyy" name="returnReturnJourneyDate"
+			autocomplete="off" readonly="readonly" /></td>
+	</tr>
+
+	<tr align="left" bgcolor="#fbfac8">
+		<td><label th:text="#{travel.request.from.station}"></label><span
+			class="mandatory">*</span></td>
+		<td><div id="returnOrgStnDropDown"></div></td>
+
+
+
+		<td id="returnOrgContainer" style="display: none" colspan="2"><input
+			type="text" name="returnOrigin" class="txtfldM" value=""
+			id="returnOrigin" size="50" autocomplete="off"
+			onblur="fillReturnOrgStn('');" />
+			<div class="suggestionsBox" id="returnOrgSuggestion"
+				style="display: none;">
+				<div class="suggestionList" id="returnOrgSuggestionsList"></div>
+			</div></td>
+		<td id="returnTrOrgStn" colspan="2"></td>
+	</tr>
+
+	<tr align="left">
+		<td><label th:text="#{travel.request.to.station}"></label><span
+			class="mandatory">*</span></td>
+		<td><div id="returnDestStnDropDown"></div></td>
+
+	
+		<td id="returnDestContainer" style="display: none" colspan="2"><input type="text"
+			name="returnDestination" class="txtfldM" id="returnDestination"
+			size="50" autocomplete="off" value="" onblur="fillReturnDestStn('');" />
+			<div class="suggestionsBox" id="returnDestSuggestion"
+				style="display: none;">
+				<div class="suggestionList" id="returnDestSuggestionsList"></div>
+			</div></td>
+		<td id="returnTrDestStn" colspan="2"></td>
+
+	</tr>
+
+	<tr style="display: none" id="returnLtcAirConnectingFlight">
+		<td colspan="5">
+			<div class="datagrid" id="returnLtcAirConnectingFlightDtls"></div>
+		</td>
+	</tr>
+
+
+
+
+	<tr>
+		<td colspan="4" style="text-align: right">
+			<div id="returnAirsrchDiv" style="display: none">
+				<input type="button" value="Flight Search" class="butn"
+					id="returnAirSearchId" onClick="airReturnListPopup();" />
+				<div id="returnListResult"></div>
+			</div>
+			<div id="returnHideSearch" style="display: none">
+				<input type="button" value="Hide Search" class="butn"
+					id="returnHideSearch" onclick="hideAirSearch();" />
+			</div>
+		</td>
+	</tr>
+
+
+
+</table>

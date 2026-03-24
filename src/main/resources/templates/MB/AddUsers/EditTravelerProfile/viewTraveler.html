@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+
+<body oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+<script type="text/javascript" th:src="@{/js/common/crypto.js}"></script>
+<div th:insert="~{fragments/header/mainHeader}"></div>
+
+<script>
+	function encryptPNo(){
+	var prsnlNo = $("#personalNo").val().trim();
+	
+	if(prsnlNo!=''){
+		var encryptPNo = CryptoJS.AES.encrypt(prsnlNo,"Hidden Pass");
+
+		$("#personalNo").val(encryptPNo);
+		
+}
+}
+
+</script>
+<div>
+<div class="container-fluid">
+<div class="row" style="width:100%">
+<div class="col-lg-1"></div>
+<div class="col-lg-10">
+					<div id="program" class="programBlock">
+						<div class="welcomebox" style="margin-bottom:1rem">
+							<div class="welcomeHead">
+	    <p th:text="#{mb.addusers.traveller.view.details}"></p>
+	</div>
+							<div class="welcomecont">
+								<table class="filtersearch">
+									<tbody class="all1">
+
+			<tr>
+				<td style="width:25%">
+					<span th:text="#{mb.addusers.traveller.view.unitsrc}"></span>
+			  	</td>
+				<td style="width:25%">
+					<span th:text="${travelerReq.unitServiceName}"></span>
+			  	</td>
+				<td style="width:25%">
+					<span th:text="#{mb.addusers.traveller.view.travsrc}"></span>
+			  	</td>
+				<td style="width:25%">
+					<span th:text="${travelerReq.serviceName}"></span>
+			  	</td>
+			</tr>
+
+			<tr>
+				<td style="width:25%">
+					<span th:text="#{mb.addusers.traveller.view.category}"></span>
+			  	</td>
+				<td style="width:25%">
+					<span th:text="${travelerReq.categoryName}"></span>
+			  	</td>
+				<td style="width:25%">
+					<span th:text="#{mb.addusers.traveller.view.level}"></span>
+			  	</td>
+				<td style="width:25%">
+					<span th:text="${travelerReq.levelName}"></span>
+			  	</td>
+			</tr>
+
+			<tr>
+				<td style="width:25%">
+					<span th:text="#{mb.addusers.traveller.view.railoff}"></span>
+			  	</td>
+				<td style="width:25%">
+					<span th:text="${travelerReq.accountOffice}"></span>
+			  	</td>
+				<td style="width:25%">
+					<span th:text="#{mb.addusers.traveller.view.airoff}"></span>
+			  	</td>
+				<td style="width:25%">
+					<span th:text="${travelerReq.airAccountOffice}"></span>
+			  	</td>
+			</tr>
+
+			<tr>
+				<td style="width:25%">
+					<span th:text="#{mb.addusers.traveller.view.pno}"></span>
+			  	</td>
+				<td style="width:25%">
+					<span th:text="${travelerReq.signInID}"></span>
+			  	</td>
+		  	</tr>
+
+			<tr th:if="${travelerReq.serviceId} == #{mb.addusers.dod.cons.drdosrcid} or ${travelerReq.serviceId} == #{mb.addusers.dod.cons.dadsrcid}">
+				<td style="width:25%">
+					<span th:text="#{mb.addusers.traveller.view.auth}"></span>
+			  	</td>
+				<td style="width:25%">
+					<span th:text="${travelerReq.changeAuthority}"></span>
+			  	</td>
+			</tr>
+
+		</tbody>
+	</table>
+							</div>
+						</div>
+					</div>
+
+					<div id="program" class="programBlock">
+						<div class="welcomebox" style="margin-bottom:1rem">
+							<div id="welcomeHead" class="welcomeHead">
+	    <p th:text="#{mb.addusers.traveller.view.pdetails}"></p>
+	</div>
+
+							<div class="welcomecont">
+								<table id="filtersearch" class="filtersearch">
+									<tbody  id="all1" class="all1">
+
+			<tr>
+				<td style="width:25%">
+					<span th:text="#{mb.addusers.traveller.view.empname}"></span>
+			  	</td>
+				<td style="width:25%">
+					<span th:text="${travelerReq.firstName}"></span>
+					<span th:text="${travelerReq.middleName}"></span>
+					<span th:text="${travelerReq.lastName}"></span>
+			  	</td>
+			</tr>
+
+			<tr>
+				<td style="width:25%">
+					<span th:text="#{mb.addusers.traveller.view.gender}"></span>
+			  	</td>
+				<td style="width:25%">
+					<span th:text="${travelerReq.gender}"></span>
+			  	</td>
+			</tr>
+
+			<tr>
+				<td style="width:25%">
+					<span th:text="#{mb.addusers.traveller.view.marst}"></span>
+			  	</td>
+				<td style="width:25%">
+					<span th:text="${travelerReq.maritalStatus}"></span>
+			  	</td>
+			</tr>
+
+			<tr>
+				<td style="width:25%">
+					<span th:text="#{mb.addusers.traveller.view.ersname}"></span>
+			  	</td>
+				<td style="width:25%">
+					<span th:text="${travelerReq.ersPrintName}"></span>
+			  	</td>
+			</tr>
+			<tr th:if="${travelerReq.serviceId} == 1000019">
+				<td>
+					<div style="padding:0">
+						<span style="font:13px arial;color:#333;">Service No.</span>
+					</div>
+				</td>
+				<td><span th:text="${travelerReq.serviceNo}"></span></td>
+			
+			
+			</tr>
+
+			<tr>
+				<td style="width:25%">
+					<span th:text="#{mb.addusers.traveller.view.dob}"></span>
+			  	</td>
+				<td style="width:25%">
+					<span th:text="${travelerReq.dateOfBirth}"></span>
+			  	</td>
+			</tr>
+
+			<tr>
+				<td style="width:25%">
+					<span th:text="#{mb.addusers.traveller.view.dor}"></span>
+			  	</td>
+				<td style="width:25%">
+					<span th:text="${travelerReq.dateOfRetirement}"></span>
+			  	</td>
+			</tr>
+
+			<tr>
+				<td style="width:25%" th:if="${travelerReq.categoryName} == #{mb.addusers.dod.cons.categoryncc} or ${travelerReq.categoryName} == #{mb.addusers.dod.cons.categoryofficer}">
+					<span th:text="#{mb.addusers.traveller.view.docom}"></span>
+				</td>
+				<td style="width:25%" th:unless="${travelerReq.categoryName} == #{mb.addusers.dod.cons.categoryncc} or ${travelerReq.categoryName} == #{mb.addusers.dod.cons.categoryofficer}">
+					<span th:text="#{mb.addusers.traveller.view.doenr}"></span>
+				</td>
+				<td style="width:25%">
+					<span th:text="${travelerReq.dateOfCommissioning}"></span>
+				</td>
+			</tr>
+
+			<tr>
+				<td style="width:25%">
+					<span th:text="#{mb.addusers.traveller.view.email}"></span>
+			  	</td>
+				<td style="width:25%">
+					<span th:text="${travelerReq.email}"></span>
+			  	</td>
+			</tr>
+
+			<tr th:if="${travelerReq.serviceType.ordinal} == 0">
+				<td th:if="${travelerReq.serviceName} == #{mb.addusers.dod.cons.srcarmy}">
+					<div th:if="${travelerReq.categoryName} == #{mb.addusers.dod.cons.categoryncc} or ${travelerReq.categoryName} == #{mb.addusers.dod.cons.categoryofficer}">
+						<span th:text="#{mb.addusers.traveller.view.cda}"></span>
+						<td style="width:25%">
+					<span th:text="${travelerReq.cdaoAccountNo}"></span>
+					</td>
+					</div>
+				</td>
+				<td th:if="${travelerReq.serviceName} == #{mb.addusers.dod.cons.srcmns} and ${travelerReq.categoryName} == #{mb.addusers.dod.cons.categoryofficer}">
+					<span th:text="#{mb.addusers.traveller.view.cda}"></span>
+					
+					<span th:text="${travelerReq.cdaoAccountNo}"></span>
+					
+				</td>
+			</tr>
+
+			<tr>
+				<td th:if="${travelerReq.categoryName} == #{mb.addusers.dod.cons.categoryncc} or ${travelerReq.categoryName} == #{mb.addusers.dod.cons.categoryofficer}">
+					<span th:text="#{mb.addusers.traveller.view.fdused}"></span>
+				</td>
+				<td style="width:25%" th:unless="${travelerReq.categoryName} == #{mb.addusers.dod.cons.categoryncc} or ${travelerReq.categoryName} == #{mb.addusers.dod.cons.categoryofficer}">
+					<span th:text="#{mb.addusers.traveller.view.cvused}"></span>
+				</td>
+				<td>
+					<span th:text="${travelerReq.cvUsed}"></span>
+				</td>
+			</tr>
+
+		</tbody>
+	</table>
+							</div>
+						</div>
+					</div>
+					<div id="program" class="programBlock">
+						<div class="welcomebox" style="margin-bottom:1rem">
+							<div id="welcomeHead" class="welcomeHead">
+	    <p th:text="#{mb.addusers.traveller.view.addressdtls}"></p>
+	</div>
+							<div class="welcomecont">
+								<table id="filtersearch" class="filtersearch">
+									<tbody id="all1" class="all1">
+
+			<tr>
+				<td style="width:25%">
+					<span th:text="#{mb.addusers.traveller.view.mobno}"></span>
+				</td>
+				<td style="width:25%">
+					<span th:text="${travelerReq.mobileNo}"></span>
+				</td>
+			</tr>
+
+			<tr>
+				<td style="width:25%">
+					<span th:text="#{mb.addusers.traveller.view.nrsduty}"></span>
+				</td>
+				<td style="width:25%">
+					<span th:text="${travelerReq.nrsDutyStn}"></span>
+				</td>
+			</tr>
+
+			<tr>
+				<td style="width:25%">
+					<span th:text="#{mb.addusers.traveller.view.nrshmtwn}"></span>
+				</td>
+				<td style="width:25%">
+					<span th:text="${travelerReq.homeTown}"></span>
+				</td>
+			</tr>
+
+			<tr>
+				<td style="width:25%">
+					<span th:text="#{mb.addusers.traveller.view.nrshmtwnre}"></span>
+				</td>
+				<td style="width:25%">
+					<span th:text="${travelerReq.homeTownNrs}"></span>
+				</td>
+			</tr>
+
+			<tr>
+				<td style="width:25%">
+					<span th:text="#{mb.addusers.traveller.view.dutyna}"></span>
+				</td>
+				<td style="width:25%">
+					<span th:text="${travelerReq.naDutyStn}"></span>
+				</td>
+			</tr>
+
+			<tr>
+				<td style="width:25%">
+					<span th:text="#{mb.addusers.traveller.view.hmetwnna}"></span>
+				</td>
+				<td style="width:25%">
+					<span th:text="${travelerReq.homeTownNa}"></span>
+				</td>
+			</tr>
+
+			<tr>
+				<td style="width:25%">
+					<span th:text="#{mb.addusers.traveller.view.spr}"></span>
+				</td>
+				<td style="width:25%">
+					<span th:text="${travelerReq.spr}"></span>
+				</td>
+			</tr>
+
+			<tr>
+				<td style="width:25%">
+					<span th:text="#{mb.addusers.traveller.view.respr}"></span>
+				</td>
+				<td style="width:25%">
+					<span th:text="${travelerReq.sprNrs}"></span>
+				</td>
+			</tr>
+
+			<tr>
+				<td style="width:25%">
+					<span th:text="#{mb.addusers.traveller.view.sprna}"></span>
+				</td>
+				<td style="width:25%">
+					<span th:text="${travelerReq.sprNa}"></span>
+				</td>
+			</tr>
+
+			<tr>
+				<td style="width:25%">
+					<span th:text="#{mb.addusers.traveller.view.odsnrs}"></span>
+				</td>
+				<td style="width:25%">
+					<span th:text="${travelerReq.odsNRS}"></span>
+				</td>
+			</tr>
+
+			<tr>
+				<td style="width:25%">
+					<span th:text="#{mb.addusers.traveller.view.odsna}"></span>
+				</td>
+				<td style="width:25%">
+					<span th:text="${travelerReq.odsNPA}"></span>
+				</td>
+			</tr>
+
+			<tr>
+				<td style="width:25%">
+					<span th:text="#{mb.addusers.traveller.view.odssprnrs}"></span>
+				</td>
+				<td style="width:25%">
+					<span th:text="${travelerReq.odsSprNRS}"></span>
+				</td>
+			</tr>
+
+			<tr>
+				<td style="width:25%">
+					<span th:text="#{mb.addusers.traveller.view.odssprna}"></span>
+				</td>
+				<td style="width:25%">
+					<span th:text="${travelerReq.odsSprNPA}"></span>
+				</td>
+			</tr>
+
+			<tr th:if="${travelerReq.serviceType.ordinal} == 0">
+				<td colspan="2">
+					<b>DA advance will be credit to your bank account no 
+					<font color="red"> <span th:text="${travelerReq.accountNumber}"></span></font> 
+					and IFSC Code 
+					<font color="red" > <span th:text="${travelerReq.ifscCode}"></span></font>
+					 . Please Confirm if it is correct. Take confirmation from the traveler also.</b>
+				</td>
+			</tr>
+
+			<tr th:unless="${travelerReq.serviceType.ordinal} == 0">
+				<td style="width:25%">
+					<span th:text="#{mb.addusers.traveller.view.accno}"></span>
+				</td>
+				<td style="width:25%">
+					<span th:text="${travelerReq.bankAccountNumber}"></span>
+				</td>
+			</tr>
+
+			<tr th:unless="${travelerReq.serviceType.ordinal} == 0">
+				<td style="width:25%">
+					<span th:text="#{mb.addusers.traveller.view.ifsc}"></span>
+				</td>
+				<td style="width:25%">
+					<span th:text="${travelerReq.ifscCode}"></span>
+				</td>
+			</tr>
+
+		</tbody>
+	</table>
+							</div>
+						</div>
+					</div>
+					<div id="program" class="programBlock">
+						<div class="welcomebox" style="margin-bottom:1rem">
+							<div id="welcomeHead" class="welcomeHead">
+	    <p th:text="#{mb.addusers.armytraveler.depdtl}"></p>
+	</div>
+							<div class="welcomecont">
+								<table  id="filtersearch" class="filtersearch">
+									<tbody class="all1">
+
+			<tr>
+				<td th:text="#{mb.addusers.armytraveler.depname}"></td>
+				<td th:text="#{mb.addusers.armytraveler.depgender}"></td>
+				<td th:text="#{mb.addusers.armytraveler.depdob}"></td>
+				<td th:text="#{mb.addusers.armytraveler.deprel}"></td>
+				<td th:text="#{mb.addusers.armytraveler.depmarst}"></td>
+
+				<td th:if="${travelerReq.serviceName} == #{mb.addusers.dod.cons.srcnavy}" th:text="#{mb.addusers.armytraveler.depgxno}"></td>
+				<td th:if="${travelerReq.serviceName} == #{mb.addusers.dod.cons.airforceofficer}" th:text="#{mb.addusers.armytraveler.depporno}"></td>
+                <td th:if="${travelerReq.serviceName} != #{mb.addusers.dod.cons.srcnavy} and ${travelerReq.serviceName} != #{mb.addusers.dod.cons.airforceofficer} " th:text="#{mb.addusers.armytraveler.depdoiipart}"></td>
+				<td th:if="${travelerReq.serviceName} == #{mb.addusers.dod.cons.srcnavy}" th:text="#{mb.addusers.armytraveler.depgxdate}"></td>
+				<td th:if="${travelerReq.serviceName} == #{mb.addusers.dod.cons.airforceofficer}" th:text="#{mb.addusers.armytraveler.deppordate}"></td>
+                <td th:if="${travelerReq.serviceName} != #{mb.addusers.dod.cons.srcnavy} and ${travelerReq.serviceName} != #{mb.addusers.dod.cons.airforceofficer} " th:text="#{mb.addusers.armytraveler.depdoiidate}"></td>
+
+				<td th:text="#{mb.addusers.armytraveler.depres}"></td>
+				<td th:text="#{mb.addusers.armytraveler.depersname}"></td>
+
+				<td th:text="#{mb.addusers.armytraveler.dephostelnrs}"></td>
+				<td th:text="#{mb.addusers.armytraveler.dephostelnap}"></td>
+
+				<td th:text="#{mb.addusers.armytraveler.status}"></td>
+
+			</tr>
+			<tr th:each="src : ${travelerReq.familyDetails}">
+				<td><span th:text="${src.firstName}"></span> <span th:text="${src.middleName}"></span> <span th:text="${src.lastName}"></span></td>
+				<td th:text="${src.gender}"></td>
+				<td th:text="${src.dateOfBirth}"></td>
+				<td th:text="${src.relation}"></td>
+				<td th:text="${src.maritalStatus}"></td>
+				<td th:text="${src.doiipartNo}"></td>
+				<td th:text="${src.doiidate}"></td>
+				<td th:text="${src.reason}"></td>
+				<td th:text="${src.ersPrintName}"></td>
+				<td th:text="${src.childHostelNRS}"></td>
+				<td th:text="${src.childHostelNAP}"></td>
+				<td th:text="${src.status}"></td>
+			</tr>
+
+
+		</tbody>
+	</table>
+
+							</div>
+						</div>
+						<form>
+						<input type="hidden" id="personalNo" name="personalNo" th:value="${personalNo}">
+						<div>
+						<button style="float: right;margin-right:1px" type="submit" class="butn" th:formaction="@{/mb/searchTraveler}" th:formmethod="post" >Back</button>
+						
+						<button style="float: right;margin-right:7px" type="submit" onclick="encryptPNo();" class="butn" th:formaction="@{/mb/editTraveler}" th:formmethod="post" >Edit</button>
+						</div>
+						</form>
+						
+						
+					</div>
+
+</div>
+</div>
+		</div>
+	</div>
+	<section>
+<div class="blank"></div>
+</section>
+		<section>
+			<div th:insert="~{fragments/login/footer}"></div>
+		</section>
+</body>
+</html>

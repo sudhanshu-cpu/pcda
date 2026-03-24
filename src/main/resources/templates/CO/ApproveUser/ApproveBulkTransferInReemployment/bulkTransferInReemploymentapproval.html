@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+<link rel="stylesheet" type="text/css" th:href="@{/css/common/popup/LightFace.css}">
+
+<script th:src="@{/js/common/popup/mootools.js}"></script>
+<script th:src="@{/js/common/popup/LightFace.IFrame.js(}"></script>
+<script th:src="@{/js/common/popup/LightFace.js}"></script>
+<script th:src="@{/js/common/popup/LightFace.Request.js}"></script>
+<script
+	th:src="@{/js/CO/ApproveUser/ApproveBulkTransferInReEmp/approveBulkTransferInReEmp.js(random=${session.jsToken})}"></script>
+
+<script type="text/javascript">
+	function viewUserReports(transferId) {
+
+		if (parseInt($("#countdown").val()) < 5) {
+			alert("Your Session Has Been Expired. Kindly Re-login");
+			return false;
+		}
+		ajaxUserFace = new LightFace.Request({
+			width: 1200,
+			height: 500,
+			url: $("#context_path").val() + "co/bulkTransferInViewReEmp",
+			width: 'auto',
+			height: 'auto',
+			buttons: [
+				{title: 'Close', event: function () {this.close();}}
+			],
+			request: {
+				data: {
+					transferId: transferId
+				},
+				method: 'post'
+			},
+			title: 'TransferIn View'
+		});
+
+		ajaxUserFace.open();
+
+	}
+</script>
+
+<body>
+	<div th:insert="~{fragments/header/mainHeader}"></div>
+
+	<section class="midpart">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-1"></div>
+				<div class="col-lg-10">
+					<div id="reqPoolDivUnit">
+						<div class="programBlock">
+							<div class="welcomebox" style="margin-bottom:1rem">
+								<div class="welcomeHead">
+									<p>
+										TransferIn Approval
+									</p>
+								</div>
+								<div class="welcomecont">
+									<table id="loginForm1" class="filtersearch" width="100%" cellspacing="1"
+										cellpadding="4" border="0">
+
+										<tbody class="all">
+
+
+											<tr class="lablevalue">
+												<td style="width:8%" nowrap="nowrap" height="23"
+													th:text="#{co.transfer.transferin.approval.bulktransfer.transferid}">
+												</td>
+												<td style="width:10%" nowrap="nowrap" height="23"
+													th:text="#{co.transfer.transferin.approval.bulktransfer.transferdate}">
+												</td>
+												<td style="width:8%" nowrap="nowrap" height="23"
+													th:text="#{co.transfer.transferin.approval.bulktransfer.nrs}"></td>
+												<td style="width:30%" height="23"
+													th:text="#{co.transfer.transferin.approval.bulktransfer.nap}"></td>
+												<td style="width:20%" nowrap="nowrap" height="23"
+													th:text="#{co.transfer.transferin.approval.bulktransfer.transferauthority}">
+												</td>
+												<td style="width:8%" height="23"
+													th:text="#{co.transfer.transferin.approval.bulktransfer.action}">
+												</td>
+											</tr>
+
+											<tr th:each="srcApprv : ${approvalList}">
+												<td><a href="javascript:void(0);"
+														th:attr="onclick='viewUserReports(\''+${srcApprv.transferId}+'\')'"><span
+															th:text="${srcApprv.transferId}"></span> </a></td>
+												<td th:text="${srcApprv.transferAuthorityDateFormat}"></td>
+												<td th:text="${srcApprv.railDutyNrs}"></td>
+												<td th:text="${srcApprv.dutyStnNap}"></td>
+												<td th:text="${srcApprv.transferAuthority}"></td>
+
+												<td><input type="button" value="Approve" class="butn"
+														th:attr="onclick='approvalBulkTransferInReEmp(\''+${srcApprv.transferId}+'\',\''+approve+'\')'">
+													<br> <br> <input type="button" value="Reject" style="width: 60px;"
+														class="butn"
+														th:attr="onclick='approvalBulkTransferInReEmp(\''+${srcApprv.transferId}+'\',\''+disapprove+'\')'">
+												</td>
+											</tr>
+
+
+
+											<tr>
+												<td colspan="6" th:unless="${#lists.isEmpty(approvalList)}"><input
+														type="button" value=" Print this page " class="butn"
+														onclick="window.print(); false;"></td>
+											</tr>
+
+
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+
+
+
+					<form th:action="@{/co/approveBulkTransferInReEmp}" method="POST"
+						id="approveBulkTransferInReEmpForm">
+
+						<input type="hidden" name="loginUserId" th:value="${loginUserId}">
+
+						<input name="transferId" type="hidden" id="approvedMovementId">
+						<input name="event" type="hidden" id="unitMovementAction">
+
+
+						<div>
+							<p th:if="${success}" th:text="${success}" class="errors"
+								style="text-align: center;margin-bottom:0"> </p>
+						</div>
+
+						<div id="disApproveDivUnit" style="display: none;">
+							<div class="programBlock">
+								<div class="welcomebox" style="margin-bottom:1rem">
+									<div class="welcomeHead">
+										<p>
+											Transfer In DisApproval Reason
+										</p>
+									</div>
+									<div class="welcomecont">
+										<table id="loginForm" class="filtersearch" width="100%" cellspacing="1"
+											cellpadding="4" border="0">
+											<tbody class="all">
+
+												<tr align="left">
+													<td width="30%" valign="center" class="lablevalue"
+														th:text="#{co.unit.movement.user.reasonForDisapprval}"></td>
+													<td width="70%"><input name="remark" type="text"
+															style="width: 70%; height: 80px;" id="remark" size="80"
+															maxlength="100" autocomplete="off"></td>
+												</tr>
+												<tr>
+													<td colspan="2"><input type="button" value="Submit" class="butn"
+															th:attr="onclick='submitDisapprove()'"></td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section>
+		<div class="blank"></div>
+	</section>
+	<section>
+		<div th:insert="~{fragments/login/footer}"></div>
+	</section>
+
+
+
+	<script type="text/javascript">
+		var disApproveDivUnit = document.getElementById("disApproveDivUnit");
+		disApproveDivUnit.style.display = 'none';
+	</script>
+</body>
+
+</html>

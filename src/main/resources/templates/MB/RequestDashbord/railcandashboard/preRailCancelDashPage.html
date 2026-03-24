@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+
+
+
+<body oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+	<div th:insert="~{fragments/header/mainHeader}"></div>
+	<section class="midpart">
+		<div class="container-fluid">
+			<div class="row" style="width: 100%">
+				<div class="col-lg-1"></div>
+				<div class="col-lg-10">
+				<form th:action="@{/mb/sendRailDashTktCancel}" method="post" id="sendRailDashTktCancel">
+			                              <input type="hidden" th:value="${canDashModel.tktCanType}" name="tktCanType" />
+                    		              <input type="hidden" th:value="${canDashModel.totalPsnger}" name="totalPsnger" />
+                                          <input type="hidden" th:value="${canDashModel.dodRefNo}" name="dodRefNo" />
+									      <input type="hidden" th:value="${canDashModel.bookingId}" name="bookingId" />
+										  <input type="hidden" th:value="${canDashModel.transactionId}" name="transactionId" />
+										   <input type="hidden" th:value="${canDashModel.cancelString}" name="cancelString" />
+				
+				<div id="program" class="programBlock">
+							<div class="welcomebox" style="margin-bottom: 1rem;">
+								<div class="welcomeHead">
+									<p th:text="#{mb.travel.requestdashboard.pdetails}"></p>
+								</div>
+								<div class="welcomecont">
+									<table class="filtersearch">
+										<tbody class="all">
+
+											<tr class="lablevalue">
+												
+												<td>S.No.</td>
+												<td th:text="#{mb.travel.requestdashboard.name}"></td>
+												<td th:text="#{mb.travel.requestdashboard.age}"></td>
+												<td th:text="#{mb.travel.requestdashboard.gen}"></td>
+												<td th:text="#{mb.travel.requestdashboard.coach}"></td>
+												<td th:text="#{mb.travel.requestdashboard.seat}"></td>
+												<td th:text="#{mb.travel.requestdashboard.berth}"></td>
+												<td th:text="#{mb.travel.requestdashboard.status}"></td>
+												<td th:text="#{mb.travel.requestdashboard.oog}"></td>
+												<td th:text="#{mb.travel.requestdashboard.canstatus}">
+												</td>
+												<td th:text="#{mb.travel.requestdashboard.aoog}"></td>
+											</tr>
+											<tr th:each="sr,stat : ${bkgModel.passengerList}"  th:if="${sr.currentCancelStatus}=='For Cancellation'">
+											
+												<td th:text="${sr.passangerNo}"> </td>
+												<td th:text="${sr.passangerName}"> </td>
+												<td th:text="${sr.passangerAge}"> </td>
+                                                <td th:if="${sr.passangerSex}=='0'">Male </td>
+												<td th:if="${sr.passangerSex}=='1'">Female </td>
+												<td th:text="${sr.trnCoach}"> </td>
+												<td th:text="${sr.trnSeat}"> </td>
+												<td th:text="${sr.trnBerth}"> </td>
+												<td>
+												<span th:text="${sr.currentStatus}"> </span>
+												<input type="hidden" th:if="${sr.currentStatus}=='CNF'" th:name="@{|currentStatus_${stat.index}|}" th:id="@{|currentStatus_${stat.index}|}" value="CNF" />
+												<input type="hidden" th:if="${sr.currentStatus}=='NOSB'" th:name="@{|currentStatus_${stat.index}|}" th:id="@{|currentStatus_${stat.index}|}" value="NOSB" />
+												<input type="hidden" th:if="${sr.currentStatus}=='WL'" th:name="@{|currentStatus_${stat.index}|}" th:id="@{|currentStatus_${stat.index}|}" value="WL" />
+												</td>
+												
+												<td >
+												<span th:text="${sr.isOfficial}"> </span>
+											    <input type="hidden" th:id="@{|isOfficial_${stat.index}|}" th:value="${sr.isOfficial}" />
+												 </td>
+												<td th:text="${sr.currentCancelStatus}"> </td>
+												<td th:text="${sr.isOnGovtInt}"> </td>
+											
+												
+
+											</tr>
+										</tbody>
+										
+									</table>
+								</div>
+							</div>
+						</div>
+				
+				<div style="text-align:right" th:if="${allCan}==false">
+		          <button type="submit" class="butn">Cancel E-Ticket</button> 
+	             </div>
+				</form>
+				</div>
+			</div>
+		</div>
+	</section>
+	
+	<section>
+		<div class="blank"></div>
+	</section>
+	<section>
+		<div th:insert="~{fragments/login/footer}"></div>
+	</section>
+</body>
+
+</html>

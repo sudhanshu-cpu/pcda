@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+<link rel="stylesheet" type="text/css" th:href="@{/css/common/popup/LightFace.css}">
+<script th:src="@{/js/common/popup/mootools.js}"></script>
+<script th:src="@{/js/common/popup/LightFace.js}"></script>
+<script th:src="@{/js/common/popup/LightFace.Request.js}"></script>
+<script th:src="@{/js/ADG/Reports/claimReport/claimStatus.js(random=${session.jsToken})}"></script>
+
+<script type="text/javascript">
+	$(document).ready(function () {
+		$('#requestDetailsData').DataTable({
+			searching: false,
+			info: false,
+			ordering: false
+		});
+
+		$("#userServiceId").on('change', function () {
+			let serviceId = $(this).val();
+			$('#categoryId').find('option').not(':first').remove();
+
+			$.ajax({
+				type: "get",
+				url: $("#context_path").val() + "adg/getCategorybasedOnServiceID",
+				data: "serviceId=" + serviceId,
+				datatype: "application/json",
+				success: function (data) {
+					$.each(data, function (key, value) {
+						$('#categoryId').append(new Option(value, key));
+					});
+				}
+			});
+		});
+	});
+</script>
+
+<body oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+
+	<div th:insert="~{fragments/header/mainHeader}"></div>
+
+	<section id="midpart" class="midpart">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-1">
+					<div id="navigation"></div>
+				</div>
+
+
+				<div class="col-lg-10">
+					<div id="program" class="programBlock">
+
+						<div class="welcomebox">
+							<div class="welcomeHead">
+								<p>Claim Status Report</p>
+							</div>
+							<div class="welcomecont">
+								<form th:action="@{/adg/claimStatusData}" method="post" name="requestRptFilter"
+									id="requestClaimStatus">
+									<table class="filtersearch" cellspacing="1" cellpadding="4" width="100%" border="0">
+										<tbody class="all1">
+											<tr align="left">
+												<td align="left">From Date</td>
+												<td>
+													<input type="text" name="fromDateStr" id="fromDate" class="txtfldM"
+														th:value="${requestData.fromDateStr}" size="15" readonly="true"
+														autocomplete="off" />
+												</td>
+												<td>To Date</td>
+												<td>
+													<input type="text" name="toDateStr" id="toDate" class="txtfldM"
+														th:value="${requestData.toDateStr}" size="15" readonly="true"
+														autocomplete="off" />
+												</td>
+												<td>User Service</td>
+												<td>
+													<select name="userServiceId" id="userServiceId" class="comboM"
+														style="width: 100px;">
+														<option value="ALL">All</option>
+														<option th:each="src : ${userServiceList}"
+															th:value="${src.serviceId}" th:text="${src.serviceName}"
+															th:selected="${requestData.userServiceId} == ${src.serviceId}">
+														</option>
+													</select>
+												</td>
+												<td>Category</td>
+												<td>
+													<select name="categoryId" id="categoryId" class="comboM"
+														style="width: 100px;">
+														<option value="ALL">All</option>
+														<option th:each="categoryMap : ${categoryByUserServiceList}"
+															th:value="${categoryMap.key}" th:text="${categoryMap.value}"
+															th:selected="${requestData.categoryId} == ${categoryMap.key}">
+														</option>
+													</select>
+												</td>
+											</tr>
+
+											<tr>
+												<td colspan="12" style="text-align:right">
+													<div style="display: inline-block;">
+														<input class="butn" type="button" onclick="doGenerate();"
+															value="Generate Report" />
+													</div>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</form>
+							</div>
+						</div>
+						</div>
+						</div>
+						</div>
+						
+						<!-- Claim Status Report Data Section -->
+						<div class="row">
+							<div class="col-lg-1">
+					<div id="navigation"></div>
+				</div>
+						<div class="col-lg-10">
+						<div id="program" class="programBlock">
+						<div class="welcomebox" th:unless="${#lists.isEmpty(claimRptDataList)}"
+						>
+							<div class="welcomecont">
+								<table class="filtersearch" id="requestDetailsData">
+									<thead class="head">
+										<tr>
+											<th>User Service</th>
+											<th>Category</th>
+											<th>Total Claim</th>
+										</tr>
+									</thead>
+									<tbody class="all1">
+										<tr class="lablevaluebgalt" align="left" th:each="src:${claimRptDataList}">
+											<td>
+												<a href="#" class="links"
+													th:attr="onclick='viewClaimDetails(\''+${src.serviceId}+'\',\''+${src.fromDate}+'\',\''+${src.toDate}+'\',\''+${src.categoryId}+'\')'">
+													<span th:text="${src.serviceName}"></span>
+												</a>
+											</td>
+											<td th:text="${src.categoryName}"></td>
+											<td th:text="${src.count}"></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+
+						<div id="norequestDetailsTR">
+							<p class="errors" th:text="${errorMsg}" style="margin-left:1%; margin-top: 10px;"></p>
+						</div>
+
+					</div>
+				</div>
+
+
+			</div>
+		</div>
+	</section>
+
+	<section>
+		<div class="blank"></div>
+	</section>
+
+	<section>
+		<div th:insert="~{fragments/login/footer}"></div>
+	</section>
+
+</body>
+
+</html>

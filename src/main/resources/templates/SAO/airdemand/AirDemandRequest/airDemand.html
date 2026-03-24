@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{fragments/login/head}"></head>
+
+<script
+	th:src="@{/js/SAO/airdemand/airdemand.js(random=${session.jsToken})}">
+	
+</script>
+
+<body>
+	<div th:insert="~{fragments/header/mainHeader}"></div>
+	<section id="midpart" class="midpart">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-1"></div>
+				<div class="col-lg-10">
+					<form th:action="@{/sao/postDemandGeneration}"
+						id="saoDownloadReqForm" method="post">
+						<input type="hidden" id="form_date1" name="fromDate" value="" />
+ <input type="hidden" id="to_date"  name="toDate"   value="" />
+					</form>
+					<form>
+						<div id="program" class="programBlock">
+							<div class="welcomebox">
+								<div class="welcomeHead">
+									<p>Request For Air Demand Download</p>
+								</div>
+								<div class="welcomecont">
+									<table class="filtersearch" cellspacing="1" cellpadding="4"
+										width="100%" border="0">
+										<tbody class="all1">
+   <tr>
+												<td class="lablevalue" colspan="2"><span
+													th:if="${errorMessage} == null"> <span
+														th:text="${demandList.drRecordsCount}"></span> records
+														pending for voucher generation till: <span
+														th:text="${toDate}"></span>
+												</span> <span th:unless="${errorMessage} == null"> <span
+														style="color: red;" th:text="${errorMessage}"></span>
+												</span></td>
+			</tr>
+			<tr>
+												<td style="width: 50%">Would you like to place download
+													request up to <span th:text="${toDate}"></span> ?
+			    </td>
+												<td style="width: 50%"><input type="radio"
+													name="requestType" id="requestType_0" value="0" checked />Yes
+													<input type="radio" name="requestType" id="requestType_1"
+													value="1">No</td>
+											</tr>
+											<tr id="selected_period">
+												<td align="left" style="width: 50%"><b>From Date:</b>&#160;&#160;
+													<input name="fromDate" type="text" id="form_date"
+													th:value="${demandList.startDate}" readonly="readonly"
+													style="border: none;"></td>
+													
+												<td align="left" style="width: 50%"><b>To Date:</b>&#160;&#160;
+													<input name="toDate" type="text" id="datetimepicker"
+													th:value="${toDate}"></td>
+			</tr>
+											<tr id="hide_req_button">
+												<td colspan="10" style="text-align: right"><a
+													href="javascript:void(0);" style="text-align: right"
+													onclick="saveSAODownloadRequest();"> <input
+														class="butn" name="" type="button" value="Place Request" />
+												</a></td>
+			</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+
+						<div class="welcomebox" style="margin-bottom: 1rem"
+							th:if="${demandList}==null">
+							<table class="filtersearch" cellspacing="1" cellpadding="4"
+								width="100%" border="0">
+								<tbody class="all1">
+									<tr class="lablevalue" style="background-color: #B6E3FD;">
+										<td style="text-align: center; width: 10%">Request Id</td>
+										<td style="text-align: center; width: 12%">Request Date</td>
+										<td style="text-align: center; width: 12%">From Date</td>
+										<td style="text-align: center; width: 12%">To Date</td>
+										<td style="text-align: center; width: 5%">Count</td>
+										<td style="text-align: center; width: 6%">Download</td>
+										<td style="text-align: center; width: 8%">Download Date</td>
+			</tr>
+								</tbody>
+
+								<tbody class="all"
+									th:each=" demandDwnList : ${demandList.downloadRequests}">
+									<tr th:each=" demandDwnList : ${demandList.downloadRequests}">
+										<td><span th:text="${demandDwnList.dwnReqId}"></span></td>
+										<td><span th:text="${demandDwnList.creationTime}"></span></td>
+										<td><span th:text="${demandDwnList.fromDate}"></span></td>
+										<td><span th:text="${demandDwnList.toDate}"></span></td>
+										<td><span th:text="${demandDwnList.count}"></span></td>
+										<td style="text-align: center"><span
+											th:if="${demandDwnList.reqStatus} &gt; 1 and ${demandDwnList.isFileDwn} == 0">
+												<button type="submit" style="border: none;"
+													th:formaction="@{/sao/downloadDemandForm}"
+													th:formmethod="get" th:value="${demandDwnList.dwnReqId}"
+													name="requestId">Download</button>
+										</span> <span
+											th:unless="${demandDwnList.reqStatus} &gt; 1 and ${demandDwnList.isFileDwn} == 0">
+             <b>Under Process</b>
+										</span></td>
+										<td style="text-align: center; width: 8%"><span
+											th:text="${demandDwnList.dwnDate}"></span></td>
+         </tr>
+         </tbody>
+
+							</table>
+          </div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section>
+		<div class="blank"></div>
+	</section>
+	<section>
+		<div th:insert="~{fragments/login/footer}"></div>
+	</section>
+</body>
+</html>

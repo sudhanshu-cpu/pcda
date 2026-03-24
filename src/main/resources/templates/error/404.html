@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{fragments/login/head}"></head>
+<body>
+  <section class="topbar">
+        <div class="container-fluid">
+            <div class="tophead">
+                <div class="logout">
+                    <span class="signout">
+  
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div id="block" class="container-fluid">
+            <div class="headnav">
+            </div>
+        </div>
+	 </section>
+    <section class="midpart">
+	<div class="page-header">
+					<div  style="text-align:center">
+						<span style="font-size: 150px; color:red">404 </span>
+						<h1 style="font-size: 50px; color:red">Oops... Page Not Found !!</h1>
+					</div>
+				</div>
+				
+				
+				
+				
+					<div style="text-align:center">
+					<span style="font-size: 20px; color:red">Click Here to Login   </span>	<a  th:href="@{/login}" >Login</a>
+					</div>
+				
+	</section>
+	<section>
+		<div class="blank"></div>
+	</section>
+	<section>
+	<div th:insert="~{fragments/login/footer}"></div>
+		</section>
+	
+	
+
+</body>
+</html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<table border="0" cellpadding="4" cellspacing="1" width="100%" class="filtersearch">
+	  	
+	  	<tr align="left" bgcolor="#fbfac8"> 
+			<td><label th:text="#{travel.request.journey.date}"></label><span class="mandatory">*</span></td>
+			<td><input id="journeyDate" type="text" class="txtfldM" value="" name="journeyDate" autocomplete="off" readonly="readonly" /></td>
+			<td th:text="#{travel.request.entitled.class}"></td>
+			<td>
+				<select id="entitledClass" name="entitledClass" onchange="setDefaultValueForParty('')" class="combo">
+					<option value="">Select</option>
+				</select>
+			</td>
+		</tr>
+	
+	  	<tr align="left" bgcolor="#fbfac8"> 
+		<td><label th:text="#{travel.request.from.station}"></label><span class="mandatory">*</span></td>
+		<td><div id="frmStnDropDown"></div> </td>
+		
+	  			<td id="container" colspan="4" th:if="${reqType} == 'ramBaanBooking'">
+	 					<input type="text" name="fromStation" class="txtfldM" id="fromStation"  autocomplete="off" onmouseup="clrVaiFileds(this.value);" onblur="fillFrmStn('');" onkeyup="fromStationList();"/> 
+	   					<div class="suggestionsBox" id="suggestions" style="display: none;">
+							<div class="suggestionList" id="autoSuggestionsList"></div>
+						</div>
+				</td>
+  			
+		   		<td id="container" style="display:none" colspan="4" th:if="${reqType} != 'ramBaanBooking'">
+		   				<input type="text" name="fromStation" class="txtfldM" autocomplete="off" id="fromStation" onmouseup="clrVaiFileds(this.value);" onblur="fillFrmStn('');" onkeyup="fromStationList();"/> 
+			   			<div class="suggestionsBox" id="suggestions" style="display: none;">
+							<div class="suggestionList" id="autoSuggestionsList"></div>
+						</div>
+			    </td>
+		        <td id="trFrmStn" colspan="2"></td>
+    	</tr>
+    
+		<tr align="left">
+		<td><label th:text="#{travel.request.to.station}"></label><span class="mandatory">*</span></td> 
+		<td><div id="toStnDropDown" ></div></td>
+		
+	            <td id="container1" colspan="2" th:if="${reqType} == 'ramBaanBooking'">
+				    	<input type="text" name="toStation" class="txtfldM" autocomplete="off" id="toStation" onmouseup="clrVaiFileds(this.value);" onblur="fillToStn(this.value);" onkeyup="toStationList();"/>
+				    	<div class="suggestionsBox" id="suggestionsTo" style="display: none;">
+		            		<div class="suggestionList" id="autoSuggestionsListTo"></div>
+		            	</div>
+		        </td>
+           
+			   <td id="container1" style="display:none" colspan="2" th:if="${reqType} != 'ramBaanBooking'">
+						<input type="text" name="toStation" class="txtfldM" id="toStation" autocomplete="off"  onmouseup="clrVaiFileds(this.value);" onblur="fillToStn(this.value);" onkeyup="toStationList();"/>
+						<div class="suggestionsBox" id="suggestionsTo" style="display: none;">
+							<div class="suggestionList" id="autoSuggestionsListTo"></div>
+						</div>
+			   </td>
+		       <td id="trToStn" colspan="2"></td>
+	       
+		</tr>	
+		
+		
+		
+	            <tr th:if="${reqType} == 'offlinebooking'">
+			      <td colspan="6" style="text-align:right">
+			         <div id="trnsrchDiv" style="display:none"> 
+ 				       <input type="hidden" value="Train Search" class="butn" id="trnSearch" onclick="trainListPopup();"/>
+ 		  	         </div>
+			      </td>
+		      </tr>
+           
+			   <tr th:if="${reqType} != 'offlinebooking'">
+			      <td colspan="6" style="text-align:right">
+			         <div id="trnsrchDiv" style="display:none"> 
+ 				       <input type="button" value="Train Search" class="butn" id="trnSearch" onclick="trainListPopup();"/>
+ 		  	         </div>
+			      </td>
+		      </tr>
+	    
+	
+		
+		<tr align="left" bgcolor="#fbfac8">
+	    	<td th:text="#{travel.request.is.tatkal}"></td>
+			<td align="left">
+				<input type="checkbox" name="isTatkal" id="isTatkal" onclick="isTatkalSelected(this);"/>
+				<input type="hidden" name="isTatkalFlag" id="isTatkalFlag" value="0"/>
+				<input type="hidden" name="tatkalReqAttMsg" id="tatkalReqAttMsg" value=""/>
+				<input type="hidden" name="tatkalReqPartyMemberMsg" id="tatkalReqPartyMemberMsg" value=""/>
+				
+			</td>
+			<td th:text="#{travel.request.clustered.route}"></td>
+			<td colspan="3">
+				<input type="checkbox" name="clusteredRoute" id="clusteredRoute" onclick="isClusteredSelected(this);" />
+			</td>
+		
+		</tr>
+		<tr>
+		  	<td colspan="6"><div id="tatkalInfoDiv"  style="display:none;"></div></td>
+		</tr>
+		<tr>
+		  	<td colspan="6">
+			  	<div id="clusteredDiv"  style="display:none;">
+			  		<table width="100%" class="filtersearch">
+			  		<tr>
+			  			<td>Please Enter Cluster Station:</td>
+						<td>
+							<input type="text" name="clusterStation" class="txtfldM" id="clusterStation" autocomplete="off" value=""  onkeyup="populateStations('clusterStation','suggestionsClusterStation','autoSuggestionsListClusterStation');resetClusterField();" onblur="fillStaionValue('','clusterStation','suggestionsClusterStation');"/>
+							<div class="suggestionsBox" id="suggestionsClusterStation" style="display: none;">
+								<div class="suggestionList" id="autoSuggestionsListClusterStation"></div>
+							</div>
+						</td>
+						<td><input type="button" value="Validate Cluster Station" class="butn" id="validateClusterBtn" onclick="validateClusterStation();"/></td>
+					</tr>
+					<input type="hidden" name="clusterTrainNoList" id="clusterTrainNoList" value="">
+					<input type="hidden" name="clusterValidate" id="clusterValidate" value="">
+					</table>
+			  	</div>
+			  	<div id="clusteredInfoDiv"  style="display:none;" class="datagrid"></div>
+			  
+		  	</td>
+		</tr>
+		
+		
+  			<tr id="breakJourneyDivId" th:if="${reqType} != 'offlinebooking'"> 
+				<td th:text="#{travel.request.via.route}"></td>
+				<td align="left"><input type="checkbox" name="viaRoute" id="viaRoute" onclick="viaRoutes();"/></td>
+		
+			</tr>
+
+			<tr>
+				<td colspan="6"><div id="selectRelaxedRoute" style="display:none;"></div></td>
+			</tr>
+			<tr>
+	  			<td colspan="6"><div id="viaDiv" class="datagrid" style="display:none;" ></div></td>
+	  		</tr>
+  			
+	  			<tr>
+	  			<td colspan="6"><div id="breakJrnyDiv" class="datagrid" style="display:none;" ></div></td>
+	  		</tr>
+  			
+		
+			<tr th:if="${reqType} == 'ramBaanBooking'">
+		  		<td width="" th:text="#{travel.request.reason}">
+			        
+		      	</td>
+			  	<td colspan="3" align="left">
+			         <textarea id="reason" name="reason" rows="4" cols="50" onclick="cltText()">Enter Reason for Flexi Booking</textarea>
+			  	</td>
+			</tr>
+		
+		
+	 	</table>

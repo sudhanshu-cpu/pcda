@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+<script type="text/javascript" th:src="@{/js/common/crypto.js}"></script>
+
+<script type="text/javascript"> 
+
+				 
+	 function viewClaimIdTaDaDetails(claimId){
+	  
+	 $("#tada_claim_Id1").val(claimId); 
+	 
+	
+	 $("#taDaRptFilter1").submit();
+
+	 }
+	 
+	function doSearch(event){
+	 
+	var prsnlNo = $("#personalNo").val().trim();
+	var claimId = $("#claimId").val().trim();
+
+	 if(prsnlNo=='' && claimId==''){
+		alert("Please Enter Personal Number Or Claim ID");
+          event.preventDefault();
+		 }else{
+			 if(prsnlNo !=''){
+			var encryptPNo = CryptoJS.AES.encrypt(prsnlNo,"Hidden Pass");
+		$("#personalNo").val(encryptPNo);
+		    }
+			 $("#claimSettleForm").submit();
+				 }
+				
+				 }
+
+</script> 
+<body
+	oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+	<div th:insert="~{fragments/header/mainHeader}">...</div>
+	<section id="midpart" class="midpart">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-1"></div>
+				<div class="col-lg-10">
+				
+				<form th:action="@{/mb/viewClaimDetails}" method="post" id="taDaRptFilter1">
+				<input type="hidden" id="tada_claim_Id1" name="tadaClaimId">
+				
+				</form>
+					<form th:action="@{/mb/getSettledClaimData}" th:method="post" id="claimSettleForm">
+ <input type="hidden" name="useraction" id="useraction"/>
+ <input type="hidden" name="event" id="event" />
+ <input type="hidden" name="tadaclaimId" id="tada_claim_Id"/>
+					<input type="hidden" name="groupId" th:value="${groupId}">
+						<div id="program" class="programBlock">
+							<div class="welcomebox">
+								<div class="welcomeHead">
+									<p>Settled Claims</p>
+								</div>
+								<div class="welcomecont">
+									<table class="filtersearch">
+										<tbody class="all1">
+											<tr>
+												<td th:text="#{mb.claim.status.personal.no}"></td>
+												<td><input type="text" name="personalNo" id="personalNo" class="txtfldM" size="15" maxlength="20" style="width:130px;" th:value="${personalNo}" autocomplete="Off"></td>
+												<td th:text="#{mb.claim.status.claim.id}"></td>
+												<td><input type="text" name="claimId" id="claimId"  class="txtfldM"  size="15" maxlength="20" th:value="${claimId}" autocomplete="Off"></td>
+											</tr>
+											<tr>
+												<td colspan="10" id="downLoadFile" style="text-align:right">
+					            <button type="button"  onclick="doSearch(this.form);"   class="butn" >Search</button>
+					            
+					          </td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								
+							</div>
+						</div>
+						<div id="program" class="programBlock">
+							<div class="welcomebox">
+								
+									<table class="filtersearch">
+										<tbody class="all1" th:unless="${#lists.isEmpty(settledModelList)}">
+											<tr class="lablevalue" style="background-color:#B6E3FD ;" align="left">
+												 <td style="border-right:1px solid white">Claim ID</td>
+						 <td style="border-right:1px solid white">Claim Type</td>
+			 			 <td style="border-right:1px solid white">Personal No</td>
+			 			 <td style="border-right:1px solid white">Travel Type</td>
+			 			 <td style="border-right:1px solid white">Travel ID</td>
+				 		 <td style="border-right:1px solid white">Claim Received On</td>
+				 		 <td style="border-right:1px solid white">Total Amount Spent on Journey</td>
+				 		 <td style="border-right:1px solid white">Claimed Amount</td>
+						 <td>Action</td>
+											</tr>
+											<tr th:each="data:${settledModelList}">
+											<td >
+											<a href="javascript:void(0);" th:attr="onclick='viewClaimIdTaDaDetails(\''+${data.tadaClaimId}+'\')'" th:text="${data.tadaClaimId}"></a></td>
+											<td th:text="${data.claimType}"></td>
+											<td th:text="${data.personalNo}"></td>
+											<td th:text="${data.travelTypeName}"></td>
+											<td th:text="${data.travelID}"></td> 
+											<td th:text="${data.coApprovalDate}"></td>
+											<td th:text="${data.totalAmntSpent}"></td>
+											<td th:text="${data.claimedAmnt}"></td>
+											<td> 
+											 <button type="submit" th:formaction="@{/mb/printClaimFormPdf}" th:formmethod="post"
+													 class="butn" th:value="${data.tadaClaimId}" name="claimId1">PDF</button>
+
+											</td>
+											</tr>
+						 	      </tbody>
+						 	      
+								
+									</table>
+									
+									<div>
+									
+									<p class="errors" th:text="${error}" style="margin-bottom:0;color:red;"></p>
+									</div>
+									
+									
+								
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section>
+		<div class="blank"></div>
+	</section>
+	<section>
+		<div th:insert="~{fragments/login/footer}"></div>
+	</section>
+</body>
+</html>

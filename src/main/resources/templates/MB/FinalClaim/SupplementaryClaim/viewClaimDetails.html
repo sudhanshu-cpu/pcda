@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+
+<div th:if="${taDaClaimDetails.travelTypeId} == '100001'" th:insert="~{MB/FinalClaim/SupplementaryClaim/ptClaimDetailsForm}"></div>
+<div th:if="${taDaClaimDetails.travelTypeId} == '100002'" th:insert="~{MB/FinalClaim/SupplementaryClaim/tdClaimDetailsForm}"></div>
+<div th:if="${taDaClaimDetails.travelTypeId} == '100005'" th:insert="~{MB/FinalClaim/SupplementaryClaim/ltcClaimDetailsForm}"></div>
+<div th:if="${taDaClaimDetails.travelTypeId} == '100006'" th:insert="~{MB/FinalClaim/SupplementaryClaim/ltcClaimDetailsForm}"></div>
+<div th:if="${taDaClaimDetails.travelTypeId} == '100007'" th:insert="~{MB/FinalClaim/SupplementaryClaim/ltcClaimDetailsForm}"></div>
+<div th:if="${taDaClaimDetails.travelTypeId} == '100008'" th:insert="~{MB/FinalClaim/SupplementaryClaim/ltcClaimDetailsForm}"></div>
+
+</body>
+</html>

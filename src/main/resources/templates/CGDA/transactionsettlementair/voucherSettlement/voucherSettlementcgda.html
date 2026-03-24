@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+<script
+	th:src="@{/js/CGDA/transactionsettlementair/vouchersettlement/vouchersettlementcgda.js(random=${session.jsToken})}"></script>
+
+
+
+
+<body oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+	<div th:insert="~{fragments/header/mainHeader}"></div>
+
+	<section id="midpart" class="midpart">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-1"></div>
+				<div class="col-lg-10">
+					<form th:action="@{voucherSetDataListCgda}" method="post" name="voucherSettlement"
+						id="voucherSettlement">
+						<div id="program" class="programBlock">
+							<div class="welcomebox" style="margin-bottom:1rem;">
+								<div class="welcomeHead">
+									<p th:text="#{cda.transactionsettlement.vouchersettlement.filter}"></p>
+
+								</div>
+								<div class="welcomecont">
+									<table id="filtersearch" class="filtersearch">
+										<tbody class="all1">
+											<tr align="left">
+												<td align="left"
+													th:text="#{cgda.transactionsettlement.vouchersettlement.fdate}">
+												</td>
+												<td><input name="fromBookingDate" type="text" id="frmBookingDt"
+														class="txtfldM" size="15" readonly="readonly"
+														th:value="${searchModel.fromBookingDate}"></td>
+
+												<td th:text="#{cgda.transactionsettlement.vouchersettlement.bdate}">
+												</td>
+												<td><input name="toBookingDate" type="text" id="toBookingDt"
+														class="txtfldM" size="15" readonly="readonly"
+														th:value="${searchModel.toBookingDate}"></td>
+											
+												<td th:text="#{cgda.transactionsettlement.vouchersettlement.vno}"> </td>
+												<td><input name="voucherNo" type="text" id="voucherNo" class="txtfldM"
+														size="15" maxlength="20" th:value="${searchModel.voucherNo}">
+												</td>
+
+												<td align="left"
+													th:text="#{cda.transactionsettlement.vouchersettlement.incredit}">
+												</td>
+												<td> <input name="invoiceNo" type="text" id="invoiceNo" class="txtfldM"
+														size="15" maxlength="20" th:value="${searchModel.invoiceNo}">
+												</td>
+											</tr>
+											<tr align="left">
+												<td th:text="#{cgda.transactionsettlement.vouchersettlement.vstatus}">
+												</td>
+												<td>
+													<select name="statusType" class="comboM" id="statusType">
+														<option value="">Select</option>
+
+														<option value="0" th:selected="${searchModel.statusType}==0">
+															Open</option>
+
+														<option value="1" th:selected="${searchModel.statusType}==1">
+															Partially Settled</option>
+
+														<option value="2" th:selected="${searchModel.statusType}==2">
+															Fully Settled</option>
+
+														<option value="3" th:selected="${searchModel.statusType}==3">
+															Cancelled</option>
+
+													</select>
+												</td>
+
+												<td><label th:text="#{cgda.transactionsettlement.vouchersettlement.acct}"></label> <span class="mandatory">*</span>
+												</td>
+												<td>
+													<select name="accountOffice" class="comboM" id="accountOffice"
+														style="width: 84%;">
+														<option value="">Select</option>
+														<option th:each="src : ${accountMap}" th:text="${src.value}"
+															th:value="${src.key}" th:selected="${searchModel.accountOffice}==${src.key}">
+														</option>
+													</select>
+												</td>
+											
+												<td th:text="#{cgda.transactionsettlement.vouchersettlement.provider}">
+												</td>
+												<td colspan="3">
+													<select name="serviceProvider" class="comboM"
+														id="serviceProviderType" style="width: 27%;">
+														<option value="">Select</option>
+
+														<option value="0"
+															th:selected="${searchModel.serviceProvider}==0">BL</option>
+
+														<option value="1"
+															th:selected="${searchModel.serviceProvider}==1">ATT</option>
+
+													</select>
+												</td>
+											</tr>
+											<tr>
+												<td colspan="8" id="downLoadFile" style="text-align:right">
+													<a href="javascript:void(0);"><input type="submit"
+															onclick="doGenerate();" value="Generate Report"
+															class="butn"></a>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+						<div>
+							<p class="errors" th:text=${noResult}> </p>
+						</div>
+						<div id="program" class="programBlock" th:unless="${#lists.isEmpty(dataList)}">
+							<div class="welcomebox" style="margin-bottom:1rem;">
+								<table class="filtersearch" id="outstandingDetailsTR" width="100%" cellspacing="10"
+									cellpadding="4" border="0">
+									<tbody class="all1">
+										<tr>
+											<td colspan="10" id="records" class="normalbgback" align="left">
+												<div id="currRecords" class="showalert">
+												</div>
+											</td>
+										</tr>
+
+										<tr style="font-weight:bold;font-size:10pt;" align="center">
+
+											<td> </td>
+											<td th:text="#{cgda.transactionsettlement.vouchersettlement.vno}"></td>
+											<td th:text="#{cgda.transactionsettlement.vouchersettlement.creation}">
+											</td>
+											<td th:text="#{cgda.transactionsettlement.vouchersettlement.vstatus}"> </td>
+											<td th:text="#{cgda.transactionsettlement.vouchersettlement.balance}"></td>
+											<td th:text="#{cgda.transactionsettlement.vouchersettlement.total}"> </td>
+											<td th:text="#{cgda.transactionsettlement.vouchersettlement.baltotal}"></td>
+											<td th:text="#{cgda.transactionsettlement.vouchersettlement.outstanding}">
+											</td>
+											<td th:text="#{cgda.transactionsettlement.vouchersettlement.boa}"> </td>
+											<td th:text="#{cgda.transactionsettlement.vouchersettlement.remark}"></td>
+											<td th:text="#{cgda.transactionsettlement.vouchersettlement.det}"> </td>
+											<td th:text="#{cgda.transactionsettlement.vouchersettlement.action}"></td>
+										</tr>
+
+									<tbody>
+										<tr th:each="src : ${dataList}">
+
+																					
+											<td style="text-align:center" th:if="${src.filePath} !=null">
+										<button type ="submit" class="pdf" th:value="${src.filePath}" name="dwnFilePath" th:formaction="@{/com/downloadFile}" th:formmethod="get">PDF </button>
+										</td>
+										<td style="text-align:center" th:if="${src.filePath} ==null">
+										<button type ="button" class="pdf"  name="dwnFilePath" onclick="pdfOn();">PDF </button>
+											</td>
+											
+											
+											<td th:text="${src.voucherNo}">
+											</td>
+
+
+											<td th:text="${src.creationTime}"></td>
+											<td th:text="${src.voucherStatus}"></td>
+											<td th:text="${src.balanceAvailable}"></td>
+
+											<td th:text="${src.totalAmount}"></td>
+											<td th:text="${src.balanceTotalAmount}"></td>
+											<td th:text="${src.outstandingAmount}"></td>
+											<td th:text="${src.balanceOutstandingAmount}"></td>
+											<td th:text="${src.remark}"></td>
+											<td th:text="${src.voucherDetails}"></td>
+
+											<td>
+												<button th:value="${src.voucherNo}" name="voucherNos" type="submit"
+													style="border: none ;color: mediumblue;background-color:white;text-decoration: underline;"
+													th:formaction="@{/cgda/getDataFromVocherCgda}" th:formmethod="post"><img
+														th:src="@{/images/play.png}" style="height: 17px;width:19px;">
+												</button>
+											</td>
+
+										</tr>
+
+									</tbody>
+
+
+
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</section>
+		<section>
+		<div class="blank"></div>
+	</section>
+	<section>
+		<div th:insert="~{fragments/login/footer}"></div>
+	</section>
+</body>
+
+</html>

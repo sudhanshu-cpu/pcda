@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+<div id="viewusrrepo">
+
+
+<div class="welcomebox">
+<div class="welcomecont" style="margin:1px;">
+<table class="filtersearch" width="100%" cellspacing="1"
+									cellpadding="4" border="0">
+
+	<tbody  class="all">
+		<tr class="lablevalue">
+			<td class="heading" nowrap="nowrap" th:text="#{co.unit.movement.user.sNO}"></td>
+			<td class="heading" nowrap="nowrap"  th:text="#{co.unit.movement.user.prsnlNo}"></td>
+		</tr>
+
+		<tr   th:each="src, stat : ${userList}">
+		    
+			<td th:text="${stat.count}"></td>
+			<td ><span  th:text="${src}" readonly="readonly"></span></td>
+		</tr>
+
+
+	</tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</body>
+
+</html>

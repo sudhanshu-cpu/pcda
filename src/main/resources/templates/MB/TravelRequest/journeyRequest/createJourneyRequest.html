@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+<link rel="stylesheet" type="text/css" th:href="@{/css/common/model.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/common/jquery-ui.min.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/MB/journeyRequest/journeyRequest.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/common/popup/LightFace.css}"/> 
+
+<script type="text/javascript" th:src="@{/js/common/jquery-ui.min.js}"></script>
+
+<script type="text/javascript" th:src="@{/js/common/popup/mootools.js}"></script> 
+<script type="text/javascript" th:src="@{/js/common/popup/LightFace.js}"></script> 
+<script type="text/javascript" th:src="@{/js/common/popup/LightFace.IFrame.js}"></script> 
+<script type="text/javascript" th:src="@{/js/common/popup/LightFace.Request.js}"></script> 
+
+
+<script type="text/javascript" th:src="@{/js/MB/travelRequest/journeyRequest/createJourneyRequest.js(random=${session.jsToken})}"></script>
+<script type="text/javascript" th:src="@{/js/MB/travelRequest/journeyRequest/createReturnJourneyRequest.js(random=${session.jsToken})}"></script>
+<script type="text/javascript" th:src="@{/js/MB/travelRequest/journeyRequest/taggedJourneyRequest.js(random=${session.jsToken})}"></script>
+<script type="text/javascript" th:src="@{/js/MB/travelRequest/journeyRequest/clusterJourneyRequest.js(random=${session.jsToken})}"></script>
+<script type="text/javascript" th:src="@{/js/MB/travelRequest/journeyRequest/airJourneyRequest.js(random=${session.jsToken})}"></script>
+<script type="text/javascript" th:src="@{/js/MB/travelRequest/journeyRequest/mixedJourneyRequest.js(random=${session.jsToken})}"></script>
+<script type="text/javascript" th:src="@{/js/MB/travelRequest/journeyRequest/journeyRequestValidation.js(random=${session.jsToken})}"></script>
+<script type="text/javascript" th:src="@{/js/MB/travelRequest/journeyRequest/travelIdRequest.js(random=${session.jsToken})}"></script>
+<script type="text/javascript" th:src="@{/js/MB/travelRequest/journeyRequest/airLTCViaJourneyRequest.js(random=${session.jsToken})}"></script>
+<script type="text/javascript" th:src="@{/js/common/jquery.tablesorter.js}"> </script>
+
+<script>
+function otherRadioOff(idx,flightKey){
+	
+	document.getElementById("SelectedAIFlightKey").value=flightKey;
+	var checkbox=document.getElementsByName("flightCheckBox");
+	
+	var checkLen=checkbox.length;
+	
+	for(var i=0;i<checkLen;i++){
+		if(i==idx){
+		$("#checkBox_"+idx).checked;
+	}
+	}
+}
+</script>
+
+<style type="text/css">
+	.screen-freeze {
+		background-color: white;
+		display: none;
+		height: 100%;
+		left: 0;
+		opacity: 0.7;
+		position: absolute;
+		right: 0;
+		top: 0;
+		z-index: 99999;
+	}
+
+	.action-tab {
+		width: 100%;
+		height: 100%;
+		padding: 2px;
+		border: 0px solid #D7CDCD;
+		margin-top: 3%;
+	}
+
+	.fare-icon {
+		margin-top: -4%;
+	}
+
+	.row .col {
+		width: 18%;
+	}
+
+	.row .col .col-pass {
+		width: 30%;
+		padding-right: 3px;
+	}
+
+	.row .col:last-child {
+		width: 10%;
+		float: right;
+		margin-top: 0.6%;
+	}
+
+	.re-approve {
+		text-decoration: none;
+	}
+
+	.book-button {
+		padding: 5px;
+		margin-left: -2%;
+		width: 75%;
+	}
+
+	.book-button a {
+		text-decoration: none;
+		color: #F8F8F8;
+		font-size: 80%;
+	}
+
+	.reason-box {
+		margin-top: -4%;
+		margin-left: 23%;
+	}
+
+	.refundable-flag {
+		white-space: nowrap;
+	}
+
+	.not-refundable-flag {
+		white-space: nowrap;
+	}
+</style>
+
+
+<div th:insert="~{fragments/header/mainHeader}"></div>
+
+<input type="hidden" id="travelDaCounts" name="travelDaCounts"/>
+<input type="hidden" id="travelerObj" name="travelerObj" value=""/>
+
+<form name="trNewsform" method="post" id="trNews">
+</form>
+
+  <section id="midpart" class="midpart">
+        <div class="container-fluid">
+            <div class="row">
+               
+                <div class="col-lg-1"></div>
+                <div class="col-lg-10">
+                    <form name="createJourneyRequestForm" id="createJourneyRequestForm" method="post">
+					<input type="hidden" id="getTravelerInfoBtn" name="getTravelerInfoBtn" value="false"/>
+					<input type="hidden" id="taggRequestCheck" name="taggRequestCheck" value="false"/>
+					<input type="hidden" id="isTaggedORNew" name="isTaggedORNew" value="false"/>
+					<input type="hidden" id="taggCheck" name="taggCheck" value=""/>
+					<input type="hidden" id="saveStn" name="saveStn" value="false"/>
+					<input type="hidden" id="lastRowIndex" name="lastRowIndex"/>
+					<input type="hidden" id="returnLastRowIndex" name="returnLastRowIndex"/>
+					<input type="hidden" id="noOfReqPrevOnw" name="noOfReqPrevOnw" value=""/>
+					<input type="hidden" id="noOfReqPrevRet" name="noOfReqPrevRet" value=""/>
+					<input type="hidden" id="noOfReqOnw" name="noOfReqOnw"  value=""/>
+					<input type="hidden" id="noOfReqRet" name="noOfReqRet"  value=""/>
+					<input type="hidden" id="noOfReqNextOnw" name="noOfReqNextOnw" value=""/>
+					<input type="hidden" id="noOfReqNextRet" name="noOfReqNextRet" value=""/>
+					<input type="hidden" id="allwdJrny" name="allwdJrny" value=""/>
+					<input type="hidden" id="noOfReqCreated" name="noOfReqCreated" value=""/>
+					<input type="hidden" id="isAgeRelx" name="isAgeRelx" value="1"/>
+					<input type="hidden" id="ltcYearStr" name="ltcYearStr" value=""/>
+					<input type="hidden" id="IsLTCAvailedPrev" name="IsLTCAvailedPrev" value=""/>
+					<input type="hidden" id="IsLTCAvailedCurr" name="IsLTCAvailedCurr" value=""/>
+					<input type="hidden" id="IsLTCAvailedNext" name="IsLTCAvailedNext" value=""/>
+					<input type="hidden" id="prevTrRule" name="prevTrRule" value=""/>
+					<input type="hidden" id="jrnyDateTagged" name="jrnyDateTagged" value=""/>
+					<input type="hidden" id="currDutyStn" name="currDutyStn" value=""/>
+					<input type="hidden" id="currSprNrs" name="currSprNrs" value=""/>
+					<input type="hidden" id="currDutyNAP" name="currDutyNAP" value=""/>
+					<input type="hidden" id="currSprNAP" name="currSprNAP" value=""/>
+					<input type="hidden" id="reqstCheck" name="reqstCheck" value="false"/>
+					<input type="hidden" id="forwardCheck" name="forwardCheck" value=""/>
+					<input type="hidden" id="viaValidate" name="viaValidate" value="true"/>
+					<input type="hidden" id="isPartyBooking" name="isPartyBooking" value=""/>
+					<input type="hidden" id="partyMemberCount" name="partyMemberCount" value="0"/>
+					<input type="hidden" id="depHigherClassAllowed" name="depHigherClassAllowed" value=""/>
+					<input type="hidden" id="masterTravelerUnitName" name="masterTravelerUnitName" value=""/>
+					<input type="hidden" id="isAttendentBooking" name="isAttendentBooking" value=""/>
+					<input type="hidden" id="maxattCount" name="maxattCount" value="0"/>
+					<input type="hidden" id="finalAttendentCount" name="finalAttendentCount" value="0"/>
+					<input type="hidden" id="ltcBlockYear" name="ltcBlockYear" value=""/>
+					<input type="hidden" id="ltcSubBlockYear" name="ltcSubBlockYear" value=""/>
+					<input type="hidden" id="YearCurrent" name="YearCurrent" value=""/>
+					<input type="hidden" id="YearNext" name="YearNext" value=""/>
+					<input type="hidden" id="YearPrevious" name="YearPrevious" value=""/>
+					<input type="hidden" id="typeLTCAviledSecondLastPrev" name="typeLTCAviledSecondLastPrev" value=""/>
+					<input type="hidden" id="typeLTCAviledPrev" name="typeLTCAviledPrev" value=""/>
+					<input type="hidden" id="typeLTCAviledCurr" name="typeLTCAviledCurr" value=""/>
+					<input type="hidden" id="typeLTCAviledNext" name="typeLTCAviledNext" value=""/>
+					<input type="hidden" id="currentBlockYear" name="currentBlockYear" value=""/>
+					<input type="hidden" id="currentSubBlockYear" name="currentSubBlockYear" value=""/>
+					<input type="hidden" id="remFrmListCheck" name="remFrmListCheck" value="true"/>    
+					<input type="hidden" id="event" name="event" value="next"/>
+					<input type="hidden" id="serviceType" name="serviceType" th:value="${journeyRequest.serviceType}"/>  
+					<input type="hidden" id="travelMode" name="travelMode" value="0"/>  
+					<input type="hidden" id="reasonCode" name="reasonCode" value=""/> 
+					<input type="hidden" id="flightCode" name="flightCode" value=""/> 
+					<input type="hidden" id="flightKey" name="flightKey" value=""/> 
+					<input type="hidden" id="airDepartureTime" name="airDepartureTime" value=""/> 
+					<input type="hidden" id="originType" name="originType" value=""/>  	
+					<input type="hidden" id="destinationType" name="destinationType" value=""/>  	
+					<input type="hidden" id="isRailRequestOnwardExist" name="isRailRequestOnwardExist" /> 
+					<input type="hidden" id="isRailRequestReturnExist" name="isRailRequestReturnExist" /> 
+					<input type="hidden" id="isAirRequestOnwardExist" name="isAirRequestOnwardExist" /> 
+					<input type="hidden" id="isAirRequestReturnExist" name="isAirRequestReturnExist" /> 
+					<input type="hidden" id="isAirOneWayExist" name="isAirOneWayExist" /> 
+					<input type="hidden" id="airAccountOffice" name="airAccountOffice" /> 
+					<input type="hidden" id="railOffice" name="railOffice" /> 
+					<input type="hidden" id="travellerUnitService" name="travellerUnitService" />
+					<input type="hidden" id="noOfDays" name="noOfDays" /> 
+					<input type="hidden" id="groupId" name="groupId" th:value="${journeyRequest.groupId}" />
+					<input type="hidden" id="tadaPermission" name="tadaPermission" />
+					<input type="hidden" id="ruletadaPermission" name="ruletadaPermission" />
+					<input type="hidden" id="railPAOId" name="railPAOId" />
+					<input type="hidden" id="airPAOId" name="airPAOId" />
+					<input type="hidden" id="paoChanged" name="paoChanged"  />
+					<input type="hidden" id="checkBgtReq" name="checkBgtReq" value="false"/>
+					<input type="hidden" id="budgetStatus" name="budgetStatus" value="false"/>
+					<input type="hidden" id="unitBudgetId" name="unitBudgetId" value=""/>			
+					<input type="hidden" id="isBgtAvailed" name="isBgtAvailed" value="NO"/>	
+					<input type="hidden" id="travellerUnitId" name="travellerUnitId"/>
+					<input type="hidden" id="hotelAllowForTR" name="hotelAllowForTR" value="false"/>
+					<input type="hidden" id="userAccDtlsUpdated" value="false" />
+					<input type="hidden" id="requestForHotelDA"  name="requestForHotelDA" value="1" />	
+					<input type="hidden" id="requestForConveyanceDA"  name="requestForConveyanceDA" value="1" />
+					<input type="hidden" id="requestForFoodDA"  name="requestForFoodDA" value="1" />	
+					<input type="hidden" id="conveyanceAllowForTR" name="conveyanceAllowForTR" value="false"/>
+					<input type="hidden" id="foodAllowForTR" name="foodAllowForTR" value="false"/>
+					<input type="hidden" id="from_Station_Id" name="fromStationType"/>
+					<input type="hidden" id="to_Station_Id" name="toStationType"/>
+					<input type="hidden" id="civilBgtAvl" name="civilBgtAvl"/>	
+					<input type="hidden" id="firstName" name="firstName" />
+					<input type="hidden" id="middleName" name="middleName" />
+					<input type="hidden" id="lastName" name="lastName" />
+					<input type="hidden" id="service" name="service"/>
+					<input type="hidden" id="category" name="category" />
+					<input type="hidden" id="rank" name="rank"/>
+					<input type="hidden" id="dateOfBirth" name="dateOfBirth" />
+					<input type="hidden" id="office" name="office" />
+					<input type="hidden" id="codeHead" name="codeHead" />
+					<input type="hidden" id="category_id" name="category_id" /> 
+					<input type="hidden" id="service_id" name="service_id" /> 
+					<input type="hidden" id="airCodeHead" name="airCodeHead" />
+					<input type="hidden" id="formDAndGYear" name="formDAndGYear" />
+					<input type="hidden" id="returnFlightCode" name="returnFlightCode" value=""/> 
+					<input type="hidden" id="returnFlightKey" name="returnFlightKey" value=""/> 
+					<input type="hidden" id="returnReasonCode" name="returnReasonCode" value=""/> 
+					<input type="hidden" id="returnAirDepartureTime" name="returnAirDepartureTime" value=""/> 
+					<input type="hidden" id="from_Return_Station_Id" name="fromReturnStationType"/>
+					<input type="hidden" id="to_Return_Station_Id" name="toReturnStationType"/>
+					<input type="hidden" id="returnFinalAttendentCount" name="returnFinalAttendentCount" value="0"/>
+					<input type="hidden" id="returnPartyMemberCount" name="returnPartyMemberCount" value="0"/>
+					<input type="hidden" id="returnTravelMode" name="returnTravelMode" value="0"/>
+					<input type="hidden" id="returnReqstCheck" name="returnReqstCheck" value="false"/>
+					<input type="hidden" id="returnViaValidate" name="returnViaValidate" value="true"/>
+					<input type="hidden" id="airViaLegCount" name="airViaLegCount" value="0"/>
+					<input type="hidden" id="returnAirViaLegCount" name="returnAirViaLegCount" value="0"/>
+                      <input type="hidden" id="dateOfCommisioning" name="dateOfCommisioning" value=""/>  
+                      <input type="hidden" id="selectedTrainNo" name="selectedTrainNo" value=""/>
+                       <input type="hidden" id="returnSelectedTrainNo" name="returnSelectedTrainNo" value=""/>
+                     <input type="hidden" id="isHospitalUnit" name="isHospitalUnit" value=""/>
+                       
+                       
+                         <input type="hidden" id="oldAirport"  value=""/>
+                          <input type="hidden" id="returnOldAirport"  value=""/>
+
+						<table class="bgborder" style="width:100%">
+						 <tr>
+						  <td>
+						    <table border="0" style="width:100%">
+								<tr>
+									<td class="heading" style="text-align:left" th:text="#{journey.request.title}"></td>
+								</tr>
+								<tr>
+								    <td>
+								    <div class="datagrid">
+								    <table border="0" class="formtxt" id="travelerInfoId" style="width:100%">
+								      
+								       <tr>
+								          <td colspan="2"><strong th:text="#{journey.request.traveler.information}"></strong></td>
+
+<td style="text-align:right" colspan="2"><strong>User Manual for New Travel Request Page</strong> <a th:href="@{/com/downloadFile(dwnFilePath='/data/pcdahome/pcdaConfig/pcdaDoc/USER_MANUAL_TADA.pdf')}"> click here</a></td>
+
+								          
+								       </tr>
+								       <tr>
+								           <td class="label" style="border-bottom:1px dotted white"><label th:text="#{journey.request.request.type}"></label>
+											 <Span class="text-danger">*</Span>
+										   </td>
+										   <td colspan="3">
+								           <select class="combo" style="width:120px;" id="reqType" name="reqType">
+										    	   <div th:if="${journeyRequest.intTravelAllow=='YES'}">
+										             	<option th:value="international" th:text="International"></option>
+										           </div>
+										           <div th:unless="${journeyRequest.intTravelAllow=='YES'}">
+												    	<option value="">Normal</option>
+												    	<option value="exceptionalBooking">Exceptional</option>
+												    	<option value="ramBaanBooking">Flexi</option>
+												    	<option value="offlinebooking">Offline</option>
+										    	   </div>
+										   </select>
+										   </td>
+								       </tr>
+								       <tr>
+								         	<td class="label" style="width:180px;border-bottom:1px dotted white"><label th:text="#{journey.request.personal.no}"></label><Span class="text-danger">*</Span></td>
+											<td colspan="3">
+												<input type="text" name="personalNo" class="txtfldM" id="personalNo" autocomplete="off" maxlength="20" th:attr="onKeyPress='return testForAlphaNumericKeyForTravelRequest(event)'" onkeyup="this.value = this.value.toUpperCase()" style="width:170px;" /> 
+												<input type="button" class="butn" id="getVisitor" name="getVisitor" value="Traveler Info" style="vertical-align:middle;"/> 
+											</td>
+										</tr>
+									</table>
+								    </div>
+								   </td> 
+								</tr>
+								<tr>
+							 	  <td colspan="4">
+							 		<div id="taggedRqstDiv" class="datagrid" style="display:none;"></div>
+							 	  </td>
+								</tr>
+												
+								<tr>
+							 		<td colspan="4">
+							 			<div id="FormDAndGYear" name="FormDAndGYear" class="datagrid" style="display:none;"></div>
+							 		</td>
+								</tr>
+								
+								<tr>
+								    <td>
+								    <div class="datagrid">
+								    <table border="0" class="formtxt" id="travel_Info_Id" style="display:none; width:100%">
+								
+								       <tr>
+								          <td colspan="4"><strong>Travel Information</strong></td>
+								       </tr>
+								        <tr>
+								          <td class="label lablevalue" style="width:25%">Rail Code Head</td>
+								          <td id="rail_code_dis"></td>
+								          <td class="label lablevalue">Air Code Head</td>
+								          <td id="air_code_dis"></td>
+								       </tr>
+									    <tr id="journey_type_id">
+											
+										</tr>
+										<tr style="background-color:#00ff80;display:none;" id="onward_booking_header_id">
+								          <td colspan="4"><strong><span>Onwards</span> </strong></td>
+								       </tr>
+								       
+								       <tr style="background-color:#00ff80">
+								          <td colspan="4" id="onward_booking_id"></td>
+								       </tr>
+								       
+								       <tr style="background-color:#00ff80;display:none;" id="return_booking_header_id">
+								          <td colspan="4"><strong><span>Return</span> </strong></td>
+								       </tr>
+								       
+								       <tr style="background-color:#00ff80">
+								          <td colspan="4" id="return_booking_id"></td>
+								       </tr>
+								       
+								   </table>
+								    </div>
+								   </td> 
+								</tr>
+								<tr>
+								   <td>
+								     <div id="questionInfoDiv" class="datagrid" style="display:none;">&#160;</div>
+								   </td>
+							    </tr>
+							    <tr>
+								   <td>
+								     <div id="warrantInfoDiv" class="datagrid" style="display:none;">
+								       <table class="formtxt">
+								       
+								          <tr>
+								       	    <td colspan="4"><strong>Warrant Details</strong></td>
+								       	  </tr>
+								       	  <tr>
+								       	   <td class="label">Warrant Issue Date<span class="mandatory">*</span></td> 
+								       	    <td>
+								       	      <input id="warrantIssueDate" type="text" readonly="true" class="txtfldM" value="" name="warrantIssueDate" />
+								       	    </td>
+								       	    <td class="label">Warrant Issue Reason <span class="mandatory">*</span></td> 
+									       	 <td>
+									       	  <textarea id="warrantReason" name="warrantReason" rows="2" cols="50" style="resize:none" maxlength="250"> </textarea>
+								             </td>   
+								       	  </tr>
+								       </table>
+								     </div>
+								   </td>
+							    </tr>
+							    
+							    <tr id="saveButtonDiv" style="display:none;">
+								   <td style="text-align:right">
+									   <input type="button" class="butn" value="Save Request" id="saveBtnId" th:attr="onclick='return validateSaveFields(\'createJourneyRequestForm\');'"/>
+								   </td>
+								</tr>
+								<div id="ltcYearDiv" name="ltcYearDiv"></div>
+						        <div id="newstnFieldsDiv"></div>
+							  </table>
+							</td>  
+						  </tr>
+						</table>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-1"></div>
+            </div>
+        </div>
+    </section>
+
+
+<section>
+	<div class="blank"></div>
+	</section>
+	<section>
+    <div th:insert="~{fragments/login/footer}"></div>
+    </section>
+
+<div class="screen-freeze" id="screen-freeze" >
+	<div style="margin:15% 0% 0% 45%">
+		<img th:src="@{/images/spinning_wheel_96x96px.gif}" alt=""/>
+	</div>
+</div>
+
+<div id="myModal" class="modal">
+  <div class="modal-content" style="width:50%;" id="passport_dtls_modal">
+  </div>
+</div>
+
+
+
+</html>

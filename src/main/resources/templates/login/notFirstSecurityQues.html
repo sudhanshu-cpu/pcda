@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:insert="~{fragments/login/head}"></head>
+<link rel="stylesheet" type="text/css" th:href="@{/css/common/popup/jquery.popup.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/login/popup.css}">
+<script th:src="@{/js/common/popup/jquery.popup.js}"></script>
+<script type="text/javascript" th:src="@{/js/common/crypto.js}"></script>
+
+<style>
+.popup.js__popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999; 
+  width: auto;
+  max-width: 90%; 
+  box-sizing: border-box;
+}
+
+
+#loader {
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #3498db;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear 2;
+  animation: spin 2s linear infinite;
+}
+
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+</style>
+<script type="text/javascript">
+
+
+$(document).ready(function(){
+
+    //var hasRole = $("#hasAuthority").val();
+		
+		
+	//if (hasRole=='10004' || hasRole=='10005' || hasRole=='10006') {
+		var innerHtml = "";
+		//if(hasRole=='10006'){
+		
+			//innerHtml = '<style>ul li:before { content: "✓"; } p {text-align: center;}</style>';
+			//innerHtml += '<div>';
+			//innerHtml += '<table>';
+			//innerHtml += '<ul class="checklist" style="list-style-type:none">';
+			//innerHtml += '<li><span style="color:red;"><b>DTS 1.0 is live</b></span>, all the PAOs are requested to start downloading and acknowledging the remaining outstanding demands on DTS 1.0. <b>Please accord top priority.</b></li>
+			//innerHtml += '<li>The system will be under maintenance from 13-03-2026 23:30 to 14-03-2026 06:00 and from 14-03-2026 23:30 to 15-03-2026 06:00</li>';
+			//innerHtml += '<li style="margin-top:30px;">If any issue, kindly contact <u>helpdesk@pcdatravel.gov.in</u></li>
+			//innerHtml += '</ul></table>';
+		//innerHtml += '</div>';
+		
+			
+			
+	//}
+			
+		/*
+		else
+		{		
+		innerHtml = '<style>ul li:before { content: "✓ "; } p {text-align: center;}</style>';
+		innerHtml += '<div>';
+		innerHtml += '<table> <p><b><u>Important Update</u></b></p>';
+		innerHtml += '<ul class="checklist" style="list-style-type:none">';
+		innerHtml += '<li>Now enjoy 5kg extra baggage at no additional cost on IndiGo tickets booked via Balmer Lawrie on DTS!Exclusively through DTS Portal.<a download="download" href="/pcda/com/downloadFile?dwnFilePath=/data/pcdahome/pcdaConfig/pcdaDoc/Excess_Baggage.pdf">Click here</a> to know how to avail.</li>';
+		innerHtml += '</ul></table>';
+		    innerHtml += '</div>';	
+		}
+		*/
+	
+		
+		
+			/*innerHtml += '<div class="modal">';
+			innerHtml += '    <div class="close-btn">&times;</div>';
+			innerHtml += '    <div class="header">';
+			innerHtml += '        <div class="servers">';
+			innerHtml += '            <div class="server-box">';
+			innerHtml += '                <div class="server"></div>';
+			innerHtml += '                <div class="server-label">DTS 1.0</div>';
+			innerHtml += '            </div>';
+			innerHtml += '            <div class="arrow">→</div>';
+			innerHtml += '            <div class="server-box">';
+			innerHtml += '                <div class="server"></div>';
+			innerHtml += '                <div class="server-label">DTS 2.0</div>';
+			innerHtml += '            </div>';
+			innerHtml += '        </div>';
+			innerHtml += '        <div class="migration-title">DTS Portal <span>Migration</span></div>';
+			innerHtml += '    </div>';
+			innerHtml += '    <div class="important">Important Notice!</div>';
+			innerHtml += '    <div class="message">The <span>DTS 1.0</span> Portal will be Inaccessible due to Migration to <span>DTS 2.0</span> Portal.</div>';
+			innerHtml += '    <div class="footer-text">We appreciate your patience during this transition.</div>';
+			innerHtml += '    <button class="ok-btn">OK</button>';
+			innerHtml += '</div>';*/
+
+			//$(".p_content_alert").hide();
+			//$(".js__p_close").hide();
+
+	//		$(".js__p_start").simplePopup();
+    //  $("#pendingUserCount").html(innerHtml);
+
+    //  $("#pendingUserCountBlock").show();
+	//	$(".js__p_start").click();
+	//}
+	
+	$(document).on("click", ".modal .close-btn", function() {
+		$(".js__p_close").trigger("click"); // X close
+	});
+
+	$(document).on("click", ".modal .ok-btn", function() {
+		$(".js__p_close").trigger("click"); // OK close
+	});
+	
+var certificateAlert=$("#certificateMessage").val().trim();
+ if(certificateAlert != ""){
+  alert(certificateAlert);
+	  }
+});
+
+function cancelForm() {
+  $("#event").val("cancel");
+  $("#securityQuestion").submit();
+}
+
+function onLogin() 
+{  
+	var answerByUser =  $("#answerByUser").val().trim();
+	if(answerByUser=='' || answerByUser == null){
+	alert("Please answer the security question");
+	return false;
+	}else{
+	
+	document.getElementById('loader').style.display = 'block';
+	document.getElementById('loginForm').style.display = 'none';
+	
+	var userAnsEnc =CryptoJS.AES.encrypt(answerByUser,"Hidden Pass");
+	 $("#answerByUser").val(userAnsEnc);
+	 $("#securityQuestion").submit();
+	}
+}
+
+</script>
+
+<body>
+
+<input type="hidden" sec:authorize="hasAuthority('10004')" th:value="10004" id="hasAuthority"/>
+<input type="hidden" sec:authorize="hasAuthority('10005')" th:value="10005" id="hasAuthority"/>
+<input type="hidden" sec:authorize="hasAuthority('10006')" th:value="10006" id="hasAuthority"/>
+<input type="hidden" sec:authorize="!hasAuthority('10004')||!hasAuthority('10005')||!hasAuthority('10006')" th:value="false" id="hasAuthority" />
+
+	 <section class="topbar">
+        <div class="container-fluid">
+            <div class="tophead">
+                <div class="logout">
+                    <span class="signout">
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div id="block" class="container-fluid">
+            <div class="headnav">
+            </div>
+            </div>
+	 </section>
+<section class="midpart">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-1"></div>
+				<div class="col-lg-10">
+
+<form  th:action="@{/getPcdaAnswerCheck}"  name="securityQuestion" th:method="post" id="securityQuestion" >
+    <div id="loader" style="display: none;margin-left:40%;"><br></br></div>
+    
+    <input type="hidden" name="event" id="event" value=""/>
+    <input type="hidden" name="certificateMessage" id="certificateMessage" th:value="${certificateMessage}"/>
+		<br/>
+	
+		<div id="program" class="programBlock">
+                        <div class="welcomebox" id="loginForm">
+                            <div class="welcomeHead">
+								<p th:text="#{login.securityquestion}"></p>
+                            </div>
+                             <div class="welcomecont">
+	
+		<table class="filtersearch" >
+<tbody class="all">
+
+      	<tr>  
+        	
+        		<td ><span th:text="${securityQuestion}"> </span></td>
+        		<td><input type="password" class="txtfldM" name="answerByUser" id="answerByUser" autocomplete="off"/></td>
+        	
+		</tr>
+      	<tr >  
+        	<td class="label" height="40" colspan="2" style="text-align:center">
+        		<input type="button" value="Login" class="butn"  onclick="onLogin()"/> 
+        		<input type="button" class="butn" value="Cancel" onclick="cancelForm()"/>
+        	</td>
+      	</tr>
+      	</tbody>
+		</table>
+	
+                            </div>
+                        </div>
+		</div>
+		
+</form>
+</div>
+
+                           <div class="popup js__popup js__slide_top">
+						<table style="display:none;width:100%"  class="p_content">
+							<tr>
+								<td><a href="javascript:void(0);" class="p_close js__p_close button_ok"
+										title="Close">Close</a></td>
+							</tr>
+						</table>
+					</div>
+					<div class="p_anch">
+						<a href="javascript:void(0);" class="js__p_start"></a>
+					</div>
+					<div class="p_body js__p_body js__fadeout"></div>
+					<div class="popup js__popup js__slide_top">
+						<div class="p_content" >
+							<table style="width:100%">
+								<tr style="background-color:#ccc;">
+									<td class="p_content_alert">Alert!</td>
+									<td>
+										<a href="javascript:void(0);" class="js__p_close" title="Close">
+											<img th:src="@{/images/close.png}" alt="Close" width="20" height="20"
+												title="Close" />
+										</a>
+									</td>
+								</tr>
+
+								<tr id="pendingUserCountBlock" style="display:none">
+									<td colspan="2">
+										<table style="width:100%">
+											<tr>
+												<td id="pendingUserCount" style="padding-bottom:20px;font-size: 18px;">
+												</td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+
+
+
+							</table>
+						</div>
+
+			</div>
+		</div>
+</section>
+<section>
+	<div class="blank"></div>
+	</section>
+	<section>
+    <div th:insert="~{fragments/login/footer}"></div>
+    </section>
+</body>
+</html>
+

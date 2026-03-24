@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{fragments/login/head}"></head>
+
+<script>
+$(document).ready(function(){
+	
+var innerhtml =	$("#error").val();
+
+   $("#errorMessage").html(innerhtml);
+});
+
+</script>
+<body>
+
+<div th:insert="~{fragments/header/mainHeader}"></div>
+<section id="midpart" class="midpart">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-lg-1"></div>
+					<div class="col-lg-10">
+		<div class="container-fluid">
+			<div style="width: auto; padding: 5px; filter: shadow(colorgray)">
+				<div
+					style="width: 100%; text-align: left; padding: 5px; background-color: #F4F4F4; border: 1px solid black;">
+					<FONT SIZE="6" COLOR="#CC0033">Dear User</FONT>
+					<hr />
+					<BR /> <FONT SIZE="4" COLOR="#484B91"> There has been an
+						error encountered due to which we will not be able to proceed
+						further. <br>
+					</FONT> 
+					<input type="hidden" id="error" th:value="${errorMessage}">
+					<FONT SIZE="3" > <span id="errorMessage" style="color: red;">
+						 
+
+					</span>
+					</FONT> <br />
+				</div>
+			</div>
+		</div>
+					</div>
+				</div>
+			</div>
+</section>
+
+
+	<section>
+	<div class="blank"></div>
+	</section>
+	<section>
+    <div th:insert="~{fragments/login/footer}"></div>
+    </section>
+
+</body>
+
+</html>

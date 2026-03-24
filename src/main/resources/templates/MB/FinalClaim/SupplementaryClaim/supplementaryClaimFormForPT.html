@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<div id="program" class="programBlock">
+                        <div class="welcomebox" style="margin-bottom:2px">
+                            <div class="welcomeHead">
+                                <b><p style="text-align:center">
+                                 SUPPLEMENTARY TRAVELLING ALLOWANCE CLAIM FOR MOVES ON PERMANENT TRANSFER
+                                </p></b>
+                            </div>
+       				<div class="welcomecont">
+<table class="filtersearch">
+<tbody class="all1">
+   <tr>
+     <td colspan="11" style="text-align: center;">
+     <b>This is supplementary claim for claim id 
+        <a href="javascript:void(0);" th:attr="onclick='viewMainClaimDetails('+${claimView.suppClaimId}+');'">
+        	<span th:text="${claimView.suppClaimId}"></span>
+        </a>
+      </b>
+     </td>
+  </tr>
+  </tbody> 
+</table>
+</div>
+</div>
+</div>
+
+<div id="program" class="programBlock">
+                        <div class="welcomebox" style="margin-bottom:2px">
+                            <div class="welcomeHead">
+                                <b><p>
+                                Details in respect of the Claimant
+                                </p></b>
+                            </div>
+                            <div class="welcomecont">
+<table class="filtersearch" cellspacing="1" cellpadding="4" width="100%" border="0">
+  		<tbody class="all1">
+  		<tr>
+  		  <td class="lablevalue" style="width:12%">Name</td> 
+  		  <td style="width:13%"><span th:text="${claimView.personalInfo.name}"></span></td>
+  		  <td class="lablevalue" style="width:12%">Corps/Office</td> 
+  		  <td style="width:13%"><span  th:text="${claimView.personalInfo.unitName}"></span></td>
+  		  <td class="lablevalue" style="width:12%">Personal/Staff No</td> 
+  		  <td style="width:13%"><span th:text="${claimView.travelContent.personalNumber}"></span></td>
+  		  <td class="lablevalue" style="width:12%" th:if="${claimView.personalInfo.isArmedForce} == 1">DAD Account No</td> 
+		  <td class="lablevalue" style="width:12%" th:unless="${claimView.personalInfo.isArmedForce} == 1">PCDAO Pay Account No</td> 
+  		  <td style="width:13%"><input name="personalPayAccNo" id="personalPayAccNo" maxlength="20" autocomplete="off"/></td>
+  	  	</tr>
+
+  	  	<tr>
+  		  <td class="lablevalue" style="width:12%">Pay Level (<span style="color:red;font-weight:normal">Last Pay Drawn before Transfer</span>)</td> 
+  		  <td style="width:13%">
+  		    <select name="personalPayLevel" id="personalPayLevel" class="combo" style="width: 130px;">
+              <option value="">Select</option>
+              <option th:each="src : ${claimView.payLevel}" th:text="${src.levelName}" th:value="${src.levelId}"></option>
+            </select>
+          </td>
+  		  <td class="lablevalue" style="width:12%">Basic Pay  (<span style="color:red;font-weight:normal">Last Pay Drawn before Transfer</span>)</td> 
+            <td style="width:13%" th:if="${basicPay}>0">
+	            <span th:text="${claimView.travelContent.basicPay}"></span>
+	            <input type="hidden" name="personalBasicPay" id="personalBasicPay" th:value="${claimView.travelContent.basicPay}">
+            </td>
+            <td style="width:13%" th:unless="${basicPay}>0">
+	           	<input name="personalBasicPay" id="personalBasicPay"  maxlength="10" onblur="resetCTGPersonalEffects();" onkeypress="isNumberKey(event)" autocomplete="off">
+           	</td>
+  		  <td class="lablevalue" style="width:12%">Transferred from</td> 
+  		  <td style="width:13%"><input name="transferredFrom" id="transferredFrom" maxlength="50" autocomplete="off"></td>
+  		  <td class="lablevalue" style="width:12%">Transferred To</td> 
+  		  <td style="width:13%"><input name="transferredTo" id="transferredTo" maxlength="50" autocomplete="off"></td>
+  	  	</tr>
+
+  	  	<tr>
+  		  <td class="lablevalue" style="width:12%">Departure Place</td> 
+  		  <td style="width:13%"><input type="text" name="jrnyStartedFrom" id="jrnyStartedFrom" maxlength="50" autocomplete="off"/></td>
+  		  <td class="lablevalue" style="width:12%">Departure Date</td> 
+  		  <td style="width:13%"><input type="text" name="jrnyStartDate" id="start_date_time" maxlength="20" readonly="readonly" autocomplete="off"/></td>
+  		  <td class="lablevalue" style="width:12%">Arrival Place</td> 
+  		  <td style="width:13%"><input type="text" name="jrnyStartedTo" id="jrnyStartedTo" maxlength="50" autocomplete="off"/></td>
+  		  <td class="lablevalue" style="width:12%">Arrival Date</td> 
+  		  <td style="width:13%"><input type="text" name="jrnyStartToDate" id="start_to_date" maxlength="20" readonly="readonly" autocomplete="off"/></td>
+  	  	</tr>
+
+	  	<tr>
+  	      <td class="lablevalue" style="width:12%">Rule in TR/SR</td> 
+  		  <td style="width:13%"><span th:text="${claimView.eachRecord.ruleName}"></span><input type="hidden" name="trRuleName" th:value="${claimView.eachRecord.ruleName}"/></td>
+  		  <td class="lablevalue" style="width:12%">Move Sanction No</td> 
+  		  <td style="width:13%"><input name="moveSanctionNo" id="moveSanctionNo" th:value="${claimView.eachRecord.reqAuthorityNumber}" maxlength="50" autocomplete="off"/></td>
+  		  <td class="lablevalue" style="width:12%">Move Sanction Date</td> 
+  		  <td style="width:13%"><input name="moveSanctionDate" id="move_Sanction_Date" th:value="${claimView.eachRecord.authorityDate}" maxlength="12" readonly="true" autocomplete="off"/></td>
+  		  <td class="lablevalue" style="width:12%">Move Issuing Authority</td> 
+  		  <td style="width:13%"><input name="moveAuthority" id="moveAuthority" maxlength="50" autocomplete="off"/></td> 
+	  	</tr>
+	  	</tbody>
+</table>
+</div>
+</div>
+</div>
+
+<div class="welcomebox" style="margin-bottom:2px">
+<table class="filtersearch" width="100%" cellspacing="0"  cellpadding="4" border="0">
+<tbody class="all1">
+	<tr class="tadaHeading">
+	 <td align="left"><b>Non DTS Journey Details</b></td>
+	 <td colspan="11" style="text-align:right"><a onclick="createPTJrnyDetails()" style="color: rgb(255, 255, 255); border: medium none; cursor: pointer; padding: 2px 8px; background: rgb(13, 57, 94) none repeat scroll 0% 0%;">Add Segment</a></td>
+	</tr>
+	</tbody>
+</table>
+<table id="ptNonDtsJrnyTableGrid" class="filtersearch">
+
+</table>
+</div>
+
+<div class="welcomebox" style="margin-bottom:2px">
+<table class="filtersearch" width="100%" cellspacing="1"  cellpadding="4" border="0">
+<tbody class="all1">
+	<tr class="tadaHeading">
+	<td><b>CTG &amp; Personal Effects</b></td>
+	</tr>
+	</tbody>
+</table>
+
+<table cellpadding="0" cellspacing="2" width="100%"  border="0" class="filtersearch">
+<tbody class="all1">
+    <tr>
+	  <td style="width:33%;"></td> 
+	  <td class="lablevalue" style="width:33%;">Transfer Type</td> 
+	  <td class="lablevalue" style="width:33%;">Claimed Amount</td> 
+	</tr>
+	<tr>
+	  <td class="lablevalue" style="width:33%;">Composite Transfer and Packing Grant (CTG)</td> 
+	  <td style="width:33%;">
+
+<select name="CTGPercentage" id="CTGPercentage" class="combo" style="width:300px;" th:if="${claimView.travelContent.advanceAmount}>0">
+	<option th:if="${claimView.travelContent.transferType} == '1'" value="1" selected="selected">Transfer involving a change of station located at a distance of or more than 20 kms from each other.</option>
+	<option th:if="${claimView.travelContent.transferType} == '2'" value="2" selected="selected">Transfer to and from the Island territories of Andaman, Nicobar &amp; Lakshadweep.</option>
+	<option th:if="${claimView.travelContent.transferType} == '3'" value="3" selected="selected">Transfer to stations which are at a distance of less than 20 kms from the old station and of transfer within the same city, provided a change of residence is actually involved.</option>
+</select>
+
+<select name="CTGPercentage" id="CTGPercentage" class="combo" style="width:300px;" th:unless="${claimView.travelContent.advanceAmount}>0">
+	<option value="">Select</option>
+	<option value="1">Transfer involving a change of station located at a distance of or more than 20 kms from each other.</option>
+	<option value="2">Transfer to and from the Island territories of Andaman, Nicobar &amp; Lakshadweep.</option>
+	<option value="3">Transfer to stations which are at a distance of less than 20 kms from the old station and of transfer within the same city, provided a change of residence is actually involved.</option>
+</select>
+      </td> 
+
+<td style="width:33%;"><input name="ClaimGTCAmt" id="Claim_GTC_Amt" onkeypress="isNumberKey(event)"  onblur="validateCTGAmount();calculatePTFinalAmount();" maxlength="10" autocomplete="off"/>
+	  <br><span style="color:red">Please fill the total amount spent (including the advances already taken)</span>
+	  </td> 
+	</tr>
+	</tbody>
+</table>	
+
+<table cellpadding="0" cellspacing="2" width="100%"  border="0" class="filtersearch">
+<tbody class="all1">
+	<tr class="lablevalue">
+	  <td style="width:20%;background-color:#EBF4FA;border-right:1px solid white">Particulars</td> 
+	  <td style="width:20%;background-color:#EBF4FA;border-right:1px solid white">Weight (in Kg)</td> 
+	  <td style="width:20%;background-color:#EBF4FA;border-right:1px solid white">Mode of Conveyance</td> 
+	  <td style="width:20%;background-color:#EBF4FA;border-right:1px solid white">Distance (in Kms)</td> 
+	  <td style="width:20%;background-color:#EBF4FA;">Claimed Amount</td> 
+	</tr>
+	<tr>
+	  <td style="width:20%;">Transportation of Personal Effects<input type="hidden" name="particularName_0" value="Transportation of Personal Effects"/></td> 
+	  <td style="width:20%;"><input name="particularWeight_0" id="particularWeight_0_1" onkeypress="isNumberKey(event)" maxlength="10" autocomplete="off"></td> 
+	  <td style="width:20%;">
+
+	    <select name="particularConveyance_0" class="combo" onchange="setCartageDetails(this.value);">
+	        <option value="">Select</option>
+	        <option value="Truck">Truck</option>
+	        <option value="Train">Train</option>
+	        <option value="Steamer">Steamer</option>
+         </select>
+
+	  </td> 
+	  <td style="width:20%;"><input name="particularDistance_0" id="particularDistance_0_1" onkeypress="isNumberKey(event)" maxlength="10" autocomplete="off"/></td> 
+	  <td style="width:20%;"><input name="particularClaimAmt_0" id="particularClaimAmt_0_1" onkeypress="isNumberKey(event)" maxlength="10"  onblur="validateMaxLuggAmount('0_1');calculatePTFinalAmount();" autocomplete="off"/></td> 
+	</tr>
+	<tr  id="CartageOldResToBkgOff">
+	</tr>
+	<tr  id="CartageBkgOffToNewRes">	
+	</tr>
+	</tbody>
+</table>
+
+<table cellpadding="0" cellspacing="2" width="100%"  border="0" class="filtersearch">
+<tbody class="all1">
+    <tr>
+	  <td class="lablevalue" style="width:25%;">Is Conveyance part of Luggage?</td> 
+	  <td style="width:25%;">
+	      <select name="conveyancePartOfLuggage" id="conveyancePartOfLuggage" class="combo" onchange="setConveyanceLuggage(this.value);">
+	        <option value="">Select</option>
+	        <option value="0">Yes</option>
+	        <option value="1">No</option>
+         </select>
+      </td> 
+	</tr>
+
+<tr id="transportationOfConveyance" style="display:none;">
+	 <td class="lablevalue" style="width:25%;">Transportation of Conveyance</td> 
+	  <td style="width:25%;">
+	      <select name="conveyanceType" id="conveyanceType" class="combo">
+	        <option value="">Select</option>
+	        <option value="Two Wheeler">Two Wheeler</option>
+	        <option th:if="${claimView.expenseDetails.fourWheelerAllow} == 0" value="Four Wheeler">Four Wheeler</option>
+         </select>
+      </td> 
+</tr> 
+</tbody>
+</table>
+
+<table cellpadding="0" cellspacing="2" width="100%"  border="0" class="filtersearch" id="transportationOfConveyanceDtls">
+</table>	
+</div>
+
+<div class="welcomebox" style="margin-bottom:2px">
+<table class="filtersearch" width="100%" cellspacing="1"  cellpadding="4" border="0">
+<tbody class="all1">
+	<tr class="tadaHeading">
+	<td><b>Advances Drawn</b></td>
+	</tr>
+	</tbody>
+</table>
+
+<table cellpadding="0" cellspacing="2" width="100%"  border="0" class="filtersearch">
+<tbody class="all1">
+	<tr class="lablevalue">
+	  <td style="width:15%;">Advance Drawn From</td> 
+	  <td style="width:15%;">Date of Advance</td> 
+	  <td style="width:20%;">Luggage including Cartage if any</td> 
+	  <td style="width:15%;">Conveyance</td> 
+	  <td style="width:15%;">CTG</td> 
+	  <td style="width:15%;">Total</td> 
+	</tr>
+
+	<tr> 	
+	  <td style="width:15%;">PAO</td> 
+	  <td style="width:15%;"><input name="advFromPAODate" id="Adv_From_PAO_Date" readonly="readonly" autocomplete="off"/></td> 
+	  <td style="width:15%;"><input name="advLuggageFromPAO" id="Adv_Luggage_PAO" onkeypress="isNumberKey(event)" value="0" maxlength="10" onblur="totalPTPAOAdvanceAmount();calculatePTFinalAmount();" autocomplete="off"/></td> 
+	  <td style="width:15%;"><input name="advCoveyanceFromPAO" id="Adv_Coveyance_PAO" onkeypress="isNumberKey(event)" value="0" maxlength="10" onblur="totalPTPAOAdvanceAmount();calculatePTFinalAmount();" autocomplete="off"/></td> 
+	  <td style="width:15%;"><input name="advCTGFromPAO" id="Adv_CTG_PAO" onkeypress="isNumberKey(event)" maxlength="10" value="0" onblur="totalPTPAOAdvanceAmount();calculatePTFinalAmount();" autocomplete="off"/></td> 
+	  <td style="width:15%;"><input name="advFromPAO" id="Adv_From_PAO" onkeypress="isNumberKey(event)" readonly="readonly" value="0" maxlength="10" autocomplete="off"/></td> 
+	</tr>
+	</tbody>
+</table>
+</div>
+
+<div class="welcomebox" style="margin-bottom:2px">
+<table class="filtersearch" width="100%" cellspacing="1"  cellpadding="4" border="0">
+<tbody class="all1">
+	<tr class="tadaHeading">
+		<td><b>Advances Refunded</b></td>
+	</tr>
+	</tbody>
+</table>
+<table cellpadding="0" cellspacing="2" width="100%"  border="0" class="filtersearch">
+<tbody class="all1">
+	<tr class="lablevalue">
+	    <td>eMRO/MRO/Refund Amount</td>
+		<td>eMRO/MRO/Refund No</td>
+		<td>eMRO/MRO Submission Date/Refund  Date</td>
+	</tr>
+	
+	<tr>
+	    <td><input name="mroRefund" id="Advance_MRO" onkeypress="isNumberKey(event)" maxlength="10" onblur="calculatePTFinalAmount()" autocomplete="off"></td>
+		<td><input name="mroNumber" id="MRO_Number" maxlength="20" autocomplete="off"></td>
+		<td><input name="mroDate" id="MRO_Date" maxlength="20" readonly="readonly" autocomplete="off"></td>
+	</tr>
+	</tbody>
+</table>
+</div>
+
+
+<div class="welcomebox" style="margin-bottom:2px">
+<table class="filtersearch" align="center" width="100%" border="0">
+<tbody class="all1">
+ 	<tr class="lablevalue">
+	 	<td>Total Amount of Claim(Submitted):&#160;&#160;<span id="total_spent_amount"> </span></td>
+ 	</tr>
+ 	<tr class="lablevalue">
+	 	<td>less: Advance Taken(User) including DTS Tickets:&#160;&#160;<span id="total_advance_amount"> </span></td>
+ 	</tr>
+ 	<tr class="lablevalue">
+	 	<td>add: e-MRO Refunds(User):&#160;&#160;<span id="total_refund_amount"> </span></td>
+ 	</tr>
+ 	<tr class="lablevalue">
+	 	<td>Payable/Recoverable Amount:&#160;&#160;<span id="total_claimed_amount"> </span><span class="mandatory">*</span></td>
+ 	</tr>
+ 	<tr>
+	 	<td><span style="color:red">* Negative amount reflects recovery from the Officer</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</body>
+</html>

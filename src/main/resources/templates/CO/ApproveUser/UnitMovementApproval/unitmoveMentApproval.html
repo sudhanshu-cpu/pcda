@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+<link rel="stylesheet" type="text/css" th:href="@{/css/common/popup/LightFace.css}">
+
+<script th:src="@{/js/common/popup/mootools.js}"></script>
+<script th:src="@{/js/common/popup/LightFace.IFrame.js(}"></script>
+<script th:src="@{/js/common/popup/LightFace.js}"></script>
+<script th:src="@{/js/common/popup/LightFace.Request.js}"></script>
+	<script
+	th:src="@{/js/CO/ApproveUser/unitMovementApproved/unitMovementApproved.js(random=${session.jsToken})}"></script>
+ 
+	<script type="text/javascript">
+	function viewUserReports(movementOId)  
+	 {
+	    ajaxUserFace = new LightFace.Request({
+						url: $("#context_path").val() +"co/unitViewMovement",
+						width: 'auto',
+						height: 'auto',
+						buttons: [
+							{ title: 'Close', event: function() { this.close(); } }
+						],
+						request: { 
+							data: { 
+								movementOId: movementOId
+							},
+							method: 'post'
+						},
+						title: 'Unit Movement View'
+					});
+					
+	   ajaxUserFace.open();
+	  
+	 }
+	</script>
+
+<body>
+		<div th:insert="~{fragments/header/mainHeader}"></div>
+
+<section class="midpart">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-lg-1"></div>
+					<div class="col-lg-10">
+						<div id="reqPoolDivUnit">
+							<div class="programBlock">
+							<div class="welcomebox" style="margin-bottom:1rem">
+								<div class="welcomeHead">
+									<p>
+										Unit
+											Movement Approval
+									</p>
+								</div>
+								<div class="welcomecont">
+							<table id="loginForm1" class="filtersearch" width="100%"
+								cellspacing="1" cellpadding="4" border="0">
+
+								<tbody class="all">
+									
+
+									<tr  class="lablevalue">
+										<td style="width:8%" nowrap="nowrap" height="23"
+											th:text="#{co.unit.movement.user.unitMovemnt}"></td>
+										<td style="width:10%" nowrap="nowrap" height="23"
+											th:text="#{co.unit.movement.user.movementDate}"></td>
+										<td style="width:8%" nowrap="nowrap" height="23"
+											th:text="#{co.unit.movement.user.nrs}"></td>
+										<td style="width:30%" height="23"
+											th:text="#{co.unit.movement.user.nearAirport}"></td>
+										<td style="width:20%" nowrap="nowrap" height="23"
+											th:text="#{co.unit.movement.user.movementAutho}"></td>
+										<td style="width:8%" height="23"
+											th:text="#{co.unit.movement.user.action}"></td>
+									</tr>
+								<tbody class="all" th:each="srcApprv : ${userList}">
+
+
+
+									<tr>
+										<td><a href="javascript:void(0);"
+											th:attr="onclick='viewUserReports(\''+${srcApprv.movementId}+'\')'"><span
+												th:text="${srcApprv.movementId}"></span> </a></td>
+										<td th:text="${srcApprv.relocationDateFormat}"></td>
+										<td th:text="${srcApprv.railStation}"></td>
+										<td th:text="${srcApprv.nearestAirport}"></td>
+										<td th:text="${srcApprv.movementAuthority}"></td>
+										<td><input type="button" value="Approve" class="butn"
+											th:attr="onclick='approvalUnitMovement(\''+${srcApprv.movementId}+'\',\''+approve+'\')'">
+											<br> <br> <input type="button" value="Reject"
+											style="width: 60px;" class="butn"
+											th:attr="onclick='approvalUnitMovement(\''+${srcApprv.movementId}+'\',\''+disapprove+'\')'">
+										</td>
+									</tr>
+								</tbody>
+
+
+								<tr>
+									<td colspan="6"><input
+										type="button" value=" Print this page " class="butn"
+										onclick="window.print(); false;"></td>
+								</tr>
+
+
+								</tbody>
+							</table>
+						</div>
+							</div>
+							</div>
+						</div>
+
+
+
+						<form th:action="@{/co/approvalUnitMovement}" method="POST"
+							id="approvalUnitMovement">
+
+							<input type="hidden" name="loginUserId" th:value="${loginUserId}">
+
+							<input name="movementId" type="hidden" id="approvedMovementId">
+							<input name="event" type="hidden" id="unitMovementAction">
+
+							 
+	  <div>
+	  <p th:if="${success}" th:text="${success}" class="errors" style="text-align: center;margin-bottom:0"> </p>
+	  </div>
+
+							<div  id="disApproveDivUnit"
+								style="display: none;">
+								<div class="programBlock">
+							<div class="welcomebox" style="margin-bottom:1rem">
+								<div class="welcomeHead">
+									<p th:text="#{co.unit.movement.user.disapproveReason}">
+									</p>
+								</div>
+								<div class="welcomecont">
+								<table id="loginForm" class="filtersearch" width="100%"
+									cellspacing="1" cellpadding="4" border="0">
+									<tbody class="all">
+										
+										<tr align="left">
+											<td width="30%" valign="center" class="lablevalue"
+												th:text="#{co.unit.movement.user.reasonForDisapprval}"></td>
+											<td width="70%"><input name="remark" type="text"
+												style="width: 70%; height: 80px;" id="remark"
+												size="80" maxlength="100" autocomplete="off"></td>
+										</tr>
+										<tr>
+											<td colspan="2"><input type="button" value="Submit"
+												class="butn" th:attr="onclick='submitDisapprove()'"></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+								</div>
+								</div>
+							</div>
+		</form>
+					</div>
+					</div>
+					</div>
+					</section>
+					
+		<section>
+<div class="blank"></div>
+</section>
+	<section>
+		<div th:insert="~{fragments/login/footer}"></div>
+	</section>
+
+
+
+	<script type="text/javascript">
+var disApproveDivUnit=document.getElementById("disApproveDivUnit");
+disApproveDivUnit.style.display='none';
+</script>
+</body>
+</html>

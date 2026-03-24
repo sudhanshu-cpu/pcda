@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+ <ul class="list">
+	 <li class="list-items">
+	    <div class="dropdown">
+	        <a class="nav-link dropdown-toggle" href="javascript:void(0)"
+	            role="button" data-bs-toggle="dropdown">Home</a>
+	        <div class="dropdown-content">
+	            <ul class="navigation">
+	                <li>
+	                    <a th:href="@{/cda/home}">Home</a>
+	                </li>
+	                <li>
+	                    <a href="javascript:void(0)">Travel Rules<span style="margin-left:5px">&rsaquo;</span></a>
+	                    <div class="sub-menu">
+	                        <ul class="submenu-list">
+	                            <li class="submenu-listitems">
+	                                <a th:href="@{/cda/trArmedForcesHome}">
+	                                    For Armed Forces
+	                                </a>
+	                            </li>
+	                            <li class="submenu-listitems">
+	                                <a th:href="@{/cda/trCivHome}">
+	                                    For Civilians
+	                                </a>
+	                            </li>
+	                        </ul>
+	                    </div>
+	                </li>
+	                <li>
+	                    <a th:href="@{/cda/downloadsHome}">Downloads</a>
+	                </li>
+	                <li>
+	                    <a th:href="@{/cda/instructionsHome}">Gov't Order & Instructions</a>
+	                </li>
+<!-- 	                <li> -->
+<!-- 	                    <a th:href="@{/cda/feedBackSuggestion}">Feedback & Suggestions</a> -->
+<!-- 	                </li> -->
+	                <li>
+	                    <a th:href="@{/cda/usefulLink}">Useful Links</a>
+	                </li>
+	                <li>
+	                    <a th:href="@{/cda/contactHome}">Contact Us</a>
+	                </li>
+	                <li>
+	                    <a th:href="@{/cda/faqs}">FAQ</a>
+	                </li>
+	                <li>
+	                    <a th:href="@{/cda/eTutorial}">e-Tutorials</a>
+	                </li>
+	            </ul>
+	        </div>
+	    </div>
+	</li>
+
+	<li class="list-items">
+	    <div class="dropdown">
+	        <a class="nav-link dropdown-toggle"
+	            href="javascript:void(0)" role="button" data-bs-toggle="dropdown">Transaction Settlement Air</a>
+	        <div class="dropdown-content">
+	            <ul class="navigation">
+	                <li>
+	                    <a th:href="@{/cda/outstandingVoucherGenCda}">Outstanding & Voucher Generation Report</a>
+	                </li>
+	                <li>
+	                    <a th:href="@{/cda/createVoucherSettlementCda}">Voucher Settlement</a>
+	                </li>
+	                <li>
+	                    <a th:href="@{/cda/searchVouchAckCda}">Voucher Acknowledgement </a>
+	                </li>
+	            </ul>
+	        </div>
+	    </div>
+	</li>
+ </ul>

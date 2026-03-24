@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<script type="text/javascript" th:src="@{/js/common/crypto.js}"></script>
+
+<head th:insert="~{fragments/login/head}"></head>
+
+<style>
+.screen-freeze {
+	background-color: white;
+	display: none;
+	height: 100%;
+	left: 0;
+	opacity: 0.7;
+	position: absolute;
+	right: 0;
+	top: 0;
+	z-index: 99999;
+	
+}
+
+</style>
+<script type="text/javascript">
+
+
+function submitSettlement(claimId){
+	$("#tadaClaimId").val(claimId);
+	$("#supplementaryClaimSettleForm").submit();
+}
+
+$(document).ready(function() {
+	$("#supplementaryClaimForm").submit(function(event) {
+		event.preventDefault();
+		var claimId = $("#claimId").val();
+		var prsnlNo = $("#personalNo").val();
+		if ((claimId == null || claimId == "") && (prsnlNo == null || prsnlNo == "")) {
+	 		alert("Please Enter either Claim Id or Personal No.");
+		} else {
+			if(prsnlNo !=''){
+			var encryptPNo = CryptoJS.AES.encrypt(prsnlNo,"Hidden Pass");
+		$("#personalNo").val(encryptPNo);
+		}
+			event.currentTarget.submit();
+		}
+	});
+});
+
+</script>
+
+<body>
+
+   <div th:insert="~{fragments/header/mainHeader}"></div>
+<section id="midpart" class="midpart">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-lg-1"></div>
+                <div class="col-lg-10">
+
+
+<form th:action="@{/mb/supplementaryClaim}" method="post" id="supplementaryClaimSettleForm">
+	<input type="hidden" id="tadaClaimId" name="tadaClaimId">
+</form>
+<div id="program" class="programBlock">
+                        <div class="welcomebox" style="margin-bottom:1rem">
+                            <div class="welcomeHead">
+                                <p>
+                                 Supplementary Claim Request
+                                </p>
+                            </div>
+                            <div class="welcomecont">
+                            <table id="loginForm" class="filtersearch" cellspacing="0" cellpadding="0" width="100%" border="0">
+   	<tr align="left">
+	  <td>
+	<div class="datagrid">
+	 	<form name="supplementaryClaimForm" id="supplementaryClaimForm" th:action="@{/mb/supplementaryClaimReq}" method="post">
+		<table class="filtersearch">
+		<tbody class="all">
+			<tr align="left">
+			    <td>
+					Claim Id <span class="mandatory">*</span>
+				</td>
+				<td>
+				   <input type="text" class="txtfldM" id="claimId" name="claimId" style="width:120px;" maxlength="20" th:value="${claimId}" autocomplete="off">
+				</td>
+
+		        <td>
+					Personal No.<span class="mandatory">*</span>
+				</td>
+				<td>
+					<input type="text" class="txtfldM" id="personalNo" name="personalNo" style="width:120px;" maxlength="20" th:value="${personalNo}" autocomplete="off">
+				</td>
+			</tr>
+			<tr>
+				<td colspan="4" style="text-align:right">
+					<input type="submit" class="butn" style="vertical-align:middle;" value="Search">
+				</td>
+
+			</tr>
+			</tbody>
+	 	</table>
+	 	</form>
+	</div>
+     </td>
+   	</tr>
+<tr>
+<td>
+	<table class="filtersearch" th:if="${claimList} != null">
+	<tbody class="all">
+ 		<tr>
+ 		    <td class="lablevalue" style="text-align: center;background-color:#B6E3FD;border:2px solid white;border-left:none">Claim Id</td>
+ 			<td class="lablevalue" style="text-align: center;background-color:#B6E3FD;border:2px solid white">Travel Id</td>
+ 			<td class="lablevalue" style="text-align: center;background-color:#B6E3FD;border:2px solid white">Personal No</td>
+	 		<td class="lablevalue" style="text-align: center;background-color:#B6E3FD;border:2px solid white;border-right:none">Action</td>
+ 		</tr>
+ 		<tr th:each="src : ${claimList}">
+ 			<td style="text-align: center"><span th:text="${src.tadaClaimId}"></span></td>
+		 	<td style="text-align: center"><span th:text="${src.travelID}"></span></td>
+		 	<td style="text-align: center"><span th:text="${src.personalNo}"></span></td>
+			<td style="text-align: center"><input type="button" class="butn" value="Claim" th:attr="onclick='submitSettlement('+${src.tadaClaimId}+');'"/></td>	 
+ 	 	</tr>
+ 	 	</tbody>
+  	</table>
+  	</td>
+ 	 	</tr>
+  	</table>
+  	</div>
+</div>
+</div>
+<div class="welcomebox" th:if="${isError}">
+<table class="filtersearch">
+<tbody class="all">
+ <tr  style="text-align:center"><td colspan="9" align="left"><p style="margin-bottom:0" class="errors" th:text="${errorMessage}"></p></td></tr>
+</tbody>
+</table>
+</div>
+
+ <div class="screen-freeze" id="screen-freeze" >
+	<div style="margin:15% 0% 0% 45%">
+		<img th:src="@{/images/spinning_wheel_96x96px.gif}" alt="">
+	</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section>
+<div class="blank"></div>
+</section>
+<section>
+<div th:insert="~{fragments/login/footer}"></div>
+</section>
+
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+
+
+<script type="text/javascript"> 
+function viewMainClaimDetails(mainClaimId)
+{
+	var that = this;
+   ajaxRequestFace = new LightFace.Request(
+   {
+		width: 1000,
+		height: 500,
+		url:$("#context_path").val()+"mb/viewClaimDetails",
+		buttons: [
+			{ title: 'Close', event: function() { this.close(); } }
+		],
+		request: { 
+			data: { 
+				tadaClaimId: mainClaimId,
+			},
+			method: 'post'
+			
+		},
+		title: 'Claim View'
+			 
+	});
+   ajaxRequestFace.open();
+}
+</script> 
+<body
+	oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+
+	    <div th:if="${taDaClaimDetails.travelTypeId} == '100001'" th:insert="~{MB/FinalClaim/settledClaim/tadaPTClaimForm}"></div>
+
+<!-- ltc=100005,pt=100001,td=100002 -->
+ <div th:if="${taDaClaimDetails.travelTypeId} == '100002'" th:insert="~{MB/FinalClaim/settledClaim/tadaTDClaimForm}"></div>
+ 
+ <div th:if="${taDaClaimDetails.travelTypeId} == '100005'" th:insert="~{MB/FinalClaim/settledClaim/tadaLTCClaim}"></div>
+ 
+ <div th:if="${taDaClaimDetails.travelTypeId} == '100006'" th:insert="~{MB/FinalClaim/settledClaim/tadaLTCClaim}"></div>
+ 
+ <div th:if="${taDaClaimDetails.travelTypeId} == '100007'" th:insert="~{MB/FinalClaim/settledClaim/tadaLTCClaim}"></div>
+ 
+ <div th:if="${taDaClaimDetails.travelTypeId} == '100008'" th:insert="~{MB/FinalClaim/settledClaim/tadaLTCClaim}"></div>
+
+</body>
+</html>

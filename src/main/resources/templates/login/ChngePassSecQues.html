@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{fragments/login/head}"></head>
+<script type="text/javascript" th:src="@{/js/common/crypto.js}"></script>
+<script type="text/javascript">
+
+
+	
+function validateForm(){
+let answer1=$("#answer1").val().trim();
+let answer2=$("#answer2").val().trim();
+let answer3=$("#answer3").val().trim();
+let answer4=$("#answer4").val().trim();
+let answer5=$("#answer5").val().trim();
+let answer6=$("#answer6").val().trim();
+let answer7=$("#answer7").val().trim();
+let answer8=$("#answer8").val().trim();
+
+if(answer1==""){
+alert("Please Enter First Question Answer");
+return false;
+}
+if(answer2==""){
+alert("Please Enter Second Question Answer");
+return false;
+}
+if(answer3==""){
+alert("Please Enter Third Question Answer");
+return false;
+}
+if(answer4==""){
+alert("Please Enter Fourth Question Answer");
+return false;
+}
+if(answer5==""){
+alert("Please Enter Fifth Question Answer");
+return false;
+}
+if(answer6==""){
+alert("Please Enter Sixth Question Answer");
+return false;
+}
+if(answer7==""){
+alert("Please Enter Seventh Question Answer");
+return false;
+}
+if(answer8==""){
+alert("Please Enter Eighth Question Answer");
+return false;
+}
+
+
+let ans1=CryptoJS.AES.encrypt(answer1,"Hidden Pass");
+let ans2=CryptoJS.AES.encrypt(answer2,"Hidden Pass");
+let ans3=CryptoJS.AES.encrypt(answer3,"Hidden Pass");
+let ans4=CryptoJS.AES.encrypt(answer4,"Hidden Pass");
+let ans5=CryptoJS.AES.encrypt(answer5,"Hidden Pass");
+let ans6=CryptoJS.AES.encrypt(answer6,"Hidden Pass");
+let ans7=CryptoJS.AES.encrypt(answer7,"Hidden Pass");
+let ans8=CryptoJS.AES.encrypt(answer8,"Hidden Pass");
+
+$("#answer1").val(ans1);
+$("#answer2").val(ans2);
+$("#answer3").val(ans3);
+$("#answer4").val(ans4);
+$("#answer5").val(ans5);
+$("#answer6").val(ans6);
+$("#answer7").val(ans7);
+$("#answer8").val(ans8);
+return true;
+}
+
+	
+	function doGenerate(){
+		var result=validateForm();
+		if(result){
+			document.getElementById("authenticateQuesForm").submit();
+		}
+		
+	}
+	
+		
+</script>
+<script type="text/javascript" th:src="@{/js/lib/jquery-3.6.0.min.js}"></script>
+<body>
+	<section class="topbar">
+        <div class="container-fluid">
+            <div class="tophead">
+                <div class="logout">
+                    <span class="signout">
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div id="block" class="container-fluid">
+            <div class="headnav">
+            </div>
+        </div>
+	 </section>
+<section class="midpart">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-1"></div>
+				<div class="col-lg-10">
+<div class="message" align="center">
+
+<b style="color:#008080">Dear User, Kindly Fill Answer for following Security Questions.</b>
+<form th:action="@{/saveQuestionAns}" name="authenticateQuesForm" th:method="post" id="authenticateQuesForm">   
+<input type="hidden" name="userId" th:value="${userId}" id="userId">
+
+
+
+<br/>
+
+<div id="program" class="programBlock">
+                        <div class="welcomebox">
+                            <div class="welcomeHead">
+								<p>Answer Security Question</p>
+                            </div>
+                             <div class="welcomecont">
+<table class="filtersearch" id="questionTable">
+
+<tbody class="all" th:each="src : ${securityQuestions}">
+
+<tr th:if="${src.question} == #{question.pcda.q1}" >
+		<td style="width:40%"><input th:value="#{question.pcda.q1}" name="question1" readonly="readonly" style="border: none;color:#008080"> <span class="mandatory">*</span>:</td>
+		<td style="width:60%"><input type="text" id="answer1" class="txtfldM" autocomplete="off" name="answer1" th:value="${src.answer}"/> </td>
+</tr>
+<tr th:if="${src.question} == #{question.pcda.q2}">
+		<td><input  th:value="#{question.pcda.q2}" name="question2" readonly="readonly" style="border: none;color:#008080"><span class="mandatory">*</span>:</td>
+		<td><input type="text" id="answer2" class="txtfldM" autocomplete="off" name="answer2" th:value="${src.answer}"/></td>
+</tr>
+<tr th:if="${src.question} == #{question.pcda.q3}">
+		<td ><input  th:value="#{question.pcda.q3}" name="question3" readonly="readonly" style="border: none;color:#008080"><span class="mandatory">*</span>:</td>
+		<td ><input type="text" id="answer3" class="txtfldM" autocomplete="off" name="answer3" th:value="${src.answer}"/></td>
+</tr>
+<tr th:if="${src.question} == #{question.pcda.q4}">
+		<td><input  th:value="#{question.pcda.q4}" name="question4" readonly="readonly" style="border: none;color:#008080"><span class="mandatory">*</span>:</td>
+		<td><input type="text" id="answer4" class="txtfldM" autocomplete="off" name="answer4" th:value="${src.answer}"/></td>
+</tr>
+<tr th:if="${src.question} == #{question.pcda.q5}">
+		<td><input  th:value="#{question.pcda.q5}" name="question5" readonly="readonly" style="border: none;color:#008080"><span class="mandatory">*</span>:</td>
+		<td><input type="text" id="answer5" class="txtfldM" autocomplete="off" name="answer5" th:value="${src.answer}"/></td>
+</tr>
+<tr th:if="${src.question} == #{question.pcda.q6}">
+		<td><input  th:value="#{question.pcda.q6}" name="question6" readonly="readonly" style="border: none;color:#008080"><span class="mandatory">*</span>:</td>
+		<td><input type="text" name="answer6" class="txtfldM" autocomplete="off" id="answer6" th:value="${src.answer}"/></td>
+</tr>
+<tr th:if="${src.question} == #{question.pcda.q7}">
+		<td><input  th:value="#{question.pcda.q7}" name="question7" readonly="readonly" style="border: none;color:#008080"><span class="mandatory">*</span>:</td>
+		<td><input type="text" id="answer7" class="txtfldM" autocomplete="off" name="answer7" th:value="${src.answer}"/></td>
+</tr>
+<tr th:if="${src.question} == #{question.pcda.q8}">  
+		<td><input  th:value="#{question.pcda.q8}" name="question8" readonly="readonly" style="border: none;color:#008080"><span class="mandatory">*</span>:</td>
+		<td><input type="text"   id="answer8" class="txtfldM" autocomplete="off" name="answer8" th:value="${src.answer}"></td>
+</tr>
+
+
+</tbody>
+<tr>
+<td style="text-align:center" colspan="2"><button type="button" class="butn"  onclick="doGenerate();">Submit</button></td>
+</tr> 
+</table>
+                             </div>
+                        </div>
+</div>
+
+ 
+</form>
+</div>
+				</div>
+			</div>
+		</div>
+</section>
+<section>
+	<div class="blank"></div>
+	</section>
+	<section>
+    <div th:insert="~{fragments/login/footer}"></div>
+    </section>
+</body>
+</html>

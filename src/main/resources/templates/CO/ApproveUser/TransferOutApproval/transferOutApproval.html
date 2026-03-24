@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+
+<script type="text/javascript">
+function approveTransfer(event,userId,personalNo,currentUnit,transferTo,sequence){
+	document.getElementById("personalNo").value=personalNo;
+	document.getElementById("userId").value=userId;
+	document.getElementById("currentUnit").value=currentUnit;
+	document.getElementById("sequence").value=sequence;
+	document.getElementById("oldUnit").value=transferTo;
+	document.getElementById("event").value=event;
+	$("#approveTraOutForm").submit();
+
+	}
+
+	function setValueForDisapproveTransfer(event,userId,personalNo,sequence,currentUnit){
+		document.getElementById("personalNo").value=personalNo;
+		document.getElementById("sequence").value=sequence;
+		document.getElementById("event").value=event;
+		document.getElementById("userId").value=userId;
+	document.getElementById("reasonDiv").style.display='block';
+	document.getElementById("mainDiv").style.display='none';
+	    var unitarr = currentUnit.split("=");
+	    var oldUnit = unitarr[1];
+	 //   alert(oldUnit);
+	    document.getElementById("oldUnit").value=oldUnit;
+	    
+	    
+	}
+
+	function disapproveSubmit(){
+	var actionOriginal=document.transferApprove.action;
+	var reason=trim(document.getElementById("reason").value);
+	if(reason==""){
+	alert("Please Enter Reason For Transfer Reject");
+	return false;
+	}
+	document.transferApprove.action=actionOriginal.replace('/page', "");
+	document.transferApprove.submit();
+	}
+
+	function trim(n)
+		{
+	   		return n.replace(/^\s+|\s+$/g,'');
+		}
+</script>
+
+
+<body>
+
+<div th:insert="~{fragments/header/mainHeader}"></div>
+<section id="midpart" class="midpart">
+		<div class="container-fluid">
+<div class="row">
+
+					<div class="col-lg-1"></div>
+					<div class="col-lg-10">
+<div id="mainDiv">
+
+
+	
+	<div th:unless="${#lists.isEmpty(approvalList)}">
+	<div id="program" class="programBlock">
+                        <div class="welcomebox" style="margin-bottom:1rem">
+                            <div class="welcomeHead">
+                                <p th:text="#{co.tranfer.out.user.tran.to.dashboard}">
+                                </p>
+                            </div>
+                            <div class="welcomecont">
+		<table id="loginForm" class="filtersearch">
+ 			<tbody class="all1">
+ 			<tr style="text-align:center" class="lablevalue">
+				<td style="width:10%" th:text="#{co.tranfer.out.user.personalno}"></td>
+				<td style="width:10%" th:text="#{co.tranfer.out.user.name}"></td>
+				<td style="width:10%" th:text="#{co.tranfer.out.user.current.unit}"></td>
+				<td style="width:40%" th:text="#{co.tranfer.out.user.tran.to.unit}"></td>
+				<td style="width:10%" th:text="#{co.tranfer.out.user.tran.to.create}"></td>
+				<td style="width:10%" th:text="#{co.tranfer.out.user.tran.to.action}"></td>
+			</tr> 
+			
+			<tr style="text-align:center" th:each="src:${approvalList}">
+				<td > <span th:text="${src.userAlias}"></span>
+				<input type="hidden" th:value="${src.seqNo}"/>
+				<input type="hidden" th:value="${src.userId}"/></td>
+				
+				
+				<td> <span th:text="${src.firstName}+' '"> </span><span th:text="${src.middleName}+' '"> </span> <span th:text="${src.lastName}"> </span></td>
+				<td th:text="${src.oldProfileAtrribute}"></td>
+			<!--	<td  th:text="${src.profileChangeAtrribute}"></td>-->
+				<td>
+			<table class="filtersearch">
+			<tr th:each="item:${src.profileChangeAtrributeSplit}">
+				<td th:text="${item}"></td>
+			</tr>
+			</table>
+		   </td>
+				<td th:text="${src.createdBy}"></td>
+				<td>
+				<input type="button" class="butnn" value="Approve" th:attr="onclick='approveTransfer(\''+approve+'\',\''+${src.userId}+'\',\''+${src.userAlias}+'\',\''+${src.oldProfileAtrribute}+'\',\''+${src.profileChangeAtrribute}+'\',\''+${src.seqNo}+'\')'">
+			 <input type="button" class="butn" value="Disapprove" th:attr="onclick='setValueForDisapproveTransfer(\''+disapprove+'\',\''+${src.userId}+'\',\''+${src.userAlias}+'\',\''+${src.seqNo}+'\',\''+${src.oldProfileAtrribute}+'\')'">
+				</td>
+			</tr>
+			</tbody>
+		
+		</table>
+		</div>
+		</div>
+		</div>
+		</div>
+		
+ <div class="normalbgback"><div class="showalert"> <p th:text="${errorMassage}" class="errors" style="margin-bottom:0"></p></div> </div>
+
+	 <div class="normalbgback"><div class="showalert"> <p th:text="${success}" class="errors" style="margin-bottom:0"></p></div> </div>	
+</div>
+
+<form name="transferApprove" method="post" id="approveTraOutForm" th:action="@{/co/approvalTransferOut}">
+
+<input type="hidden" name="event" id="event"/>
+<input type="hidden" name="personalNo" id="personalNo"/>
+<input type="hidden" name="oldUnit" id="oldUnit"/>
+<input type="hidden" name="sequence" id="sequence"/>
+<input type="hidden" name="userId" id="userId" />
+<input type="hidden" name="currentUnit" id="currentUnit">
+<div id="reasonDiv" class="disApproveDiv">
+<div id="program" class="programBlock">
+                        <div class="welcomebox" style="margin-bottom:1rem">
+                            <div class="welcomeHead">
+                                <p th:text="#{co.tranfer.out.user.tran.to.rejectreason}">
+                                </p>
+                            </div>
+                            <div class="welcomecont">
+<table id="loginForm" class="filtersearch">
+<tbody class="all1">
+<tr>
+<td style="width:20%" class="lablevalue"><span th:text="#{co.tranfer.out.user.tran.to.reason}"></span></td>
+<td style="width:80%"><textarea name="reason" id="reason" rows="2" cols="20"> </textarea></td>
+</tr>
+<tr>
+<td colspan="4"><input type="button" class="butn" value="Submit" onclick="disapproveSubmit();"/></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+ </div>
+</form>
+</div>
+</div>
+</div>
+</section>
+<section>
+<div class="blank"></div>
+</section>
+	<section>
+		<div th:insert="~{fragments/login/footer}"></div>
+	</section>
+<script>
+document.getElementById("reasonDiv").style.display='none';
+</script>
+
+</body>
+</html>

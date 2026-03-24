@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+
+
+<head th:insert="~{fragments/login/head}"></head>
+<link rel="stylesheet" th:href="@{/css/common/autoSuggest.css}">
+
+<script th:src="@{/js/MB/AddUsers/UnitMovement/getStation.js(random=${session.jsToken})}"></script>
+<script th:src="@{/js/MB/AddUsers/UnitMovement/getAirport.js(random=${session.jsToken})}"></script>
+<script th:src="@{/js/MB/AddUsers/UnitMovement/unitMovementSearch.js(random=${session.jsToken})}"></script>
+ <script th:src="@{/js/MB/AddUsers/UnitMovement/unitMovement.js(random=${session.jsToken})}"></script> 
+
+<body oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+		<div th:insert="~{fragments/header/mainHeader}">...</div>
+		<section id="midpart" class="midpart">
+						<form th:action="@{getPersonalNo}" method="post" id="unitMovementForm">
+			<div class="container-fluid">
+				<div class="row">
+
+
+    <div class="col-lg-1"></div>
+					<div class="col-lg-10">
+
+						<div id="program" class="programBlock">
+							<div class="welcomebox" style="margin-bottom:0.5rem">
+							<input type="hidden" name="unitRelocationDateStr"
+								th:value="${model.unitRelocationDateStr}" /> <input type="hidden"
+								name="unitRailDutyNrs" th:value="${model.unitRailDutyNrs}" /> <input
+								type="hidden" name="unitDutyStnNa"
+								th:value="${model.unitDutyStnNa}" /> <input type="hidden"
+								name="unitMoveAuthority" th:value="${model.unitMoveAuthority}" />
+							<input type="hidden" name="unitMoveUserIdStr"
+								id="unitMoveUserIdStr" /> <input type="hidden" name="event"
+								id="event" /> <input type="hidden" name="serviceId"
+								id="service" th:value="${model.serviceId}" /> <input type="hidden"
+								name="groupId" th:value="${groupId}">
+							<div class="welcomecont">
+							<table class="filtersearch">
+								<tbody class="all1">
+
+									<tr align="left">
+										<td width="20%">Personal No.</td>
+										<td width="20%"><input name="personalNo" type="text" th:value="${personalNo}"
+											class="txtfldM" id="personalNum" autocomplete="off"></td>
+
+										<td style="width: 25%">
+											Category Name<span class="mandatory"></span>
+										</td>
+
+										<td><select id="categoryId" class="combo"
+											style="width: 80%;" name="categoryId">
+												<option value="">All</option>
+												<option th:each="src : ${categoryList}" th:selected="${categoryId} == ${src.categoryId}"
+													th:value="${src.categoryId}" th:text="${src.categoryName}">
+												</option>
+										</select></td>
+
+
+										<td width="15%" style="text-align:right">
+										<button type="submit" value="Search" class="butn">Search</button>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+							</div>
+							</div>
+							</div>
+							
+
+				<div class="list" th:unless="${#lists.isEmpty(personalNoData)}">
+
+						<div class="welcomebox">
+
+
+
+								<div class="welcomecont">
+
+									<table class="filtersearch " id="table2">
+										<tbody class="all1">
+
+											<tr>
+											<td style="width: 15%"
+													>Select All<input type="checkbox" class="peace" id="sla"></td>
+												<td style="width: 15%"
+													th:text="#{mb.addusers.unitmovement.personalNo}"></td>
+												<td style="width: 20%" class="usr_name"
+													th:text="#{mb.addusers.unitmovement.name}"></td>
+												<td style="width: 20%"
+													th:text="#{mb.addusers.unitmovement.category}"></td>
+												<td style="width: 20%"
+													th:text="#{mb.addusers.unitmovement.levelName}"></td>
+											</tr>
+
+											<tr th:each="src : ${personalNoData}">
+												<td></td>
+												<td><input type="checkbox" class="peace" th:value="${src.userId}"
+													name="unitMoveUserId" id="users"> <span
+													th:text="${src.personalNo}"></span></td>
+												<td th:text="${src.name}"></td>
+												<td th:text="${src.category}"></td>
+												<td th:text="${src.levelName}"></td>
+
+											</tr>
+											<tr>
+											<td colspan="5" style="text-align:right">
+												<input type="button" class="butn" value="Submit"   th:attr="onclick='submitUnitForm()'">
+												</td>
+												</tr>
+
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>						
+						<div>
+								<p class="errors" th:text="${noRecord}" style="color: red;"></p>
+							</div>				
+				</div>
+
+					
+				</div>
+				
+			</div>
+					</form>
+
+		</section>
+
+	<section>
+		<div class="blank"></div>
+	</section>
+	<section>
+		<div th:insert="~{fragments/login/footer}"></div>
+		</section>
+<!-- 	</div> -->
+
+</body>
+
+</html>

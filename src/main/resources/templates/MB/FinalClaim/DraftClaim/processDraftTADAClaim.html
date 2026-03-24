@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+
+<script type="text/javascript" th:src="@{/js/MB/FinalClaim/DraftClaim/editTadaDraftClaim.js(random=${session.jsToken})}"></script>
+<script type="text/javascript" th:src="@{/js/common/commonFieldValidation.js(random=${session.jsToken})}"></script>
+<script type="text/javascript" th:src="@{/js/MB/FinalClaim/FinalClaimRequest/claimPopup.js(random=${session.jsToken})}"></script>
+<link rel="stylesheet" th:href="@{/css/common/autoSuggest.css}">
+<link rel="stylesheet" th:href="@{/css/common/popup/claimPopup.css}">
+
+<style type="text/css">
+
+table.sample {
+	
+}
+table.sample td {
+	border-width: 1px;
+	padding: 1px;
+	border-style: ridge;
+	border-color: white;
+}
+
+.screen-freeze {
+	background-color: white;
+	display: none;
+	height: 100%;
+	left: 0;
+	opacity: 0.7;
+	position: absolute;
+	right: 0;
+	top: 0;
+	z-index: 99999;
+	
+}
+</style>
+
+<body>
+
+   <div th:insert="~{fragments/header/mainHeader}"></div>
+	<section id="midpart" class="midpart">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-12">
+<input type="hidden" name="maxKmRateAmt" id="maxKmRateAmt" th:value="${claimView.expenseDetails.maxKmRate}">
+<input type="hidden" name="maxAllowedWeight" id="maxAllowedWeight" th:value="${claimView.expenseDetails.maxAllowedWeightKg}">
+<input type="hidden" name="maxHotelAmt" id="maxHotelAmt" th:value="${claimView.expenseDetails.maxHotelAmount}">
+<input type="hidden" name="maxFoodAmt" id="maxFoodAmt" th:value="${claimView.expenseDetails.maxFoodAmount}">
+<input type="hidden" name="maxTourAmt" id="maxTourAmt" th:value="${claimView.expenseDetails.maxTourAmount}">
+<input type="hidden" name="maxRationAmt" id="maxRationAmt" th:value="${claimView.expenseDetails.maxRationAmt}">
+<input type="hidden" name="maxVTransportAmt" id="maxVTransportAmt" th:value="${claimView.expenseDetails.maxVTransportAmt}">
+<input type="hidden" name="maxOtherAmt" id="maxOtherAmt" th:value="${claimView.expenseDetails.maxOtherAmount}">
+
+<input type="hidden" name="daAdvanceAmount" id="daAdvanceAmount" th:value="${claimView.draftTaDaClaimDetails.claimAdvanceDtls.daAdvanceAmount}"/>
+<input type="hidden" name="travelStartDate" id="travel_Start_Date" th:value="${claimView.draftTaDaClaimDetails.travelStartDate}"/>
+<input type="hidden" name="travelOid" id="travel_Oid" th:value="${claimView.draftTaDaClaimDetails.travelOid}"/>
+
+<input type="hidden" name="maxLeavelAMessAmt" id="maxLeavelAMessAmt" th:value="${claimView.expenseDetails.maxLeavelAMessAmt}">
+<input type="hidden" name="maxLeavelBMessAmt" id="maxLeavelBMessAmt" th:value="${claimView.expenseDetails.maxLeavelBMessAmt}">
+<input type="hidden" name="maxLeavelCMessAmt" id="maxLeavelCMessAmt" th:value="${claimView.expenseDetails.maxLeavelCMessAmt}">
+<input type="hidden" name="irlaRecoveryAmt" id="irlaRecoveryAmt" th:value="${claimView.recoverydeatils.irlaRecoveryAmnt}">
+
+<div id="input_tada_claim_form">
+
+<form name="voucherSettlementConfirmationForm" id="voucherSettlementConfirmationForm" method="post" enctype="multipart/form-data" th:action="@{/mb/updateDraftClaim}">
+<input type="hidden" name="personalNo" id="personalNo" th:value="${claimView.draftTaDaClaimDetails.personalNo}"/>
+<input type="hidden" name="travelTypeId" id="travel_Type_Id" th:value="${claimView.draftTaDaClaimDetails.travelTypeId}">
+
+<input type="hidden" name="levelId" th:value="${claimView.draftTaDaClaimDetails.levelID}">
+
+<input type="hidden" name="tadaClaimOId" th:value="${claimView.draftTaDaClaimDetails.travelOid}">
+<input type="hidden" name="tadaClaimId" th:value="${claimView.draftTaDaClaimDetails.tadaClaimId}">
+<input type="hidden" name="travelId" id="travelId" th:value="${claimView.draftTaDaClaimDetails.travelID}">
+<input type="hidden" name="event" id="event" value="next"/>
+<input type="hidden" name="totalSpentAmount" id="totalSpentAmount" th:value="${claimView.draftTaDaClaimDetails.totalSpentAmount}">
+<input type="hidden" name="totalAdvanceAmount" id="totalAdvanceAmount" th:value="${claimView.draftTaDaClaimDetails.totalAdvanceAmount}">
+<input type="hidden" name="totalRefundAmount" id="totalRefundAmount" th:value="${claimView.draftTaDaClaimDetails.totalRefundAmount}">
+<input type="hidden" name="totalClaimedAmount" id="totalClaimedAmount" th:value="${claimView.draftTaDaClaimDetails.totalClaimedAmount}">
+<input type="hidden" name="isConveyanceDtls" id="is_conveyanceDtls" th:value="${claimView.draftTaDaClaimDetails.conyncDtls.isConveyanceDtls}">
+<input type="hidden" name="userServiceType" id="userServiceType" th:value="${claimView.draftTaDaClaimDetails.armedfrc}">
+
+<input type="hidden" name="requestType" id="request_Type" value=""/>
+
+<div id="claim_input_form">
+
+	<div th:if="${claimView.draftTaDaClaimDetails.travelTypeId} == '100001'" th:insert="~{MB/FinalClaim/DraftClaim/processDraftTADAClaimFormForPT}"></div>
+	<div th:if="${claimView.draftTaDaClaimDetails.travelTypeId} == '100002'" th:insert="~{MB/FinalClaim/DraftClaim/processDraftTADAClaimFormForTD}"></div>
+	<div th:if="${claimView.draftTaDaClaimDetails.travelTypeId} == '100005'" th:insert="~{MB/FinalClaim/DraftClaim/processDraftTADAClaimFormForLTC}"></div>
+	<div th:if="${claimView.draftTaDaClaimDetails.travelTypeId} == '100006'" th:insert="~{MB/FinalClaim/DraftClaim/processDraftTADAClaimFormForLTC}"></div>
+	<div th:if="${claimView.draftTaDaClaimDetails.travelTypeId} == '100007'" th:insert="~{MB/FinalClaim/DraftClaim/processDraftTADAClaimFormForLTC}"></div>
+	<div th:if="${claimView.draftTaDaClaimDetails.travelTypeId} == '100008'" th:insert="~{MB/FinalClaim/DraftClaim/processDraftTADAClaimFormForLTC}"></div>
+
+
+<div id="program" class="programBlock">
+							<div class="welcomebox" style="margin-bottom:2px">
+								<div class="welcomeHead">
+									<p>
+									Certify that
+									</p>
+								</div>
+								<div class="welcomecont">
+<table class="filtersearch" id="certify_that_tb">
+  		<tbody class="all1">
+  		<tr th:if="${claimView.draftTaDaClaimDetails.certifyDetails} != null" th:each="claimst : ${claimView.draftTaDaClaimDetails.certifyDetails}"
+  			th:id="${claimst.hotelCertificate} == 'true' ? 'dy_Certify_Ques' : ''">
+	  		  <td style="width:5%"><input type="checkbox" name="claimCertify" th:value="${claimst.certifyQuestion}" checked=true/></td>
+	  		  <td style="width:95%"><span th:text="${claimst.certifyQuestion}"></span></td>
+	  	</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+
+<div class="welcomebox" style="margin-bottom:2rem">
+<table class="filtersearch">
+
+<tbody class="all1" th:if="${claimView.draftTaDaClaimDetails.armedfrc} == 1">
+	<tr>
+		<td class="lablevalue">Counter Singing Authority</td>
+		<td colspan="3"><input th:value="${claimView.draftTaDaClaimDetails.claimAdvanceDtls.authorityName}" name="counterPersonalName" id="counterPersonalName" size="20" maxlength="100" autocomplete="off"></td> 
+	</tr>
+</tbody>
+
+<tbody class="all1" th:unless="${claimView.draftTaDaClaimDetails.armedfrc} == 1">
+	<tr>
+		<td class="lablevalue">Counter Singing Authority Personal No</td>
+		<td><input th:value="${claimView.draftTaDaClaimDetails.claimAdvanceDtls.authorityPersonal}" name="counterPersonalNo" id="counterPersonalNo" onblur="getCounterPersonalInfo();" autocomplete="off">&#160;&#160;</td>
+                  <td><input th:value="${claimView.draftTaDaClaimDetails.claimAdvanceDtls.authorityName}" type="hidden" name="counterPersonalName" id="counterPersonalName"/>
+                  <span id="counter_personal_name" th:text="${claimView.draftTaDaClaimDetails.claimAdvanceDtls.authorityName}"></span></td>
+                  <td><input th:value="${claimView.draftTaDaClaimDetails.claimAdvanceDtls.authorityLevel}" type="hidden" name="counterPersonalLevel" id="counterPersonalLevel"/>
+                  <span id="counter_personal_level" th:text="${claimView.draftTaDaClaimDetails.claimAdvanceDtls.authorityLevel}"></span></td>
+	</tr>
+</tbody>
+<tbody class="all1">
+<tr>
+  <td class="lablevalue" colspan="2">Date of Claim preferred by the Individual to the Office</td>
+  <td colspan="2"><input name="claimPreferredDate" id="claimPreferredDate" th:value="${claimView.draftTaDaClaimDetails.claimAdvanceDtls.claimSubmitDate}" autocomplete="off"/>&#160;&#160;</td>
+</tr>
+
+<tr class="lablevalue">
+  <td colspan="4">
+    If Date of Claim Preferred is more than 60 days from last date of Journey then whether time barred sanction taken? 
+
+    <select name="claimPreferredSanction" id="claimPreferredSanction" class="combo">
+      <option value="">Select</option>
+		<option th:selected="${#strings.equalsIgnoreCase(claimView.draftTaDaClaimDetails.claimAdvanceDtls.delayClaimPrfrd, 'NA')}" value="NA">Not applicable</option>
+		<option value="Yes" th:selected="${#strings.equalsIgnoreCase(claimView.draftTaDaClaimDetails.claimAdvanceDtls.delayClaimPrfrd, 'Yes')}">Yes</option>
+		<option value="No" th:selected="${#strings.equalsIgnoreCase(claimView.draftTaDaClaimDetails.claimAdvanceDtls.delayClaimPrfrd, 'No')}">No</option>
+    </select>
+
+ </td>
+</tr>
+
+<tr class="lablevalue">
+	<td>Sanction No: <input name="claimPreferredSanctionNo" id="claimPreferredSanctionNo" th:value="${claimView.draftTaDaClaimDetails.claimAdvanceDtls.delayClaimAuth}" autocomplete="off"></td>
+	<td colspan="3">Sanction Date: <input name="claimPreferredSanctionDate" id="claimPreferredSanctionDate" th:value="${claimView.draftTaDaClaimDetails.claimAdvanceDtls.delayClaimDate}" autocomplete="off"></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+
+<div th:if="${claimView.draftTaDaClaimDetails.claimDocAllow} == 0">
+
+<div id="claim_documents_form" style="display:none;">
+	<div th:insert="~{MB/FinalClaim/DraftClaim/tadaEditClaimFileUpload}"></div>
+</div>
+
+<table class="filtersearch" id="upload_claim_doc">
+<tr>
+   <td>
+	 <input type="button" th:attr="onclick='return saveClaimAsDraft('+${claimView.draftTaDaClaimDetails.travelTypeId}+');'" class="butn" value="Save Draft"/>
+ </td>
+  <td style="text-align:right">
+    <input type="button" id="Save" class="butn" value="Next->"
+	th:attr="onclick='return displayUploadDocDetails(\''+${claimView.draftTaDaClaimDetails.travelTypeId}+'\');'">
+ </td>
+</tr>
+</table>
+
+<table class="filtersearch" style="display:none;" id="save_claim_form">
+<tr>
+  <td>
+	    <input type="button"
+	    th:attr="onclick='return saveClaimAsDraft('+${claimView.draftTaDaClaimDetails.travelTypeId}+');'" class="butn" value="Save Draft"/>
+ </td>
+  <td style="text-align:right">
+    <input type="button" id="Save" class="butn" value="Next->"
+    				th:attr="onclick='return previewTADAClaimForm(\''+${claimView.draftTaDaClaimDetails.travelTypeId}+'\');'">
+ </td>
+</tr>
+</table>
+
+</div>
+
+<table class="filtersearch" th:unless="${claimView.draftTaDaClaimDetails.claimDocAllow} == 0">
+	<tr>
+	<td>
+	    <input type="button"
+	    th:attr="onclick='return saveClaimAsDraft('+${claimView.draftTaDaClaimDetails.travelTypeId}+');'" class="butn" value="Save Draft"/>
+	 </td>
+	  <td style="text-align:right">
+	    <input type="button" id="Save"
+	    th:attr="onclick='return previewTADAClaimForm(\''+${claimView.draftTaDaClaimDetails.travelTypeId}+'\');'" class="butn" value="Next->">
+	 </td>
+	</tr>
+</table>
+
+</form>
+
+</div>
+<div id="preview_tada_claim_form" style="display:none;">
+</div>
+
+<div class="screen-freeze" id="screen-freeze" >
+	<div style="margin:15% 0% 0% 45%">
+		<img th:src="@{/images/spinning_wheel_96x96px.gif}" alt=""/>
+	</div>
+</div>
+
+<div id="myModal" class="modal">
+  <div class="modal-content" id="inner_content" style="width:50%;">
+  </div>
+</div>
+
+</div>
+</div>
+</div>
+</section>
+	<section>
+		<div class="blank"></div>
+	</section>
+	<section>
+		<div th:insert="~{fragments/login/footer}"></div>
+	</section>
+<script th:inline="javascript">
+
+
+$( document ).ready(function() {
+
+if(0 < Number(/*[[${claimView.draftTaDaClaimDetails.hotelDtls.count}]]*/'')){
+	   validHotelHeaderFlag = true ;
+	   hotelTableIdlen = Number(/*[[${claimView.draftTaDaClaimDetails.hotelDtls.count}]]*/'');
+}
+
+if(0 < Number(/*[[${claimView.draftTaDaClaimDetails.foodDtls.count}]]*/'')){
+	   validFoodHeaderFlag = true ;
+	   foodTableIdlen = Number(/*[[${claimView.draftTaDaClaimDetails.foodDtls.count}]]*/'');
+}
+
+if(0 < Number(/*[[${claimView.draftTaDaClaimDetails.conyncDtls.count}]]*/'')){
+	   validTourHeaderFlag = true ;
+	   tourTableIdlen = Number(/*[[${claimView.draftTaDaClaimDetails.conyncDtls.count}]]*/'');
+}
+
+if(0 < Number(/*[[${claimView.draftTaDaClaimDetails.nonDtsJrny.count}]]*/'')){
+   validTaHeaderFlag = true ;
+   taTableIdlen = Number(/*[[${claimView.draftTaDaClaimDetails.nonDtsJrny.count}]]*/'');
+   ltcJrnyTableIdlen=Number(/*[[${claimView.draftTaDaClaimDetails.nonDtsJrny.count}]]*/'');
+   ptJrnyTableIdlen=Number(/*[[${claimView.draftTaDaClaimDetails.nonDtsJrny.count}]]*/'');
+}
+
+if(0 < Number(/*[[${claimView.draftTaDaClaimDetails.draftLeave.count}]]*/'')){
+   validLeaveHeaderFlag = true ;
+   leaveTableIdlen = Number(/*[[${claimView.draftTaDaClaimDetails.draftLeave.count}]]*/'');
+}
+
+if(0 < Number(/*[[${claimView.draftTaDaClaimDetails.claimPassCount}]]*/'')){
+   ltcJrnyPassTableIdlen=Number(/*[[${claimView.draftTaDaClaimDetails.claimPassCount}]]*/'');
+   ptJrnyPassTableIdlen=Number(/*[[${claimView.draftTaDaClaimDetails.claimPassCount}]]*/'');
+}
+
+var travelStartDate = /*[[${claimView.draftTaDaClaimDetails.travelStartDate!=null ? claimView.draftTaDaClaimDetails.travelStartDate:""}]]*/'';
+	  $('#move_Sanction_Date').datetimepicker({
+		lang:'en',
+		  timepicker:false,
+		  format:'d-m-Y',
+			formatDate:'d-m-Y',
+			scrollInput:false,
+		defaultDate:travelStartDate,
+		scrollMonth : false,
+		maxDate:0 ,
+			onShow: function () {
+			  $("#move_Sanction_Date").val("");
+			}
+	   });
+
+	   $('#start_date_time').datetimepicker({
+		lang:'en',
+		timepicker:true,
+		  format:'d-m-Y H:i',
+			formatDate:'d-m-Y',
+			scrollInput:false,
+		defaultDate:travelStartDate,
+		maxDate:0,
+		scrollMonth : false,
+		step:5,
+			onShow: function () {
+			  $("#start_date_time").val("");
+			}  
+	   });
+	   
+	   $('#start_to_date').datetimepicker({
+		lang:'en',
+		timepicker:true,
+		  format:'d-m-Y H:i',
+			formatDate:'d-m-Y',
+			scrollInput:false,
+		defaultDate:travelStartDate,
+		maxDate:0,
+		scrollMonth : false,
+		step:5 ,
+			onShow: function () {
+			  $("#start_to_date").val("");
+			} 
+	   });
+
+	    /*[# th:if="${claimView.draftTaDaClaimDetails.taDaJourneyDetails} != null"]*/
+			/*[# th:each="src : ${claimView.draftTaDaClaimDetails.taDaJourneyDetails}"]*/
+
+	  $('#journey_date_[[${srcStat.index}]]').datetimepicker({
+		lang:'en',
+		timepicker:true,
+		  format:'d-m-Y H:i',
+			formatDate:'d-m-Y',
+		maxDate:0,
+		scrollInput:false,
+		scrollMonth : false,
+		step:5,
+		onSelectDate: function(current_time,$input){validateFromDate(2,'[[${srcStat.index}]]');},
+			onShow: function () {
+			  $("#journey_date_[[${srcStat.index}]]").val("");
+			}
+	   });
+
+	   $('#journey_end_date_[[${srcStat.index}]]').datetimepicker({
+		lang:'en',
+		timepicker:true,
+		  format:'d-m-Y H:i',
+			formatDate:'d-m-Y',
+			scrollInput:false,
+		defaultDate:travelStartDate,
+		maxDate:0,
+		scrollMonth : false,
+		step:5,
+		onSelectDate: function(current_time,$input){validateDate(2,'[[${srcStat.index}]]');},
+			onShow: function () {
+			  $("#journey_end_date_[[${srcStat.index}]]").val("");
+			} 
+	   });
+
+		  /*[/]*/
+	  /*[/]*/
+
+   $('#claimPreferredDate').datetimepicker({
+		lang:'en',
+		timepicker:false,
+		scrollInput:false,
+		  format:'d-m-Y',
+			formatDate:'d-m-Y',
+		maxDate:0,
+		scrollMonth : false,
+		step:5 ,
+			onShow: function () {
+			  $("#claimPreferredDate").val("");
+			}
+	   });
+	   
+	 $('#claimPreferredSanctionDate').datetimepicker({
+		lang:'en',
+		  timepicker:false,
+		  format:'d-m-Y',
+		  scrollInput:false,
+			formatDate:'d-m-Y',
+		scrollMonth : false,
+		maxDate:0,
+			onShow: function () {
+			  $("#claimPreferredSanctionDate").val("");
+			}
+	   });   
+	   
+ 	$('#Adv_From_PAO_Date').datetimepicker({
+		lang:'en',
+		  timepicker:false,
+		  format:'d-m-Y',
+		  scrollInput:false,
+			formatDate:'d-m-Y',
+		scrollMonth : false,
+		maxDate:0,
+			onShow: function () {
+			  $("#Adv_From_PAO_Date").val("");
+			}
+	   });	
+	   
+	$('#Adv_From_Other_Date').datetimepicker({
+		lang:'en',
+		  timepicker:false,
+		  format:'d-m-Y',
+		  scrollInput:false,
+			formatDate:'d-m-Y',
+		scrollMonth : false,
+		maxDate:0,
+			onShow: function () {
+			  $("#Adv_From_Other_Date").val("");
+			}
+	   });	
+	   
+	$('#MRO_Date').datetimepicker({
+		lang:'en',
+		  timepicker:false,
+		  format:'d-m-Y',
+		  scrollInput:false,
+			formatDate:'d-m-Y',
+		scrollMonth : false,
+		maxDate:0,
+			onShow: function () {
+			  $("#MRO_Date").val("");
+			}
+	   });	
+	   
+	   $('#leave_From').datetimepicker({
+		lang:'en',
+		  timepicker:false,
+		  scrollInput:false,
+		  format:'d-m-Y',
+			formatDate:'d-m-Y',
+		scrollMonth : false,
+		maxDate:0,
+		onSelectDate: function(current_time,$input){validateLTCFromDate(1,'0');},
+			onShow: function () {
+			  $("#leave_From").val("");
+			}
+	   });
+	   
+    $('#leave_To').datetimepicker({
+		lang:'en',
+		  timepicker:false,
+		  format:'d-m-Y',
+		  scrollInput:false,
+			formatDate:'d-m-Y',
+		scrollMonth : false,
+		maxDate:0,
+		onSelectDate: function(current_time,$input){validateLTCToDate(1,'0');},
+			onShow: function () {
+			  $("#leave_To").val("");
+			}
+	   });		
+	   
+	/*[# th:each="src : ${claimView.draftTaDaClaimDetails.draftLeave.claimLeaveDtls}"]*/
+         $('#leavePeriodDate[[${src.seqNo}]]').datetimepicker({
+         lang:'en',
+		  timepicker:false,
+		  format:'d-m-Y',
+		  scrollInput:false,
+			formatDate:'d-m-Y',
+         scrollMonth : false,
+         maxDate:0,
+         disabledDates:getSelfLeave(),
+         defaultDate:$("#travel_Start_Date").val(),
+         onSelectDate: function(current_time,$input){$('#leaveFullHalf[[${src.seqNo}]]').val("");},
+			onShow: function () {
+			  $("#leavePeriodDate[[${src.seqNo}]]").val("");
+			}
+         });
+	/*[/]*/
+
+	/*[# th:each="src : ${claimView.draftTaDaClaimDetails.nonDtsJrny.nonDtstaDaJourneyDetails}"]*/
+		  $('#nonDTSJryStartDate[[${src.seqNo}]]').datetimepicker({
+		  lang:'en',
+		  timepicker:true,
+		  format:'d-m-Y H:i',
+			formatDate:'d-m-Y H:i',
+		  maxDate:0,
+		  scrollInput:false,
+		  step:5,
+		  scrollMonth : false,
+		  disabledDates:getLeaveDates(),
+		  defaultDate:$("#travel_Start_Date").val(),
+		  onSelectDate: function(current_time,$input){validateFromDate(6,taTableIdlen);} ,
+			onShow: function () {
+			  $("#nonDTSJryStartDate[[${src.seqNo}]]").val("");
+			}
+		  });
+		  
+		  $('#nonDTSJryEndDate[[${src.seqNo}]]').datetimepicker({
+		  lang:'en',
+		  timepicker:true,
+		  format:'d-m-Y H:i',
+			formatDate:'d-m-Y H:i',
+		  maxDate:0,
+		  scrollInput:false,
+		  scrollMonth : false,
+		  step:5,
+		  disabledDates:getLeaveDates(),
+	      defaultDate:$("#travel_Start_Date").val(),
+	      onSelectDate: function(current_time,$input){validateDate(6,taTableIdlen);},
+			onShow: function () {
+			  $("#nonDTSJryEndDate[[${src.seqNo}]]").val("");
+			} 
+	      });      
+   	  /*[/]*/
+
+		/*[# th:each="src : ${claimView.draftTaDaClaimDetails.hotelDtls.claimHotelDtls}"]*/
+	     $('#checkInDate[[${src.seqNo}]]').datetimepicker({
+	      lang:'en',
+	      timepicker:true,
+		  format:'d-m-Y H:i',
+			formatDate:'d-m-Y H:i',
+	      maxDate:0,
+	      scrollInput:false,
+	      scrollMonth : false,
+	      step:5,
+	      disabledDates:getLeaveDates(),
+	      defaultDate:$("#travel_Start_Date").val(),
+	      onSelectDate: function(current_time,$input){validateFromDate(1,hotelTableIdlen);},
+			onShow: function () {
+			  $("#checkInDate[[${src.seqNo}]]").val("");
+			}
+	      });
+
+		  $('#checkOutDate[[${src.seqNo}]]').datetimepicker({
+		  lang:'en',
+		  timepicker:true,
+		  format:'d-m-Y H:i',
+			formatDate:'d-m-Y H:i',
+		  maxDate:0,
+		  scrollInput:false,
+		  scrollMonth : false,
+		  step:5,
+		  disabledDates:getLeaveDates(),
+          defaultDate:$("#travel_Start_Date").val(),
+          onSelectDate: function(current_time,$input){validateDate(1,hotelTableIdlen);},
+			onShow: function () {
+			  $("#checkOutDate[[${src.seqNo}]]").val("");
+			}
+          });
+		/*[/]*/
+
+		/*[# th:each="src : ${claimView.draftTaDaClaimDetails.conyncDtls.taDaLocalCon}"]*/
+		$("#tourDate[[${src.seqNo}]]").datetimepicker({
+		lang:'en',
+		timepicker:false,
+		format:'d-m-Y',
+		formatDate:'d-m-Y',
+		maxDate:0,
+		scrollInput:false,
+		scrollMonth : false,
+		disabledDates:getLeaveDates(),
+		defaultDate:$("#travel_Start_Date").val(),
+		onSelectDate: function(current_time,$input){validateFromDate(3,tourTableIdlen);},
+			onShow: function () {
+			  $("#tourDate[[${src.seqNo}]]").val("");
+			}
+		});
+	   	  /*[/]*/
+
+});
+
+function setModeOfTravel(id){
+
+  var mySelect = $('#nonDTSModeOfTravel'+id);
+ 
+	/*[# th:each="src : ${claimView.transportModes}"]*/
+  mySelect.append(
+	        $('<option></option>').val(/*[[${src.transportModeVal}]]*/).html(/*[[${src.transportModeVal}]]*/)
+ );
+		/*[/]*/
+}
+
+function setTravellerName(index,passIndex){
+
+   var mySelect = $('#nonDTSPassDtlsTravellerName'+index+'_'+passIndex);
+   /*[# th:if="${claimView.travellers} != null"]*/
+	/*[# th:each="src : ${claimView.travellers.travellerName}"]*/
+    mySelect.append(
+	        $('<option></option>').val(/*[[${src.nameL}]]*/).html(/*[[${src.nameL}]]*/)
+   );
+	 	/*[/]*/
+	/*[/]*/
+
+ }
+
+function setTravellerRelationAndAge(val,index,passIndex){
+
+  if(!isTravellerExist(val,index)){return false;}
+   
+   var mySelect = $('#nonDTSPassDtlsTravellerName'+index+'_'+passIndex);
+   /*[# th:if="${claimView.travellers} != null"]*/
+	/*[# th:each="src : ${claimView.travellers.travellerName}"]*/
+	   if(val==/*[[${src.nameL}]]*/''){
+	     $("#nonDTSPassDtlsRelation"+index+"_"+passIndex).val(/*[[${src.relationL}]]*/'');
+	     $("#nonDTSPassDtlsAge"+index+"_"+passIndex).val(/*[[${src.ageL}]]*/'');
+	     return true;
+	    }
+	 	/*[/]*/
+	/*[/]*/
+
+}
+
+function setClassOfTravel(modeOfTravel, index){
+   
+   takeNonDTSFlightInfo(modeOfTravel, index);
+   var mySelect = $('#nonDTSClassOfTravel'+index);
+   mySelect.find('option:not(:first)').remove();
+   
+	/*[# th:each="src : ${claimView.transportModes}"]*/
+   var travelMode=/*[[${src.transportModeVal}]]*/'';
+    
+     if(modeOfTravel == travelMode){
+			/*[# th:each="mode : ${src.travelClass}"]*/
+           mySelect.append(
+			       $('<option></option>').val(/*[[${mode}]]*/{}).html(/*[[${mode}]]*/{})
+		    );
+       	/*[/]*/
+     }
+ 	/*[/]*/
+   
+  if($('#nonDTS_From'+index).length){
+		setAirportsAndRailStation(index);
+	}
+   
+   if(modeOfTravel=='GovtTransport'){
+     $("#nonDTSJryAmount"+index).val(0);
+   }
+   
+ } 
+
+function fillCity(thisValue,cityGrade,index) {
+
+    $('#hotelCity'+index).val(thisValue);
+ 	$('#destinationCityGrade'+index).val(cityGrade);
+ 	setTimeout(function(){
+ 	$('#suggestionsDestCity'+index).hide();
+ 	}, 200);
+ 	$("#hotelAmount"+index).val("");
+
+	/*[# th:each="src : ${claimView.cityGradeList}"]*/
+  if(cityGrade == /*[[${src.cityGradeValue}]]*/''){
+     document.getElementById("hotelDailyAmount"+index).value=/*[[${src.maxHotelAmnt}]]*/'';
+   }
+	/*[/]*/
+
+    if($("#hotelOrMess"+index+" option:selected").val()=='Mess'){
+ 	  if($("#messLevel"+index).val()=='Level A'){
+ 	     $("#hotelDailyAmount"+index).val($("#maxLeavelAMessAmt").val());
+ 	  }
+ 	  if($("#messLevel"+index).val()=='Level B'){
+ 	     $("#hotelDailyAmount"+index).val($("#maxLeavelBMessAmt").val());
+ 	  }
+ 	  if($("#messLevel"+index).val()=='Level C'){
+ 	     $("#hotelDailyAmount"+index).val($("#maxLeavelCMessAmt").val());
+ 	  }
+ 	}
+ }
+
+function previewTravelerDetails(){
+  var innerHTML='';
+
+   innerHTML=innerHTML+'<div id="program" class="programBlock"><div class="welcomebox" style="margin-bottom:2px"><div class="welcomeHead">';
+   innerHTML=innerHTML+'<b><p style="text-align:center">CLAIM FOR MOVE ON TEMPORARY DUTY (TOUR)</p></b></div><div class="welcomecont"><table class="filtersearch"><tbody class="all1">'; 
+   innerHTML=innerHTML+'<tr><td><span class="lablevalue">Claim Id:</span>' +  /*[[${claimView.draftTaDaClaimDetails.tadaClaimId}]]*/ '';
+   innerHTML=innerHTML+'</td><td><span class="lablevalue">Personal No:</span>' + /*[[${claimView.draftTaDaClaimDetails.personalNo}]]*/ '';
+   innerHTML=innerHTML+'</td><td><span class="lablevalue">CDAO A/c No:</span>' + /*[[${claimView.draftTaDaClaimDetails.cdaoAcc}]]*/ '';
+   innerHTML=innerHTML+'</td><td><span class="lablevalue">Name:</span>' + /*[[${claimView.draftTaDaClaimDetails.name}]]*/'';
+   innerHTML=innerHTML+'</td></tr></tbody></table></div></div></div>';
+   innerHTML=innerHTML+'<div id="program" class="programBlock"><div class="welcomebox" style="margin-bottom:2px"><div class="welcomeHead">';
+   innerHTML=innerHTML+'<p>A. Traveler Details</p></div><div class="welcomecont"><table class="filtersearch"><tbody class="all1">';
+   innerHTML=innerHTML+'<tr class="lablevalue"><td>Travel Type</td>'; 
+   innerHTML=innerHTML+'<td>Level</td><td>TR Rule</td>';
+   innerHTML=innerHTML+'<td>Move Sanction No</td><td>Move Sanction Date</td>';
+   innerHTML=innerHTML+'<td>Travel ID</td><td> Start Date</td>';
+   innerHTML=innerHTML+'<td> End Date</td><td>Journey Commenced From</td>';
+   innerHTML=innerHTML+'<td>Journey Commenced Date</td></tr>';
+   innerHTML=innerHTML+'<tr><td>'+ /*[[${claimView.draftTaDaClaimDetails.travelTypeName}]]*/ '';
+   innerHTML=innerHTML+'</td><td>'+ /*[[${claimView.draftTaDaClaimDetails.levelName}]]*/ '';
+   innerHTML=innerHTML+'</td><td>'+ /*[[${claimView.draftTaDaClaimDetails.trRuleName}]]*/ '';
+   innerHTML=innerHTML+'</td><td>' + $("#moveSanctionNo").val();
+   innerHTML=innerHTML+'</td><td>'+$("#move_Sanction_Date").val()+'</td>';
+   innerHTML=innerHTML+'<td>'+ /*[[${claimView.draftTaDaClaimDetails.travelID}]]*/ '';
+   innerHTML=innerHTML+'</td><td>'+ /*[[${claimView.draftTaDaClaimDetails.travelStartDate}]]*/ '';
+   innerHTML=innerHTML+'</td><td>'+ /*[[${claimView.draftTaDaClaimDetails.travelEndDate}]]*/ '';
+   innerHTML=innerHTML+'</td><td>'+$("#jrnyStartedFrom").val()+'</td><td>'+$("#start_date_time").val();
+   innerHTML=innerHTML+'</td></tr></tbody></table></div></div></div>';
+   innerHTML=innerHTML+'<div class="welcomebox" style="margin-bottom:2px"><table class="filtersearch"><tbody class="all1">';
+   innerHTML=innerHTML+'<tr><td class="heading" align="left" colspan="11">B. DTS Journey Details</td></tr>'; 
+   innerHTML=innerHTML+'<tr class="lablevalue"><td>From</td><td>To</td><td>Travel Mode</td><td>Travel Class</td>';  
+   innerHTML=innerHTML+'<td>Departure Date &amp; Time</td><td>Arrival Date &amp; Time</td><td>Bill/PNR/Ticket No</td>';
+   innerHTML=innerHTML+'<td>Journey Performed?</td><td>Booking Amount</td><td>Refund Amount</td></tr>';
+
+	/*[# th:each="src : ${claimView.draftTaDaClaimDetails.taDaJourneyDetails}"]*/
+	innerHTML=innerHTML+'<tr><td>'+/*[[${src.fromStation}]]*/'';
+	innerHTML=innerHTML+'</td><td>'+/*[[${src.toStation}]]*/'';
+	innerHTML=innerHTML+'</td><td>'+ /*[[${src.travelMode}]]*/"";
+	innerHTML=innerHTML+"<td>" + /*[[${src.journeyClass}]]*/"";
+	innerHTML=innerHTML+ "(" + /*[[${src.journeyType}]]*/ "";
+	innerHTML=innerHTML+')<td>'+$("#journey_date_[[${srcStat.index}]]").val()+'</td><td>';
+	innerHTML=innerHTML+$("#journey_end_date_[[${srcStat.index}]]").val()+'</td>';
+	innerHTML=innerHTML+ "<td>" + /*[[${src.bookingNo}]]*/"";
+	innerHTML=innerHTML+ "(" + "";
+	innerHTML=innerHTML+')</td><td>';
+	innerHTML=innerHTML+$("#dtsJourneyPerformed[[${srcStat.index}]] option:selected").text()+'</td><td> [[${src.bookingAmount}]] ';
+	innerHTML=innerHTML+'</td><td> [[${src.refundAmount}]]';
+	innerHTML=innerHTML+'</td></tr>';
+	/*[/]*/
+
+   innerHTML=innerHTML+'</tbody></table></div>';
+
+   return innerHTML;
+} 
+
+function previewLTCTravelerDetails(){
+  var innerHTML='';
+  
+   innerHTML=innerHTML+'<div id="program" class="programBlock"><div class="welcomebox" style="margin-bottom:2px"><div class="welcomeHead">';
+   innerHTML=innerHTML+'<b><p style="text-align:center">CLAIM FOR MOVE ON LEAVE TRAVEL CONCESSION (LTC)</p></b></div></div></div>';
+   innerHTML=innerHTML+'<div id="program" class="programBlock"><div class="welcomebox" style="margin-bottom:2px"><div class="welcomeHead">';
+   innerHTML=innerHTML+'<p>Personal Details</p></div><div class="welcomecont"><table class="filtersearch"><tbody class="all1">';
+   innerHTML=innerHTML+'<tr><td class="lablevalue">Name of Claimant</td><td>'+ /*[[${claimView.draftTaDaClaimDetails.name}]]*/'';
+   innerHTML=innerHTML+'</td><td class="lablevalue">Designation</td><td>'+$("#personalDesignation").val()+'</td><td class="lablevalue">Level</td><td>' + /*[[${claimView.draftTaDaClaimDetails.levelName}]]*/'';
+   innerHTML=innerHTML+'</td><td class="lablevalue">Office / Unit</td><td>' + /*[[${claimView.draftTaDaClaimDetails.unitName}]]*/'';
+   innerHTML=innerHTML+'</td></tr>';
+   innerHTML=innerHTML+'<tr><td class="lablevalue">Move Sanction No</td><td>'+$("#moveSanctionNo").val()+'</td><td class="lablevalue">Move Sanction Date</td>';
+   innerHTML=innerHTML+'<td>'+$("#move_Sanction_Date").val()+'</td><td class="lablevalue">Authority (Rule in TR/SR)</td><td>' + /*[[${claimView.draftTaDaClaimDetails.trRuleName}]]*/''; 
+   innerHTML=innerHTML+'</td><td class="lablevalue">Personal/Staff No</td>';
+   innerHTML=innerHTML+'<td>' + /*[[${claimView.draftTaDaClaimDetails.personalNo}]]*/'';
+   innerHTML=innerHTML+'</td></tr><tr><td class="lablevalue" colspan="2">Leave Details</td><td class="lablevalue">From</td><td>'+$("#leave_From").val()+'</td>';
+   innerHTML=innerHTML+'<td class="lablevalue">To</td><td>'+$("#leave_To").val()+'</td><td class="lablevalue">Date/Time of start</td><td>'+$("#start_date_time").val()+'</td></tr>';
+   innerHTML=innerHTML+'<tr><td class="lablevalue">Home Town</td><td>'+$("#personalHomeTown").val()+'</td>';
+   innerHTML=innerHTML+'<td class="lablevalue">Declared Leave Station</td><td>'+$("#declaredLeaveStation").val()+'</td><td class="lablevalue">LTC Block Year</td><td>'; 
+   innerHTML=innerHTML+/*[[${claimView.draftTaDaClaimDetails.ltcBlockYr}]]*/''; 
+   innerHTML=innerHTML+'</td><td class="lablevalue">LTC Calendar Year</td>'; 
+   innerHTML=innerHTML+'<td>'+$("#ltcCalendarYear").val()+'</td></tr>'; 
+   innerHTML=innerHTML+'</tbody></table></div></div></div>';
+   innerHTML=innerHTML+'<div class="welcomebox" style="margin-bottom:2px"><table class="filtersearch"><tbody class="all1"><tr class="tadaHeading">';
+   innerHTML=innerHTML+'<td align="left"><b>DTS Journey Details</b></td></tr></tbody></table>';
+   innerHTML=innerHTML+'<table class="filtersearch"><tbody class="all1">';
+
+	/*[# th:each="src : ${claimView.draftTaDaClaimDetails.taDaJourneyDetails}"]*/
+   innerHTML=innerHTML+'<tr><td class="lablevalue" style="text-align:right" colspan="11" bgcolor="#AAAAAA">Journey Type:<span style="font-weight:normal">' + /*[[${src.journeyType}]]*/'';
+   innerHTML=innerHTML+'</span></td></tr><tr><td class="lablevalue">Mode of Travel</td><td>' + /*[[${src.travelMode}]]*/'';
+   innerHTML=innerHTML+'</td><td class="lablevalue">Departure Place</td><td>'+  /*[[${src.fromStation}]]*/''; 
+   innerHTML=innerHTML+'</td><td class="lablevalue">Arrival Place</td><td>'; 
+   innerHTML=innerHTML+/*[[${src.toStation}]]*/ '';
+   innerHTML=innerHTML+'</td><td class="lablevalue">Class of Accomodation</td><td>';
+   innerHTML=innerHTML+ /*[[${src.journeyClass}]]*/ '';
+   innerHTML=innerHTML+'</td></tr><tr><td class="lablevalue">Departure Time</td>'; 
+   innerHTML=innerHTML+'<td>' + $("#journey_date_[[${srcStat.index}]]").val() + '</td><td class="lablevalue">Arrival Time</td>'; 
+   innerHTML=innerHTML+'<td>' + $("#journey_end_date_[[${srcStat.index}]]").val() + ' </td><td class="lablevalue">Sector</td><td>'; 
+   innerHTML=innerHTML+/*[[${src.sector}]]*/ '';
+   innerHTML=innerHTML+'</td><td class="lablevalue">Bill/PNR/ Ticket No.</td><td>';
+   innerHTML=innerHTML+ /*[[${src.bookingNo}]]*/ '';
+   innerHTML=innerHTML+'</td></tr><tr><td class="lablevalue">Distance(KM)</td><td>NA</td>';
+   innerHTML=innerHTML+'<td class="lablevalue">Total Fare</td><td> [[${src.bookingAmount}]] </td><td class="lablevalue">Total Refund</td>';
+   innerHTML=innerHTML+'<td> [[${src.refundAmount}]] </td><td class="lablevalue">Total Claimed Amount</td>';
+   innerHTML=innerHTML+'<td> [[${src.claimedAmount}]] </td></tr><tr><td bgcolor="#003A70" style="border-bottom:none" colspan="11">';
+   innerHTML=innerHTML+'<table class="filtersearch"><tbody class="all3"><tr class="lablevalue"><td>Traveler Name</td>';
+   innerHTML=innerHTML+'<td>Relation</td><td>Age</td><td>Ticket No</td><td>Journey Performed?</td><td>Booking Amount</td>';
+   innerHTML=innerHTML+'<td>Refund Amount</td><td>Claimed Amount</td></tr>';
+
+	/*[# th:each="dtl : ${src.draftPassDtlsBeans}"]*/
+	 innerHTML=innerHTML+'<tr><td>'+ /*[[${dtl.travellerName}]]*/ '';
+	 innerHTML=innerHTML+'</td><td>'+ /*[[${dtl.relation}]]*/ '';
+	 innerHTML=innerHTML+'</td><td> [[${dtl.age}]] </td><td>'+ /*[[${dtl.ticketNo}]]*/ '';
+	 innerHTML=innerHTML+'</td><td>';
+	 innerHTML=innerHTML+$("#dtsJourneyPerformed[[${srcStat.index}]]_[[${dtlStat.index}]] option:selected").text();
+	 innerHTML=innerHTML+'</td><td> [[${dtl.bookingAmount}]] </td><td> [[${dtl.refundAmount}]] </td>';
+	 innerHTML=innerHTML+'<td> [[${dtl.claimedAmount}]] </td></tr>';
+	/*[/]*/
+
+   innerHTML=innerHTML+'</tbody></table></td></tr>';
+	/*[/]*/
+
+   innerHTML=innerHTML+'</tbody></table></div>';
+
+   return innerHTML;
+}
+
+function previewPTTravelerDetails(){
+	  var innerHTML='';
+
+	   innerHTML=innerHTML+'<div id="program" class="programBlock"><div class="welcomebox" style="margin-bottom:2px"><div class="welcomeHead">';
+	   innerHTML=innerHTML+'<b><p style="text-align: center;">TRAVELLING ALLOWANCE CLAIM FOR MOVES ON PERMANENT TRANSFER<p></div></div></div>';
+	   innerHTML=innerHTML+'<div id="program" class="programBlock"><div class="welcomebox" style="margin-bottom:2px"><div class="welcomeHead">';
+	   innerHTML=innerHTML+'<p>Details in respect of the Claimant</p></div><div class="welcomecont"><table class="filtersearch"><tbody class="all1">'; 
+	   innerHTML=innerHTML+'<tr><td class="lablevalue" style="width:12%">Name</td><td style="width:13%">'+ /*[[${claimView.draftTaDaClaimDetails.name}]]*/ '';
+	   innerHTML=innerHTML+'</td><td class="lablevalue" style="width:12%">Corps/Office</td><td style="width:13%">'+ /*[[${claimView.draftTaDaClaimDetails.unitName}]]*/ '';
+	   innerHTML=innerHTML+'</td><td class="lablevalue" style="width:12%">Personal/Staff No</td><td style="width:13%">'+ /*[[${claimView.draftTaDaClaimDetails.personalNo}]]*/ '';
+	   innerHTML=innerHTML+'</td><td class="lablevalue" style="width:12%">PCDAO Pay Account No</td><td style="width:13%">'+$("#personalPayAccNo").val()+'</td></tr>';
+	   innerHTML=innerHTML+'<tr><td class="lablevalue" style="width:12%">Pay Level (<span style="color:red;font-weight:normal">Last Pay Drawn before Transfer</span>)</td>'; 
+	   innerHTML=innerHTML+'<td width="13%">'+$("#personalPayLevel option:selected").text()+'</td>';
+	   innerHTML=innerHTML+'<td class="lablevalue" style="width:12%">Basic Pay (<span style="color:red;font-weight:normal">Last Pay Drawn before Transfer</span>)</td>'; 
+	   innerHTML=innerHTML+'<td width="13%">'+$("#personalBasicPay").val()+'</td><td class="lablevalue" style="width:12%">Transferred from</td>'; 
+	   innerHTML=innerHTML+'<td width="13%">'+$("#transferredFrom").val()+'</td><td class="lablevalue" style="width:12%">Transferred To</td>'; 
+	   innerHTML=innerHTML+'<td width="13%">'+$("#transferredTo").val()+'</td></tr>';
+	   innerHTML=innerHTML+'<tr><td class="lablevalue" style="width:12%">Departure Place</td><td width="13%">'+$("#jrnyStartedFrom").val()+'</td>';
+	   innerHTML=innerHTML+'<td class="lablevalue" style="width:12%">Departure Date</td><td width="13%">'+$("#start_date_time").val()+'</td>';
+	   innerHTML=innerHTML+'<td class="lablevalue" style="width:12%">Arrival Place</td><td width="13%">'+$("#jrnyStartedTo").val()+'</td>';
+	   innerHTML=innerHTML+'<td class="lablevalue" style="width:12%">Arrival Date</td><td width="13%">'+$("#start_to_date").val()+'</td></tr>';
+	   innerHTML=innerHTML+'<tr><td class="lablevalue" style="width:12%">Rule in TR/SR</td><td width="13%">' + /*[[${claimView.draftTaDaClaimDetails.trRuleName}]]*/ '';
+	   innerHTML=innerHTML+'</td><td class="lablevalue" style="width:12%">Move Sanction No</td><td width="13%">'+$("#moveSanctionNo").val()+'</td>';
+	   innerHTML=innerHTML+'<td class="lablevalue" style="width:12%">Move Sanction Date</td><td width="13%">'+$("#move_Sanction_Date").val()+'</td>';
+	   innerHTML=innerHTML+'<td class="lablevalue" style="width:12%">Move Issuing Authority</td><td width="13%">'+$("#moveAuthority").val()+'</td></tr></tbody></table></div></div></div>';
+	   innerHTML=innerHTML+'<div class="welcomebox" style="margin-bottom:2px"><table class="filtersearch"><tbody class="all1"><tr class="tadaHeading">';
+	   innerHTML=innerHTML+'<td align="left"><b>DTS Journey Details</b></td></tr></tbody></table>';
+	   innerHTML=innerHTML+'<table class="filtersearch"><tbody class="all1">';
+
+	/*[# th:each="src : ${claimView.draftTaDaClaimDetails.taDaJourneyDetails}"]*/
+	   innerHTML=innerHTML+'<tr><td style="text-align:right" class="lablevalue" colspan="11" bgcolor="#AAAAAA">Journey Type:<span style="font-weight:normal">' + /*[[${src.journeyType}]]*/'';
+	   innerHTML=innerHTML+'</span></td></tr><tr><td class="lablevalue">Mode of Travel</td><td>' + /*[[${src.travelMode}]]*/'';
+	   innerHTML=innerHTML+'</td><td class="lablevalue">Departure Place</td><td>'+  /*[[${src.fromStation}]]*/ '';
+	   innerHTML=innerHTML+'</td><td class="lablevalue">Arrival Place</td><td>'; 
+	   innerHTML=innerHTML+ /*[[${src.toStation}]]*/ '';
+	   innerHTML=innerHTML+'</td><td class="lablevalue">Class of Accomodation</td><td>' + /*[[${src.journeyClass}]]*/ '';
+	   innerHTML=innerHTML+'</td></tr><tr><td class="lablevalue">Departure Time</td>'; 
+	   innerHTML=innerHTML+'<td>' + $("#journey_date_[[${srcStat.index}]]").val() + '</td><td class="lablevalue">Arrival Time</td>'; 
+	   innerHTML=innerHTML+'<td>' + $("#journey_end_date_[[${srcStat.index}]]").val() + ' </td class="lablevalue"><td class="lablevalue">Sector</td><td>'; 
+	   innerHTML=innerHTML+ /*[[${src.sector}]]*/ '';
+	   innerHTML=innerHTML+'</td><td class="lablevalue">Bill/PNR/ Ticket No.</td><td>';
+	   innerHTML=innerHTML+ /*[[${src.bookingNo}]]*/ '';
+	   innerHTML=innerHTML+'</td></tr><tr><td class="lablevalue">Distance(KM)</td><td>NA</td>';
+	   innerHTML=innerHTML+'<td class="lablevalue">Total Fare</td><td> [[${src.bookingAmount}]] </td><td class="lablevalue">Total Refund</td>';
+	   innerHTML=innerHTML+'<td> [[${src.refundAmount}]] </td><td class="lablevalue">Total Claimed Amount</td>';
+	   innerHTML=innerHTML+'<td> [[${src.claimedAmount}]] </td></tr><tr><td bgcolor="#003A70" align="left" colspan="11" style="border-bottom:none">';
+	   innerHTML=innerHTML+'<table class="filtersearch"><tbody class="all3"><tr class="lablevalue"><td>Traveler Name</td>';
+	   innerHTML=innerHTML+'<td>Relation</td><td>Age</td><td>Ticket No</td><td>Journey Performed?</td><td>Booking Amount</td>';
+	   innerHTML=innerHTML+'<td>Refund Amount</td><td>Claimed Amount</td></tr>';
+
+		/*[# th:each="dtl : ${src.draftPassDtlsBeans}"]*/
+		 innerHTML=innerHTML+'<tr><td> '+ /*[[${dtl.travellerName}]]*/'';
+		 innerHTML=innerHTML+'</td><td> ' + /*[[${dtl.relation}]]*/ ''; 
+		 innerHTML=innerHTML+'</td><td> [[${dtl.age}]] </td><td>'+ /*[[${dtl.ticketNo}]]*/'';
+		 innerHTML=innerHTML+'</td><td>';
+		 innerHTML=innerHTML+$("#dtsJourneyPerformed[[${srcStat.index}]]_[[${dtlStat.index}]]  option:selected").text();
+		 innerHTML=innerHTML+'</td><td> [[${dtl.bookingAmount}]] </td><td> [[${dtl.refundAmount}]] </td>';
+		 innerHTML=innerHTML+'<td> [[${dtl.claimedAmount}]] </td></tr>';
+		/*[/]*/
+
+	innerHTML=innerHTML+'</tbody></table></td></tr></tbody>';
+	/*[/]*/
+
+   innerHTML=innerHTML+'</table></div>';
+
+   return innerHTML;
+}
+
+/*]]>*/
+</script>
+
+</body>
+</html>

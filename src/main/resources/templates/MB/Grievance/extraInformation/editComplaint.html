@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+
+<script type="text/javascript" th:src="@{/js/common/crypto.js}"></script>
+
+
+<body>
+
+	<div th:insert="~{fragments/header/mainHeader}"></div>
+	<script th:src="@{/js/MB/Grievance/complaintRedressal/grievance.js(random=${session.jsToken})}"></script>
+	<section id="midpart" class="midpart">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-1"></div>
+				<div class="col-lg-10">
+
+					<div id="program" class="programBlock" style="padding-left: 100px; padding-right: 100px;">
+						<form th:action="@{/mb/updateGrievance}" method="post" id="editForm"
+							enctype="multipart/form-data">
+
+							<input type="hidden" name="grievanceId" th:value="${editComplaint.get(0).grievanceId}" />
+
+							
+							<span th:text="${message}" style="color: red;"> </span>
+
+							
+							<div class="welcomebox">
+								<div class="welcomeHead">
+									<span>Additional Information</span>
+								</div>
+
+								<div class="welcomecont">
+									<table class="filtersearch" id="grievanceTable">
+										<tbody class="all1" th:each="status : ${editComplaint}">
+											<tr>
+												<td>Selected Query</td>
+												<td th:text="${status.grievanceCategory}"></td>
+											</tr>
+
+											<tr>
+												<td style="width: 20%">
+													<span>Personal Number</span>
+												</td>
+												<td th:text="${status.personalNo}"></td>
+											</tr>
+
+
+
+											<tr>
+												<td style="width: 20%">
+													<span>Previous Description</span>
+												</td>
+												<td colspan="2">
+													<span th:text="${status.grievance}"
+														style="display:block; padding:5px; border:1px solid #ccc; background:#f9f9f9;"></span>
+												</td>
+											</tr>
+											<tr>
+												<tr>
+												<td style="width: 20%">
+													<span>Additional Info Remark</span>
+												</td>
+												<td colspan="2">
+													<span th:text="${status.remark}"</span>
+														
+												</td>
+											</tr>
+											
+													<tr th:if="${status.documentReq!=null and !status.documentReq.isEmpty()}">
+													    <td style="width: 20%">
+													        <span>Document Required</span>
+													    </td>
+													    <td colspan="2">
+													        <ul style="padding-left: 12px; margin:0;">
+													            <Strong><li th:each="doc : ${status.documentReq}"
+													                th:text="${doc}"></Strong>
+													            </li>
+													        </ul>
+													    </td>
+													</tr>
+
+												
+
+												
+												<td colspan="2"><b>Please describe your additional information</b></td>
+											</tr>
+											<tr>
+												<td colspan="2">
+													<textarea id="text_area" name="grievance" rows="5"
+														class="responsive-textarea"></textarea>
+												</td>
+											</tr>
+
+										</tbody>
+									</table>
+								</div>
+							</div>
+
+							
+							<div class="welcomebox">
+								<div style="padding-bottom: 5px; padding-left: 5px">
+									<label class="label lablevalue">Upload File</label>
+								</div>
+
+								<div style="padding-bottom: 5px; padding-left: 5px">
+									<input type="file" class="filepicker" name="file" id="uploadFile"
+										accept=".pdf, .jpg, .jpeg, .png" multiple  onchange="addSelectedFiles()"/>
+									<button type="button" onclick="resetFile()">❌</button>
+									
+								</div>
+								 <div id="selectedFiles" style="margin-top:10px; font-family:Arial; color: blue; font-size:0.95rem;"></div>
+
+								<div style="padding-left: 5px; font-size: 13px; color: #d9534f; font-style: italic;">
+									NOTE: Only PDF and image files (JPG, JPEG, PNG) are allowed (Max size: 1 MB).
+								</div>
+
+								<div
+									style="padding: 5px; display: flex; justify-content: flex-end; align-items: flex-start;">
+									<button type="button" class="butn" onclick="validateEdit()"
+										style="margin-top: 5px; margin-right: 20px;">
+										Submit
+									</button>
+								</div>
+
+							</div>
+						</form>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section>
+		<div class="blank"></div>
+	</section>
+
+	<section>
+		<div th:insert="~{fragments/login/footer}"></div>
+	</section>
+
+
+</body>
+
+</html>

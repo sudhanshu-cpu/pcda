@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{fragments/login/head}"></head>
+<script
+	th:src="@{/js/MB/Reports/DaAdvanceReport/advanceReport.js(random=${session.jsToken})}"></script>
+	<script type="text/javascript" th:src="@{/js/common/crypto.js}"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	
+    $('#formtxt').DataTable({
+searching: false,
+info: false,
+ordering:false
+    });
+});
+</script>
+<body
+	oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+
+		<div th:insert="~{fragments/header/mainHeader}"></div>
+	<section id="midpart" class="midpart">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-1"></div>
+				<div class="col-lg-10">
+					<form th:action="@{/reports/daAdvanceReport}" method="post" name="advanceReport"
+						id="advanceReport_id">
+						<input name=groupId type="hidden" th:value="${groupId}" id="selUnitId_">
+												<input name=name type="hidden" th:value="${name}" id="selUnitId_">
+						<div id="program" class="programBlock">
+							<div class="welcomebox" style="margin-bottom: 1rem;">
+								<div class="welcomeHead">
+									<p th:text="#{mb.report.daadvance.report.advanceReport}"></p>
+								</div>
+
+								<div class="welcomecont">
+									<table class="filtersearch">
+										<tbody class="all1">
+											<tr>
+												<td style="width:10%" th:text=#{mb.report.daadvance.report.requestId}></td>
+												<td style="width:10%"><input name="requestID" type="text" id="requestId"
+														style="width: 75%" class="txtfldM" size="21" maxlength="20"
+														th:value ="${inputModel.requestID}" autocomplete="off">
+												</td>
+												<td style="width:10%" th:text=#{mb.report.daadvance.report.personalNumber}></td>
+												<td style="width:10%"><input name="personalNo" type="text" id="personalNo" class="txtfldM"
+														style="width: 75%" size="21" maxlength="20" th:value ="${inputModel.personalNo}" autocomplete="off"></td>
+										
+												<td style="width:10%" th:text=#{mb.report.daadvance.report.travelMode}></td>
+												<td style="width:10%"><select name="travelMode" class="comboM" style="width: 75%"
+														id="travelMode" >
+														<option value=" " >All</option >
+														<option value="1" th:selected="${inputModel.travelMode}== '1'">Air</option>
+														<option value="0" th:selected="${inputModel.travelMode}== '0'">Rail</option>
+														
+													</select ></td>
+													
+													
+													
+												<td style="width:10%" th:text=#{mb.report.daadvance.report.advanceType}></td>
+												<td style="width:10%"><select name="advanceType" class="comboM" style="width: 75%"
+														id="advanceType">
+														<option value=" " >All</option>
+														<option value="1"  th:selected="${inputModel.advanceType}== '1'">CTG Advance</option>
+														<option value="0" th:selected="${inputModel.advanceType}== '0'">DA Advance</option>
+														
+													</select></td>
+										
+
+												<td style="width:10%" th:text=#{mb.report.daadvance.report.unit}>Unit</td>
+												<td style="width:10%">
+													<input name="unitOffice" type="hidden" th:value="${groupId}"
+														 readonly="readonly" >
+														 <span th:text ="${name}"></span>
+<!--														 <input type ="hidden" th:text ="${name}">-->
+											
+												</td>
+											</tr>
+
+
+
+
+											<tr>
+												<td colspan="10" style="text-align: right"><a href="javascript:void(0);">
+														<input type="submit" value="Generate Report" class="butn"
+															onclick="generateReport();"></a></td>
+											</tr>
+
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+
+
+				<!-- this is for data show -->
+				<div th:unless="${report}==null">
+							<div id="program" class="programBlock">
+								<div class="welcomebox" style="margin-bottom: 1rem;">
+								
+									<div class="welcomecont" style="margin:0">
+										<table id="formtxt" class="filtersearch">
+												<thead class="all1">
+												<tr>
+													<th th:text=#{mb.report.daadvance.report.requestId}></th>
+													<th th:text=#{mb.report.daadvance.report.personalNumber}></th>
+													<th th:text=#{mb.report.daadvance.report.travelType}></th>
+													<th th:text=#{mb.report.daadvance.report.advanceType}></th>
+													<th th:text=#{mb.report.daadvance.report.unit}></th>
+													<th th:text=#{mb.report.daadvance.report.advanceAmount}></th>
+
+										</tr>
+										</thead>
+										<tbody class="all1">
+										<tr th:each="dtls : ${report}"
+											th:if="${dtls.dataFound}=='Yes'">
+											<td th:text="${dtls.requestID}"></td>
+											<td th:text="${dtls.personalNumber}"></td>
+											<td th:text="${dtls.requestType}"></td>
+											<td th:text="${dtls.advanceType}"></td>
+											<td th:text="${dtls.unitName}"></td>
+											<td th:text="${dtls.daAdvanceAmount}"></td>
+										</tr>
+											
+									</tbody>
+
+
+
+								</table>
+										</div>
+										</div>
+										</div>
+										
+				</div>
+					<!-- Error message -->
+				<div>
+										<table class="filtersearch">
+						<tr>
+
+												<td class="errors" colspan="5"><p
+													th:text="${errorMessage}" style="margin:0"></p></td>
+						</tr>
+					</table>
+				</div>
+			</form>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section>
+		<div class="blank"></div>
+	</section>
+	<section>
+		<div th:insert="~{fragments/login/footer}"></div>
+	</section>
+
+
+</body>
+</html>

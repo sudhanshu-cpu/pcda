@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+<script>
+function getRecords(){
+
+if($("#pnrNo").val().trim()==''){
+  alert("Please Enter PNR Number.");
+  event.preventDefault();
+}else{
+	$("#tdrPnrForm").submit();
+}
+}
+</script>
+<script th:src="@{/js/MB/RequestDashBoard/tdr/tdrPage.js(random=${session.jsToken})}"> </script>
+
+
+<body
+ oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+
+		<div th:insert="~{fragments/header/mainHeader}">...</div>
+
+		<section id="midpart" class="midpart">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-lg-1"></div>
+                <div class="col-lg-10">
+					<form th:action="@{/mb/getPnrData}" method="post" id="tdrPnrForm" name="tdrPnrForm">
+						<div id="program" class="programBlock">
+							<div class="welcomebox">
+								<div class="welcomeHead">
+									
+									<p>
+										Search Tickets For TDR
+									</p>
+								</div>
+								<div class="welcomecont">
+									<table class="filtersearch">
+										<tbody class="all1">
+											<tr>
+												<td style="width:25%">PNR Number <Span class="text-danger">*</Span></td>
+												<td class="errorMessage"><input name="pnrNo" type="text" id="pnrNo"
+														class="txtfldM"  th:value="${pnrNo}" autocomplete="off" maxlength=10></td>
+											</tr>
+											<tr>
+												<td colspan="2" style="text-align:right">
+													<input name="filter" type="button" value="Get Records" id="filter"
+														class="butn"
+														th:attr="onclick='getRecords()'">
+
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+						<div id="program" class="programBlock" th:unless="${#lists.isEmpty(pnrData)}">
+							<div class="welcomebox">
+								<div class="welcomeHead">
+									
+									<p>
+										List Of Tickets For TDR
+									</p>
+								</div>
+								<div class="welcomecont">
+									<table class="filtersearch">
+
+										<tbody class="all1">
+											<tr class="lablevalue">
+												<td>Ticket Number</td>
+												<td>Request ID</td>
+												<td>Booking ID</td>
+												<td>PNR Number</td>
+												<td>Booking Status</td>
+												<td>Journey Date</td>
+												<td>Approval State</td>
+												
+											</tr>
+											<tr th:each="src : ${pnrData}">
+
+												<td>
+												<input type="hidden" name="bookingId" th:value="${src.bookingId}">
+												<input th:value="${src.ticketNo}"  type="submit" style="border: none ;color: mediumblue;text-decoration: underline;"
+											th:formaction="@{/mb/getDataFrmBkgId}" th:formmethod="post" >
+										
+												</td>
+
+												<td th:text="${src.requestId}"> </td>
+												<td th:text="${src.bookingId}"> </td>
+												<td th:text="${src.pnrNo}"> </td>
+												<td th:text="${src.currbookingStatus}"> </td>
+												<td th:text="${src.boardingDateStr}"> </td>
+												<td th:text="${src.tdrApprovalState}"> </td>
+												
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+						<div>
+						
+						<p class="errors" style="margin-bottom:0" th:text="${eroor}"></p>
+						</div>
+						
+						
+					</form>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section>
+<div class="blank"></div>
+</section>
+    <section>
+			<div th:insert="~{fragments/login/footer}"></div>
+		</section>
+</body>
+
+</html>

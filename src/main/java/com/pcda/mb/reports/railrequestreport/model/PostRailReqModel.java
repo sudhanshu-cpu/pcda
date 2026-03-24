@@ -1,0 +1,33 @@
+package com.pcda.mb.reports.railrequestreport.model;
+
+import java.util.Date;
+
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+public class PostRailReqModel {
+
+	private String personalNo="";
+	private String requestId="";
+	
+	private Date fromDate;
+	private Date toDate;
+	
+	private String fromXdate="";
+	private String toXdate="";
+
+	private String bookingType="";
+	private String ticketType="";
+	private String traveType="";
+	private String codeHead="";
+	private String accountOffice="";
+	private String bookingStatus="";
+	private String tatkalFlag="";
+
+	private String groupID="";
+
+}
+
+

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+<link rel="stylesheet" th:href="@{/css/common/style.css}">
+<link rel="stylesheet" th:href="@{/css/common/autoSuggest.css}">
+<script th:src="@{/js/MB/AddUsers/UnitMovement/getStation.js(random=${session.jsToken})}"></script>
+<script th:src="@{/js/MB/AddUsers/UnitMovement/getAirport.js(random=${session.jsToken})}"></script>
+<script th:src="@{/js/MB/AddUsers/BulkTransferIn/bulkTransferIn.js(random=${session.jsToken})}"></script>
+<body oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+
+<!-- 	<div class="container-fluid"> -->
+		<div th:insert="~{fragments/header/mainHeader}">...</div>
+
+		<section id="midpart" class="midpart">
+			<div class="container-fluid">
+				<div class="row">
+
+				<div class="col-lg-1"></div>
+				<div class="col-lg-10">
+						<form th:action="@{submitBulkTransferIn}" method="post" 
+							id="bulkTransferInSaveForm">
+							
+										<div id="program" class="programBlock">
+											<div class="welcomebox" style="margin-bottom:1rem;">
+								<div class="welcomeHead">
+													<p>Transfer In</p>
+												</div>
+										
+								<div class="welcomecont">
+													<table id="filtersearch" class="filtersearch">
+										<tbody class="all1">
+															<tr>
+																<td style="width: 30%"><span th:text="#{mb.addUser.transferin.personalNo}"></span> <span
+																		class="mandatory">*</span></td>
+																<td style="width: 70%"><input name="personalNo" type="text" class="txtfldM" id="personalNo"
+																		autocomplete="off" minlength=4 maxlength=11
+																		onkeyup="this.value = this.value.toUpperCase()">
+																	<button type="button" name="proceed" class="butn"
+																		onclick="testForAlphaNumericKey(event)">Add</button>
+																</td>
+															</tr>
+														</tbody>
+													</table>
+												</div>
+												<div>
+													<table style="width:100%" border="0" cellpadding="0" cellspacing="0" class="filtersearch" id="personalNoInfo">
+														<tbody class="all1" id="personalNoInfoBulk">
+															
+												
+															<tr align="left" class="showalert lablevalue" >
+																<td style="width:20%">PersonalNo</td>
+																<td style="width:20%">Name</td>
+																<td style="width:20%">Unit Service</td>
+																<td style="width: 20%">Traveler Service</td>
+																<td style="width:20%">Unit Name</td>
+																<td></td>
+															</tr>
+															
+															
+															
+															
+												
+														</tbody>
+													</table>
+												</div>
+											</div>
+										</div>
+							
+								<div id="program2" class="welcomebox" >
+									<table id="filtersearch1" class="filtersearch">
+										<tbody class="all1">
+													
+															
+															<tr>
+																<td style="width: 30%"><label th:text="#{mb.addusers.unitmovement.nrs}"></label>
+																 <span class="mandatory">*</span>
+																</td>
+																<td colspan="3"><input class="txtfldM" type="text"
+																	style="width: auto;" id="dutyStations_0"
+																	name="unitRailDutyNrs"
+																	onblur="fillRecordRailStationNRS('',0)"
+																	onkeyup="filsRailStationNRS(this.value,0)" autocomplete="off">
+																	<div class="suggestionsBox"
+																		id="suggestionsRailStationNRS_0"
+																		style="display: none;">
+																		<div class="suggestionList"
+																			id="autoSuggestionsListRailStationNRS_0"></div>
+																	</div></td>
+															</tr>
+															<tr>
+																<td style="width: 30%" th:text="#{mb.addusers.unitmovement.nrsairport}"></td>
+																<td colspan="3"><input type="text" class="txtfldM"
+																	id="airportStationText_0" name="unitDutyStnNa"
+																	onblur="fillRecordOffice('',0)"
+																	onkeyup="getStationAir(this.value,0)" autocomplete="off">
+
+																	<div class="suggestionsBox"
+																		id="suggestionsOfficeNRS1_0" style="display: none;">
+																		<div class="suggestionList"
+																			id="autoSuggestionsListOfficeNRS1_0"></div>
+																	</div></td>
+															</tr>
+															<tr>
+																<td style="width: 30%" th:text="#{mb.addusers.bulktransferin.date}"></td>
+																<td colspan="3"><input name="unitRelocationDateStr"
+																	placeholder="dd-mm-yyyy" type="text" class="txtfldM"
+																	id="unitRelocationDate" autocomplete="off" readonly="readonly"></td>
+															</tr>
+															<tr>
+																<td style="width: 30%"th:text="#{mb.addusers.bulktransferin.authority}"></td>
+																<td colspan="3"><textarea name="unitMoveAuthority"
+																		class="txtfldM" onkeyup="ismaxlength(this,50);"
+																		id="unitMoveAuthority" rows="2" cols="25"></textarea>
+																</td>
+															</tr>
+															<tr>
+
+																<td colspan="6" style="text-align: right">
+																	<button class="butn" type="button" onclick="validateUnitMovement()">Submit</button>
+																</td>
+															</tr>
+														</tbody>
+													</table>
+												</div>
+										
+
+
+						</form>
+					</div>
+
+				</div>
+
+			</div>
+
+		</section>
+		<section>
+		<div class="blank"></div>
+	</section>
+	<section>
+		<div th:insert="~{fragments/login/footer}"></div>
+		</section>
+</body>
+
+</html>

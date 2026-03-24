@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head></head>
+
+
+
+<body oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+
+
+					
+						<div id="program" class="programBlock">
+							<div class="welcomebox" th:unless="${reqIdModel}==null" style="margin-bottom:1rem">
+								<div class="welcomeHead">
+									<p>
+										Request Details
+									</p>
+								</div>
+								<div class="welcomecont">
+
+									
+
+									<table class="filtersearch" cellspacing="1" cellpadding="4" width="100%" border="0" >
+										<tbody class="all1">
+
+											
+												<tr align="left">
+													<td class="lablevalue">Request Id.</td>
+													<td  th:text="${reqIdModel.requestId}">
+													</td>
+													<td class="lablevalue">Personal No.</td>
+													<td th:text="${reqIdModel.personalNo}">
+													</td>
+													<td class="lablevalue">Travel Type</td>
+													<td  th:text="${reqIdModel.travelType}">
+													</td>
+
+												</tr>
+
+												<tr align="left">
+													<td class="lablevalue">Code Head</td>
+													<td   th:text="${reqIdModel.codeHead}">
+													</td>
+													<td class="lablevalue">Account Office.</td>
+													<td   th:text="${reqIdModel.accountOffice}">
+													</td>
+													<td class="lablevalue">Booking Type</td>
+													<td   th:text="${reqIdModel.bookingType}">
+													</td>
+
+												</tr>
+
+												<tr align="left">
+													<td class="lablevalue">Ticket Type</td>
+													<td   th:text="${reqIdModel.ticketType}">
+													</td>
+													<td class="lablevalue">Request Date</td>
+													<td   th:text="${reqIdModel.bookedDate}">
+													</td>
+													<td class="lablevalue">Origin Station</td>
+													<td  th:text="${reqIdModel.origin}"></td>
+
+												</tr>
+
+												<tr align="left">
+													<td class="lablevalue">Destination Station</td>
+													<td  th:text="${reqIdModel.destination}"></td>
+													<td class="lablevalue" >Approval Status</td>
+													<td  th:text="${reqIdModel.bookingStatus}">
+													</td>
+													<td class="lablevalue">TR Rule No</td>
+													<td   th:text="${reqIdModel.trRuleNo}">
+													</td>
+												</tr>
+
+											
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+
+
+
+						<div id="program" class="programBlock" th:unless="${reqIdModel}==null">
+							<div class="welcomebox" style="margin-bottom:1rem">
+								<div class="welcomeHead">
+									<p>
+										Journey Details
+									</p>
+								</div>
+								<div class="welcomecont" >
+									<table class="filtersearch" cellspacing="1" cellpadding="4" width="100%" border="0">
+
+										<tbody class="all1">
+
+											<tr class="lablevalue">
+												<td width="4%">S.No.</td>
+												<td width="15%">Traveler Name</td>
+												<td width="12%">From</td>
+												<td width="12%">To</td>
+												<td width="10%">Journey Date</td>
+												<td width="10%">Via Relax Route</td>
+												<td width="8%">Relation</td>
+												<td width="10%">Class</td>
+												<td width="6%">Status</td>
+
+											</tr>
+
+
+											<tr th:each="src,stat:${reqIdModel.journeyDetailList}">
+
+												<td th:text="${stat.index+1}"></td>
+												<td th:text="${src.travelerName}"></td>
+												<td th:text="${src.fromStationName}"></td>
+												<td th:text="${src.toStationName}"></td>
+												<td th:text="${src.boardingDate}"></td>
+												<td th:text="${src.viaRelax}"></td>
+												<td th:text="${src.relation}"></td>
+												<td th:text="${src.journeyClass}"></td>
+												<td th:text="${src.bookingStatus}"></td>
+
+
+
+											</tr>
+
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+
+						<div id="program" class="programBlock" th:unless="${reqIdModel}==null">
+							<div class="welcomebox" style="margin-bottom:1rem">
+								<div class="welcomeHead">
+									<p>
+										Passenger Details
+									</p>
+								</div>
+								<div class="welcomecont" >
+
+
+									<table class="filtersearch" cellspacing="1" cellpadding="4" width="100%" border="0">
+										<tbody class="all1">
+
+
+											<tr class="lablevalue">
+												<td>S.No.</td>
+												<td>Name</td>
+												<td>Age</td>
+												<td>Gender</td>
+												<td>Relation</td>
+												<td>Passenger Type</td>
+											</tr>
+
+
+												<tr  th:each="item,stat:${reqIdModel.passengerDetailList}">
+													<td th:text="${stat.index+1}"></td>
+													<td th:text="${item.name}"></td>
+													<td th:text="${item.age}"></td>
+													<td th:text="${item.gender}"></td>
+													<td th:text="${item.relation}"></td>
+													<td th:text="${item.passengertype}"></td>
+												</tr>
+
+										</tbody>
+
+									</table>
+								</div>
+							</div>
+						</div>
+
+
+								<div id="program" class="programBlock" th:unless="${reqIdModel}==null">
+									<div class="welcomebox" style="margin-bottom:1rem">
+										<div class="welcomeHead">
+											<p>
+												Question Details
+											</p>
+										</div>
+										<div class="welcomecont">
+											<table class="filtersearch" cellspacing="1" cellpadding="4" width="100%"
+												border="0">
+												<tbody class="all1">
+													<tr class="lablevalue">
+														<td>SNo.</td>
+														<td>Question</td>
+														<td>Ans</td>
+													</tr>
+
+
+													<tr   th:each="sr,stat:${reqIdModel.requestQuestionList}">
+														<td th:text="${stat.index+1}"></td>
+														<td th:text="${sr.question}"></td>
+														<td th:text="${sr.answer}"></td>
+													</tr>
+
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+							
+					
+			
+				
+		
+	
+</body>
+
+</html>

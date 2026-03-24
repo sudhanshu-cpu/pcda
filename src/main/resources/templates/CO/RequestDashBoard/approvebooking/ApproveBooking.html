@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+
+<link rel="stylesheet" type="text/css" th:href="@{/css/common/popup/LightFace.css}">
+<script th:src="@{/js/common/popup/mootools.js}"> </script>
+
+
+<script th:src="@{/js/common/popup/LightFace.js}"> </script>
+
+<script th:src="@{/js/common/popup/LightFace.Request.js}"> </script>
+
+
+<script
+	th:src="@{/js/CO/RequestDashBoard/approvebooking/approveBooking.js(random=${session.jsToken})}"> </script>
+
+
+
+
+
+<body oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+
+		<div th:insert="~{fragments/header/mainHeader}"></div>
+<section class="midpart">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-lg-1"></div>
+					<div class="col-lg-10">
+						<div class="programBlock">
+							<div class="welcomebox">
+								<div class="welcomeHead">
+									<p>
+										Request Pool
+									</p>
+	</div>
+								<div class="welcomecont">
+<div id="requestPoolDiv">
+<form th:action="@{/co/getBookDataForApp}" id="appDataSearch" name="appDataSearch" th:method="post">
+	<table class="filtersearch">
+	<tbody class="all1">
+		<tr align="left">
+			<td width="21%">Personal No.</td>
+			<td width="29%"><select name="personalNo" class="comboM" id="searchPersonalNumber">
+					<option value="All">All</option>
+					<option th:each="src:${approvalModel.personalNoSet}" th:value="${src}" th:text="${src}" th:selected="${src}== ${pno}">
+					</option>
+				</select>
+			</td>
+
+			<td width="20%">Request Mode</td>
+			<td width="29%"><select name="requestMode" class="comboM" id="requestMode">
+					<option value="All">All</option>
+					<option value="0" th:selected="${req}== '0'">Rail</option>
+					<option value="1" th:selected="${req}== '1'">Air</option>
+
+				</select>
+			</td>
+			<td  align="center" >
+			<input type="submit" class="butn" value="Search" /> 
+		  </td>
+		</tr>
+		</tbody>
+	</table>
+</form>
+</div>
+</div>
+</div>
+</div>
+	
+<form id="requestPool" name="requestpool" th:action="@{/co/AppDisAppNormalBook}" th:method="post" >
+<div id="requestDataDiv">
+     
+       <input type="hidden" name="event" id="event" />
+       <input type="hidden" name="personalNo" id="personalNo" />
+	   <input type="hidden" name="requestId" id="postReqId"/>
+	   <input type="hidden" name="railPao" id="railPao" />
+	   <input type="hidden" name="airPao" id="airPao" />
+	   <input type="hidden" name="isTatkal" id="isTatkal"/> 
+	   <input type="hidden" name="travelMode" id="travelMode"/>
+	   <input type="hidden" name="daAdvanceAvail" id="isdaAdvanceAvail"/>
+	    <input type="hidden" name="checkPAOStatus" id="checkPAOStatus"/>
+	  
+	    <input type="hidden" name="modifiedDAAmount" id="modifiedDAAmount" />
+	   <input type="hidden" name="modifiedHotelAmount" id="modifiedHotelAmount" />
+	   <input type="hidden" name="modifiedConveyanceAmount" id="modifiedConveyanceAmount" />
+	      <input type="hidden" name="modifiedFoodAmount" id="modifiedFoodAmount" />
+	       <input type="hidden" name="modifiedCTGAmount" id="modifiedCTGAmount" />
+	        <input type="hidden" name="modifiedLuggAmount" id="modifiedLuggAmount" />
+	         <input type="hidden" name="modifiedVehicleAmount" id="modifiedVehicleAmount" />
+	    
+	         
+	   
+	   <input type="hidden" name="disApprovedRequest" id="disApprovedRequest" />
+	   <input type="hidden" name="travelModeStr" id="travelModeStr" />
+	     <input type="hidden" name="requestMode" id="requestMode" th:value="${req}" />
+	       <input type="hidden" name="searchPNo" id="searchPersonalNumber" th:value="${pno}" />
+	    
+	  
+	  <div>
+	  <p th:text="${success}" class="errors" style="text-align: center;margin-bottom:0"> </p>
+	  </div>
+	
+	
+			              <table class="bgborder" cellspacing="0" cellpadding="0" width="100%" border="0"  th:if="${not #lists.isEmpty(approvalModel.railRequests)} or ${not #lists.isEmpty(approvalModel.airRequests)}">
+								
+								<tr><td>
+								<div class="welcomebox" th:unless="${#lists.isEmpty(approvalModel.railRequests)}">
+									<table style="width:100%;border: 0;" cellspacing="1" cellpadding="4" class="filtersearch" 
+									 th:each="item:${approvalModel.railRequests}">
+    									<tbody class="all1">
+    									<tr><td colspan="6" bgcolor="#fbfac8" height="15"> </td></tr>
+   						
+										    	<tr>
+										    	
+	   											 	<td class="lablevalue" height="23">RequestId</td>
+	   											  	<td colspan="2" >
+										    		<a class="links" href="#"  th:attr="onclick='viewRequestReports(\''+${item.requestId}+'\');'"><span th:text="${item.travelType}" > </span><span th:text="${item.requestId}" > </span> </a>
+										      		</td>
+										    		<td class="lablevalue">Personal No</td>
+										    		<td colspan="2">
+										    			<a class="links" href="#" th:attr="onclick='viewUserReports(\''+${item.empCode}+'\');'"><span th:text="${item.empCode}" > </span></a></td>
+	   											
+									            </tr>
+									  
+									  <tr align="left">
+									    <td class="lablevalue" style="width:10%">Creation Date
+									    <input type="hidden" th:id="@{|booking_type_${item.requestId}|}" th:value="${item.bookingType}"/></td>
+									    <td style="width:23%"><span th:text="${item.creationTime}" > </span></td>
+									    <td class="lablevalue" style="width:15%">Travel Mode </td>
+							    		<td style="width:23%"> <span th:text="${item.travelMode}" > </span></td>
+									    <td class="lablevalue" style="width:15%">Status</td>
+									    <td style="width:14%"><span th:text="${item.approvalStateStr}" > </span></td>
+									     <input type="hidden" name="paoStatus" th:id="@{|checkPAOStatus_${item.requestId}|}"  th:value="${item.paoChanged}"/>
+									  </tr>
+									  
+   									
+										  <tr align="left" th:each="src:${item.requestDeatils}">
+										    <td class="lablevalue">From</td>
+										    <td><span th:text="${src.originStationName}" > </span></td>
+										    <td class="lablevalue">To</td>
+										    <td><span th:text="${src.destinationStationName}" > </span></td>
+										     <td class="lablevalue">Journey Date</td>
+										    <td><span th:text="${src.journeyDate}" > </span> </td>
+											   
+										     
+										  </tr>
+										  
+										 
+	
+									
+									 <tr align="left" th:if="${item.paoChanged}==0" th:each=" pao :${item.paoList}">
+										       <td colspan="2" class="lablevalue" nowrap="">New Rail Accounting Office</td>
+										     	<td colspan="1"><span th:text="${pao.newRailPAO}" > </span>
+										     	
+										     	<input type="hidden" name="railPaoId" th:id="@{|railPaoId_${pao.requestId}|}" th:value="${item.approveRailBookingBean.newRailPAOId}"/>
+										     	</td>
+										     	<td colspan="2" class="lablevalue">New Air Accounting office</td>
+												<td colspan="1"><span th:text="${pao.newAirPAO}" > </span>
+												
+												<input type="hidden" name="airPaoId" th:id="@{|airPaoId_${pao.requestId}|}" th:value="${pao.newAirPAOId}" /></td>
+										        
+							  		</tr>
+							  		 <tr align="left" th:if="${item.paoChanged}!=0"> </tr>
+									
+									    <input type="hidden" name="railDaAdvanceAvail"  th:id="@{|railDaAdvanceAvail_${item.requestId}|}" th:value="${item.daAdvanceAvail}"/>
+									    
+									  	
+												    <tr align="left" th:if="${item.daAdvanceAvail}==0">	
+									     			<td class="lablevalue" colspan="2">Approved Advance </td>
+									     			<input type="hidden" th:id="@{|da_advance_amount_${item.requestId}|}" th:value="${item.daAdvanceAmount}"/>
+									     			<input type="hidden" th:id="@{|da_hotel_amount_${item.requestId}|}"  th:value="${item.hotelAmount}"/>
+									     			<input type="hidden" th:id="@{|da_conveyance_amount_${item.requestId}|}" th:value="${item.convyncAmount}"/>
+									     			<input type="hidden" th:id="@{|da_food_amount_${item.requestId}|}" th:value="${item.foodAmount}"/>
+									     			<input type="hidden" th:id="@{|adv_ctg_amount_${item.requestId}|}"  th:value="${item.ctgAmount}"/>
+									     			<input type="hidden" th:id="@{|adv_LuggTran_amount_${item.requestId}|}" th:value="${item.goodsTransportAmount}"/>
+									     			<input type="hidden" th:id="@{|adv_VehicleTran_amount_${item.requestId}|}" th:value="${item.vehicleTransportAmnt}"/>
+									     			
+									     			<td colspan="1">
+									     			<input type="radio" th:name="@{|daAdvanceAvailed_${item.requestId}|}"  value="0" checked="checked"  th:attr="onclick='updateDAAmountValue(\''+${item.requestId}+'\',\''+'0'+'\',\''+${item.travelTypeId}+'\');'"/> Yes
+                                                    <input type="radio" th:name="@{|daAdvanceAvailed_${item.requestId}|}" value="1" th:attr="onclick='updateDAAmountValue(\''+${item.requestId}+'\',\''+'1'+'\',\''+${item.travelTypeId}+'\');'"/> No
+									     			</td>
+									     			<td colspan="3">
+														 <a class="links" href="#" th:attr="onclick='viewDAAdvance(\''+${item.requestId}+'\');'">Advance Details</a>
+													</td>
+													</tr>
+													
+										                   <tr align="left" th:if="${item.daAdvanceAvail}==0 and ${item.travelTypeId}=='100001' ">
+															<td class="lablevalue">
+															  CTG Amount
+															</td>
+															<td>
+													<input type="text" name="modRailCTGAmount" th:id="@{|modCTGAmount_${item.requestId}|}" maxlength="10"  
+													 th:value="${item.ctgAmount}" class="blockNegative" th:attr="onblur='calDAAdvanceAmt(\''+${item.requestId}+'\',\''+${item.travelTypeId}+'\');'"/>
+															</td>
+															<td class="lablevalue">
+															  Amount For Luggage Transport
+															</td>
+															<td>
+														 <input type="text" name="modRailLuggAmount" th:id="@{|modLuggageAmount_${item.requestId}|}" maxlength="10" 
+													     th:value="${item.goodsTransportAmount}" class="blockNegative" th:attr="onblur='calDAAdvanceAmt(\''+${item.requestId}+'\',\''+${item.travelTypeId}+'\');'"/>
+															</td>
+															<td class="lablevalue">
+															  Amount For Vehicle Transport
+															</td>
+															<td>
+													 <input type="text" name="modRailVehicleAmount" th:id="@{|modVehicleAmount_${item.requestId}|}" maxlength="10" 
+													  th:value="${item.vehicleTransportAmnt}" class="blockNegative" th:attr="onblur='calDAAdvanceAmt(\''+${item.requestId}+'\',\''+${item.travelTypeId}+'\');'"/>
+															</td>
+														   </tr>
+										               
+										              
+													<tr align="left" th:if="${item.daAdvanceAvail}==0 and ${item.travelTypeId}=='100002'">
+													<td class="lablevalue">
+													  Hotel Amount
+													</td>
+													<td>
+							                        <input type="text" name="modRailHotelAmount" th:id="@{|modHotelAmount_${item.requestId}|}" maxlength="10"
+							                         th:value="${item.hotelAmount}" class="blockNegative" th:attr="onblur='calDAAdvanceAmt(\''+${item.requestId}+'\',\''+${item.travelTypeId}+'\');'"/>
+													</td>
+													<td class="lablevalue">
+													  Conveyance Amount
+													</td>
+													<td>
+													 <input type="text" name="modRailConveyanceAmount" th:id="@{|modConveyanceAmount_${item.requestId}|}" maxlength="10"
+													  th:value="${item.convyncAmount}" class="blockNegative" th:attr="onblur='calDAAdvanceAmt(\''+${item.requestId}+'\',\''+${item.travelTypeId}+'\');'"/>
+													</td>
+													<td class="lablevalue">
+													  Food Amount
+													</td>
+													<td>
+													<input type="text" name="modRailFoodAmount" th:id="@{|modFoodAmount_${item.requestId}|}" maxlength="10" 
+													 th:value="${item.foodAmount}" class="blockNegative" th:attr="onblur='calDAAdvanceAmt(\''+${item.requestId}+'\',\''+${item.travelTypeId}+'\');'"/>
+													</td>
+												   </tr>
+										            <tr align="left" th:if="${item.daAdvanceAvail}==0 and ${item.travelTypeId}!='100002' and ${item.travelTypeId}!='100001'"> </tr>
+										             
+													<tr align="left" th:if="${item.daAdvanceAvail}==0">
+													<td class="lablevalue" colspan="2">
+													  Advance Amount
+													</td>
+													<td colspan="4">
+													   <input type="text" name="modRailDAAmount" th:id="@{|modDAAmount_${item.requestId}|}" maxlength="10" th:value="${item.daAdvanceAmount}" class="blockNegative" readonly="readonly"/>
+													</td>
+												   </tr>	
+									     		
+									
+									    
+											<tr align="left" th:if="${item.travelId}==null"> </tr>
+											
+											  <tr align="left" th:if="${item.travelId}!=null">
+								 				<td class="lablevalue" colspan="1">Travel Id</td>
+								 				<td colspan="5">
+												  <span th:text="${item.travelId}"> </span>
+												</td>
+											   </tr>	
+										   
+								
+
+									
+									  <tr align="left" th:if="${item.tatkalFlag}=='Yes'">
+									     <td class="lablevalue">Tatkal</td>
+									     
+									     
+									    		<td th:if="${item.partyBooking}=='Yes'" colspan="5" class="lablevalue"><input type="radio" checked="true" value="0" th:name="@{|${item.requestId}|}" th:id="@{|tatkalYes_${item.requestId}|}" />Approve</td>
+									    	
+									    		<td colspan="5" th:if="${item.partyBooking}=='No'">
+									  
+									    		  <input type="radio"   th:id="@{|tatkalYes_${item.requestId}|}"  th:attr="onclick='tatkalSelected(\''+'0'+'\',\''+${item.requestId}+'\');'" th:name="@{|${item.requestId}|}"  value="0"/> Approve 
+  												  <input type="radio"   th:id="@{|tatkalNo_${item.requestId}|}"  th:attr="onclick='tatkalSelected(\''+'1'+'\',\''+${item.requestId}+'\');'" th:name="@{|${item.requestId}|}"  value="1"/> DisApprove
+									    		
+									    		<div class="welcomebox" th:id="@{|tatkalRefundDiv${item.requestId}|}" style="display:none;">
+												 	<table class="bgborder" cellspacing="0" cellpadding="0" width="100%" border="0">
+											 		<tr><td>
+												      <table id="loginForm" class="formtxt" cellpadding="4" cellspacing="1" width="100%" border="0">
+											 			<tr align="center"><td class="heading" align="left">Refund Instruction For Tatkal Tickets</td></tr>
+											 			<tr>
+											 				<td align="left"><b>There shall be no refund on confirmed Tatkal tickets subject to the exceptional circumstances as:-</b></td> 
+											 			</tr>
+											 			
+											 			<tr>
+											 				<td align="left"><b>a.</b>If the train is delayed by more than 3 hours at the journey originating point of the passenger and not the boarding point if the passenger’s journey originating point and boarding point are different.</td> 
+											 			</tr>
+														<tr>
+											 				<td align="left"><b>b.</b>If the train is to run on a diverted route and the passenger is not willing to travel.</td> 
+											 			</tr>
+											 			<tr>
+											 				<td align="left"><b>c.</b>If the train is to run on a diverted route and boarding station or the destination station or both the stations are not on the diverted route.</td> 
+											 			</tr>
+											 			<tr>
+											 				<td align="left"><b>d.</b>In case of non-attachment of coach in which the Tatkal accommodation has been earmarked and the passenger has not been provided accommodation in the same class.</td> 
+											 			</tr>
+														<tr>
+											 				<td align="left"><b>e.</b>If the party has been accommodated in lower class and does not want to travel. In case the party travels in lower class, the passenger will be given refund of difference of fare and also the difference of fare and also the difference of Tatkal charges, if any.</td> 
+											 			</tr>
+													</table>
+											 	  </td></tr>
+											  	  </table>
+												</div>
+												
+												<div class="welcomebox" th:id="@{|tatkalDisApproveDiv${item.requestId}|}" style="display:none;">
+												 	<table class="bgborder" cellspacing="0" cellpadding="0" width="100%" border="0">
+											 		<tr><td>
+												      <table id="loginForm" class="formtxt" cellpadding="4" cellspacing="1" width="100%" border="0">
+											 			<tr align="center"><td class="heading" align="left">Refund Instruction For Tatkal Tickets <font color="red">Note: As you are not approving the Tatkal Booking, Tatkal charges will be deducted from the user</font></td></tr>
+											 			<tr>
+											 				<td align="left"><b>There shall be no refund on confirmed Tatkal tickets subject to the exceptional circumstances as:-</b></td> 
+											 			</tr>
+											 			
+											 			<tr>
+											 				<td align="left"><b>a.</b>If the train is delayed by more than 3 hours at the journey originating point of the passenger and not the boarding point if the passenger’s journey originating point and boarding point are different.</td> 
+											 			</tr>
+														<tr>
+											 				<td align="left"><b>b.</b>If the train is to run on a diverted route and the passenger is not willing to travel.</td> 
+											 			</tr>
+											 			<tr>
+											 				<td align="left"><b>c.</b>If the train is to run on a diverted route and boarding station or the destination station or both the stations are not on the diverted route.</td> 
+											 			</tr>
+											 			<tr>
+											 				<td align="left"><b>d.</b>In case of non-attachment of coach in which the Tatkal accommodation has been earmarked and the passenger has not been provided accommodation in the same class.</td> 
+											 			</tr>
+														<tr>
+											 				<td align="left"><b>e.</b>If the party has been accommodated in lower class and does not want to travel. In case the party travels in lower class, the passenger will be given refund of difference of fare and also the difference of fare and also the difference of Tatkal charges, if any.</td> 
+											 			</tr>
+													</table>
+											 	  </td></tr>
+											  	  </table>
+												</div>
+												
+												
+												
+												</td>
+									    	
+									  </tr>
+  
+									  <tr align="right" th:if="${item.tatkalFlag}=='Yes'" >
+									    <td colspan="6" style="text-align:right">
+									    	<input type="button" class="butn" value="Approve" th:attr="onclick='submitRequestForm(\''+${item.encryptedReqId}+'\',\''+'approve'+'\',\''+${item.requestId}+'\',\''+'Yes'+'\',\''+${item.travelMode}+'\',\''+${item.empCode}+'\',\''+${item.daAdvanceAvail}+'\',\''+${item.travelType}+'\');'"/>  
+									    	<input type="button" class="butn" value="Disapprove" th:attr="onclick='submitRequestForm(\''+${item.encryptedReqId}+'\',\''+'disapprove'+'\',\''+${item.requestId}+'\',\''+'Yes'+'\',\''+${item.travelMode}+'\',\''+${item.empCode}+'\',\''+${item.daAdvanceAvail}+'\',\''+${item.travelType}+'\');'"/>
+									    </td>
+									  </tr>
+									 
+									 
+ 									
+ 
+									 <tr align="right" th:if="${item.tatkalFlag}=='No'">
+									     <td colspan="6" style="text-align:right">
+									    	<input type="button" class="butn" value="Approve" th:attr="onclick='submitRequestForm(\''+${item.encryptedReqId}+'\',\''+'approve'+'\',\''+${item.requestId}+'\',\''+'No'+'\',\''+${item.travelMode}+'\',\''+${item.empCode}+'\',\''+${item.daAdvanceAvail}+'\',\''+${item.travelType}+'\');'"/>  
+									    	<input type="button" class="butn" value="Disapprove" th:attr="onclick='submitRequestForm(\''+${item.encryptedReqId}+'\',\''+'disapprove'+'\',\''+${item.requestId}+'\',\''+'No'+'\',\''+${item.travelMode}+'\',\''+${item.empCode}+'\',\''+${itemdaAdvanceAvail}+'\',\''+${item.travelType}+'\');'"/>
+									    </td>
+									  </tr>
+									
+ 
+  </tbody>
+								</table>
+								</div>
+								
+								<div class="welcomebox" th:unless="${#lists.isEmpty(approvalModel.airRequests)}">
+										<table width="100%" border="0" cellspacing="1" cellpadding="4" class="filtersearch" th:each="item:${approvalModel.airRequests}">
+								
+   												<tbody class="all1">
+    									<tr><td colspan="6" bgcolor="#fbfac8" height="15"> </td></tr>
+										    		  <tr align="left">
+   
+										    
+	   											  	<td class="lablevalue">RequestId</td>
+	   											  	<td colspan="2">
+										    		<a  th:if="${{!#strings.isEmpty(item.bulkBookingId)}}" class="links" href="#"  th:attr="onclick='viewAirRequestReport(\''+${item.requestId}+'\');'"><span th:text="${item.travelType}"></span><span th:text="${item.bulkBookingId}"></span></a>
+														<a  th:unless="${{!#strings.isEmpty(item.bulkBookingId)}}" class="links" href="#"  th:attr="onclick='viewAirRequestReport(\''+${item.requestId}+'\');'"><span th:text="${item.travelType}"></span><span th:text="${item.requestId}"></span> </a>
+
+	   											  	</td>
+	   											  	
+												
+	   											  	<td class="lablevalue">Personal No</td>
+												    <td colspan="2">
+												   <a class="links" href="#" th:attr="onclick='viewUserReports(\''+${item.empCode}+'\');'"><span th:text="${item.empCode}" > </span></a></td>
+
+										    	
+									  </tr>
+									  
+									  <tr align="left">
+									    <td class="lablevalue"  style="width:10%">Creation Date
+									    <input type="hidden" th:id="@{|booking_type_${item.requestId}|}" th:value="${item.bookingType}"/></td>
+									    <td style="width:23%"><span th:text="${item.creationTime}" > </span></td>
+									    <td class="lablevalue" style="width:15%">Travel Mode </td>
+							    		<td style="width:23%"> <span th:text="${item.travelMode}" > </span></td>
+									    <td class="lablevalue" style="width:15%">Status</td>
+									    <td style="width:14%"><span th:text="${item.approvalStateStr}" > </span></td>
+									  </tr>
+									  
+   									
+										  <tr align="left" >
+										    <td class="lablevalue">From</td>
+										    <td><span th:text="${item.requestDeatils.originStationName}" > </span></td>
+										    <td class="lablevalue">To</td>
+										    <td><span th:text="${item.requestDeatils.destinationStationName}" > </span></td>
+										     <td class="lablevalue">Journey Date</td>
+										    <td><span th:text="${item.requestDeatils.journeyDate}" > </span> </td>
+											   
+										     <input type="hidden" name="checkPAOStatus" th:id="@{|checkPAOStatus_${item.requestId}|}"  th:value="${item.requestId}"/>
+										  </tr>
+										  
+										
+									  <input type="hidden" name="airAdvanceAvail"  th:id="@{|airAdvanceAvail_${item.requestId}|}" th:value="${item.daAdvanceAvail}"/>
+									   
+									     <tr align="left" th:if="${item.daAdvanceAvail}==0">	
+									     			<td class="lablevalue" colspan="2">Approved Advance</td>
+									     			<input type="hidden" th:id="@{|da_advance_amount_${item.requestId}|}" th:value="${item.daAdvanceAmount}"/>
+									     			<input type="hidden" th:id="@{|da_hotel_amount_${item.requestId}|}"  th:value="${item.hotelAmount}"/>
+									     			<input type="hidden" th:id="@{|da_conveyance_amount_${item.requestId}|}" th:value="${item.convyncAmount}"/>
+									     			<input type="hidden" th:id="@{|da_food_amount_${item.requestId}|}" th:value="${item.foodAmount}"/>
+									     			<input type="hidden" th:id="@{|adv_ctg_amount_${item.requestId}|}"  th:value="${item.ctgAmount}"/>
+									     			<input type="hidden" th:id="@{|adv_LuggTran_amount_${item.requestId}|}" th:value="${item.goodsTransportAmount}"/>
+									     			<input type="hidden" th:id="@{|adv_VehicleTran_amount_${item.requestId}|}" th:value="${item.vehicleTransportAmnt}"/>
+									     			
+									     			<td colspan="1">
+									     			<input type="radio" th:name="@{|daAdvanceAvailed_${item.requestId}|}"  value="0" checked="checked"  th:attr="onclick='updateDAAmountValue(\''+${item.requestId}+'\',\''+'0'+'\',\''+${item.travelTypeId}+'\');'"/> Yes
+                                                    <input type="radio" th:name="@{|daAdvanceAvailed_${item.requestId}|}" value="1" th:attr="onclick='updateDAAmountValue(\''+${item.requestId}+'\',\''+'1'+'\',\''+${item.travelTypeId}+'\');'"/> No
+									     			</td>
+									     			<td colspan="3">
+														 <a class="links" href="#" th:attr="onclick='viewDAAdvance(\''+${item.requestId}+'\');'" >Advance Details</a>
+													</td>
+													</tr>
+													
+										                   <tr align="left" th:if="${item.daAdvanceAvail}==0 and ${item.travelTypeId}=='100001' ">
+															<td class="lablevalue">
+															  CTG Amount
+															</td>
+															<td>
+													<input type="text" name="modCTGAmount" th:id="@{|modCTGAmount_${item.requestId}|}" maxlength="10"  
+													 th:value="${item.ctgAmount}" class="blockNegative" th:attr="onblur='calDAAdvanceAmt(\''+${item.requestId}+'\',\''+${item.travelTypeId}+'\');'"/>
+															</td>
+															<td class="lablevalue">
+															 Amount For Luggage Transport
+															</td>
+															<td>
+														 <input type="text" name="modLuggageAmount" th:id="@{|modLuggageAmount_${item.requestId}|}" maxlength="10" 
+													     th:value="${item.goodsTransportAmount}" class="blockNegative" th:attr="onblur='calDAAdvanceAmt(\''+${item.requestId}+'\',\''+${item.travelTypeId}+'\');'"/>
+															</td>
+															<td class="lablevalue">
+															  Amount For Vehicle Transport
+															</td>
+															<td>
+													 <input type="text" name="modVehicleAmount" th:id="@{|modVehicleAmount_${item.requestId}|}" maxlength="10" 
+													  th:value="${item.vehicleTransportAmnt}" class="blockNegative" th:attr="onblur='calDAAdvanceAmt(\''+${item.requestId}+'\',\''+${item.travelTypeId}+'\');'"/>
+															</td>
+														   </tr>
+										               
+										              
+													<tr align="left" th:if="${item.daAdvanceAvail}==0 and ${item.travelTypeId}=='100002'">
+													<td class="lablevalue">
+													  Hotel Amount
+													</td>
+													<td>
+							                        <input type="text" name="modHotelAmount" th:id="@{|modHotelAmount_${item.requestId}|}" maxlength="10"
+							                         th:value="${item.hotelAmount}" class="blockNegative" th:attr="onblur='calDAAdvanceAmt(\''+${item.requestId}+'\',\''+${item.travelTypeId}+'\');'"/>
+													</td>
+													<td class="lablevalue">
+													  Conveyance Amount
+													</td>
+													<td>
+													 <input type="text" name="modConveyanceAmount" th:id="@{|modConveyanceAmount_${item.requestId}|}" maxlength="10"
+													  th:value="${item.convyncAmount}" class="blockNegative" th:attr="onblur='calDAAdvanceAmt(\''+${item.requestId}+'\',\''+${item.travelTypeId}+'\');'"/>
+													</td>
+													<td class="lablevalue">
+													  Food Amount
+													</td>
+													<td>
+													<input type="text" name="modFoodAmount" th:id="@{|modFoodAmount_${item.requestId}|}" maxlength="10" 
+													 th:value="${item.foodAmount}" class="blockNegative" th:attr="onblur='calDAAdvanceAmt(\''+${item.requestId}+'\',\''+${item.travelTypeId}+'\');'"/>
+													</td>
+												   </tr>
+										            <tr align="left" th:if="${item.daAdvanceAvail}==0 and ${item.travelTypeId}!='100002' and ${item.travelTypeId}!='100001'"> </tr>
+										             
+													<tr align="left" th:if="${item.daAdvanceAvail}==0">
+													<td class="lablevalue" colspan="2">
+													  Advance Amount
+													</td>
+													<td colspan="4">
+													  <input type="text" name="modDAAmount" th:id="@{|modDAAmount_${item.requestId}|}" maxlength="10" th:value="${item.daAdvanceAmount}" class="blockNegative" readonly="readonly"/>
+													</td>
+												   </tr>	
+									     		
+									
+									    
+											<tr align="left" th:if="${item.travelId}==null"> </tr>
+											
+											  <tr align="left" th:if="${item.travelId}!=null">
+								 				<td class="lablevalue" colspan="1">Travel Id</td>
+								 				<td colspan="5">
+												  <span th:text="${item.travelId}"> </span>
+												</td>
+											   </tr>	
+										   
+								
+
+									
+ 
+									 <tr align="right" >
+									    <td colspan="6" style="text-align:right">
+									    	<input type="button" class="butn" value="Approve" th:attr="onclick='submitRequestForm(\''+${item.encryptedReqId}+'\',\''+'approve'+'\',\''+${item.requestId}+'\',\''+'No'+'\',\''+${item.travelMode}+'\',\''+${item.empCode}+'\',\''+${item.daAdvanceAvail}+'\',\''+${item.travelType}+'\');'"/>  
+									    	<input type="button" class="butn" value="Disapprove" th:attr="onclick='submitRequestForm(\''+${item.encryptedReqId}+'\',\''+'disapprove'+'\',\''+${item.requestId}+'\',\''+'No'+'\',\''+${item.travelMode}+'\',\''+${item.empCode}+'\',\''+${item.daAdvanceAvail}+'\',\''+${item.travelType}+'\');'"/>
+									    </td>
+									  </tr>
+									
+ 
+  
+								</table>
+								</div>
+								
+								
+								</td></tr>
+							</table>
+							<div  th:if="${#lists.isEmpty(approvalModel.railRequests)} and ${#lists.isEmpty(approvalModel.airRequests)}">
+							<p class="errors" style="margin-bottom:0" th:text="${noData}"> </p>
+							
+							</div>
+							
+							</div>
+							 
+							 <div id="disApproveDiv">
+	 	<div id="program" class="programBlock">
+				<div class="welcomebox" style="margin-bottom:1rem">
+					<div class="welcomeHead">
+						<p>
+							Disapprove Request Reason
+						</p>
+					</div>
+					<div class="welcomecont">
+	 
+	 		<table id="loginForm" class="filtersearch" cellpadding="4" cellspacing="1" width="100%" border="0">
+	 			<tbody class="all1">
+	 			<tr>
+	 				<td align="left"><textarea rows="4" cols="40" id="disaproveReason" name="reasonForDisapprove"> </textarea></td> 
+	 			</tr>
+				<tr>
+				 	<td style="text-align:right"><input type="button" class="butn" value="Submit" onclick=" submitDisapprove(this.form);"/></td>
+				</tr>
+				</tbody>
+	 		</table>
+	 		</div>
+	 		</div>
+	 		</div>
+	 		
+	       </div>
+	       
+</form>	
+	
+	
+
+</div>
+</div>
+</div>
+</section>
+<section>
+<div class="blank"></div>
+</section>
+	<section>
+		<div th:insert="~{fragments/login/footer}"></div>
+	</section>
+
+
+</body>
+
+</html>

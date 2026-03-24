@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+
+<script th:src="@{/js/CGDA/airtranscation/airtxn.js(random=${session.jsToken})}">
+</script>
+
+
+<body>
+<div th:insert="~{fragments/header/mainHeader}"></div>
+
+
+
+<section id="midpart" class="midpart">
+    
+			<div class="container-fluid">
+				<div class="row">
+				<div class="col-lg-1"></div>
+				<div class="col-lg-10">
+				
+
+<form th:action="@{/cgda/getForms}" id="downloadVoucher">
+ <input type="hidden" name="dwnReqId" id="dwnReqId" value="">
+ <input type="hidden" name="requestFor" id="voucher" value=""> 
+</form>
+
+				
+<form  th:action="@{/cgda/postDemandGeneration}"  name="generateDemandForm" id="generateDemandForm" method="post">
+  <input type="hidden" name="dwnRequestId" id="dwnRequestId_dem" value="">  
+</form>
+
+
+
+<form  th:action="@{/cgda/postVoucherSettle}" id="settleVoucherForm" method="post">
+  <input type="hidden" name="dwnRequestId" id="dwnRequestId_adj">
+  <input type="hidden" name="utrNumber" id="utrNumber">
+  <input type="hidden" name="utrDate" id="utrDate">
+</form>
+
+
+                    <form method="get"  th:action="@{/cgda/voucher}" id="serviceProviderFormId">
+                        <div class="welcomebox">
+                        <div class="welcomeHead">
+                            <p>Search Filter</p>
+                        </div>
+                        <div class="welcomecont">
+
+                        <td style="width:15%;">
+                                <span class="lablevalue">Service Provider</span>&nbsp;&nbsp;
+
+                            <select  name="serviceProviderType" id="serviceProviderFilter" class="combo" style="width: 12%;" >
+                                <option value="">ALL</option>
+                                <option value="ATT" th:selected="${serviceProvider == 'ATT'}" >ATT</option>
+                                <option value="BL" th:selected="${serviceProvider == 'BL'}" >BL</option>
+                            </select>
+
+                            <button type="submit" class="butn">
+                                Search
+                            </button>
+                        </td>
+                        </div>
+                        </div>
+                    </form>
+
+
+
+				
+<form  method="post" th:action="@{/cgda/saveVoucher}" id="voucherDwnReqForm">
+        <div id="program" class="programBlock">
+        <span th:text="${message}" style="color:red;"> </span>
+											<div class="welcomebox">
+												<div class="welcomeHead">
+												<p>Request For Voucher Generation</p>
+												</div>
+			<div>
+				<p class="showalert" th:text="${errorMessage}" style="margin-bottom:0"></p>
+			</div>
+			
+												<div class="welcomecont">
+           <table class="filtersearch" >
+		    <tbody class="all1">			<tr>
+
+
+
+
+			    <td colspan="6">
+			     
+			      <b>
+			      
+			      
+			      <span th:if="${voucherList!=null}" th:text="${voucherList.recordsCount}"></span> records pending for voucher generation till: <span th:text="${toDate}"></span></b>
+		          <span id="amount"></span>
+			      
+			    </td>
+			</tr>
+			<tr >
+			    <td style="width:15%;">
+			        <span class="lablevalue">From Date:</span>&nbsp;&nbsp;
+			         <input name="fromDate" id="form_date" type="text" th:value="${voucherList.startDateFormat}" readonly="readonly" style="border: none;width:55%"></input>
+			     </td>   
+			    <td style="width:15%;">
+			         <span class="lablevalue">To Date:</span>&nbsp;&nbsp;
+			         <input name="toDate" type="text" id="to_date"  th:value="${toDate}" autocomplete="off" style="width:65%"> 
+			    </td>
+			    <td style="width:15%;">
+			       <span class="lablevalue">Vendor:</span>&nbsp;&nbsp;
+		           
+		           <select  name="serviceProvider" id="serviceProvider" class="combo" style="width: 33%;">
+                                                    
+                                                    <option th:each=" src : ${vendorEnumType}" th:text="${src.value}" th:value="${src.code}"></option>
+                                                </select>
+		           
+			    </td>
+			
+			    <td style="width:15%;">
+			        <span class="lablevalue">Service:</span>&nbsp;&nbsp;
+                                                <select name="serviceId" id="serviceId" class="combo" style="width: 33%;">
+                                                    <option value="">All</option>
+                                                    <option th:each=" src : ${travelerServiceList}" th:text="${src.serviceName}" th:value="${src.serviceId}"></option>
+                                                </select>	    
+			     </td>   
+			    <td style="width:15%;">
+			        <span class="lablevalue">Travel Type:</span>&nbsp;&nbsp;
+			        <select name="travelType" id="travelType" class="combo" style="width: 33%;">
+                                                    <option value="">All</option>
+                                                    <option th:each=" src : ${travelTypeList}" th:text="${src.travelName}" th:value="${src.travelName}"></option>
+                                                </select>               
+			    </td>
+			    <td style="width:15%;">
+			       <span class="lablevalue">PAO:</span>&nbsp;&nbsp;
+ 			      <select name="paoId" id="paoId" class="combo" style="width: 33%;"> 
+                                                     <option value="">All</option> 
+                                                     <option th:each=" src : ${paoList}" th:text="${src.name}" th:value="${src.groupId}"></option> 
+                                                 </select>
+			    </td>
+			</tr>
+			<tr id="hide_req_button">
+				<td colspan="10" style="text-align:right">
+				<a href="javascript:void(0);" onclick="saveVoucherDwnRequest();" > 
+				        <input type="button" value="Place Request" class="butn"  >
+				   </a>
+				 </td>
+		   </tr>	
+	    </tbody>
+	    </table>
+	    </div>
+	    </div>
+	    </div>
+
+                    <div  class="container" th:if="${ #lists.isEmpty(voucherList.voucherRequestList)}">
+                        <p class="error">No Records Found </p>
+                    </div>
+
+	    </form>
+
+
+	    <div class="welcomebox">
+            <div th:unless="${#lists.isEmpty(voucherList.voucherRequestList)}">
+	   <table class="filtersearch" th:each=" voucher1 : ${voucherList.voucherRequestList}" style="margin-bottom:1rem">
+	   <tbody class="all2" >
+         <tr>
+          <td><span class="lablevalue">Req Id:</span> <span th:text="${voucher1.voucherReqId}"></span>   </td>  
+          <td><span class="lablevalue">Req Date:</span> <span th:text="${voucher1.creationTime}"></span>  </td> 
+          <td><span class="lablevalue">From Date:</span> <span th:text="${voucher1.fromDate}"></span>  </td> 
+          <td><span class="lablevalue">To Date:</span>  <span th:text="${voucher1.toDate}"></span>   </td>  
+          <td><span class="lablevalue">Vendor:</span> <span th:text="${voucher1.serviceProviderStr}"></span>  </td> 
+        </tr>
+        <tr>
+          <td><span class="lablevalue">PAO Name:</span>  <span th:text="${voucher1.paoName}"></span>  </td> 
+          <td><span class="lablevalue">Service Name:</span>  <span th:text="${voucher1.serviceName}"></span>  </td> 
+          <td><span class="lablevalue">Travel Type:</span>  <span th:text="${voucher1.travelType}"></span>  </td> 
+          <td><span class="lablevalue">Count:</span> <span th:text="${voucher1.count}"></span>  </td> 
+          <td><span class="lablevalue">Amount:</span>  <span th:text="${voucher1.voucherAmount}"></span>  </td> 
+        </tr>
+        
+            <tr th:if = "${voucher1.isVoucherGen} == '0' " > 
+            
+               <td><span class="lablevalue">Voucher:</span>
+                      <a href = "javascript:void(0);"  th:attr="onClick='downloadVoucher(\''+${voucher1.voucherReqId}+'\', \''+voucher+'\')' " >                     
+<!--                       Download -->
+                      <img title="Download" alt="Download" th:src="@{/images/download.png}" style="width:25px;height:25px">                   
+                      </a>
+
+                </td>
+                
+                <td><span class="lablevalue">Summary:</span>
+               <a href = "javascript:void(0);"  th:attr="onClick='downloadVoucher(\''+${voucher1.voucherReqId}+'\', \''+summary+'\')'"> 
+<!--                 Download -->
+             <img title="Download" alt="Download" th:src="@{/images/download.png}" style="width:25px;height:25px">
+                </a>
+                </td>
+                
+                
+                <td><span class="lablevalue">Report:</span>
+                
+             <a href = "javascript:void(0);"  th:attr="onClick='downloadVoucher(\''+${voucher1.voucherReqId}+'\', \''+report+'\')'"> 
+<!--                 Download -->
+                <img title="Download" alt="Download" th:src="@{/images/download.png}" style="width:25px;height:25px"> 
+                </a>
+                </td>
+                
+                
+                
+                <span th:if= "${voucher1.serviceId} == '100001' ">
+                <td><span class="lablevalue">SBI CMP:</span>
+                 
+                            <a href = "javascript:void(0);"  th:attr="onClick='downloadVoucher(\''+${voucher1.voucherReqId}+'\', \''+SBI_CMP+'\')'"> 
+<!--                       Download  -->
+                      <img title="Download" alt="Download" th:src="@{/images/download.png}" style="width:25px;height:25px"> 
+                      </a>
+                
+                </td>
+                <td><span class="lablevalue">PM File:</span>
+                <a href = "javascript:void(0);" th:attr = "onClick='downloadVoucher(\''+ ${voucher1.voucherReqId}+ '\', \''+PM_File+'\')'" >
+<!--                     Download -->
+                    <img title="Download" alt="Download" th:src="@{/images/download.png}" style="width:25px;height:25px"> 
+                    </a>
+                </td>
+                </span>
+                
+              </tr>   
+                
+              <tr th:if = "${voucher1.isVoucherGen} != '0' ">
+              <td><span class="lablevalue">Voucher:</span>
+              Under Process
+              </td>
+              <td><span class="lablevalue">Summary:</span>
+              Under Process
+              </td>
+              <td><span class="lablevalue">Report:</span>
+              Under Process
+              </td>
+              
+              <td th:if = "${voucher1.serviceId} ==  '100001'" ><span class="lablevalue">SBI CMP:</span>
+              Under Process
+              </td>
+               <td  th:if = "${voucher1.serviceId} == '100001'"><span class="lablevalue">PM File:</span>
+              Under Process
+              </td>
+                
+                 <td th:if = "${voucher1.serviceId} !=  '100001'" ></td>
+	             <td th:if = "${voucher1.serviceId} !=  '100001'" ></td>
+              </tr>
+                
+                     
+         <tr>
+          <td colspan="2">
+          <span class="lablevalue">Demand:</span> 
+      
+          <span th:if = "${voucher1.serviceId} ==  '100001' ">
+     
+             <span th:if = "${voucher1.isVoucherGen} == 1  ">
+              <span>Under Process</span>
+             </span>
+             
+             <span th:unless = "${voucher1.isVoucherGen} == 1 ">
+             <span> Demand Generated</span>
+             </span>
+          
+          </span>
+          
+          <span th:if= "${voucher1.serviceId} !=  '100001' " > 
+           
+           <span th:if = "  ${voucher1.isVoucherGen} == 0    and  ${voucher1.isDemandGenerated} == 1  "   > 
+             <a href="javascript:void(0);" align="right" 
+               th:attr="onClick='submitDemandRequest(\''+${voucher1.voucherReqId}+ '\') ' ">  
+ 					        <button type="button"   value="Generate" class="butn" style="line-height: 18px;" >Generate</button>
+            </a>
+            </span>
+            
+            
+            
+              <span th:if = "${voucher1.isVoucherGen} != 0    and  ${voucher1.isDemandGenerated} != 1 and ${voucher1.isVoucherGen} == 1 " >
+              <span>Under Process</span>
+              </span>
+              
+              <span th:if= "${voucher1.isVoucherGen} != 1 and ${voucher1.isVoucherGen} != 0 and ${voucher1.isDemandGenerated} != 1">
+              <span> Demand Generated</span>
+              </span>
+            
+      
+            
+          
+          </span>         
+           </td>
+          
+          <td colspan="3"><span class="lablevalue">Settled</span> 
+          <span th:if = "${voucher1.isVoucherGen}== 0 and ${voucher1.isVoucherSettle } == 1">
+          <input type="radio" th:attr="onClick='disSettlementInput(\''+${voucher1.voucherReqId}+ '\') ' " th:id="'disSettle_'+ ${voucher1.voucherReqId}" name="radiogrp" /> 
+                  
+                <span style="display:none" th:id="'dis_Settlement'+${voucher1.voucherReqId}">
+                  <input type="text"  th:id="'utrNumber_' + ${voucher1.voucherReqId}"  maxlength="50" placeholder="UTR Number" autocomplete="off">
+                  <input type="text" th:id="'utrDate_' + ${voucher1.voucherReqId}"  size="10" placeholder="UTR Date" autocomplete="off">
+                  
+                   <a href="javascript:void(0);" style="text-align:right" th:attr="onClick='submitVoucherSettlement(\''+${voucher1.voucherReqId}+ '\') ' ">
+				        <input type="button" value="Settle" class="butn" />
+				  </a>
+                </span>
+              
+          </span>
+          <span th:if = "${voucher1.isVoucherGen } != 0  or ${voucher1.isVoucherSettle} != 1" >
+         <span>UTR Number :</span> <span  th:text="${voucher1.utrNumber}" ></span> <span> </span> <span>UTR Date:</span><span  th:text="${voucher1.utrDate}" ></span>
+            
+          </span>
+          </td>
+         </tr>
+         </tbody>
+         </table>
+	    </div>
+	    </div>
+	    </div>
+	    </div>
+	    </section>
+	    
+   
+<section id="midpart" class="midpart">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-1"></div>
+            <div class="col-lg-10">
+
+                <div class="d-flex" style="column-gap:15px;justify-content: space-between;">
+        <div th:if = "${currentPage>1}" >
+                <button class="butn" ><a th:href="@{'/cgda/voucher?pageNumber='+${currentPage-1}}">Previous</a> </button>
+        </div>
+
+                    <div th:if="${ #lists.size(voucherList.voucherRequestList) == 10}" >
+                             <button class="butn">
+                            <a  th:href="@{'/cgda/voucher?pageNumber=' + ${currentPage + 1} + '&pageSize=10&serviceProviderType=' +${serviceProvider}}">Next</a>
+                             </button>
+    </div>
+    </div>
+        
+            </div>
+        </div>
+    </div>
+</section>
+
+
+	    <section>
+            <div th:insert="~{fragments/login/footer}"></div>
+	</section>
+
+
+    </body>
+    </html>

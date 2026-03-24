@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{fragments/login/head}"></head>
+<body>
+
+<div id="program" class="programBlock">
+							<div class="welcomebox" style="margin-bottom:2px">
+								<div class="welcomeHead">
+									<p style="text-align: center;"><strong>CLAIM FOR MOVE ON TEMPORARY DUTY (TOUR)</strong></p>
+								</div>
+								<div class="welcomecont">
+<table class="filtersearch" cellspacing="1" cellpadding="4" width="100%" border="0">
+  		<tbody class="all1">
+  		<tr>
+  		      <td><span class="lablevalue">Claim Id: </span><span th:text="${claimView.draftTaDaClaimDetails.tadaClaimId}"></span></td> 
+	  		  <td><span class="lablevalue">Personal No: </span><span th:text="${claimView.draftTaDaClaimDetails.personalNo}"></span></td> 
+	  		  <td><span class="lablevalue">CDAO A/c No: </span><span th:text="${claimView.draftTaDaClaimDetails.cdaoAcc}"></span></td> 
+	  		  <td><span class="lablevalue">Name: </span><span th:text="${claimView.draftTaDaClaimDetails.name}"></span></td>
+	  	</tr>
+	  	</tbody>
+</table>
+</div>
+</div>
+</div>
+
+<div id="program" class="programBlock">
+<div class="welcomebox" style="margin-bottom:1rem">
+	<div class="welcomeHead">
+			<p><strong>Kindly upload all the Claim related documents</strong></p>
+	</div>
+		<div class="welcomecont">
+		<table class="filtersearch">
+		<tbody class="all1">
+			<tr th:each="doc : ${claimView.draftTaDaClaimDetails.docDetails}" th:unless="${claimView.draftTaDaClaimDetails.docDetails == null}">
+				<td style="font-weight: bold;" th:id="|innerDocName_${doc.docId}|"><span th:text="${docStat.count}"></span>. <span th:text="${doc.docName}"></span> </td>
+
+	        <td th:if="${doc.filePath} == ''"><input th:id="${doc.docId}" type="file"></td>
+	        <td th:if="${doc.filePath} == ''"><button class="butn" th:attr="onclick='return ajaxUploadFile(\''+${doc.docId}+'\')'" type="button">UPLOAD</button></td>
+			<td th:if="${doc.filePath} == ''"><a href="javascript:void(0);" th:id="|${doc.docId}View|"> </a>
+			 <input type="hidden" name="fileTypeName" th:value="${doc.docId}"/>
+			 <input type="hidden" name="fileTypePath" th:id="|${doc.docId}File|"/>
+			</td>
+
+	         <td th:unless="${doc.filePath} == ''"><input th:id="${doc.docId}" type="file" disabled="true"></td>
+	         <td th:unless="${doc.filePath} == ''"><button th:id="|upload_${doc.docId}|" class="butn" th:attr="onclick='return ajaxUploadFile(\''+${doc.docId}+'\')'" type="button" disabled="true">UPLOAD</button></td>
+			 <td th:unless="${doc.filePath} == ''"><a th:href="@{/com/downloadFile(dwnFilePath=${doc.filePath})}" th:id="|${doc.docId}View|"><img th:src="@{/images/pdfImage.png}" alt="" style="width:30px;height:35px"></a>
+			  <input type="hidden" name="fileTypeName" th:value="${doc.docId}"/>
+			  <input type="hidden" name="fileTypePath" th:id="|${doc.docId}File|" th:value="${doc.filePath}"/>
+			</td>
+
+			</tr>
+			</tbody>
+		</table>
+</div>
+</div>
+</div>
+
+</body>
+</html>

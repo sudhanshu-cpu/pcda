@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+
+<link rel="stylesheet" type="text/css" th:href="@{/css/common/popup/LightFace.css}">
+<script th:src="@{/js/common/popup/mootools.js}"></script>
+<script th:src="@{/js/common/popup/LightFace.IFrame.js}"></script>
+<script th:src="@{/js/common/popup/LightFace.js}"></script>
+<script th:src="@{/js/common/popup/LightFace.Request.js}"></script>
+
+<body>
+    <div th:insert="~{fragments/header/mainHeader}"></div>
+
+    <section id="midpart" class="midpart">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-1"></div>
+                <div class="col-lg-10">
+
+                    <div class="welcomebox" style="margin-bottom:1rem">
+                        <div class="welcomeHead">
+                            <b>
+                                <p>Air Demand Report</p>
+                            </b>
+                        </div>
+
+                        <div class="welcomecont">
+                          
+
+                            <!-- Table only shows if data exists -->
+                            <div th:unless="${#lists.isEmpty(airDmdStReportResp)}">
+                                <table class="filtersearch" width="100%" cellspacing="1" cellpadding="4" border="0">
+                                    <thead class="head">
+                                        <tr>
+                                           
+                                            <th>Total Demand</th>
+                                            <th>Total Amount</th>
+                                            <th>Downloaded Demand</th>
+                                            <th>Downloaded Amount</th>
+                                            <th>Pending Download</th>
+                                            <th>Pending Amount</th>
+                                            <th>Acknowledged Demand</th>
+                                            <th>Acknowledge Amount</th>
+                                            <th>Pending Acknowledge</th>
+                                            <th>Pending Ack Amount</th>
+                                            <th>Download Pending Date</th>
+                                            <th>Ack Pending Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody th:each="item : ${airDmdStReportResp}">
+                                        <tr class="labelvaluegalt" align="left">
+                                           
+                                            <td th:text="${item.totalDemand}"></td>
+                                             <td th:text="${#numbers.formatDecimal(item.totalAmount, 0, 1)}"></td>
+                                            <td th:text="${item.downloadedDemand}"></td>
+                                            <td th:text="${#numbers.formatDecimal(item.totaldemandAmount, 0, 1)}"></td>
+                                            <td th:text="${item.pendingDwnldDemand}"></td>
+											<td th:text="${#numbers.formatDecimal(item.totalDwnldPendingAmount, 0, 1)}"></td>
+                                            <td th:text="${item.settledDemand}"></td>
+											<td th:text="${#numbers.formatDecimal(item.totalSettleAmount, 0, 1)}"></td>
+                                            <td th:text="${item.pendingSettledDemand}"></td>
+                                            <td th:text="${#numbers.formatDecimal(item.totalSettlePendingAmount, 0, 1)}"></td>
+                                            <td th:text="${item.pendingDwnldDate}"></td>
+                                            <td th:text="${item.pendingSettledDate}"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+        
+                            </div>
+
+                            <!-- Show error message if no data -->
+                            <div id="errorRecord" th:if="${#lists.isEmpty(airDmdStReportResp)}">
+                                <p class="errors" th:text="${message}"></p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="blank"></div>
+    </section>
+
+    <section>
+        <div th:insert="~{fragments/login/footer}"></div>
+    </section>
+</body>
+
+</html>

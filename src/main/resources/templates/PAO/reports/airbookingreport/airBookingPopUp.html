@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}">
+
+</head>
+
+<body>
+
+	<div class="lightfaceMessageBox" style="height: 400px; visibility: visible; opacity: 1;">
+
+		<form action="" method="post" name="aircancelticket" id="aircancelticket">
+
+			<input name="event" type="hidden" value="next" id="event">
+			<input name="booking_id" type="hidden" value="AB574855" id="booking_id">
+			<input name="event" type="hidden" value="" id="event">
+
+
+			<div class="panel" th:each=" airBookingDetails : ${response}">
+				<div id="program" class="programBlock">
+					<div class="welcomebox" style="margin-bottom:1rem">
+						<div class="welcomeHead">
+							<p th:text="#{pao.report.airBookingReport.ticketInfo}">
+							</p>
+						</div>
+						<div class="welcomecont">
+							<table id="pnrDetails" class="filtersearch" width="100%" cellspacing="1" cellpadding="4"
+								border="0">
+								<tbody class="all1">
+									<tr align="left">
+										<td class="lablevalue"><span
+												th:text="#{pao.report.airBookingReport.bookingtxnId}"></span></td>
+										<td><span th:text="${airBookingDetails.operatorTxnId}"></span></td>
+										<td class="lablevalue"><span
+												th:text="#{pao.report.airBookingReport.bookingId}"></span></td>
+										<td><span th:text="${airBookingDetails.bookingID}"></span>
+										</td>
+									</tr>
+
+									<tr align="left">
+										<td class="lablevalue"><span
+												th:text="#{pao.report.airBookingReport.requestId}"></span></td>
+										<td><span th:text="${airBookingDetails.requestId}"></span>
+										</td>
+										<td class="lablevalue"><span
+												th:text="#{pao.report.airBookingReport.bookingStatus}"></span></td>
+										<td><span th:text="${airBookingDetails.bookingStatus}"></span></td>
+									</tr>
+
+									<tr align="left">
+										<td class="lablevalue"><span
+												th:text="#{pao.report.airBookingReport.bookingDate}"></span></td>
+										<td><span th:text="${airBookingDetails.bookingDate}"></span>
+										</td>
+										<td class="lablevalue"><span
+												th:text="#{pao.report.airBookingReport.jrnyDate}"></span></td>
+										<td><span th:text="${airBookingDetails.journeyDate}"></span>
+										</td>
+									</tr>
+
+									<tr align="left">
+										<td class="lablevalue"><span
+												th:text="#{pao.report.airBookingReport.origin}"></span></td>
+										<td><span th:text="${airBookingDetails.originName}"></span>
+										</td>
+										<td class="lablevalue"><span
+												th:text="#{pao.report.airBookingReport.dstn}"></span></td>
+										<td><span th:text="${airBookingDetails.destinationName}"></span></td>
+									</tr>
+
+									<tr align="left">
+										<td class="lablevalue"><span
+												th:text="#{pao.report.airBookingReport.bsFare}"></span></td>
+										<td><span th:text="${airBookingDetails.totalBaseFare}"></span></td>
+										<td class="lablevalue"><span
+												th:text="#{pao.report.airBookingReport.totlFare}"></span></td>
+										<td><span th:text="${airBookingDetails.totalInvoice}"></span>
+										</td>
+									</tr>
+									<tr align="left">
+										<td class="lablevalue"><span
+												th:text="#{pao.report.airBookingReport.connFlAv}"></span></td>
+										<td><span th:text="${airBookingDetails.cfAvailFlag}"></span>
+										</td>
+										<td class="lablevalue"><span
+												th:text="#{pao.report.airBookingReport.connFlRrmk}"></span></td>
+										<td><span th:text="${airBookingDetails.cfRemarks}"></span>
+										</td>
+									</tr>
+									<tr colspan="2" align="left">
+										<td class="lablevalue"> <span
+												th:text="#{pao.report.airBookingReport.fareHis}"></span></td>
+
+										<td><span th:text="#{pao.report.airBookingReport.show}"></span></td>
+
+									</tr>
+
+
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+
+				<div id="program" class="programBlock">
+					<div class="welcomebox" style="margin-bottom:1rem">
+						<div class="welcomeHead">
+							<p th:text="#{pao.report.airBookingReport.passDtls}">
+							</p>
+						</div>
+						<div class="welcomecont">
+
+							<table class="filtersearch" id="userDetails" width="100%" cellspacing="1" cellpadding="4"
+								border="0" th:each="passengerLst : ${airBookingDetails.ticketPassangerDetails}">
+
+								<tbody class="all1">
+
+									<tr class="lablevalue">
+										<td><span th:text="#{pao.report.airBookingReport.seqNo}"></span></td>
+										<td><span th:text="#{pao.report.airBookingReport.travelerNme}"></span></td>
+										<td><span th:text="#{pao.report.airBookingReport.age}"></span></td>
+										<td><span th:text="#{pao.report.airBookingReport.gender}"></span></td>
+										<td><span th:text="#{pao.report.airBookingReport.airlinePnr}"></span></td>
+										<td><span th:text="#{pao.report.airBookingReport.ownwrdPaxId}"></span></td>
+										<td><span th:text="#{pao.report.airBookingReport.returnPaxId}"></span></td>
+										<td><span th:text="#{pao.report.airBookingReport.owndBookingStat}"></span></td>
+										<td><span th:text="#{pao.report.airBookingReport.returnBkngStat}"></span></td>
+									</tr>
+
+									<tr class="tdborder8" valign="top">
+										<td><span th:text="${passengerLstStat.index}"></span></td>
+										<td><span
+												th:text="${passengerLst.title}+ ' ' +${passengerLst.firstName}+ ' ' +${passengerLst.firstName}+  ' ' +${passengerLst.middleName}+ ' ' +${passengerLst.lastName}"></span>
+										</td>
+
+										<td><span th:text="${passengerLst.age}"></span></td>
+										<td><span th:text="${passengerLst.gender}"></span></td>
+										<td><span th:text="${passengerLst.pnrNo}"></span></td>
+										<td><span th:text="${passengerLst.onwardPaxID}"></span></td>
+										<td><span th:text="${passengerLst.returnPaxID}"></span></td>
+										<td><span th:text="${passengerLst.onwardCancelStr}"></span></td>
+										<td><span th:text="${passengerLst.returnCancelStr}"></span></td>
+									</tr>
+
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+
+				<div id="program" class="programBlock">
+					<div class="welcomebox" style="margin-bottom:1rem">
+						<div class="welcomeHead">
+							<p th:text="#{pao.report.airBookingReport.cancRefDtls}">
+							</p>
+						</div>
+						<div class="welcomecont">
+							<table class="filtersearch" id="userDetails" width="100%" cellspacing="1" cellpadding="4"
+								border="0" th:each="ticketRefundDetails :${airBookingDetails.ticketRefundDetails}">
+								<tbody class="all1">
+
+									<tr class="lablevalue">
+										<td><span th:text="#{pao.report.airBookingReport.seqNo}"></span></td>
+										<td><span th:text="#{pao.report.airBookingReport.travelerNme}"></span></td>
+										<td><span th:text="#{pao.report.airBookingReport.paxId}"></span></td>
+										<td><span th:text="#{pao.report.airBookingReport.cancelSegmnt}"></span></td>
+										<td><span th:text="#{pao.report.airBookingReport.canclTxnId}"></span></td>
+										<td><span th:text="#{pao.report.airBookingReport.refstatus}"></span></td>
+										<td><span th:text="#{pao.report.airBookingReport.refInvoiceID}"></span></td>
+										<td><span th:text="#{pao.report.airBookingReport.refDate}"></span></td>
+										<td><span th:text="#{pao.report.airBookingReport.refAmt}"></span></td>
+										<td><span th:text="#{pao.report.airBookingReport.cnclDate}"></span></td>
+									</tr>
+
+
+
+									<tr class="tdborder8" valign="top">
+										<td><span th:text="${ticketRefundDetailsStat.index}"></span>
+										</td>
+										<td><span
+												th:text="${ticketRefundDetails.title}+ ' ' +${ticketRefundDetails.firstName}+ ' ' +${ticketRefundDetails.middleName}+ ' ' +${ticketRefundDetails.lastName}"></span>
+										</td>
+										<td><span th:text="${ticketRefundDetails.paxID}"></span></td>
+										<td><span th:text="${ticketRefundDetails.journeySegemnt}"></span></td>
+										<td><span th:text="${ticketRefundDetails.canTaxId}"></span>
+										</td>
+										<td><span th:text="${ticketRefundDetails.refundStatus}"></span></td>
+										<td><span th:text="${ticketRefundDetails.canInvoiceId}"></span></td>
+										<td><span th:text="${ticketRefundDetails.refundDate}"></span>
+										</td>
+										<td><span th:text="${ticketRefundDetails.refundAmt}"></span>
+										</td>
+										<td><span th:text="${ticketRefundDetails.cancelaltiondate}"></span></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+		</form>
+	</div>
+
+</body>
+
+</html>

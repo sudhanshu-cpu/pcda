@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{fragments/login/head}"></head>
+<link rel="stylesheet" th:href="@{/css/common/autoSuggest.css}"> 
+<script th:src="@{/js/common/dateOfRetirement.js(random=${session.jsToken})}"></script>
+<script th:src="@{/js/MB/AddUsers/TransferOut/transferOut.js(random=${session.jsToken})}"></script>
+<script type="text/javascript" th:src="@{/js/common/crypto.js}"></script>
+<body oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+	<div th:insert="~{fragments/header/mainHeader}"></div>
+	
+		<section id="midpart" class="midpart">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-lg-2">
+					</div>
+					<div class="col-lg-10">
+						<form th:action="@{saveTransferOut}" method="post"
+							id="transferOut_Id">
+							<span  th:text="${errorList}"></span>
+
+							<input type="hidden" name="userId" id="userId"> <input
+								type="hidden" name="currentOfficeId" id="currentOfficeId">
+							<input type="hidden" name="loginUserId" id="loginUserId"
+								th:value="${userServiceId}"> 
+								<input type="hidden"
+								name="currentUnit" id="currentUnit"> <input
+								type="hidden" name="unitNameToTransfer" id="unitNameToTransfer">
+							<div id="program" class="programBlock">
+								<div class="welcomebox" style="width: 75%;margin-bottom:1rem">
+									<div class="welcomeHead">
+										<span th:text="#{mb.addUser.transferout.tr.out}"></span>
+									</div>
+									<div class="welcomecont">
+										<table id="filtersearch" class="filtersearch">
+											<tbody class="all1">
+												<tr>
+													<td style="width: 30%"><span 
+														th:text="#{mb.addUser.transferout.personalNo}"></span><span class="mandatory">*</span></td>
+													<td style="width: 70%">
+														<div class="inpt-fields errorMessage">
+															<input name="personalNo" type="text" class="txtfldM"
+																id="personalNo" minlength=4 maxlength=11
+																 autocomplete="off">
+																
+																<button type="button" class="butn" name="proceed" onclick="testForAlphaNumericKey(event)">Proceed</button>
+														</div>
+													</td>
+
+												</tr>
+											</tbody>
+										</table>
+									</div>
+									<div>
+										<table class="filtersearch" style="width: 100%">
+										<tbody class="">
+											<tr>
+												<td colspan="4" class="showalert"><div
+														class="showalert" id="personalNoInfo"></div></td>
+											</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+							<div id="program2" class="welcomebox" style="width: 75%;margin-bottom:1rem">
+								<table id="filtersearch1" class="filtersearch">
+									<tbody class="all1">
+										<tr>
+											<td><span th:text="#{mb.addUser.transferout.sos.date}"></span> <span class="mandatory">*</span></td>
+											<td><div class="inpt-fields errorMessage">
+													<input name="sosDateString" type="text" class="txtfldM"
+														size="15" id="sosDate" placeholder="dd/mm/yy" autocomplete="off" readonly="readonly">
+												</div></td>
+										</tr>
+										<tr>
+
+											<td><span th:text="#{mb.addUser.transferout.nrsDuty.station}"></span> <span class="mandatory">*</span></td>
+											<td>
+												<div class="inpt-fields errorMessage">
+													<input type="text" style="width: auto;" class="txtfldM"
+														id="dutyStations_0" name="nrsDutyStn"
+														onblur="fillRecordRailStationNRS('',0)"
+														onkeyup="filsRailStationNRS(this.value,0)"
+														autocomplete="off">
+													<div class="suggestionsBox"
+														id="suggestionsRailStationNRS_0" style="display: none;">
+														<div class="suggestionList"
+															id="autoSuggestionsListRailStationNRS_0"></div>
+													</div>
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td><span th:text="#{mb.addUser.transferout.naDuty.station}"></span> <span class="mandatory">*</span></td>
+											<td>
+												<div class="inpt-fields errorMessage">
+													<input type="text" class="txtfldM"
+														id="airportStationText_0" name="dutyStnNa"
+														onblur="fillRecordOffice('',0)"
+														onkeyup="getStationAir(this.value,0)" autocomplete="off">
+
+													<div class="suggestionsBox" id="suggestionsOfficeNRS1_0"
+														style="display: none;">
+														<div class="suggestionList"
+															id="autoSuggestionsListOfficeNRS1_0"></div>
+													</div>
+												</div>
+											</td>
+
+										</tr>
+										<tr>
+											<td th:text="#{mb.addUser.transferout.isGov.Accomdation}"></td>
+											<td><input id="isUnitInPeaceLoc" name="isUnitInPeaceLoc" class="peace"
+												type="radio" value="Y" onclick="chkForGovtAccom('YES');">
+												YES <input id="isUnitInPeaceLoc" name="isUnitInPeaceLoc" class="peace1"
+												type="radio" value="N" onclick="chkForGovtAccom('NO');"
+												checked="checked"> NO</td>
+										</tr>
+										<tr>
+											<td th:text="#{mb.addUser.transferout.spr}"></td>
+											<td>
+
+												<div class="inpt-fields errorMessage">
+													<input type="text" style="width: auto;" class="txtfldM"
+														id="sprStation_0" name="sprSfa"
+														onblur="fillSPRStation('',0)"
+														onkeyup="sprStation(this.value,0)" autocomplete="off">
+													<div class="suggestionsBox" id="suggestionsSPR_0"
+														style="display: none;">
+														<div class="suggestionList" id="autoSuggestionsListSPR_0"></div>
+													</div>
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td th:text="#{mb.addUser.transferout.spr.nrs}"></td>
+											<td>
+												<div class="inpt-fields errorMessage">
+													<input type="text" style="width: auto;" class="txtfldM"
+														id="sprStationNRS_0" name="sprNrs"
+														onblur="fillSPRNRS('',0)" onkeyup="sprNRS(this.value,0)"
+														autocomplete="off">
+													<div class="suggestionsBox" id="suggestionsSPRNRS_0"
+														style="display: none;">
+														<div class="suggestionList"
+															id="autoSuggestionsListSPRNRS_0"></div>
+													</div>
+												</div>
+
+											</td>
+										</tr>
+										<tr>
+											<td th:text="#{mb.addUser.transferout.spr.na}"></td>
+											<td><div class="inpt-fields errorMessage">
+													<input type="text" class="txtfldM" id="airPortSPRNAText_0"
+														name="sprNa" onblur="fillRecordSPRNA('',0)"
+														onkeyup="getSPRNA(this.value,0)" autocomplete="off">
+													<div class="suggestionsBox" id="suggestionsSPRNA_0"
+														style="display: none;">
+														<div class="suggestionList"
+															id="autoSuggestionsListSPRNA_0"></div>
+													</div>
+												</div></td>
+										</tr>
+										<tr>
+											<td><span th:text="#{mb.addUser.transferout.transfer.autho}"></span> <span class="mandatory">*</span></td>
+											<td><div class="inpt-fields errorMessage">
+													<textarea name="reason" id="reason" rows="2" cols="25"
+														onkeyup="ismaxlength(this,50);" autocomplete="off"> </textarea>
+												</div></td>
+										</tr>
+
+										<tr th:if="${visitorServiceId}==100015">
+											<td th:text="#{mb.addUser.transferout.pay.ac.off}"></td>
+											<td><div class="inpt-fields errorMessage">
+													<select class="comboM" name="payAccountOffice"
+														id="payAccountOffice">
+														<option value="">Select</option>
+														 <option th:each="src:${PaoList}" th:text="${src.name}" th:value="${src.groupId}"> </option>
+														</select>
+														
+														
+												</div></td>
+										</tr>
+										<tr>
+											<td></td>
+											<td><button id="transferBtnDiv" type="button"
+													class="butn" onclick="confirmation()"
+													style="display: none;">Transfer Traveler</button></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</section>
+<section>
+<div class="blank"></div>
+</section>
+		<section>
+			<div th:insert="~{fragments/login/footer}"></div>
+		</section>
+
+</body>
+
+</html>

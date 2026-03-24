@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head></head>
+
+
+
+<body oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+
+<div class="lightfaceMessageBox">
+<div id="program" class="programBlock">
+							<div class="welcomebox">
+								<div class="welcomeHead">
+									<p>
+										Train Route
+									</p>
+								</div>
+								<div class="welcomecont">
+<table width="100%" border="0" cellpadding="4" cellspacing="1" class="filtersearch">
+<tbody class="all1">
+<tr class="lablevalue">
+<td style="width:8%">S No.</td>
+<td style="width:25%">Stn Name</td>
+<td style="width:10%">Route No</td>
+<td style="width:10%">Arr Time</td>
+<td style="width:12%">Dep Time</td>
+<td style="width:8%">Distance</td>
+<td style="width:7%">Day</td>
+<td style="width:15%">Remarks</td>
+</tr>
+
+
+<tr th:each="src,stat:${modelList}">
+
+<td style="width:25%" th:text="${stat.index}+1"></td>
+<td style="width:10%" th:text="${src.stationname}"> </td>
+<td style="width:10%" th:text="${src.routenumber}"> </td>
+<td style="width:12%" th:text="${src.arrivaltime}"> </td>
+<td style="width:8%" th:text="${src.departuretime}"></td>
+<td style="width:7%" th:text="${src.distance}"></td>
+<td style="width:15%" th:text="${src.daycount}"></td>
+<td style="width:8%" ></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+ </div>
+</body>
+</html>

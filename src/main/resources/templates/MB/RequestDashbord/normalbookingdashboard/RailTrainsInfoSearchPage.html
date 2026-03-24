@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+
+<link rel="stylesheet" type="text/css" th:href="@{/css/common/popup/LightFace.css}">
+<script th:src="@{/js/common/popup/mootools.js}"> </script>
+
+
+<script th:src="@{/js/common/popup/LightFace.js}"> </script>
+
+<script th:src="@{/js/common/popup/LightFace.Request.js}"> </script>
+
+
+<script th:src="@{/js/common/popup/LightFace.IFrame.js}"> </script>
+
+<script th:src="@{/js/MB/RequestDashBoard/normalbookingdashboard/normalrail.js(random=${session.jsToken})}"> </script>
+
+
+<body oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+
+		<div th:insert="~{fragments/header/mainHeader}"></div>
+<section id="midpart" class="midpart">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-lg-12">
+<form  th:action="@{/mb/getRailTrainsData}" th:method="post" name="irctcSrchPage" id="irctcSrchPage">
+
+
+
+<input type="hidden" name="trainNo" id="trainNo" />
+<input type="hidden" name="trainName" id="trainName" />
+<input type="hidden" name="sourceStnCode" id="sourceStnCode" />
+<input type="hidden" name="sourceStnName" id="sourceStnName"/>
+<input type="hidden" name="destStnCode" id="destStnCode" />
+<input type="hidden" name="destStnName" id="destStnName"/>
+<input type="hidden" name="depTimeSrc" id="depTimeSrc" />
+<input type="hidden" name="arrTimeDest" id="arrTimeDest"/>
+<input type="hidden" name="daysOfRun" id="daysOfRun"/>
+
+<input type="hidden" name="trainType" id="trainType"/>
+<input type="hidden" name="trainTypeVal" id="trainTypeVal"/>
+<input type="hidden" name="bookingConfig"  id="bookingConfig" value=""/>
+<input type="hidden" name="jrnyQuota"  id="jrnyQuota" th:value="${preModel.jrnyQuota}"/>
+
+<input type="hidden" name="isShowChangeStnVal" id="isShowChangeStnVal"/>
+<input type="hidden" name="trainCategory" id="trainCategory" />
+<input type="hidden" name="foodChoiceFlag" id="foodChoiceFlag"/>
+
+<input type="hidden" name="nAdult" id="nadult" th:value="${preModel.noOfAdult}" />
+<input type="hidden" name="nChild" id="nchild"  th:value="${preModel.noOfChild}"/>
+<input type="hidden" name="nSenior" id="nsenior"  th:value="${preModel.noOfSenior}"/>
+<input type="hidden" name="nInfant" id="ninfant" th:value="${preModel.noOfInfant}" />
+<input type="hidden" name="nWSenior" id="nwsenior" th:value="${preModel.noOfWSenior}" />
+<input type="hidden" name="noAdult" id="noadult" th:value="${preModel.noOfAdult}" />
+<input type="hidden" name="noChild" id="nochild"  th:value="${preModel.noOfChild}"/>
+<input type="hidden" name="noSenior" id="nosenior"  th:value="${preModel.noOfSenior}"/>
+<input type="hidden" name="noInfant" id="noinfant" th:value="${preModel.noOfInfant}" />
+<input type="hidden" name="noWSenior" id="nowsenior" th:value="${preModel.noOfWSenior}" />
+<input type="hidden" name="reqId" th:value="${preModel.reqId}" />
+<input type="hidden" name="groupId" th:value="${preModel.groupId}"  />
+<input type="hidden" name="highestJrnyClass" th:value="${preModel.highestJrnyClass}" />
+<input type="hidden" name="isCancelWaitListTicket" id="isCancelWaitListTicket" th:value="${preModel.isCancelWaitListTicket}" />
+<input type="hidden" name="userId"  th:value="${preModel.userId}" />
+<input type="hidden" name="bookingSeqNo"  th:value="${preModel.bookingSeqNo}" />
+<input type="hidden" name="tktSeqNo" th:value="${preModel.tktSeqNo}" />
+<input type="hidden" name="appDepDate" id="appDepDate" th:value="${preModel.journeyDate}" />
+<input type="hidden" name="isTatkalApproved" id="isTatkalApproved" th:value="${preModel.isTatkalApproved}"/>
+<input type="hidden" name="travelTypeId" id="travelTypeId" th:value="${preModel.travelTypeId}" />
+<input type="hidden" name="srcStn" id="srcStn"  th:value="${preModel.srcStn}"/>
+<input type="hidden" name="destStn" id="destStn"  th:value="${preModel.destStn}" />
+<input type="hidden" name="clusterFlag" id="clusterFlag" th:value="${preModel.clusterFlag}" />
+<input type="hidden" name="clusterMainLeg" id="clusterMainLeg" th:value="${preModel.clusterMainLeg}" />
+<input type="hidden" name="clusterTrains" id="clusterTrains" th:value="${preModel.clusterTrains}" />
+<input type="hidden" name="clusterPnrNo" id="clusterPnrNo"  th:value="${preModel.clusterPnrNo}"/>
+<input type="hidden" name="clusterReservationId" id="clusterReservationId"  th:value="${preModel.clusterReservationId}" />
+
+<input type="hidden" name="totalNoOfPassenger"  id="totalNoOfPassenger">
+
+
+<input type="hidden" name="personalNo" id="personalNo" th:value="${firstsrchModel.personalNo}" />
+<input type="hidden" name="travelRuleId" id="travelRuleId" th:value="${firstsrchModel.travelRuleId}" />
+<input type="hidden" name="reBookingFlag" id="reBookingFlag" th:value="${firstsrchModel.reBookingFlag}" />
+
+<input type="hidden" id="availabilityStatus" name="availabilityStatus" value=""/>
+<input type="hidden" id="trainJourneyClass" name="trainJourneyClass" value=""/>
+<input type="hidden" id="bookingConfig" name="bookingConfig" value=""/>
+<div class="row">
+				<div class="col-lg-4" style="padding-right:0">
+				<div id="program" class="programBlock">
+							<div class="welcomebox">
+								<div class="welcomeHead">
+									<p>
+										Plan My Travel
+									</p>
+								</div>
+								<div class="welcomecont">
+<table align="center" border="0" cellpadding="4" width="100%" cellspacing="1" class="filtersearch" >
+<tbody class="all1">
+<tr style="text-align:left">
+<td style="width:40%" >From</td>
+
+ 	<td style="width:60%" th:if="${preModel.isFromStnGroupExist}" >
+					<select class="txtfldM" name="frmStationCode" >
+					
+						 		
+						   			<option th:unless="${preModel.groupedFromStation}==null" 
+						   			th:each="src : ${preModel.groupedFromStation}"
+						   			th:value="${src.key}" th:text="${src.value}" th:selected="${src.key}==${preModel.reqFrmStnCode}"> </option>
+						   		
+						   		
+						   			
+						   		
+						    
+					</select>
+	</td>
+
+<td style="width:60%" th:unless="${preModel.isFromStnGroupExist}">
+<input type="text" class="txtfldM" name="frmStation" th:value="${preModel.frmStationName}" id="stationFrom" readonly="true"/></td>
+
+</tr>
+
+<tr style="text-align:left">
+
+<td>To</td>
+
+ 	<td style="width:60%" th:if="${preModel.isToStnGroupExist}">
+					<select class="combo" name="toStationCode" >
+						<option th:unless="${preModel.groupedToStation}==null" 
+						   			th:each="src : ${preModel.groupedToStation}"
+						   			th:value="${src.key}" th:text="${src.value}" th:selected="${src.key}==${preModel.reqToStnCode}"> </option>
+						   		
+						   		
+						   			
+					</select>
+	</td>
+
+
+<td th:unless="${preModel.isToStnGroupExist}">
+<input type="text" name="toStation" class="txtfldM" id="stationTo" th:value="${preModel.toStaionName}" readonly="readonly"/></td>
+
+</tr>
+
+<tr style="text-align:left">
+<td>Departure</td>
+<div id="calendar1_container"></div>		   
+<td><input name="journeyDate" size="16" class="txtfldM" id="dpt_date" th:value="${preModel.journeyDate}" readonly="readonly"/></td>
+</tr>
+
+
+
+<tr style="text-align:left">
+<td>Class</td>
+<td style="width:60%">
+<select name="journeyClass" class="comboauto" id="journeyclass" ref="journeyclass" style="width:50%">
+
+<option th:each="item :${preModel.jrnyClass}" th:value="${item.key}" th:text="${item.value}" th:selected="${item.key}==${preModel.journeyClass}"> </option>
+
+</select>
+</td>
+</tr>
+
+
+
+<tr style="text-align:left"  th:if="${preModel.isTatkalApproved}=='Yes'">
+<td><span> Tatkal</span></td>
+<td><input type="checkBox" name="isTatkal" id="tatkal" checked="checked"/><font size="1"> (To Book Tatkal Please Check Using Checkbox)</font></td>
+</tr>
+
+     <tr>
+			<td style="text-align:left">Ticket Type</td>
+			<td><span id="tktType"> </span> </td>
+			
+		</tr>
+
+<tr>
+<td colspan="2" style="text-align:right">
+<input type="button" class="butn" onclick=" irctcSrchSubmit();" value="Search"/>
+</td>
+</tr>
+
+</table>
+</div>
+</div>
+</div>
+<div class="welcomebox">
+	<table id="outmostT" class="outmostT" width="100%" border="0" bordercolor="#CCCCCC" cellpadding="0" cellspacing="0" >
+		<tr>
+			<td id="fareDetailsTD" colspan="3"></td>
+		</tr>
+	</table>
+</div>
+				</div>	
+				<div class="col-lg-8" style="padding-left:0">
+
+
+<table  border='0' width="50%" cellpadding='0' cellspacing='0' class="bgborder">
+<tr>
+<td width="1%" valign="top" rowspan="2"></td>
+<td width="38%" valign="top" align='left'>
+	<div id="masterdiv" >
+		<div id="selectedTrainDisplay"> </div>
+	</div>	
+</td>
+
+<td  width="38%" valign="top" align='right'>
+
+	<table id="outmostT"  class="outmostT" width="100%" border="0" bordercolor="#CCCCCC" cellpadding="0" cellspacing="0" >
+	<tr>
+		<td id="avialflotingdisplay" colspan="3"></td>
+	</tr>
+	</table>
+	
+</td>
+
+</tr>
+
+<tr>
+<td valign="top" colspan="2">
+
+<div th:unless="${#lists.isEmpty(trainInfoList)}">
+<div id="program" class="programBlock">
+							<div class="welcomebox outmostT">
+								<div class="welcomeHead">
+									<p th:if="${preModel.clusterFlag}==0">
+										List of Trains For Cluster Booking
+									</p>
+									<p th:if="${preModel.clusterFlag}!=0">
+										List of Trains
+									</p>
+								</div>
+								<div class="welcomecont">
+
+	<table border='0' width="100%" cellpadding='4' cellspacing='1' align='center' class="filtersearch">
+	<tbody class="all1">
+
+<!-- 		<tr th:if="${preModel.clusterFlag}==0"><td colspan="6" class="heading"></td></tr> -->
+<!-- 	    <tr th:if="${preModel.clusterFlag}!=0"><td colspan="6" class="heading"></td></tr> -->
+	    <tr><td colspan="6" >Please Select A Train From The List</td></tr>
+		
+	<tr class="lablevalue">
+		<td width="5%"></td>
+		<td width="25%" align='left'>Train Name</td>
+		<td width="10%">Train No.</td>
+		<td width="20%">Departs</td>
+		<td width="20%">Arrives</td>															
+		<td width="25%">Runs On</td>							
+	</tr>
+	
+	
+	
+		<tr  th:each=" src : ${trainInfoList}">
+		<td><input type="radio" name="selectedTrain" 
+ th:attr="onclick='trainFareDetails(\''+${src.originStnCode}+'\',\''+${src.destStnCode}+'\',\''+${src.originStnName}+'\',\''+${src.destStnName}+'\',\''+${preModel.journeyDate}+'\',\''+${src.trainJourneyClass}+'\',\''+${preModel.isTatkal}+'\',\''+${preModel.noOfChild}+'\',\''+${preModel.noOfAdult}+'\',\''+${preModel.noOfSenior}+'\',\''+${src.trainNo}+'\',\''+${src.trainName}+'\',\''+${src.depTimeSrc}+'\',\''+${src.arrTimeDest}+'\',\''+${src.trainType.get(0)}+'\',\''+${preModel.isCancelWaitListTicket}+'\',\''+${preModel.noOfInfant}+'\',\''+${preModel.noOfWSenior}+'\',\''+${preModel.reqId}+'\',\''+''+'\');'"/></td>
+						
+					
+				
+			<td align='left'><span th:text="${src.trainName}"> </span></td>
+			    <td>
+				<a href="#" th:attr="onclick='showSingleTrainRoute(\''+${src.trainNo}+'\',\''+${preModel.journeyDate}+'\')'"> <span th:text="${src.trainNo}"> </span></a>
+				 </td>
+
+			<td><span th:text="${src.originStnName}"> </span><br/><span th:text="${src.depTimeSrc}"> </span></td>
+			<td><span th:text="${src.destStnName}"> </span><br/><span th:text="${src.arrTimeDest}"> </span> </td>															
+			<td colspan="20">
+			<span th:if="${src.runningDays.get(0)}=='Y'">M</span>
+			<span th:if="${src.runningDays.get(0)}=='N'">-</span>
+			<span th:if="${src.runningDays.get(1)}=='Y'">T </span>
+			<span th:if="${src.runningDays.get(1)}=='N'">-</span>
+			<span th:if="${src.runningDays.get(2)}=='Y'">W</span>
+			<span th:if="${src.runningDays.get(2)}=='N'">-</span>
+			<span th:if="${src.runningDays.get(3)}=='Y'">TH</span>
+			<span th:if="${src.runningDays.get(3)}=='N'">-</span>
+			<span th:if="${src.runningDays.get(4)}=='Y'">F</span>
+			<span th:if="${src.runningDays.get(4)}=='N'">-</span>
+			<span th:if="${src.runningDays.get(5)}=='Y'">S</span>
+			<span th:if="${src.runningDays.get(5)}=='N'">-</span>
+			<span th:if="${src.runningDays.get(6)}=='Y'">SU</span>
+			<span th:if="${src.runningDays.get(6)}=='N'">-</span>
+				
+			</td>							
+		</tr>
+	
+
+<tr>
+	<td colspan="6" id="irdtoxml"></td> 
+	</tr>	
+	
+			<tr class="tdborder8" valign="top">
+				<td colspan="6" style="text-align:right">
+					<input type="button" value="Proceed" id="proceed" class="butn"  onclick="bookingDtl();" > 
+				</td>
+			</tr>	
+			<tr class="tdborder8" valign="top">
+				<td colspan="6" align="right">
+					<table border='0' width="100%" cellpadding='4' cellspacing='1' align='center' class="formtxt">
+						<tr align='left'><td>RAC - Reservation Against Cancellation</td><td >Status with * - Chart Prepared</td></tr>
+						<tr align='left'><td> WL - Wait List</td><td>RLWL - Remote Location Wait List</td></tr>
+						<tr align='left'><td >PQWL - Pooled Quota Wait List</td><td>REGRET/WL - No More Booking Permitted</td></tr>
+					</table>
+				</td>
+			</tr>
+	   
+</tbody>
+	</table>
+	</div>
+	</div>
+	</div>
+</div>
+
+
+<div class="errors" th:if="${#lists.isEmpty(trainInfoList)}">
+
+  <div th:if="${errorMessage}==null">
+   No Train Available
+</div>
+   <div th:if="${errorMessage} !=null">
+   <span th:text="${errorMessage}"> </span>
+   </div>
+
+</div>
+
+</td>
+</tr></table>
+</div>
+				</div>			
+<div class="innerwaitdiv" id="innerwait" align="center">
+	<table border="0" cellpading="0" cellspacing="0" width="100%" class="filtersearch" height="180" >
+	<tbody class="all1">
+	<tr class="tdborder8">
+		<td style="width:10%"></td>
+		<td class="lablevalue">
+			Please wait
+			
+		</td>
+		
+	</tr>
+	<tr class="tdborder8">
+		<td style="width:10%"></td>
+		<td>
+			We are searching for the best available options.
+		</td>
+		
+	</tr>
+	<tr class="tdborder8">
+		<td style="width:10%"></td>
+		<td>
+			This may take upto a minute. Please do not refresh or close this window.
+		</td>
+		
+	</tr>
+	</tbody>
+	</table>
+
+	
+</div>
+
+</form>
+</div>
+</div>
+</div>
+</section>
+	<section>
+	<div class="blank"></div>
+	</section>
+	<section>
+    <div th:insert="~{fragments/login/footer}"></div>
+    </section>
+</body>
+</html>

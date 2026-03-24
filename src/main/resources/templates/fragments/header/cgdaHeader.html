@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+ <ul class="list">
+	 <li class="list-items">
+	    <div class="dropdown">
+	        <a class="nav-link dropdown-toggle" href="javascript:void(0)"
+	            role="button" data-bs-toggle="dropdown">Home</a>
+	        <div class="dropdown-content">
+	            <ul class="navigation">
+	                <li>
+	                    <a th:href="@{/cgda/home}">Home</a>
+	                </li>
+	                <li>
+	                    <a href="javascript:void(0)">Travel Rules<span style="margin-left:5px">&rsaquo;</span></a>
+	                    <div class="sub-menu">
+	                        <ul class="submenu-list">
+	                            <li class="submenu-listitems">
+	                                <a th:href="@{/cgda/trArmedForcesHome}">
+	                                    For Armed Forces
+	                                </a>
+	                            </li>
+	                            <li class="submenu-listitems">
+    	                            <a th:href="@{/cgda/trCivHome}">
+	                                    For Civilians
+	                                </a>
+	                            </li>
+	                        </ul>
+	                    </div>
+	                </li>
+	                <li>
+	                    <a th:href="@{/cgda/downloadsHome}">Downloads</a>
+	                </li>
+	                <li>
+	                    <a th:href="@{/cgda/instructionsHome}">Gov't Order & Instructions</a>
+	                </li>
+<!-- 	                <li> -->
+<!-- 	                    <a th:href="@{/cgda/feedBackSuggestion}">Feedback & Suggestions</a> -->
+<!-- 	                </li> -->
+	                <li>
+	                    <a th:href="@{/cgda/usefulLink}">Useful Links</a>
+	                </li>
+	                <li>
+	                    <a th:href="@{/cgda/contactHome}">Contact Us</a>
+	                </li>
+	                <li>
+	                    <a th:href="@{/cgda/faqs}">FAQ</a>
+	                </li>
+	                <li>
+	                    <a th:href="@{/cgda/eTutorial}">e-Tutorials</a>
+	                </li>
+	            </ul>
+	        </div>
+	    </div>
+	</li>
+
+	<li class="list-items">
+	    <div class="dropdown">
+	        <a class="nav-link dropdown-toggle"
+	            href="javascript:void(0)" role="button" data-bs-toggle="dropdown">Air Transaction</a>
+	        <div class="dropdown-content">
+	            <ul class="navigation">
+	                <li>
+	                    <a th:href="@{/cgda/voucher}">Request For Voucher Download</a>
+	                </li>
+	                <li>
+	                     <a th:href="@{/cgda/outstandingVoucherGenCgda}">Outstanding & Voucher Generation Report</a>
+	                </li>
+	                <li>
+	                   <a th:href="@{/cgda/createVoucherSettlementCgda}">Voucher Settlement</a>
+	                </li>
+	                <li>
+	                    <a th:href="@{/cgda/searchVouchAckCgda}">Voucher Acknowledgement </a>
+	                </li>
+	            </ul>
+	        </div>
+	    </div>
+	</li>
+ </ul>

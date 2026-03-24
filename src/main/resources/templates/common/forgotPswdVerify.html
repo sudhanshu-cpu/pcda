@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title th:text="#{title}"></title>
+<link rel="stylesheet" type="text/css" th:href="@{/css/lib/bootstrap.min.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/common/style.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/common/main.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/lib/jquery.datetimepicker.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/common/keyboard.css}">
+<script type="text/javascript" th:src="@{/js/bootstrap/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/lib/jquery-3.6.0.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/lib/jquery.datetimepicker.full.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/lib/jquery.validate.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/common/keyboard.js}"></script>
+</head>
+<script type="text/javascript" th:src="@{/js/common/crypto.js}"></script>
+<script type="text/javascript">
+
+$(document).ready(function() {
+	
+	
+	
+	var answer=$("#regAnswer").val().trim();
+	var regAnswer =CryptoJS.AES.encrypt(answer,"Hidden Pass");
+	$("#regAnswer").val(regAnswer);
+	
+	
+	var userId=$("#userId").val().trim();
+	var regUserId =CryptoJS.AES.encrypt(userId,"Hidden Pass");
+	$("#userId").val(regUserId);
+	
+	});
+
+function trim(n)
+	{
+   		return n.replace(/^\s+|\s+$/g,'');
+	}
+	
+	function doGenerate(){
+		
+		var ans=$("#answer").val().trim();
+		
+		var email=$("#inpEmail").val().trim();
+		
+		if(ans ==""){
+			alert("Please Enter Personal Number");
+			  return false;
+		}
+		if(email==""){
+			alert("Please Enter Registered Email");
+			  return false;
+		}
+		
+		if(email.endsWith("gov.in") || email.endsWith("GOV.IN") || email.endsWith("nic.in") || email.endsWith("NIC.IN")){
+			
+		}
+	else{
+	  alert("Please enter email id registered with 'NIC' or 'GOV' domain only.");
+	  return false;
+	}
+		
+		var encrypNewEmail =CryptoJS.AES.encrypt(email,"Hidden Pass");
+	      $("#email").val(encrypNewEmail);
+			$("#forgotPswdVerfiy").submit();
+		
+		
+	}
+	
+	
+		
+</script>
+
+<body>
+	<section class="topbar">
+              <div id="block" class="container-fluid">
+            <div class="headnav">
+            </div>
+        </div>
+	 </section>
+<section class="midpart">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-1"></div>
+				<div class="col-lg-10">
+<div class="message" align="center">
+
+<form th:action="@{/fpwd/forgotPswdVerify}" name="forgotPswdVerfiy" th:method="post" id="forgotPswdVerfiy">   
+
+<input type="hidden" name="regAnswer" th:value="${answer}" id="regAnswer">
+<input type="hidden" name="userId" th:value="${userId}" id="userId">
+<input type="hidden" id="email"   name="email"/>
+
+<br/>
+
+<div id="program" class="programBlock">
+                        <div class="welcomebox">
+                            <div class="welcomeHead">
+								<p>Forgot Password</p>
+                            </div>
+                             <div class="welcomecont">
+<table class="filtersearch" id="questionTable">
+
+<tbody class="all">
+
+<tr>
+		<td style="width:40%;border: none;color:#008080" th:text="${question}"></td>
+		<td style="width:60%"><input type="text" id="answer" class="txtfldM" autocomplete="off" name="answer"/> </td>
+</tr>
+
+<tr>
+		<td style="width:40%;border: none;color:#008080">Registered Email</td>
+		<td style="width:60%"><input type="text" id="inpEmail" class="txtfldM" autocomplete="off" name="inpEmail"/> </td>
+</tr>
+
+<tr>
+<td style="text-align:center" colspan="2"><button type="button" class="butn"  onclick="doGenerate();">Submit</button>
+ <button type="submit" class="butn"  th:formaction="@{/logout}" th:method="get">Cancel</button></td>
+</tbody>
+</table>
+                             </div>
+                        </div>
+</div>
+
+ 
+</form>
+</div>
+				</div>
+			</div>
+		</div>
+</section>
+<section>
+	<div class="blank"></div>
+	</section>
+	<section>
+    <div th:insert="~{fragments/login/footer}"></div>
+    </section>
+</body>
+</html>

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+
+<script
+	th:src="@{/js/MB/RequestDashBoard/normalbookingdashboard/normalbookingdashboard.js(random=${session.jsToken})}"> </script>
+<script type="text/javascript" th:src="@{/js/common/crypto.js}"></script>
+<script type="text/javascript">
+
+function viewRequestReports(requestId)
+{
+	$("#requestId").val(requestId);
+	$("#viaRequestLegReBookingView").submit();
+}
+
+function doSearch(event)
+{ 
+  var personalNo=$("#personalNo").val();
+  if(personalNo==""){
+  		alert("Please Enter Personal Number");
+  		return false;
+  }else{
+	  var encryptPNo = CryptoJS.AES.encrypt(personalNo,"Hidden Pass");
+		$("#personalNo").val(encryptPNo);
+	  
+	  $("#getViaRequestLegReBooking").submit();
+  }
+  
+}
+</script>
+
+
+
+<body oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+	<div th:insert="~{fragments/header/mainHeader}">...</div>
+	<section id="midpart" class="midpart">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-1"></div>
+				<div class="col-lg-10">
+					<div id="program" class="programBlock">
+						<div class="welcomebox">
+							<div class="welcomeHead">
+								<p>
+									Request Pool For Re-Booking
+								</p>
+							</div>
+							<div class="welcomecont">
+								<form th:action="@{/mb/getViaRequestLegReBooking}" method="post"
+									id="getViaRequestLegReBooking">
+									<table class="filtersearch">
+										<tbody class="all1">
+											<tr>
+												<td class="lablevalue" style="color:#006666">Personal Number:<Span class="text-danger">*</Span></td>
+												<td><input type="text" name="personalNo" th:value="${personalNo}"
+														id="personalNo" autocomplete="off">
+													
+												</td>
+											</tr>
+											<tr>
+												<td colspan="2" style="text-align:right">
+													<input type="button" value="Search" class="butn"
+														th:attr="onclick='doSearch(this.value)'">
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</form>
+								<form th:action="@{/mb/getViaRequestLegReBookingView}" method="post"
+									id="viaRequestLegReBookingView">
+									<input type="hidden" name="requestId" id="requestId">
+								</form>
+								
+								<div  th:each="list,stat: ${viaRequestLegReBookingList}">
+									<div>
+									
+										<p style="margin-bottom:0">
+											<font color="#006666"> <b>Request ID: </b><span
+													th:text="${list.requestId}"></span></font>
+										</p>
+										<table border="1" width="100%" class="filtersearch">
+											<tbody class="all1">
+												<tr class="lablevalue">
+													<td>RequestID</td>
+													<td>Status</td>
+													<td>From</td>
+													<td>To</td>
+													<td>Request Type</td>
+												</tr>
+												<tr >
+													<td><a href="#"
+															th:attr="onclick='viewRequestReports(\''+${list.requestId}+'\')'"
+															th:text="${list.requestId}"></a></td>
+													<td><span th:text="${list.approvalState}"></span></td>
+													<td><span th:text="${list.fromStn}"></span></td>
+													<td><span th:text="${list.toStn}"></span></td>
+													<td><span th:text="${list.journeyType}"></span></td>
+												</tr>
+												<tr class="lablevalue" align="left">
+													<td>Journey Date</td>
+													<td>Tatkal Approval Status</td>
+													<td>Booking Status For Request</td>
+													<td colspan="2" align="right"></td>
+												</tr>
+												<tr>
+													<form  th:action="@{/mb/getRailTktForm}" th:method="post" th:id="@{|railBookForm_${stat.index}|}">
+											
+                                             <input type="hidden" name="railRequestId" th:id="@{|railRequestId${stat.index}|}"/>
+                                              <input type="hidden" name="sequenceNo" id="sequenceNo" th:value="${list.sequenceNo}"> 
+                                                   <input type="hidden" name="tktSeqNo" id="tktSeqNo" th:value="${list.tktSequenceNo}"> 
+                                               <input type="hidden" name="clusterFlag" id="clusterFlag" th:value="${list.clusteredFlag}"> 
+                                                </form>
+													<td><span th:text="${list.jurneyDateFormat}"></span></td>
+													<td><span th:text="${list.isTatkalApproved}"></span></td>
+													<td><span th:text="${list.bookingStatus}"></span></td>
+													<td colspan="2" style="text-align:right" th:if="${list.rebooking}=='true'">
+														<input type="button" value="Re-Book" class="butn"
+												th:attr="onclick='submitRequestForm(\''+${list.requestId}+'\',\''+'railBook'+'\',\''+'rail'+'\',\''+${list.encryptedReqId}+'\',\''+${stat.index}+'\')'" 
+												
+												/>
+													</td>
+													
+												</tr>
+											</tbody>
+										</table>
+										
+									</div>
+									</div>
+									<table id="loginForm" class="filtersearch" cellpadding="5" cellspacing="1" width="100%"
+										border="0">
+										<tr>
+											<td><input type="button" class="butn"
+													value=" Print this page " onclick="window.print();" /></td>
+										</tr>
+									</table>
+								
+								
+
+							</div>
+						</div>
+								</div>
+								<div>
+									<p th:text="${error}" class=errors style="margin-bottom: 0;" id="noRecFound"> </p>
+								</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section>
+		<div class="blank"></div>
+	</section>
+	<section>
+		<div th:insert="~{fragments/login/footer}"></div>
+	</section>
+</body>
+
+</html>

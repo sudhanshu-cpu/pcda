@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{fragments/login/head}"></head>
+
+<link rel="stylesheet" type="text/css" th:href="@{/css/common/popup/LightFace.css}">
+<script	th:src="@{/js/MB/AddUsers/UserMasterMissDasboard/userMasterMissDasboard.js(random=${session.jsToken})}"></script>
+<script	th:src="@{/js/common/popup/mootools.js}"></script>
+<script	th:src="@{/js/common/popup/LightFace.IFrame.js}"></script>
+<script	th:src="@{/js/common/popup/LightFace.js}"></script>
+<script	th:src="@{/js/common/popup/LightFace.Request.js}"></script>
+
+<style>
+	.close{
+		    background: none;
+    border: 0 !important;
+    cursor: pointer;
+    font-family: 'Lucida Grande', Tahoma, Verdana, Arial, sans-serif;
+    font-weight: bold;
+    margin: 0;
+    padding: 1px 0 2px;
+    white-space: nowrap;
+    text-align: center;
+    color: #fff;
+    font-size: 13px;
+    border: 2px outset buttonface;
+    text-indent: 0;
+    text-shadow: none;
+    display: inline-block;
+    color: #444;
+    font-size: 13px;
+	}
+</style>
+<body>
+	<div th:insert="~{fragments/header/mainHeader}"></div>
+
+
+<section id="midpart" class="midpart"></section>
+
+				<div id="viewusrrepo">
+
+<!-- 					for popup -->
+					<table class="lightface"
+						style="z-index: 9001; visibility: visible; opacity: 1; left: 222px; top: 141px;"
+						tabindex="0">
+						<tbody>
+							<tr>
+								<td class="topLeft" style="visibility: visible; opacity: 0.4;"></td>
+								<td class="topCenter" style="visibility: visible; opacity: 0.4;"></td>
+								<td class="topRight" style="visibility: visible; opacity: 0.4;"></td>
+							</tr>
+							<tr>
+								<td class="centerLeft"
+									style="visibility: visible; opacity: 0.4;"></td>
+								<td class="centerCenter"><div class="lightfaceContent"
+										style="width: 800px;">
+										<h2 class="lightfaceTitle" th:text="#{mb.addUser.usermastermissdasboard.userView}"></h2>
+										<div class="lightfaceMessageBox"
+											style="visibility: visible; opacity: 1;">
+
+
+											<form
+												 th:action="@{/mb/viewUserDetails}"
+												method="post" name="userViewForm" id="userViewForm">
+
+												<div class="mainHeaderBroad" data-role="popup"
+													id="popupBasic">
+	<div id="program" class="programBlock">
+                        <div class="welcomebox" style="margin-bottom:1rem"  th:each="src : ${userDtls}">
+                            <div class="welcomeHead">
+                                <p th:text="#{mb.addUser.usermastermissdasboard.usrInfo}">
+                                </p>
+                            </div>
+                            <div class="welcomecont">
+													
+
+																	<div style="display: none;">
+																		<input name="userType" type="hidden" value=""
+																			id="userType">
+																			 <input name="approvalStatus"
+																			type="hidden" value="" id="approvalStatus"> 
+																			<input
+																			name="unitOffice" type="hidden" value=""
+																			id="unitOffice"> 
+																			<input name="personalNumber"
+																			type="hidden" value="" id="personalNumber"> 
+																		
+																	</div>
+																	<table class="filtersearch" id="userDetaisl" width="100%"
+																		cellspacing="1" cellpadding="4" border="0"
+																		align="center">
+																		<tbody class="all1">
+																			
+
+																			<tr align="left">
+																				<td class="lablevalue" th:text="#{mb.addUser.usermastermissdasboard.userId}"> </td>
+																				<td ><span th:text="${src.userAlias}"  readonly="readonly"></span></td>
+																				<td class="lablevalue" width="22%" height="23" th:text="#{mb.addUser.usermastermissdasboard.name}"> </td>
+																				<td style="width: 25%"><span  th:text="${src.name}" readonly="readonly"></span>
+											</td>
+																			</tr>
+
+																			<tr align="left">
+																				<td class="lablevalue" th:text="#{mb.addUser.usermastermissdasboard.gender}"> </td>
+																				<td ><span  th:text="${src.gender}" readonly="readonly"></span></td>
+																				<td class="lablevalue" th:text="#{mb.addUser.usermastermissdasboard.eMail}"> </td>
+																				<td><span  th:text="${src.email}" readonly="readonly"></span></td>
+																			</tr>
+
+																			<tr align="left">
+																				<td class="lablevalue" th:text="#{mb.addUser.usermastermissdasboard.mobNo}"> </td>
+																				<td><span  th:text="${src.mobileNo}" readonly="readonly"></span></td>
+																				<td class="lablevalue" th:text="#{mb.addUser.usermastermissdasboard.catName}"> </td>
+																				<td><span  th:text="${src.categoryName}" readonly="readonly"></span></td>
+																			</tr>
+
+																			<tr align="left">
+																				<td class="lablevalue" th:text="#{mb.addUser.usermastermissdasboard.unitSer}"> </td>
+									<td><span  th:text="${src.unitService}" readonly="readonly"></span></td>
+																				<td class="lablevalue" th:text="#{mb.addUser.usermastermissdasboard.travelerServ}"> </td>
+																				<td> <span  th:text="${src.userService}" readonly="readonly"></span></td>
+																			</tr>
+
+																			<tr align="left">
+																				<td class="lablevalue" th:text="#{mb.addUser.usermastermissdasboard.lName}"> </td>
+																				<td><span  th:text="${src.levelName}" readonly="readonly"></span></td>
+																				<td class="lablevalue" th:text="#{mb.addUser.usermastermissdasboard.gPay/Rank}"> </td>
+																				<td><span  th:text="${src.rankName}" readonly="readonly"></span></td>
+																			</tr>
+	
+
+																			<tr align="left">
+																				<td class="lablevalue" th:text="#{mb.addUser.usermastermissdasboard.dob}"> </td>
+																				<td><span  th:text="${src.dateOfBirth}" readonly="readonly"></span></td>
+																				<td class="lablevalue" th:text="#{mb.addUser.usermastermissdasboard.dateOfRetierment}"> </td>
+																				<td><span  th:text="${src.dateOfRetirment}" readonly="readonly"></span></td>
+																			</tr> 
+           
+																			<tr align="left">
+																				<td class="lablevalue" th:text="#{mb.addUser.usermastermissdasboard.dateOfEnrolmnt}"> </td>
+																				<td><span  th:text="${src.commisioningDate}" readonly="readonly"></span></td>
+
+																				<td class="lablevalue"></td>
+																				<td></td>
+																			</tr>
+
+																			<tr align="left">
+																				<td class="lablevalue" th:text="#{mb.addUser.usermastermissdasboard.fDUsed}"> </td>
+																				<td> <span  th:text="${src.cvFormDUsed}" readonly="readonly"></span></td>
+																				<td class="lablevalue" id="cdaoLabel" th:text="#{mb.addUser.usermastermissdasboard.cdaAccNu}" > </td>
+																				<td><span  th:text="${src.accountOffice}" readonly="readonly"></span></td>
+																			</tr>
+																			<tr align="left">
+																				<td class="lablevalue" width="22%" height="23" th:text="#{mb.addUser.usermastermissdasboard.railPayAccOffice}" > </td>
+																				<td width="28%"  ><span  th:text="${src.railAccountOffice}" readonly="readonly"></span></td>
+																				<td class="lablevalue" width="20%"  th:text="#{mb.addUser.usermastermissdasboard.airPayAccOffice}"> </td>
+																				<td width="30%"  ><span  th:text="${src.airAccountOffice}" readonly="readonly"></span></td>
+																			</tr>
+																			<tr align="left">
+																				<td class="lablevalue"  th:text="#{mb.addUser.usermastermissdasboard.nrsDutyStation}"> </td>
+																				<td><span  th:text="${src.nrsRailDutyStn}" readonly="readonly"></span></td> 	
+																				<td class="lablevalue" th:text="#{mb.addUser.usermastermissdasboard.nrsHomeTwn}" > </td>
+																				<td><span  th:text="${src.nrsRailHomeTown}" readonly="readonly"></span></td>
+																			</tr>
+																			<tr align="left">
+																				<td class="lablevalue" th:text="#{mb.addUser.usermastermissdasboard.nrsForReservationHomeTwn}" > </td>
+																				<td><span  th:text="${src.sprNRS}" readonly="readonly"></span></td>
+																				<td class="lablevalue" th:text="#{mb.addUser.usermastermissdasboard.nearAirportDuStan}"  > </td>
+																				<td><span  th:text="${src.naDutyStn}" readonly="readonly"></span>
+																					</td>
+																			</tr>
+
+																			<tr align="left">
+																				<td class="lablevalue" th:text="#{mb.addUser.usermastermissdasboard.nearAirportHomeTwn}" > </td>
+																				<td><span  th:text="${src.naHomeTown}" readonly="readonly"></span></td>
+																				<td class="lablevalue" th:text="#{mb.addUser.usermastermissdasboard.nrsSPR}"> </td>
+																				<td><span  th:text="${src.sprNRS}" readonly="readonly"></span></td>
+																			</tr>
+
+																			<tr align="left">
+																				<td class="lablevalue" th:text="#{mb.addUser.usermastermissdasboard.nrsforReservationSpr}"> </td>
+																				<td><span  th:text="${src.sprSFA}" readonly="readonly"></span></td>
+																				<td class="lablevalue" th:text="#{mb.addUser.usermastermissdasboard.nearAirportSpr}"> </td>
+																				<td><span  th:text="${src.sprNA}" readonly="readonly"></span></td>
+																			</tr>
+																		</tbody>
+																	</table>
+                            </div>
+                        </div>
+	</div>
+
+												<div id="program" class="programBlock">
+                        <div class="welcomebox" style="margin-bottom:1rem"  th:each="src : ${userDtls}">
+                            <div class="welcomeHead">
+                                <p th:text="#{mb.addUser.usermastermissdasboard.depndentDtls}">
+                                </p>
+                            </div>
+                            <div class="welcomecont">
+													
+																	<table class="filtersearch" width="100%" cellspacing="1"
+																		cellpadding="4" border="0" align="center">
+																		<tbody class="all1">
+																			
+
+																			<tr  class="lablevalue">
+																				<td width="2%" align="left" th:text="#{mb.addUser.usermastermissdasboard.sNum#}"> </td>
+																				<td width="10%" align="left" th:text="#{mb.addUser.usermastermissdasboard.name}"> </td>
+																				<td width="5%" align="left" th:text="#{mb.addUser.usermastermissdasboard.gender}"> </td>
+																				<td width="5%" align="left" th:text="#{mb.addUser.usermastermissdasboard.relation}"> </td>
+																				<td width="5%" align="left" th:text="#{mb.addUser.usermastermissdasboard.martialStats}"> </td>
+																				<td width="5%" align="left" th:text="#{mb.addUser.usermastermissdasboard.status}"> </td>
+
+
+																				<td width="10%" align="left" th:text="#{mb.addUser.usermastermissdasboard.doIIPartNo}"></td>
+
+
+																				<td width="10%" align="left" th:text="#{mb.addUser.usermastermissdasboard.doIIDate}"></td>
+
+
+																				<td width="10%" align="left" th:text="#{mb.addUser.usermastermissdasboard.dob}"></td>
+																				<td width="8%" align="left" th:text="#{mb.addUser.usermastermissdasboard.reason}"></td>
+
+																			</tr>
+
+																			<tr class="tdborder8" valign="top" th:each="childTable:${src.familyDetails}">
+																				<td><span th:text="${childTable.seqNumber}"></span></td>
+																				<td><span th:text="${childTable.firstName}"></span></td>
+																				<td><span th:text="${childTable.gender}"></span></td>
+																				<td><span th:text="${childTable.relation}"></span></td>
+																				<td><span th:text="${childTable.maritalStatus}"></span></td>
+																				<td><span th:text="${childTable.status}"></span></td>
+																				<td><span th:text="${childTable.partNo}"></span></td>
+																				<td><span th:text="${childTable.partDateStr}"></span></td>
+																				<td><span th:text="${childTable.dobStr}"></span></td>
+																				<td><span th:text="${childTable.reason}"></span></td>
+																			</tr>
+																		</tbody>
+																	</table>
+                            </div>
+                        </div>
+												</div>
+												
+													
+
+												</div>
+												
+
+											</form>
+
+
+										</div>
+										<div class="lightfaceFooter" style="display: block;">
+											<label class="">
+										
+								<a class="close" th:href="@{/mb/userMasterMissDasboard}" style="text-decoration:none;">Close</a>
+							
+											
+<!-- 											<input type="button" id="qwrty" -->
+<!-- 												value="Close"  ></label> -->
+										</div>
+ 										
+										<div style="visibility: hidden; opacity: 0; top: 24px;"
+											class="lightfaceOverlay">&nbsp;</div>
+									</div></td>
+								<td class="centerRight"
+									style="visibility: visible; opacity: 0.4;"></td>
+							</tr>
+							
+							<tr>
+								<td class="bottomLeft"
+									style="visibility: visible; opacity: 0.4;"></td>
+								<td class="bottomCenter"
+									style="visibility: visible; opacity: 0.4;"></td>
+								<td class="bottomRight"
+									style="visibility: visible; opacity: 0.4;"></td>
+							</tr>
+						</tbody>
+					</table>
+					</div>
+	
+
+
+
+
+<section>
+	<div class="blank"></div>
+	</section>
+	<section>
+    <div th:insert="~{fragments/login/footer}"></div>
+    </section>
+
+</body>
+
+</html>

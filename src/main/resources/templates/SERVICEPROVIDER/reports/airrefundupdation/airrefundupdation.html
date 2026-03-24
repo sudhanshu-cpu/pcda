@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+<script
+	th:src="@{/js/SERVICEPROVIDER/reports/airrefundupdation/airrefundupdation.js(random=${session.jsToken})}"></script>
+
+<body oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+
+	<div th:insert="~{fragments/header/mainHeader}">...</div>
+
+	<section id="midpart" class="midpart">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-1"></div>
+				<div class="col-lg-10">
+					<div id="program" class="programBlock">
+						<div class="welcomebox">
+							<div class="welcomeHead">
+								<p >  AIR REFUND UPDATION FORM </p>
+							</div>
+							<div class="welcomecont">
+								<form th:action="@{getBkgIdRefFormData}" name="airRefundUpdationform"
+									id="airRefundUpdationform" method="post">
+
+
+									<table class="filtersearch" cellspacing="0" cellpadding="0" width="100%" border="0">
+									<tbody class="all1">
+										<tr>
+											<td>
+												
+															<span
+																th:text="#{serviceprovider.reports.airbookingupdation.bkgid}">
+															</span>
+
+														</td>
+														<td><input type="text" name="bookingId" id="bookingId" size="15"
+																th:value="${bkgId}" maxlength="20" autocomplete="off"/></td>
+													</tr>
+													<tr>
+														<td colspan="10" style="text-align:right">
+															<a href="#" align="right"><input class="butn" type="submit"
+																	onclick="getBookingDtls();" value="Search" /></a>
+														</td>
+													</tr>
+													</tbody>
+												</table>
+											
+								</form>
+							</div>
+						</div>
+					</div>
+
+
+					<div id="program" class="programBlock" th:if="${dataRefModel}!=null">
+						<div class="welcomebox">
+							<div class="welcomeHead">
+								<p th:text="#{serviceprovider.reports.airbookingupdation.tbook}"> </p>
+							</div>
+							<div class="welcomecont">
+								<form name="airRefundUpdation" id="airRefundUpdation" th:action="@{saveAirRefUpdation}"
+									method="post">
+
+
+									<input type="hidden" name="airBookingId" th:value="${dataRefModel.bookingOid}" />
+
+									<input type="hidden" name="passangerCount" id="passangerCount"
+										th:value="${dataRefModel.passCount}" />
+
+									<input type="hidden" name="serviceProviderInt"
+										th:value="${dataRefModel.serviceProviderInt}" />
+
+									<table class="bgborder" cellspacing="0" cellpadding="0" width="100%" border="0">
+
+										<tbody th:if="${dataRefModel.bookingData}=='YES'">
+											<tr>
+												<td>
+													<table class="filtersearch" width="100%" border="0">
+														<tbody class="all1">
+														
+
+														<tr th:each="src : ${dataRefModel.airRefundBookData}">
+															<td style="width: 20%;">Booking Id</td>
+															<td style="width: 15%;" class="lablevalue"><span
+																	th:text="${src.bookingId}"> </span>
+															</td>
+															<td style="width: 15%;">Request Id</td>
+															<td style="width: 15%;" class="lablevalue"><span
+																	th:text="${src.requestId}"> </span>
+															</td>
+															<td style="width: 18%;">Service Provider</td>
+															<td style="width: 16%;" class="lablevalue"><span
+																	th:text="${src.serviceProvider}"> </span>
+															</td>
+														</tr>
+<tr>
+<td colspan="6">
+
+														<table class="filtersearch" border-spacing="15px"
+															width="100%">
+															<tbody class="all1"
+																th:each="item,stat : ${dataRefModel.airRefundBookChild}">
+																<tr><td>
+																	<input type="hidden"
+																		th:name="@{|passangerNo${stat.index+1}|}"
+																		th:value="${item.passangerNo}" />
+																	<input type="hidden"
+																		th:name="@{|passangerName${stat.index+1}|}"
+																		th:value="${item.passangerName}" />
+																	<input type="checkbox"
+																			th:id="@{|checkbox${stat.index+1}|}"
+																			th:name="@{|checkbox${stat.index+1}|}"
+																			th:attr="onclick='getCheckBox(\''+${stat.index+1}+'\')'">
+																	</td>
+																	<td style="width:20%"><output
+																			ref="passangerName" /></td>
+																	<td class="lablevalue">Cancellation Id</td>
+																	<td><input type="text"
+																			disabled="disabled"
+																			th:name="@{|cancellationTaxId${stat.index+1}|}"
+																			th:id="@{|cancellationTaxId${stat.index+1}|}"
+																			th:value="${item.cancellationTaxId}"
+																			size="19" maxlength="20" />
+																	</td>
+																	<td class="lablevalue">CreditNote No</td>
+																	<td><input type="text"
+																			disabled="disabled"
+																			th:name="@{|newCreditNoteNo${stat.index+1}|}"
+																			th:id="@{|newCreditNoteNo${stat.index+1}|}"
+																			th:value="${item.creditNoteNo}" size="19"
+																			maxlength="20" /></td>
+																	<td class="lablevalue">CreditNote Date</td>
+																	<td><input type="text"
+																			disabled="disabled"
+																			th:name="@{|newCreditNoteDate${stat.index+1}|}"
+																			th:id="@{|newInvoiceDate${stat.index+1}|}"
+																			th:value="${item.creditNoteDate}" size="19"
+																			maxlength="20" /></td>
+																</tr>
+																<tr>
+																	<td class="lablevalue">Total Refund</td>
+																	<td><input type="text"
+																			disabled="disabled"
+																			th:name="@{|newTotalRefund${stat.index+1}|}"
+																			th:id="@{|newTotalRefund${stat.index+1}|}"
+																			th:value="${item.totalRefund}" size="19"
+																			maxlength="20" /></td>
+																	<td class="lablevalue">Base Fare</td>
+																	<td><input type="text"
+																			disabled="disabled"
+																			th:name="@{|newBaseFare${stat.index+1}|}"
+																			th:id="@{|newBaseFare${stat.index+1}|}"
+																			th:value="${item.canBaseFare}" size="19"
+																			maxlength="20" /></td>
+																	<td class="lablevalue">Can YQ</td>
+																	<td><input type="text"
+																			disabled="disabled"
+																			th:name="@{|newCanYq${stat.index+1}|}"
+																			th:id="@{|newCanYq${stat.index+1}|}"
+																			th:value="${item.canYq}" size="19"
+																			maxlength="20" /></td>
+																	<td class="lablevalue">Psf Fee</td>
+																	<td><input type="text"
+																			disabled="disabled"
+																			th:name="@{|newPsfFee${stat.index+1}|}"
+																			th:id="@{|newPsfFee${stat.index+1}|}"
+																			th:value="${item.cnaPsfFee}" size="19"
+																			maxlength="20" /></td>
+																</tr>
+
+
+																<tr>
+																	<td class="lablevalue">Tax</td>
+																	<td ><input type="text"
+																			disabled="disabled"
+																			th:name="@{|newTax${stat.index+1}|}"
+																			th:id="@{|newTax${stat.index+1}|}"
+																			th:value="${item.canTax}" size="19"
+																			maxlength="20" /></td>
+																	<td class="lablevalue">Other Tax</td>
+																	<td><input type="text"
+																			disabled="disabled"
+																			th:name="@{|newOtherTax${stat.index+1}|}"
+																			th:id="@{|newOtherTax${stat.index+1}|}"
+																			th:value="${item.canOtherTax}" size="19"
+																			maxlength="20" /></td>
+																	<td class="lablevalue">ServiceTax AirLine</td>
+																	<td><input type="text"
+																			disabled="disabled"
+																			th:name="@{|newCanAirline${stat.index+1}|}"
+																			th:id="@{|newCanAirline${stat.index+1}|}"
+																			th:value="${item.canAirline}" size="19"
+																			maxlength="20" /></td>
+																	<td class="lablevalue">OtherTax OnSegment</td>
+																	<td><input type="text"
+																			disabled="disabled"
+																			th:name="@{|newOtherTaxOnSegment${stat.index+1}|}"
+																			th:id="@{|newOtherTaxOnSegment${stat.index+1}|}"
+																			th:value="${item.canOtherTaxOnSegment}"
+																			size="19" maxlength="20" />
+																	</td>
+																</tr>
+																<tr>
+																	<td class="lablevalue">Cgst Tax</td>
+																	<td><input type="text"
+																			disabled="disabled"
+																			th:name="@{|newCgstTax${stat.index+1}|}"
+																			th:id="@{|newCgstTax${stat.index+1}|}"
+																			th:value="${item.cgstTax}" size="19"
+																			maxlength="20" /></td>
+																	
+																	<td class="lablevalue">Igst Tax</td>
+																	<td><input type="text"
+																			disabled="disabled"
+																			th:name="@{|newIgstTax${stat.index+1}|}"
+																			th:id="@{|newIgstTax${stat.index+1}|}"
+																			th:value="${item.igstTax}" size="19"
+																			maxlength="20" /></td>
+																			<td class="lablevalue">sgst Tax</td>
+																	<td><input type="text"
+																			disabled="disabled"
+																			th:name="@{|newSgstTax${stat.index+1}|}"
+																			th:id="@{|newSgstTax${stat.index+1}|}"
+																			th:value="${item.sgstTax}" size="19"
+																			maxlength="20" /></td>
+																	<td class="lablevalue">Ssr Amount</td>
+																	<td ><input type="text"
+																			disabled="disabled"
+																			th:name="@{|newCanSsrAmount${stat.index+1}|}"
+																			th:id="@{|newCanSsrAmount${stat.index+1}|}"
+																			th:value="${item.canSsrAmount}" size="19"
+																			maxlength="20" /></td>
+
+																</tr>
+																<tr>
+																	<td class="lablevalue">Educess</td>
+																	<td><input type="text"
+																			disabled="disabled"
+																			th:name="@{|newCanEducess${stat.index+1}|}"
+																			th:id="@{|newCanEducess${stat.index+1}|}"
+																			th:value="${item.canEducess}" size="19"
+																			maxlength="20" /></td>
+																	<td class="lablevalue">Higher Educess</td>
+																	<td><input type="text"
+																			disabled="disabled"
+																			th:name="@{|newCanHigherEducess${stat.index+1}|}"
+																			th:id="@{|newCanHigherEducess${stat.index+1}|}"
+																			th:value="${item.canHigherEducess}"
+																			size="19" maxlength="20" />
+																	</td>
+																	<td class="lablevalue">Airline Charge </td>
+																	<td><input type="text"
+																			disabled="disabled"
+																			th:name="@{|newCanRxChargeAirline${stat.index+1}|}"
+																			th:id="@{|newCanRxChargeAirline${stat.index+1}|}"
+																			th:value="${item.canRxChargeAirline}"
+																			size="19" maxlength="20" />
+																	</td>
+																	<td class="lablevalue">Penalty Charge</td>
+																	<td><input type="text"
+																			disabled="disabled"
+																			th:name="@{|newCanRxPenaltyCharge${stat.index+1}|}"
+																			th:id="@{|newCanRxPenaltyCharge${stat.index+1}|}"
+																			th:value="${item.canRxPenaltyCharge}"
+																			size="19" maxlength="20" />
+																	</td>
+																</tr>
+
+																<tr>
+																	<td class="lablevalue">Educess OnAirLine</td>
+																	<td><input type="text"
+																			disabled="disabled"
+																			th:name="@{|newEducessOnAirLine${stat.index+1}|}"
+																			th:id="@{|newEducessOnAirLine${stat.index+1}|}"
+																			th:value="${item.canEducessOnAirLine}"
+																			size="19" maxlength="20" />
+																	</td>
+																	<td class="lablevalue">HigherEducess OnAirLine</td>
+																	<td><input type="text"
+																			disabled="disabled"
+																			th:name="@{|newHigherEducessOnAirLine${stat.index+1}|}"
+																			th:id="@{|newHigherEducessOnAirLine${stat.index+1}|}"
+																			th:value="${item.canHigherEducessOnAirLine}"
+																			size="19" maxlength="20" />
+																	</td>
+																	<td class="lablevalue">Service Tax</td>
+																	<td><input type="text"
+																			disabled="disabled"
+																			th:name="@{|newCanServiceTax${stat.index+1}|}"
+																			th:id="@{|newCanServiceTax${stat.index+1}|}"
+																			th:value="${item.canServiceTax}" size="19"
+																			maxlength="20" /></td>
+
+																</tr>
+
+
+
+															</tbody>
+														</table>
+</td>
+</tr>
+
+													
+												
+											<tr>
+												<td colspan="10" id="downLoadFile" style="text-align:right">
+													<a href="#" align="right"><input class="butn" type="button"
+															onclick="saveAirCanDtls();" value="Save" /></a>
+												</td>
+											</tr>
+											</tbody>
+									</table>
+									</td>
+									</tr>
+									</tbody>
+
+											
+
+
+
+
+									</table>
+
+								</form>
+							</div>
+
+						</div>
+					</div>
+					<div th:if="${dataRefModel}==null">
+					<p class="errors" th:text="${errorMessage}" style="margin-bottom:0"> </p>
+				</div>
+			</div>
+		</div>
+		</div>
+	</section>
+	<section>
+		<div class="blank"></div>
+	</section>
+	<section>
+		<div th:insert="~{fragments/login/footer}"></div>
+	</section>
+</body>
+
+</html>

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+<script th:src="@{/js/MB/RequestDashBoard/MasterMissingDashBoard/masterMissingDashBoard.js(random=${session.jsToken})}"></script>
+<script th:src="@{/js/MB/RequestDashBoard/MasterMissingDashBoard/masterMissDasboardEditPao.js(random=${session.jsToken})}"></script>
+<link rel="stylesheet" type="text/css" th:href="@{/css/common/popup/jquery.popup.css}">
+<script th:src="@{/js/common/popup/jquery.popup.js}"></script>
+
+
+<script type="text/javascript">
+
+
+	$(document).ready(function () {
+		$(".js__p_start").simplePopup();
+	});
+
+	function takeMasterMis(personalNo, showCommentInput) {
+		$.ajax(
+			{
+				url: $("#context_path").val() + "mb/masterMissingcommentHistory",
+				data: {personalNo: personalNo, showCommentInput: showCommentInput},
+				method: "post",
+				async: false,
+				success: function (result) {
+					
+					$("#voucher_Ack_History_Id").html(result.trim());
+					$(".js__p_start").click();
+
+				}
+			});
+	}
+
+
+	function trim(n) {
+		return n.replace(/^\s+|\s+$/g, '');
+	}
+
+	function isEmpty(value) {
+		return value == null || "" == value;
+	}
+
+
+
+	function doAction(personalNo, eventVal) {
+		$("#personalNo").val(personalNo);
+		$("#profileApproval").submit();
+	}
+
+</script>
+
+<body oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+
+
+	<div th:insert="~{fragments/header/mainHeader}"></div>
+	<section id="midpart" class="midpart">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-1"></div>
+				<div class="col-lg-10">
+
+					<form th:action="@{/mb/masterMissingcommentHistory}" method="post" id="historyForm">
+						<input id="personal_No" name="personalNo" type="hidden"> 
+							
+
+					</form>
+
+					<form th:action="@{/mb/profileDetails}" method="post" id="profileApproval">
+						<input id="personalNo" name="personalNo" type="hidden">
+					</form>
+
+					<div id="program" class="programBlock">
+						<div class="welcomebox">
+
+							<div class="welcomeHead">
+								<p>Master Missing DashBoard</p>
+							</div>
+							<div class="welcomecont">
+								<table id="loginForm" class="filtersearch" width="100%" cellspacing="1" cellpadding="5"
+									border="0">
+									<tbody class="all">
+										<tr class="lablevalue">
+											<td th:text="#{mb.reports.mastermissdash.personalNumber}"></td>
+											<td th:text="#{mb.reports.mastermissdash.name}"></td>
+											<td th:text="#{mb.reports.mastermissdash.pAO}"></td>
+											<td th:text="#{mb.reports.mastermissdash.service}"></td>
+											<td th:text="#{mb.reports.mastermissdash.category}"></td>
+											<td th:text="#{mb.reports.mastermissdash.levelName}"></td>
+
+											<td th:text="#{mb.reports.mastermissdash.action}"></td>
+										</tr>
+
+										<tr th:each="src : ${userData}" th:unless="${#lists.isEmpty(userData)}">
+
+											<td th:text="${src.personalNo}"></td>
+											<td th:text="${src.name}"></td>
+											<td th:text="${src.accountOfficeNam}"></td>
+											<td th:text="${src.serviceName}"></td>
+											<td th:text="${src.categoryName}"></td>
+											<td th:text="${src.levelName}"></td>
+
+											<td>
+												<input type="button" class="butn" value="Settle"
+													th:attr="onClick='takeMasterMis(\''+${src.personalNo}+'\', \''+YES+'\')' "></input>
+
+
+												<input type="button" class="butn" value="Change PAO"
+													th:attr="onclick=|doAction('${src.personalNo}','view')|">
+													</input>
+											</td>
+										</tr>
+
+									</tbody>
+
+								</table>
+								<div>
+						<p class="errors" style="margin-bottom:0" th:text="${errorMessage}"></p>
+					</div>
+							</div>
+						</div>
+					</div>
+
+					
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section>
+		<div class="blank"></div>
+	</section>
+	<section>
+		<div th:insert="~{fragments/login/footer}"></div>
+	</section>
+	
+	</body>
+
+
+
+<div class="p_anch">
+	<a href="javascript:void(0);" class="js__p_start">&#160;</a>
+</div>
+<div class="p_body js__p_body js__fadeout">&#160;</div>
+<div class="popup js__popup js__slide_top">
+	<a href="javascript:void(0);" class="js__p_close" title="Close">
+		<img th:src="@{/images/close.png}" alt="Close" width="20" height="20" title="Close" align="right" />
+	</a>
+	<div class="p_content" id="voucher_Ack_History_Id"></div>
+</div>
+
+
+
+</html>

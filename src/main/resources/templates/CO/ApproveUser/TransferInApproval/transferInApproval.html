@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+
+<script>
+function approveTransferIn(event,userId,userAlias,currentUnit,transferTo,sequence){
+
+$("#userId").val(userId);
+$("#transferTo").val(transferTo);
+$("#sequence").val(sequence);
+$("#event").val(event);
+$("#personalNo").val(userAlias);
+$("#approveTraInForm").submit();
+}
+
+function trim(n)
+	{
+   		return n.replace(/^\s+|\s+$/g,'');
+	}
+	
+	function isEmpty(value)
+	{
+		return value==null||""==value;
+	}
+	
+function submitRequestForm(userId,event,seqNo,oldUnit){
+
+	var reqTransFerInDiv=document.getElementById("reqTransFerInDiv");
+	var disAppDiv=document.getElementById("disApproveDiv");
+	
+	if(event=="disapprove"){
+		document.getElementById("userId").value=userId;
+		document.getElementById("sequence").value=seqNo;
+		document.getElementById("transferTo").value=oldUnit;
+		//document.getElementById("personalNo").value=userAlias;
+		reqTransFerInDiv.style.display='none';
+		disAppDiv.style.display='block';
+		return true;
+	}
+
+}
+
+function submitDisapprove(formAction,event){
+
+	var submitForm=document.createElement("form");
+	var disapproveDetail=document.getElementById("disapproveDetail").value;
+	var disapproveUserAlias=document.getElementById("personalNo").value;
+	var seqNo=document.getElementById("sequence").value;
+	var oldUnit=document.getElementById("transferTo").value;
+	document.getElementById("event").value=event;
+	if(isEmpty(trim(disapproveDetail))){
+		alert("Please enter reason to disapprove");
+		document.getElementById("disapproveDetail").focus();
+		return false;
+	}
+	document.body.appendChild(submitForm);
+	submitForm.method = "POST";
+	
+	var hiddenElement =document.createElement('input');
+	hiddenElement.name="userAlias";
+	hiddenElement.id="userAlias";
+	hiddenElement.type="hidden";
+	hiddenElement.value =disapproveUserAlias;
+	
+	submitForm.appendChild(hiddenElement);
+	
+	var hiddenIndex =document.createElement('input');
+	hiddenIndex.name="seqNo";
+	hiddenIndex.id="seqNo";
+	hiddenIndex.type="hidden";
+	hiddenIndex.value =seqNo;
+	
+	submitForm.appendChild(hiddenIndex);
+	
+	var hiddenEeven =document.createElement('input');
+	hiddenEeven.name="event";
+	hiddenEeven.id="event"; 
+	hiddenEeven.type="hidden";
+	hiddenEeven.value =event;
+	submitForm.appendChild(hiddenEeven);
+	
+	var hiddenReason =document.createElement('input');
+	hiddenReason.name="disapproveDetail";
+	hiddenReason.id="disapproveDetail"; 
+	hiddenReason.type="hidden";
+	hiddenReason.value =disapproveDetail;
+	submitForm.appendChild(hiddenReason);
+	
+	var hiddenOldUnit =document.createElement('input');
+	hiddenOldUnit.name="oldUnitDetail";
+	hiddenOldUnit.id="oldUnitDetail"; 
+	hiddenOldUnit.type="hidden";
+	hiddenOldUnit.value =oldUnit;
+	submitForm.appendChild(hiddenOldUnit);
+	
+	
+	submitForm.action=formAction.replace('/page', "");
+	$("#approveTraInForm").submit();
+}
+
+
+
+// function  doBack(formName,event) {
+  
+// 	document.getElementById("disApprovedUserAlias").value="";
+// 	reqPoolDiv.style.display='block';
+// 	disAppDiv.style.display='none';
+
+//   }
+
+</script>
+
+
+<body>
+
+<div th:insert="~{fragments/header/mainHeader}"></div>
+<section id="midpart" class="midpart">
+		<div class="container-fluid">
+<div class="row">
+
+					<div class="col-lg-1"></div>
+					<div class="col-lg-10">
+
+
+ 	<div id="reqTransFerInDiv">
+	<div th:unless="${#lists.isEmpty(approvalList)}">
+	<div id="program" class="programBlock">
+                        <div class="welcomebox" style="margin-bottom:1rem">
+                            <div class="welcomeHead">
+                                <p th:text="#{co.tranfer.in.user.tran.to.dashboard}">
+                                </p>
+                            </div>
+                            <div class="welcomecont">
+		<table id="loginForm" class="filtersearch">
+ 			<tbody class="all1">
+ 			<tr style="text-align:center" class="lablevalue">
+				<td style="width:10%" th:text="#{co.tranfer.in.user.personalno}"></td>
+				<td style="width:10%" th:text="#{co.tranfer.in.user.name}"></td>
+				<td style="width:10%" th:text="#{co.tranfer.in.user.current.unit}"></td>
+				<td style="width:40%" th:text="#{co.tranfer.in.user.tran.to.unit}"></td>
+				<td style="width:10%" th:text="#{co.tranfer.in.user.tran.to.create}"></td>
+				<td style="width:10%" th:text="#{co.tranfer.in.user.tran.to.action}"></td>
+			</tr> 
+			
+			<tr style="text-align:center"  th:each="src:${approvalList}">
+				<td > <span th:text="${src.userAlias}"></span><input type="hidden" th:value="${src.seqNo}"/><input type="hidden" th:value="${src.userId}"/></td>
+				<td th:text="${src.firstName}+' '+${src.middleName}+' '+${src.lastName}"></td>
+				<td th:text="${src.oldProfileAtrribute}"></td>
+			<!--	<td  th:text="${src.profileChangeAtrribute}"></td>-->
+				
+				<td>
+			<table class="filtersearch">
+			<tr th:each="item:${src.profileChangeAtrributeSplit}">
+				<td th:text="${item}"></td>
+			</tr>
+			</table>
+		   </td>
+				<td th:text="${src.createdBy}"></td>
+				<td>
+				<input type="button" class="butnn" value="Approve" th:attr="onclick='approveTransferIn(\''+approve+'\',\''+${src.userId}+'\',\''+${src.userAlias}+'\',\''+${src.oldProfileAtrribute}+'\',\''+${src.profileChangeAtrribute}+'\',\''+${src.seqNo}+'\')'">
+							    	<input type="button" class="butn" value="Disapprove" th:attr="onclick='submitRequestForm(\''+${src.userId}+'\',\''+disapprove+'\',\''+${src.seqNo}+'\',\''+${src.oldProfileAtrribute}+'\')'">
+				</td>
+			</tr> 
+			</tbody>
+		</table>
+		</div>
+		</div>
+		</div>
+		</div>
+	
+<div class="normalbgback"><div class="showalert"> <p th:text="${success}" class="errors" style="margin-bottom:0"></p></div> </div>
+<div class="normalbgback"><div class="showalert"> <p th:text="${errorMassage}" class="errors" style="margin-bottom:0"></p></div> </div>
+
+		</div>
+ 
+<form name="approveReq" method="post" id="approveTraInForm" th:action="@{/co/approvalTransferIn}">
+
+<input type="hidden" name="event" id="event"/>
+<input type="hidden" name="personalNo" id="personalNo"/>
+<input type="hidden" name="transferTo" id="transferTo"/>
+<input type="hidden" name="sequence" id="sequence"/>
+<input type="hidden" name="userId" id="userId" />
+<input type="hidden" name="groupId" th:value="${groupId}">
+<input type="hidden"  name="loginVisitorUnitAirPaoId" th:value="${loginVisitorUnitAirPaoId}">
+<input type="hidden"  name="loginVisitorUnitPaoId" th:value="${loginVisitorUnitPaoId}">
+<input type="hidden"  name="unitServiceId" th:value="${unitServiceId}">
+  
+<div id="disApproveDiv" class="disApproveDiv">
+<div id="program" class="programBlock">
+                        <div class="welcomebox" style="margin-bottom:1rem">
+                            <div class="welcomeHead">
+                                <p th:text="#{co.tranfer.in.user.tran.to.rejectreason}">
+                                </p>
+                            </div>
+                            <div class="welcomecont">
+	<table id="loginForm" class="filtersearch">
+		 <tbody class="all1">
+		<tr><td class="lablevalue" style="width:20%"><span th:text="#{co.tranfer.in.user.tran.to.reason}"></span></td>
+			<td style="width:80%"><input type="text" id="disapproveDetail" name="reason" size="60" maxlength="100" autocomplete="off"></td>
+		</tr>
+		 <tr>
+		 	<td colspan="2">
+				<input type="button" class="butn" value="Submit" onclick=" submitDisapprove('${$formAction}','disapprove','${travelerXML/traveler/SEQUENCE_NUMBER}');"/>	
+<!-- 				<input type="button" class="butn" value="Back" onclick=" doBack('transferInApproval','back');"/>			 -->
+<!--                       <button class="butn" value="Back"> <a th:href = "@{/co/approvalTransferIn}"></a> </button> -->
+                   
+                   <a th:href = "@{/co/approvalTransferIn}">
+                   <button class="butn" >
+                   Back
+                   </button>
+                   </a>
+                   
+			</td>
+		</tr> 
+		</tbody>
+</table>
+</div>
+</div>
+</div>
+ </div>
+ 		
+</form>
+</div>
+</div>
+</div>
+</section>
+<section>
+<div class="blank"></div>
+</section>
+	<section>
+		<div th:insert="~{fragments/login/footer}"></div>
+	</section>
+<script type="text/javascript">
+
+var disAppDiv=document.getElementById("disApproveDiv");
+disAppDiv.style.display='none';
+
+</script>
+
+
+</body>
+</html>

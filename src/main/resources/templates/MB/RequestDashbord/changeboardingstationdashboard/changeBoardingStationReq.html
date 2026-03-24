@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+<script>
+	$(document).ready(function () {
+
+		$.validator.addMethod(
+			"regex",
+			function (value, element, regexp) {
+				return this.optional(element) || regexp.test(value);
+			},
+			"Please enter valid details."
+		);
+		$("#boardingPnrForm").validate({
+
+			rules: {
+				pnrNo: {
+					regex: /^[0-9]+$/,
+					maxlength: 10,
+					minlength: 10
+
+				},
+			},
+
+			messages: {
+				pnrNo: {
+					regex: "Only numeric allowed in PNR Number",
+					maxlength: "Data Length for field PNR Number should be minimum 10 and maximum 10",
+					minlength: "Data Length for field PNR Number should be minimum 10 and maximum 10"
+				},
+
+			},
+			errorElement: "em",
+			errorPlacement: function (error, element) {
+				// Add the `help-block` class to the error element
+				error.addClass("help-block");
+
+				if (element.prop("type") === "checkbox") {
+					error.insertAfter(element.parent("label"));
+				} else {
+					error.insertAfter(element);
+				}
+			},
+			highlight: function (element, errorClass, validClass) {
+				$(element).parents(".errorMessage").addClass("has-error").removeClass("has-success");
+			},
+			unhighlight: function (element, errorClass, validClass) {
+				$(element).parents(".errorMessage").addClass("has-success").removeClass("has-error");
+			}
+		});
+	});
+
+	function Proceed() {
+
+		var pnr = $('#pnrNo').val();
+		var bookingId = $('#bookingId').val();
+
+		if (pnr == '' && bookingId == '') {
+
+			alert("PNR and Booking Id can not be Empty ");
+			return false;
+		}
+
+		$("#boardingPnrForm").submit();
+		
+
+	}
+	function submitBoardingPoint() {
+
+		var oldBoardingPoint = $('#newBoardingPoint option:selected').val();
+		var newbBoardingPoint = $('#boardingPoint').val();
+	
+		if (newbBoardingPoint == oldBoardingPoint) {
+			alert("Selected Boarding Point Is Same as Your Current Boarding Point, Kindly Select the Boarding Point You Want To Change");
+			return false;
+		}
+
+		$("#changeBoardingStationForm").submit();
+
+	}
+</script>
+
+
+<body oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+
+	<div th:insert="~{fragments/header/mainHeader}">...</div>
+
+	<section id="midpart" class="midpart">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-1"></div>
+				<div class="col-lg-10">
+					<form th:action="@{/mb/getBoardingStationDtls}" method="post" id="boardingPnrForm"
+						name="boardingPnrForm">
+						<div id="program" class="programBlock">
+							<div class="welcomebox">
+								<div class="welcomeHead">
+
+									<p>
+										Change Boarding Station DashBoard
+									</p>
+								</div>
+								<div class="welcomecont">
+									<table class="filtersearch">
+										<tbody class="all1">
+											<tr>
+												<td style="width:25%">PNR Number <Span class="text-danger"></Span></td>
+												<td class="errorMessage"><input name="pnrNo" type="text" id="pnrNo"
+														class="txtfldM" th:value="${pnrNo}" autocomplete="off"
+														maxlength=10></td>
+
+												<td style="width:25%">Booking ID <Span class="text-danger"></Span></td>
+												<td class="errorMessage"><input name="bookingId" type="text"
+														id="bookingId" class="txtfldM" th:value="${bookingId}"
+														autocomplete="off" maxlength=10></td>
+											</tr>
+											<tr>
+												<td colspan="4" style="text-align:right">
+													<input name="filter" type="button" value="Proceed" id="filter"
+														class="butn" th:attr="onclick='Proceed()'">
+
+												</td>
+											</tr>
+
+										</tbody>
+
+									</table>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-1"></div>
+				<div class="col-lg-10">
+					<div id="program" class="programBlock" th:unless="${pnrData}==null">
+						<form th:action="@{/mb/updateBoardingPoint}" method="post" id="changeBoardingStationForm"
+							name="changeBoardingStationForm">
+							<input type="hidden" name="bookingId" th:value="${pnrData.bookingId}">
+							<input type="hidden" name="pnrNumber" th:value="${pnrData.pnrNumber}">
+							<input type="hidden" name="traninNumber" th:value="${pnrData.traninNumber}">
+							<input type="hidden" name="boardingDate" th:value="${pnrData.boardingDate}">
+							<input type="hidden" name="journeyDate" th:value="${pnrData.journeyDate}">
+							<input type="hidden" id="boardingPoint" name="boardingPoint" th:value="${pnrData.boardingPoint}">
+
+							<div class="welcomebox">
+								<div class="welcomeHead">
+
+									<p>
+										Boarding Station Details
+									</p>
+								</div>
+								<div class="welcomecont">
+									<table class="filtersearch">
+
+										<tbody class="all1">
+											<tr class="lablevalue">
+												<td>Ticket Number</td>
+												<td>Booking ID</td>
+												<td>PNR Number</td>
+												<td>Booking Status</td>
+												<td>Boarding Date</td>
+												<td>Boarding Point</td>
+												<td>From Station</td>
+												<td>To Station</td>
+
+											</tr>
+											<tr>
+
+												<td th:text="${pnrData.ticketNumber}"></td>
+												<td th:text="${pnrData.bookingId}"> </td>
+												<td th:text="${pnrData.pnrNumber}"> </td>
+												<td th:text="${pnrData.bookingStatus}"> </td>
+												<td th:text="${pnrData.boardingDate}"> </td>
+												<td><select name="newBoardingPoint" id="newBoardingPoint" class="combo"
+														style="width:70%">
+														<option value="">Select</option>
+														<option th:text="${list.value}"
+															th:each="list:${pnrData.boardingStationMap}"
+															th:value="${list.key}"
+															th:selected="${list.key} == ${pnrData.boardingPoint}">
+														</option>
+													</select></td>
+												<td th:text="${pnrData.fromStation}"> </td>
+												<td th:text="${pnrData.toStation}"> </td>
+												<td colspan="4" style="text-align:right">
+													<input name="filter" type="button" value="Submit" id="filter"
+														class="butn" th:attr="onclick='submitBoardingPoint()'">
+
+												</td>
+
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</form>
+					</div>
+
+					<div>
+
+						<p class="errors" style="margin-bottom:0" th:text="${error}"></p>
+					</div>
+
+
+
+				</div>
+			</div>
+		</div>
+	</section>
+	<section>
+		<div class="blank"></div>
+	</section>
+	<section>
+		<div th:insert="~{fragments/login/footer}"></div>
+	</section>
+</body>
+
+</html>

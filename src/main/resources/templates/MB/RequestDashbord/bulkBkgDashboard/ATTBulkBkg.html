@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+<link rel="stylesheet" type="text/css"
+	th:href="@{/css/common/popup/LightFace.css}">
+<script th:src="@{/js/common/popup/mootools.js}">
+	
+</script>
+<script th:src="@{/js/common/popup/LightFace.js}">
+	
+</script>
+<script th:src="@{/js/common/popup/LightFace.Request.js}">
+	
+</script>
+
+<script
+	th:src="@{/js/MB/RequestDashBoard/bulkBkgDashboard/ATTAirBulkBkg.js(random=${session.jsToken})}">
+	
+</script>
+
+<style>
+.screen-freeze {
+	background-color: white;
+	display: none;
+	height: 100%;
+	left: 0;
+	opacity: 0.7;
+	position: absolute;
+	right: 0;
+	top: 0;
+	z-index: 99999;
+}
+</style>
+<body
+	oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+
+	<div th:insert="~{fragments/header/mainHeader}"></div>
+
+	<section id="midpart" class="midpart">
+		<div class="container-fluid">
+			<div class="row">
+
+				<div class="col-lg-12">
+					<div id="filters">
+						<div id="centercontbody">
+							<div id="filters">
+								<div style="margin-top: 10px;">
+									<div class="filter_left">
+										<div class="filter_right"></div>
+									</div>
+									<div class="search">
+										<B>Passengers</B>
+									</div>
+									<div class="pricefilterresult" style="border: 0px solid #ccc;">
+										<table style="width: 100%">
+											<tbody>
+												<tr>
+													<td style="width: 60%; text-align: right;">Adult (s):</td>
+													<td style="width: 60%; text-align: right;"><span
+														th:text="${attFareModel.travellerDetails.adultCount}">
+													</span></td>
+													<td style="width: 10%"></td>
+												</tr>
+												<tr>
+													<td style="width: 60%; text-align: right;">Child (s):</td>
+													<td style="width: 60%; text-align: right;"><span
+														th:text="${attFareModel.travellerDetails.childCount}">
+													</span></td>
+													<td style="width: 10%"></td>
+												</tr>
+												<tr>
+													<td style="width: 60%; text-align: right;">Infant (s):</td>
+													<td style="width: 60%; text-align: right;"><span
+														th:text="${attFareModel.travellerDetails.infantCount}">
+													</span></td>
+													<td style="width: 10%"></td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+
+									<div class="pricefilter">Fare Details</div>
+									<div class="pricefilterresult" style="border: 0 solid #ccc;">
+										<table style="width: 100%;">
+											<tbody>
+												<tr>
+													<td style="width: 60%; text-align: right;">Flight Base
+														Fare:</td>
+													<td style="width: 60%; text-align: right;"><span
+														th:text="${attFareModel.flightDetailFare.totalBaseFare}">
+													</span></td>
+													<td style="width: 10%"></td>
+												</tr>
+												<tr>
+													<td style="width: 60%; text-align: right;">Total Tax:
+													</td>
+													<td style="width: 60%; text-align: right;"><span
+														th:text="${attFareModel.flightDetailFare.totalTax}">
+													</span></td>
+													<td style="width: 10%"></td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+
+									<div class="pricefilter">Additional Charges</div>
+									<div class="pricefilterresult" style="border: 0 solid #ccc;">
+										<table style="width: 100%">
+											<tbody>
+												<tr>
+													<td style="width: 60%; text-align: right;">Service
+														Fee:</td>
+													<td style="width: 60%; text-align: right;"><span
+														th:text="${attFareModel.flightDetailFare.serviceFee}">
+													</span></td>
+													<td style="width: 10%"></td>
+												</tr>
+												<tr>
+													<td style="width: 60%; text-align: right;">Service
+														Tax:</td>
+													<td style="width: 60%; text-align: right;"><span
+														th:text="${attFareModel.flightDetailFare.serviceTax}">
+													</span></td>
+													<td style="width: 10%"></td>
+												</tr>
+												<tr>
+													<td style="width: 60%; text-align: right;">Discounts:</td>
+													<td style="width: 60%; text-align: right;"><span
+														th:text="${attFareModel.flightDetailFare.discount}">
+													</span></td>
+													<td style="width: 10%"></td>
+												</tr>
+												<tr>
+													<td style="width: 60%; text-align: right;">Total
+														Price:</td>
+													<td style="width: 60%; text-align: right;"><span
+														th:text="${attFareModel.flightDetailFare.totalNet}">
+													</span></td>
+													<td style="width: 10%"></td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div id="travellerDtlDiv">
+						<div id="searchresult">
+
+							<form id="AttBookingDetailForm" name="AttBookingDetailForm"
+								th:action="@{/mb/confirmAttAirBulkBkg}" method="post">
+								<input type="hidden" name="adultCount"
+									th:value="${#lists.size(attFareModel.travellerDetails.adult)}"
+									id="adultCount"> <input type="hidden" name="domInt"
+									th:value="${attFareModel.travellerDetails.domint}" id="domInt"> <input type="hidden" name="validatedReason"
+									th:value="${validatedReason}" id="validatedReason"> <input
+									type="hidden" name="isValidatedCase"
+									th:value="${isValidatedCase}" id="isValidatedCase"> <input
+									type="hidden" name="flightKey" id="flightKey"
+									th:value="${attFareModel.bookingKey}"> <input type="hidden"
+									name="flightNumber" id="flightNumber"
+									th:value="${attFareModel.flightDetailLeg[0].flightNumber}" />
+								<input type="hidden" name="carrier" id="carrier"
+									th:value="${attFareModel.flightDetailLeg[0].carrier}" /> <input
+									type="hidden" name="bulkBkgId" id="requestId"
+									th:value="${attFareModel.requestId}" /> 
+									<input type="hidden"
+									name="leadMobile" id="leadMobile" /> <input type="hidden"
+									name="leadEmail" id="leadEmail" /> <input type="hidden"
+									name="totalFlightFare" id="totalFlightFare"
+									th:value="${attFareModel.flightDetailFare.totalNet}" /> <font
+									color="red" size="2">Please confirm traveler names, in
+									case of mismatch abort the booking and contact DTS Air
+									Helpline.</font><br /> <font color="red" size="2">Please
+									do check RT PCR requirements for the respective state of travel
+									before booking your tickets to avoid last-minute inconvenience
+									at the airport.</font>
+								<table class="arialeleven" style="margin-top: 10px; width: 100%"
+									border="0" cellpadding="2" cellspacing="1">
+
+									<tr th:if="${attFareModel.finalDestination}==''">
+										<td></td>
+									</tr>
+
+									<tbody th:if="${attFareModel.finalDestination} !=''">
+
+										<tr>
+											<td colspan="2" class="headstrip"><span
+												th:text="${attFareModel.flightDetailLeg[0].originName}"></span>
+												<span>To</span> <span
+												th:text="${attFareModel.finalDestination}"></span></td>
+											<td colspan="2" class="headstrip" style="text-align: center"><span>Request
+													Id:</span> <span th:text="${attFareModel.requestId}"></span></td>
+											<td colspan="2" class="headstrip"
+												style="text-align: right; white-space: nowrap; text-overflow: ellipsis;">
+												<font style="color: #3399ff;"> Service Provide: Ashok
+													Travels & Tours</font>
+											</td>
+										</tr>
+
+										<tr>
+											<td class="borderB" style="text-align: center" height="25"
+												colspan="2"><strong>Flight</strong></td>
+											<td class="borderB"><strong>Departs</strong></td>
+											<td class="borderB"><strong>Arrives</strong></td>
+											<td class="borderB"><strong>Duration</strong></td>
+											<td class="borderB"><strong>Class</strong></td>
+										</tr>
+
+										<tr class="borderB" height="40"
+											th:each="sr :${attFareModel.flightDetailLeg}">
+											<td style="height: 30px; width: 10%">
+												<div th:class="${sr.carrierImageClass}"></div>
+											</td>
+											<td style="height: 30px; width: 10%"><span
+												th:text="${sr.carrierName}"></span><br> <span
+												th:text="${sr.carrier}"> </span>-<span
+												th:text="${sr.flightNumber}"> </span></td>
+											<td style="width: 30%;"><strong> <span
+													th:text="${sr.originName}"></span>
+											</strong> <span th:text="${sr.departureTime}"></span>, <span
+												th:text="${sr.departureDate}"></span>, <br /> <span
+												th:text="${sr.originName}"></span> Terminal <span
+												th:text="${sr.departureTerminal}"></span></td>
+											<td style="width: 30%;"><strong> <span
+													th:text="${sr.destinationName}"></span>
+											</strong> <span th:text="${sr.arrivalTime}"></span>, <span
+												th:text="${sr.arrivalDate}"></span>, <br /> <span
+												th:text="${sr.destinationName}"></span> Terminal <span
+												th:text="${sr.arrivalTerminal}"></span></td>
+											<td style="width: 15%;"><span
+												th:text="${sr.journeyDuration}"></span></td>
+											<td style="width: 10%;"><span th:text="${sr.cabinClass}"></span>(<span
+												th:text="${sr.bookingClass}"></span>)</td>
+										</tr>
+
+
+
+
+										<tr>
+											<td style="width: 30%;" colspan="6">
+												<!--Section To Select Onward Lead Passanger Starts By Vishal -->
+
+												<table
+													style="border-top: 1px solid #ccc; font: 12px arial; width: 100%;"
+													cellpadding="2" cellspacing="1">
+													<tbody>
+														<tr>
+															<td>
+																<table class="arialtwelve" border="0" cellpadding="1"
+																	cellspacing="1" width="100%">
+																	<tbody>
+																		<tr style="text-align: center" bgcolor="#f1f1f1">
+																			<td style="height: 15; width: 25%; text-align: left">
+																				<strong>Adult Details</strong>
+																			</td>
+																			<td style="width: 25%; text-align: left"><strong>Passenger
+																					Name</strong></td>
+																			<td style="width: 25%; text-align: left"><strong>Email</strong></td>
+																			<td style="width: 25%; text-align: left"><strong>Contact
+																					No</strong></td>
+																		</tr>
+																		<!--Adult Block Start-->
+
+
+																		<tr
+																			th:if="${attFareModel.travellerDetails.adultCount}==null">
+																			<td></td>
+																		</tr>
+
+
+																		<tr
+																			th:if="${attFareModel.travellerDetails.adultCount}!=null">
+																			<td class="headings"></td>
+																		</tr>
+
+																		<tr style="text-align: left;"
+																			th:if="${attFareModel.travellerDetails.adultCount}!=0"
+																			th:each="item:${attFareModel.travellerDetails.adult}">
+																			<!-- 																<td -->
+																			<!-- 																	style="height: 25%;float: left;width: 36%; text-align:center;"> -->
+																			<!-- 																	<input th:id="@{|Check_${itemStat.index}|}" -->
+																			<!-- 																		name="leadCheck" th:value="${item.count}" -->
+																			<!-- 																		th:attr="onclick='hideAndShowTr(\''+${itemStat.index}+'\',\''+${item.email}+'\',\''+${item.mobileNo}+'\')'" -->
+																			<!-- 																		type="checkbox" > -->
+
+																			<!-- 																</td> -->
+
+																			<td
+																				style="height: 25%; float: left; width: 36%; text-align: center;">
+																				<span th:text="${itemStat.index + 1}"></span>
+																			</td>
+
+																			<td class="borderB"><span
+																				th:text="${item.firstName}+' '"></span><span
+																				th:text="${item.lastName}"></span> <input
+																				name="travellerFirstName"
+																				th:id="@{|travellerFirstName${itemStat.index}|}"
+																				readonly="readonly" th:value="${item.firstName}"
+																				class="nortxtfld" maxlength="45"
+																				style="text-transform: uppercase" type="hidden" />
+																				<input name="travellerLastName"
+																				th:id="@{|travellerLastName${itemStat.index}|}"
+																				readonly="readonly" th:value="${item.lastName}"
+																				class="nortxtfld" maxlength="45"
+																				style="text-transform: uppercase" type="hidden" />
+																			</td>
+																			<td th:class="borderB"><input
+																				th:attr="name='adultList[__${itemStat.index}__].travellerEmail'"
+																				th:id="@{|travellerEmail${itemStat.index}|}"
+																				th:value="${item.email}" class="nortxtfld"
+																				maxlength="50" type="text" autocomplete="off"
+																				style="text-transform: uppercase;" /></td>
+																			<td th:class="borderB"><input
+																				th:attr="name='adultList[__${itemStat.index}__].travellerContact'"
+																				th:id="@{|travellerContact${itemStat.index}|}"
+																				th:value="${item.mobileNo}" class="nortxtfld"
+																				maxlength="12" type="text" autocomplete="off"
+																				style="text-transform: uppercase;" /></td>
+
+																			<td th:class="borderB"><input
+																				th:attr="name='adultList[__${itemStat.index}__].count'"
+																				th:id="@{|count${itemStat.index}|}"
+																				th:value="${item.count}" class="nortxtfld"
+																				type="hidden" /></td>
+
+																			<td th:class="borderB"><input
+																				th:attr="name='adultList[__${itemStat.index}__].requestId'"
+																				th:id="@{|requestId${itemStat.index}|}"
+																				th:value="${item.requestId}" class="nortxtfld"
+																				type="hidden" /></td>
+
+																		</tr>
+
+																		<!-- Adult Block End -->
+																	</tbody>
+																</table>
+															</td>
+														</tr>
+													</tbody>
+												</table>
+											</td>
+										</tr>
+										<!--Section To Select Onward Lead Passanger Ends By Vishal -->
+
+
+
+									</tbody>
+								</table>
+								<br>
+
+								<table
+									style="border-top: 1px solid #ccc; font: 12px arial; padding-top: 10px; width: 100%; border: 0"
+									cellpadding="2" cellspacing="0">
+									<tbody
+										th:if="${attFareModel.travellerDetails.domint}==International">
+										<tr>
+											<td><b>Extra Baggage Required ?</b></td>
+											<td><checkbox id="baggage_confirm"
+													onclick="validateBaggage();" /> <input type="hidden"
+												name="isBaggageAllowed" id="isBaggageAllowed"
+												th:value="${attFareModel.travellerDetails.baggageAllow}">
+											</td>
+											<td><b>Extra Baggage Weight</b></td>
+											<td><input type="text" name="baggageWeight"
+												id="baggage_Weight" value="0" readonly="true" maxlength="3"
+												onkeypress="isNumericOnlyKey(this)" />Kg</td>
+										</tr>
+									</tbody>
+									<tbody
+										th:if="${attFareModel.travellerDetails.domint} !=International">
+									</tbody>
+								</table>
+
+								<br />
+
+								<table
+									style="border-top: 1px solid #ccc; font: 12px arial; padding-top: 10px;"
+									border="0" cellpadding="2" cellspacing="0" width="100%">
+									<tbody>
+
+										<tr
+											th:if="${attFareModel.travellerDetails.domint}==International">
+											<td colspan="4"><checkbox id="int_confirm_1" />&#160;The
+												requirements for the Transit Visa have been checked and
+												confirmed</td>
+										</tr>
+										<tr
+											th:if="${attFareModel.travellerDetails.domint}==International">
+											<td colspan="4"><checkbox id="int_confirm_2" />&#160;The
+												requirements for the COVID Protocol in the destination and
+												intermediate cities have been checked and followed</td>
+										</tr>
+										<tr
+											th:if="${attFareModel.travellerDetails.domint}==International">
+											<td colspan="4"><checkbox id="int_confirm_3" />&#160;The
+												requirements for the Travel Insurance have been checked and
+												confirmed</td>
+										</tr>
+										<tr
+											th:if="${attFareModel.travellerDetails.domint}==International">
+											<td colspan="4"><checkbox id="int_confirm_4" />&#160;The
+												maximum baggage limit has been checked and confirmed by the
+												service provider or airlines</td>
+										</tr>
+										<tr
+											th:if="${attFareModel.travellerDetails.domint}==International">
+											<td colspan="4"><checkbox id="int_confirm_5" />&#160;It
+												is understood that no changes to the tickets will be done
+												after booking the ticket</td>
+										</tr>
+										<tr
+											th:if="${attFareModel.travellerDetails.domint}!=International">
+										</tr>
+
+										<tr>
+											<td style="width: 73%"><input id="confirmCheck"
+												name="confirmCheck" value="checkbox" type="checkbox" /> I
+												have checked passenger names &amp; all journey details, read
+												and accepted the <a href="javaScript:void(0)"
+												onclick="viewUser();">User</a> <a href="javaScript:void(0)"
+												onclick="govtOrder();">Airline Agreement</a></td>
+											<td style="width: 8%"></td>
+											<td class="totalfare" style="width: 10%">Total</td>
+											<td class="totalfare" style="width: 10%">Rs.<span
+												th:text="${attFareModel.flightDetailFare.totalNet}">
+											</span>/-
+											</td>
+										</tr>
+										<tr>
+											<td colspan="4" style="padding-top: 20px; text-align: right;">
+												<button type="button" onclick="submitTravDtls(this.form);"
+													class="butn booking-btn">Proceed for Booking</button>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+
+
+
+
+
+							</form>
+						</div>
+					</div>
+
+					<div id="popUp" style="display: none;"></div>
+
+					<div id="layer1" style="display: none;">
+						<div id="middle">
+							<table width="100%" border="0" align="center" cellpadding="1"
+								cellspacing="1" bgcolor="#ffffff" class="arialtwelve"
+								style="border: 5px solid #1F67A1;">
+								<tr>
+									<td width="50%" height="80" class="borderB">
+										<!--div class="erslogo"> </div-->
+									</td>
+									<td width="50%" class="borderB"></td>
+								</tr>
+								<tr align="center">
+									<td colspan="2"></td>
+								</tr>
+								<tr align="center">
+									<td colspan="2" class="greybold"><strong>Continue...</strong></td>
+								</tr>
+								<tr>
+									<td></td>
+									<td></td>
+								</tr>
+								<tr>
+									<td></td>
+									<td></td>
+								</tr>
+
+								<tr>
+									<td align="right"></td>
+									<td></td>
+								</tr>
+								<tr align="center">
+									<td class="greybold">Your booking request has been
+										forwarded to the service provider.</td>
+								</tr>
+								<tr align="center">
+									<td class="greybold">Please, wait for a moment. Do not
+										close or refresh this window.</td>
+								</tr>
+
+							</table>
+						</div>
+					</div>
+					<div class="screen-freeze" id="screen-freeze">
+						<div style="margin: 15% 0% 0% 45%">
+							<img th:src="@{/images/spinning_wheel_96x96px.gif}" alt="" />
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section>
+		<div class="blank"></div>
+	</section>
+	<section>
+		<div th:insert="~{fragments/login/footer}"></div>
+	</section>
+
+</body>

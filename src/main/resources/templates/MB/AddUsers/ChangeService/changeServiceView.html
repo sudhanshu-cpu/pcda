@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+
+<body oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+
+
+		<div th:insert="~{fragments/header/mainHeader}">...</div>
+
+		<section id="midpart" class="midpart">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-lg-1"></div>
+					<div class="col-lg-10">
+						<div id="program" class="programBlock">
+							<div class="welcomebox" style="margin-bottom:1rem">
+								<div class="welcomeHead">
+									<p th:text="#{addusers.changeService.view}">
+										
+									</p>
+								</div>
+								<div class="welcomecont">
+									<table class="filtersearch">
+										<tbody class="all1">
+											<tr>
+												<td class="lablevalue" th:text="#{addusers.changeService.tpno}"></td>
+												<td th:text="${view.personalNumber}"></td>
+
+													<td class="lablevalue" th:text="#{addusers.changeService.tname}"></td>
+												<td th:text="${view.personalName}"></td>
+											</tr>
+
+											<tr>
+													<td class="lablevalue" th:text="#{addusers.changeService.touser}"></td>
+												<td th:text="${view.oldUnitService}"></td>
+													<td class="lablevalue" th:text="#{addusers.changeService.tnuser}"></td>
+												<td th:text="${view.newUnitService}"></td>
+											</tr>
+
+											<tr>
+												<td class="lablevalue" th:text="#{addusers.changeService.tous}"></td>
+											<td th:text="${view.oldUserService}"></td>
+											<td class="lablevalue" th:text="#{addusers.changeService.tnus}"></td>
+											<td th:text="${view.newUserService}"></td>
+											</tr>
+
+											<tr>
+												<td class="lablevalue" th:text="#{addusers.changeService.toc}"></td>
+											<td th:text="${view.oldCategory}"></td>
+												<td class="lablevalue" th:text="#{addusers.changeService.tnc}"></td>
+											<td th:text="${view.categoryId}"></td>
+											</tr>
+
+												<tr>
+												<td class="lablevalue" th:text="#{addusers.changeService.tol}"></td>
+											<td th:text="${view.oldLevel}"></td>
+												<td class="lablevalue" th:text="#{addusers.changeService.tnl}"></td>
+											<td th:text="${view.newLevelName}"></td>
+											</tr>
+
+												<tr>
+												<td class="lablevalue" th:text="#{addusers.changeService.tor}"></td>
+											<td th:text="${view.oldRank}"></td>
+											<td class="lablevalue" th:text="#{addusers.changeService.tnr}"></td>
+											<td th:text="${view.rankId}"></td>
+											</tr>
+
+												<tr>
+											<td class="lablevalue" th:text="#{addusers.changeService.topao}"></td>
+											<td th:text="${view.oldPayAccOff}"></td>
+												<td class="lablevalue" th:text="#{addusers.changeService.tnpao}"></td>
+											<td th:text="${view.newPayAcOff}"></td>
+											</tr>
+
+											<tr>
+												<td class="lablevalue" th:text="#{addusers.changeService.rtsc}"> </td>
+											<td th:text="${view.reason}"></td>
+											<td class="lablevalue" th:text="#{addusers.changeService.date}"> </td>
+											<td th:text="${view.creationDateStr}"></td>
+											</tr>
+
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+						<div style="width:100%;text-align:right">
+							<a th:href="@{/mb/navyChangeService}"><button class="butn" type="button">Back</button></a>
+						</div>
+						<div class="mandatory" style="text-align:center;padding-top:2%">
+								<p style="font-size:17px; color:red" class="lablevalue" th:text="#{addusers.changeService.msg}"></p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+
+
+
+
+
+
+
+
+</body>
+
+</html>

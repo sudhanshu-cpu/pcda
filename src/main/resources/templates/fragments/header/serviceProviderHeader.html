@@ -1,0 +1,75 @@
+ <!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+ <ul class="list">
+	 <li class="list-items">
+	    <div class="dropdown">
+	        <a class="nav-link dropdown-toggle" href="javascript:void(0)"
+	            role="button" data-bs-toggle="dropdown">Home</a>
+	        <div class="dropdown-content">
+	            <ul class="navigation">
+	                <li>
+	                    <a th:href="@{/serpov/home}">Home</a>
+	                </li>
+	                <li>
+	                    <a href="javascript:void(0)">Travel Rules<span style="margin-left:5px">&rsaquo;</span></a>
+	                    <div class="sub-menu">
+	                        <ul class="submenu-list">
+	                            <li class="submenu-listitems">
+	                                <a th:href="@{/serpov/trArmedForcesHome}">
+	                                    For Armed Forces
+	                                </a>
+	                            </li>
+	                            <li class="submenu-listitems">
+	                                <a th:href="@{/serpov/trCivHome}">
+	                                    For Civilians
+	                                </a>
+	                            </li>
+	                        </ul>
+	                    </div>
+	                </li>
+	                <li>
+	                    <a th:href="@{/serpov/downloadsHome}">Downloads</a>
+	                </li>
+	                <li>
+	                    <a th:href="@{/serpov/instructionsHome}">Gov't Order & Instructions</a>
+	                </li>
+<!-- 	                <li> -->
+<!-- 	                    <a th:href="@{/serpov/feedBackSuggestion}">Feedback & Suggestions</a> -->
+<!-- 	                </li> -->
+	                <li>
+	                    <a th:href="@{/serpov/usefulLink}">Useful Links</a>
+	                </li>
+	                <li>
+	                    <a th:href="@{/serpov/contactHome}">Contact Us</a>
+	                </li>
+	                <li>
+	                    <a th:href="@{/serpov/faqs}">FAQ</a>
+	                </li>
+	                <li>
+	                    <a th:href="@{/serpov/eTutorial}">e-Tutorials</a>
+	                </li>
+	            </ul>
+	        </div>
+	    </div>
+	</li>
+	<li class="list-items">
+	    <div class="dropdown">
+	        <a class="nav-link dropdown-toggle"
+	            href="javascript:void(0)" role="button" data-bs-toggle="dropdown">Reports</a>
+	        <div class="dropdown-content">
+	            <ul class="navigation">
+	                <li>
+	                    <a th:href="@{/serpov/searchVouchAckSP}">Voucher Acknowledgement</a>
+	                </li>
+	                <li>
+	                    <a th:href="@{/serpov/getAirBookingUpdation}">Air Booking Updation</a>
+	                </li>
+	                <li>
+	                    <a th:href="@{/serpov/getAirRefundUpdation}">Air Refund Updation</a>
+	                </li>
+	            </ul>
+	        </div>
+	    </div>
+	</li>
+ </ul>

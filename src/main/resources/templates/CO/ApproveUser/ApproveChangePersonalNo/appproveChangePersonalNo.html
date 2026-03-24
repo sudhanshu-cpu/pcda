@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+
+
+<script>
+
+function disApprove(seq,userId){
+	$("#sequenceNo").val(seq);
+	$("#userId").val(userId);
+	$("#approve").hide();
+	$("#disApprove").show();
+}
+
+
+function changePersonalNoApprove(seq,userId){
+	$("#sequenceNo").val(seq);
+	$("#userId").val(userId);
+	
+	$("#changePnoAppr").submit();
+}
+
+function ChangePnoDisApprove(){
+	
+	var reason =$("#disapproveDetail").val().trim();
+//alert(reason);
+if(reason==''){
+	alert("Please Select Reason");
+	preventDefault();
+	return false;
+}else{
+	$("#changePnoAppr").attr('action',$("#context_path").val()+ "co/disApproveChangePno");
+	$("#changePnoAppr").submit();
+}
+return false;
+}
+
+</script>
+<body oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+		<div th:insert="~{fragments/header/mainHeader}">...</div>
+		<section class="midpart">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-lg-1"></div>
+					<div class="col-lg-10">
+						<div class="programBlock">
+						<form th:action=@{approveChangePno} method="post" id="changePnoAppr">
+						<input type="hidden" name="sequenceNo" id="sequenceNo">
+						<input type="hidden" name="userId" id="userId">
+							<div class="welcomebox" style="margin-bottom:1rem" id="approve">
+								<div class="welcomeHead">
+									<p>
+										Dashboard For Change Personal Number Approval
+									</p>
+								</div>
+								
+								<div class="welcomecont">
+									<table class="filtersearch">
+										<tbody class="all">
+											<tr>
+												<td class="lablevalue">
+													Personal No
+												</td>
+												<td class="lablevalue">
+													New Personal No
+												</td>
+												<td class="lablevalue">
+													Personal Detail
+												</td>
+												<td class="lablevalue">
+													New Personal Detail
+												</td>
+												<td class="lablevalue">
+													Actions
+												</td>
+										</tbody>
+											<tbody class="all" th:each="src:${approveData}">
+								<tr>
+									<td th:text="${src.oldPersonalNo}"></td>
+
+									<td th:text="${src.newPersonalNo}"></td>
+									<td th:text="${src.oldAttributeList}"></td>
+									<td th:text="${src.newAttributeList}"></td>
+
+									<td style="width:15%">
+									<button type="button" name="Approve" class="butn" th:attr="onclick='changePersonalNoApprove(\''+${src.seq}+'\',\''+${src.userId}+'\')'">Approve</button>
+									<button type ="button" name="DissApprove" class="butn" th:attr="onclick='disApprove(\''+${src.seq}+'\',\''+${src.userId}+'\')'">DisApprove</button>
+									
+									
+									</td>
+								</tr>
+							</tbody>
+									</table>
+								</div>
+							</div>
+							<div class="welcomebox" style="display:none" id="disApprove">
+								<div class="welcomeHead">
+									<p>
+										Disapprove Reason
+									</p>
+								</div>
+								<div class="welcomecont">
+									<table class="filtersearch">
+										<tbody class="all">
+											<tr>
+												<td class="lablevalue">
+													Reason for Disapproval Reasons
+												</td>
+												<td class="lablevalue">
+													<input name="remark" type="text" id="disapproveDetail"
+														size="60" maxlength="100" autocomplete="off">
+												</td>
+											</tr>
+											<tr>
+												<td colspan="2">
+													<button type="button"  class="butn"   onclick="ChangePnoDisApprove()">Submit</button>
+												<a th:href="@{/co/changePnoApp}"><button  class="butn"  type="button">Back</button></a>
+									
+													
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+<section>
+<div class="blank"></div>
+</section>
+	<section>
+		<div th:insert="~{fragments/login/footer}"></div>
+	</section>
+
+
+
+</body>
+
+</html>

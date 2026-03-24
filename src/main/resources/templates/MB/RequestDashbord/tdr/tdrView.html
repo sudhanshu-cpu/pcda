@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+
+<script th:src="@{/js/MB/RequestDashBoard/tdr/tdrEdit.js(random=${session.jsToken})}"> </script>
+<body oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+
+	<div th:insert="~{fragments/header/mainHeader}">...</div>
+
+	<section id="midpart" class="midpart">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-1"></div>
+				<div class="col-lg-10">
+					<form th:action="@{/mb/saveTdr}" id="tdrEditForm" name= "tdrBkgForm" method="post">
+						<div id="program" class="programBlock">
+							<div class="welcomebox">
+								<div class="welcomeHead">
+								<p>
+										You Already Filed TDR For This PNR No.
+									</p>
+									<p>
+										Ticket Details For TDR.
+									</p>
+								</div>
+								<div class="welcomecont">
+									<table class="filtersearch">
+										<tbody class="all1">
+
+
+											<tr>
+												<td class="lablevalue">Ticket Number</td>
+												<td><span th:text="${tktBkgViewData.ticketNo}"> </span>
+												</td>
+												<td class="lablevalue">PNR Number</td>
+												<td><span th:text="${tktBkgViewData.pnrNo}"> </span></td>
+											</tr>
+
+											<tr>
+												<td class="lablevalue">Train Number</td>
+												<td><span th:text="${tktBkgViewData.trainNumber}">
+													</span></td>
+												<td class="lablevalue">Train Name</td>
+												<td><span th:text="${tktBkgViewData.trainName}"> </span>
+												</td>
+											</tr>
+
+											<tr>
+												<td class="lablevalue">Date of Booking</td>
+												<td><span th:text="${tktBkgViewData.bookingDateStr}">
+													</span></td>
+												<td class="lablevalue">Date of Journey</td>
+												<td><span th:text="${tktBkgViewData.boardingDateStr}">
+													</span></td>
+											</tr>
+
+											<tr>
+												<td class="lablevalue">Quota</td>
+												<td><span th:text="${tktBkgViewData.journeyQuota}">
+													</span></td>
+												<td class="lablevalue">Class</td>
+												<td><span th:text="${tktBkgViewData.journeyClass}">
+													</span></td>
+											</tr>
+
+											<tr>
+												<td class="lablevalue">Personal No</td>
+												<td><span th:text="${tktBkgViewData.personalNo}"> </span>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+						<div id="program" class="programBlock">
+							<div class="welcomebox">
+								<div class="welcomeHead">
+									<p>
+										Passenger Details
+									</p>
+								</div>
+								<div class="welcomecont">
+									<table id='pnrDetails' class="filtersearch" cellpadding="4" cellspacing="1"
+										width="100%" border="0">
+										<tbody class="all1">
+											<tr class="lablevalue">
+												<td></td>
+												<td>S.No</td>
+												<td>Name</td>
+												<td>Gender</td>
+												<td>Age</td>
+												<td>Coach</td>
+												<td>Seat</td>
+												<td>Berth</td>
+											</tr>
+
+										</tbody>
+										
+
+										<tbody class="all1"	th:each="src,stat: ${tktBkgViewData.passengerList}">
+											
+											<tr>
+												<td> </td>
+												<td><span th:text="${src.passangerNo}"> </span>
+												</td>
+												<td><span th:text="${src.passangerName}"> </span>
+												</td>
+												<td><span th:text="${src.passSex}"> </span></td>
+												<td><span th:text="${src.passangerAge}"> </span></td>
+												<td><span th:text="${src.trnCoach}"> </span></td>
+												<td><span th:text="${src.trnSeat}"> </span></td>
+												<td><span th:text="${src.trnBerth}"> </span></td>
+											
+											</tr>
+										</tbody>
+
+
+
+
+
+
+
+
+									</table>
+								</div>
+							</div>
+						</div>
+
+
+<div class="welcomebox">
+						<table id='pnrDetails' class="filtersearch">
+						<tbody class="all1">
+							
+									<tr>
+										<td style="width:30%" class="lablevalue">On Official Ground</td>
+										<td style="width:70%">
+											<span type="radio" 
+												 th:text="${tktBkgViewData.tdrOnOfficalGround}" >Yes
+												 </span>
+											
+										</td>
+									</tr>
+							</tbody>
+
+						</table>
+
+</div>
+						<!--   TDR Reason and Approval Block End -->
+						
+
+
+								<div id="program" class="programBlock">
+									<div class="welcomebox">
+										<div class="welcomeHead">
+
+											<p>
+												TDR Reason
+											</p>
+										</div>
+										<div class="welcomecont">
+
+											<table id='pnrDetails' class="filtersearch" cellpadding="4" cellspacing="1"
+												width="100%" border="0">
+												<tbody class="all1" >
+													<tr>
+														<td style="width:30%" class="lablevalue">Guard Certificate Slip</td>
+														<td style="width:70%"> <span th:text="${tktBkgViewData.isGc}"></span> </td>
+													</tr>
+													<tr>
+														<td style="width:30%" class="lablevalue">Guard Certificate Slip Amount</td>
+														<td style="width:70%"> <span th:text ="${tktBkgViewData.gcAmount}"> </span> </td>
+													</tr>
+													<tr>
+														<td style="width:30%" class="lablevalue">Guard Certificate Slip No.</td>
+														<td style="width:70%"><span th:text="${tktBkgViewData.gcNumber}" > </span></td>
+													</tr>
+													<tr>
+														<td style="width:30%" class="lablevalue">Guard Certificate Date </td>
+														<td style="width:70%"><span th:text="${tktBkgViewData.gcDate}" > </span></td>
+													</tr>
+													<tr>
+														<td class="lablevalue">Reason to file TDR</td>
+														<td><span th:text="${tktBkgViewData.reasonOfTdr}" > </span></td>
+													</tr>
+
+													
+												</tbody>
+												
+											</table>
+										</div>
+									</div>
+								</div>
+							
+
+					</form>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section>
+<div class="blank"></div>
+</section>
+    <section>
+			<div th:insert="~{fragments/login/footer}"></div>
+		</section>
+</body>
+
+</html>

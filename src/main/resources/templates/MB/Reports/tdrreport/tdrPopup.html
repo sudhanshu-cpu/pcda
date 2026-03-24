@@ -1,0 +1,182 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+	<div class="lightfaceMessageBox" style="height: auto; visibility: visible; opacity: 1;">
+
+		<form action="/" method="post" name="bookingViewForm" id="bookingViewForm">
+
+			<input name="event" type="hidden" value="next" id="event">
+			<input name="bookingId" type="hidden" id="bookingId" onchange="hideExport();" class="txtfldM" size="15"
+				maxlength="20">
+			<input name="userIsMemberOf" type="hidden" id="userIsMemberOf">
+			<input name="requestId" type="hidden" id="requestId" onchange="hideExport();" class="txtfldM" size="15"
+				maxlength="20">
+			<input name="pnrNo" type="hidden" id="pnrNo" onchange="hideExport();" class="txtfldM" size="15"
+				maxlength="20">
+			<input name="ticketNo" type="hidden" id="ticketNo" onchange="hideExport();" class="txtfldM" size="15"
+				maxlength="20">
+			<input name="frmBookingDt" type="hidden" onchange="hideExport();" class="txtfldM" id="frmBookingDt"
+				size="15" readonly="readonly">
+			<input name="toBookingDt" type="hidden" onchange="hideExport();" class="txtfldM" id="toBookingDt" size="15"
+				readonly="readonly">
+			<input name="frmJourneyDt" type="hidden" onchange="hideExport();" class="txtfldM" id="frmJourneyDt"
+				size="15" readonly="readonly">
+			<input name="toJourneyDt" type="hidden" onchange="hideExport();" class="txtfldM" id="toJourneyDt" size="15"
+				readonly="readonly">
+			<input name="codeHead" type="hidden" id="codeHead" size="15" readonly="readonly">
+			<input name="travelType" type="hidden" id="travelType" size="15" readonly="readonly">
+			<input name="bookingStatus" type="hidden" id="bookingStatus" size="15" readonly="readonly">
+			<input name="personalNo" type="hidden" class="txtfldM" id="personalNo" size="20">
+			<input name="unitOffice" type="hidden" id="unitOffice" size="15" readonly="readonly">
+			<input name="command" type="hidden" id="command" size="15" readonly="readonly">
+			<input name="tatkalFlag" type="hidden" id="tatkalFlag" size="15" readonly="readonly">
+			<input name="accountOffice" type="hidden" id="accountOffice" size="15" readonly="readonly">
+
+			<div id="program" class="programBlock">
+				<div class="welcomebox" style="margin-bottom:1rem">
+					<div class="welcomeHead">
+						<p>
+							Tickets Booking Details
+						</p>
+					</div>
+					<div class="welcomecont">
+
+						<table class="filtersearch" id="ticketDetails" width="100%" cellspacing="1" cellpadding="4"
+							border="0" align="center" th:each=" bookingDtls  :${bookingModel}">
+
+							<tbody class="all1">
+								<tr align="left">
+									<td class="lablevalue"><span th:text="#{mb.report.tdrReport.requestId}"></span></td>
+									<td><span th:text="${bookingDtls.requestId}"></span></td>
+									<td class="lablevalue"><span th:text="#{mb.report.tdrReport.bookingId}"></span></td>
+									<td><span th:text="${bookingDtls.bookingId}"></span></td>
+								</tr>
+
+								<tr align="left">
+									<td class="lablevalue"><span th:text="#{mb.report.tdrReport.pnrNo}"></span></td>
+									<td><span th:text="${bookingDtls.pnrNo}"></span></td>
+									<td class="lablevalue"><span th:text="#{mb.report.tdrReport.ticketNo}"></span></td>
+									<td><span th:text="${bookingDtls.ticketNo}"></span></td>
+								</tr>
+								<tr align="left">
+									<td class="lablevalue"><span th:text="#{mb.report.tdrReport.accOff}"></span>
+									</td>
+									<td><span th:text="${bookingDtls.groupId}"></span></td>
+									<td class="lablevalue"><span th:text="#{mb.report.tdrReport.paoAccOff}"></span>
+									</td>
+									<td><span th:text="${bookingDtls.accountOffice}"></span></td>
+								</tr>
+
+								<tr align="left">
+									<td class="lablevalue"><span th:text="#{mb.report.tdrReport.bookStat}"></span></td>
+									<td><span th:text="${bookingDtls.currbookingStatus}"></span></td>
+									<td class="lablevalue"><span th:text="#{mb.report.tdrReport.journyCls}"></span></td>
+									<td><span th:text="${bookingDtls.journeyClass}"></span></td>
+								</tr>
+
+
+
+								<tr align="left">
+									<td class="lablevalue"><span th:text="#{mb.report.tdrReport.trnNo}"></span></td>
+									<td><span th:text="${bookingDtls.trainNo}"></span></td>
+									<td class="lablevalue"><span th:text="#{mb.report.tdrReport.trnName}"></span></td>
+									<td><span th:text="${bookingDtls.trainName}"></span></td>
+								</tr>
+
+								<tr align="left">
+									<td class="lablevalue"><span th:text="#{mb.report.tdrReport.source}"></span></td>
+									<td><span th:text="${bookingDtls.frmStn}"></span></td>
+									<td class="lablevalue"><span th:text="#{mb.report.tdrReport.dstn}"></span></td>
+									<td><span th:text="${bookingDtls.toStn}"></span></td>
+								</tr>
+
+								<tr align="left">
+									<td class="lablevalue"><span th:text="#{mb.report.tdrReport.distance}"></span></td>
+									<td><span th:text="${bookingDtls.distance}"></span></td>
+									<td class="lablevalue"><span th:text="#{mb.report.tdrReport.dateOfBooking}"></span></td>
+									<td><span th:text="${bookingDtls.bookingFormattedDate}"></span></td>
+								</tr>
+
+								<tr align="left">
+									<td class="lablevalue"><span th:text="#{mb.report.tdrReport.dateOfBoarding}"></span></td>
+									 <td><span th:text="${bookingDtls.boardingFormattedDate}"></span></td>
+									<td class="lablevalue"><span th:text="#{mb.report.tdrReport.schedDepart}"></span></td>
+									<td><span th:text="${bookingDtls.scheduleDepartre}"></span></td>
+								</tr>
+								<tr align="left">
+									<td class="lablevalue"><span th:text="#{mb.report.tdrReport.irctcSerCharge}"></span></td>
+									<td><span th:text="${bookingDtls.irctcSerCharge}"></span></td>
+									<td class="lablevalue"><span th:text="#{mb.report.tdrReport.totlFare}"></span></td>
+									<td><span th:text="${bookingDtls.totalAmount}"></span></td>
+								</tr>
+								<tr align="left">
+									<td class="lablevalue"><span th:text="#{mb.report.tdrReport.tdrDate}"></span></td>
+									 <td><span th:text="${bookingDtls.tdrFormattedDate}"></span></td>
+									<td class="lablevalue"><span th:text="#{mb.report.tdrReport.tdrAppState}"></span></td>
+									<td><span th:text="${bookingDtls.tdrApprovalState}"></span></td>
+								</tr>
+								<tr align="left">
+									<td class="lablevalue"><span th:text="#{mb.report.tdrReport.tdrMbGrnd}"></span></td>
+									<td><span th:text="${bookingDtls.tdrMBGround}"></span></td>
+									<td class="lablevalue"><span th:text="#{mb.report.tdrReport.tdrCoGrnd}"></span></td>
+									<td><span th:text="${bookingDtls.tdrCOGround}"></span></td>
+								</tr>
+								<tr align="left">
+									<td class="lablevalue"><span th:text="#{mb.report.tdrReport.tdrReason}"></span></td>
+									<td><span th:text="${bookingDtls.tdrReason}"></span></td>
+								</tr>
+
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+
+			<div id="program" class="programBlock">
+				<div class="welcomebox" style="margin-bottom:1rem">
+					<div class="welcomeHead">
+						<p th:text="#{mb.report.tdrReport.passngDetails}">
+
+						</p>
+					</div>
+					<div class="welcomecont">
+						<table class="filtersearch" id="pnrDetails" width="100%" cellspacing="1" cellpadding="4"
+							border="0" align="center" th:unless="${#lists.isEmpty(bookingModel.tdrRailPaxDetailsBean)}">
+								<tr class="lablevalue">
+									<td style="width:5%"><span th:text="#{mb.report.tdrReport.serialNo}"></span>
+									</td>
+									<td style="width:20%"><span
+												th:text="#{mb.report.tdrReport.name}"></span></td>
+									<td style="width:5%"><span th:text="#{mb.report.tdrReport.age}"></span> </td>
+									<td style="width:5%"><span th:text="#{mb.report.tdrReport.sex}"></span></td>
+									<td style="width:5%"><span th:text="#{mb.report.tdrReport.coach}"></span></td>
+									<td style="width:5%"><span th:text="#{mb.report.tdrReport.seat}"></span></td>
+									<td style="width:5%"><span th:text="#{mb.report.tdrReport.berth}"></span></td>
+									<td style="width:5%"><span th:text="#{mb.report.tdrReport.tdrAppState}"></span>
+									</td>
+								</tr>
+							<tbody class="all1"th:each=" passengerLst : ${bookingModel.tdrRailPaxDetailsBean} ">
+								<tr class="tdborder8" valign="top">
+									<td><span th:text="${passengerLst.passangerNo}"></span></td>
+									<td><span th:text="${passengerLst.passangerName}"></span></td>
+									<td><span th:text="${passengerLst.passangerAge}"></span></td>
+									<td><span th:text="${passengerLst.gender}"></span></td>
+									<td><span th:text="${passengerLst.trnCoach}"></span></td>
+									<td><span th:text="${passengerLst.trnSeat}"></span></td>
+									<td><span th:text="${passengerLst.trnBerth}"></span></td>
+									<td><span th:text="${passengerLst.paxTdrApprovalState}"></span></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+
+	</form>
+
+
+	</div>
+</body>
+
+</html>

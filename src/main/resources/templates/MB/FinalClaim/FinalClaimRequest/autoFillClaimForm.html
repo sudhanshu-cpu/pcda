@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+<script type="text/javascript" th:src="@{/js/MB/FinalClaim/FinalClaimRequest/autoFillClaim.js(random=${session.jsToken})}"></script>
+
+<style type="text/css">
+.screen-freeze {
+	background-color: white;
+	display: none;
+	height: 100%;
+	left: 0;
+	opacity: 0.7;
+	position: absolute;
+	right: 0;
+	top: 0;
+	z-index: 99999;
+}
+</style>
+
+<script th:inline="javascript">
+
+
+$(document).ready(function(){
+
+
+
+	autoFillLTCClaimAmount();
+
+		/*[# th:each="src : ${claimView.eachRecord.journeyDetails}"]*/
+
+		   $('#journey_end_date_[[${srcStat.index}]]').datetimepicker({
+			lang:'en',
+			timepicker:true,
+			format:'d-m-Y H:i',
+			formatDate:'d-m-Y',
+			scrollInput:false,
+			defaultDate:/*[[${claimView.travelContent.travelStartDate}]]*/'',
+			maxDate:0,
+			scrollMonth : false,
+			step:5,
+			onShow: function () {
+			  $("#journey_end_date_[[${srcStat.index}]]").val("");
+			},
+			onSelectDate: function(current_time,$input){validateToDate('[[${srcStat.index}]]');} 
+		   });
+
+		   /*[/]*/
+
+	   $('#claimPreferredDate').datetimepicker({
+			lang:'en',
+			timepicker:false,
+			format:'d-m-Y',
+			formatDate:'d-m-Y',
+			scrollMonth : false,
+			scrollInput:false,
+			maxDate:0,
+			onShow: function () {
+			  $("#claimPreferredDate").val("");
+			}
+		 });
+
+		$('#claimPreferredSanctionDate').datetimepicker({
+			lang:'en',
+			timepicker:false,
+			format:'d-m-Y',
+			formatDate:'d-m-Y',
+			scrollMonth : false,
+			scrollInput:false,
+			maxDate:0,
+			onShow: function () {
+			  $("#claimPreferredSanctionDate").val("");
+			}
+		  });
+
+});
+
+/*]]>*/
+
+</script>
+
+<body>
+
+   <div th:insert="~{fragments/header/mainHeader}"></div>
+<section id="midpart" class="midpart">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-lg-12">
+					<div id="program" class="programBlock">
+                        <div class="welcomebox">
+                            <div class="welcomeHead">
+                                <b><p style="text-align: center;">
+                                CLAIM
+					FOR MOVE ON LEAVE TRAVEL CONCESSION (LTC)
+                                </p></b>
+                            </div>
+                            <div class="welcomecont">
+	<table class="filtersearch">
+		<tr>
+			<td colspan="11" style="text-align: center;" class="mandatory">
+				<b><p>* The Claim Form for an LTC Journey can be
+						automatically submitted if all the Journeys against the DTS
+						Tickets have been performed by every passenger and the Officer
+						does not wish to claim any other expenditure against this LTC
+						journey. In case the journey performed is completely covered as
+						per booking in DTS you may go for "Auto Submit Claim" option. The
+						Claim will be submitted automatically to the CO.</p> </b>
+				
+
+					<b><p>To add/edit any journey details in your claim please proceed
+						with "File Claim" option.</p> </b>
+			</td>
+		</tr>
+	</table>
+	</div>
+	</div>
+	</div>
+
+	<form name="fileFullClaimForm" id="fileFullClaimForm" method="post" th:action="@{/mb/fileClaim}">
+		<input type="hidden" name="travelId" id="travelId" th:value="${claimView.travelContent.travelId}">
+	</form>
+
+	<form name="voucherSettlementConfirmationForm" id="voucherSettlementConfirmationForm" method="post" th:action="@{/mb/saveClaimRequest}">
+<input type="hidden" name="personalNo" id="personalNo" th:value="${claimView.travelContent.personalNumber}">
+<input type="hidden" name="irlaGrpID" th:value="${claimView.personalInfo.railPAOId}">
+<input type="hidden" name="unitId" th:value="${claimView.personalInfo.unitId}">
+
+<input type="hidden" name="levelId" th:value="${claimView.personalInfo.levelId}">
+
+		<input type="hidden" name="travelTypeId" th:value="${claimView.travelContent.travelTypeId}">
+		<input type="hidden" name="travelId" id="travelId" th:value="${claimView.travelContent.travelId}">
+		<input type="hidden" name="totalSpentAmount" id="totalSpentAmount" value="0">
+		<input type="hidden" name="totalAdvanceAmount" id="totalAdvanceAmount" value="0">
+		<input type="hidden" name="totalRefundAmount" id="totalRefundAmount" value="0">
+		<input type="hidden" name="totalClaimedAmount" id="totalClaimedAmount" value="0">
+		<input type="hidden" name="userServiceType" id="userServiceType" th:value="${claimView.personalInfo.isArmedForce}">
+
+<div id="program" class="programBlock">
+                        <div class="welcomebox">
+                            <div class="welcomeHead">
+                            <b><p>Personal
+						Details</p></b>
+						</div>
+						<div class="welcomecont">
+		<table class="filtersearch">
+
+			<input type="hidden" name="personalDesignation" value="NA">
+			<input type="hidden" name="moveSanctionNo" th:value="${claimView.eachRecord.reqAuthorityNumber}">
+			<input type="hidden" name="moveSanctionDate" th:value="${claimView.eachRecord.authorityDate}">
+			<input type="hidden" name="trRuleName" th:value="${claimView.eachRecord.ruleName}">
+			<input type="hidden" name="leaveFrom" th:value="${claimView.travelContent.travelStartDate}">
+			<input type="hidden" name="leaveTo" th:value="${claimView.travelContent.travelEndDate}">
+
+			<input type="hidden" name="jrnyStartDate" th:value="${claimView.eachRecord.journeyDetails[0].journeyDate}" th:if="${not #lists.isEmpty(claimView.eachRecord.journeyDetails)}">
+			<input type="hidden" name="personalHomeTown" th:value="NA">
+			<input type="hidden" name="declaredLeaveStation" th:value="NA">
+			<input type="hidden" name="ltcBlockYear" th:value="${claimView.eachRecord.ltcBlockYear}">
+			<input type="hidden" name="ltcCalendarYear" th:value="${claimView.eachRecord.journeyDetails[0].journeyYear}" th:if="${not #lists.isEmpty(claimView.eachRecord.journeyDetails)}">
+<tbody class="all1">
+			<tr>
+				<td class="lablevalue">Name of Claimant</td>
+				<td><span th:text="${claimView.personalInfo.name}"></span></td>
+				<td class="lablevalue">Personal/Staff No</td>
+				<td><span th:text="${claimView.travelContent.personalNumber}"></span></td>
+			</tr>
+			</tbody>
+		</table>
+		</div>
+		</div>
+		</div>
+
+<div id="program" class="programBlock">
+                        <div class="welcomebox">
+                            <div class="welcomeHead">
+                            <b><p>DTS Journey Details</p></b>
+						</div>
+						<div class="welcomecont">
+<table class="filtersearch" th:each="src : ${claimView.eachRecord.journeyDetails}">
+<tbody class="all1">
+			<tr>
+				<td colspan="11" class="lablevalue" style="text-align:right;background-color:#AAAAAA">Journey
+						Type:
+				<span style="font-weight: normal;" th:text="${src.journeyType}"></span>
+				<input type="hidden" name="dtsLtcJrnyTableIdlen" th:value="${srcStat.index}">
+				<input type="hidden" th:id="|jrnyClaimedAmount${srcStat.index}|" th:value="${src.claimedAmount}"></td>
+			</tr>
+			<tr>
+				<td class="lablevalue">Departure Place</td>
+				<td><span th:text="${src.fromStation}"></span></td>
+				<td class="lablevalue">Arrival Place</td>
+				<td><span th:text="${src.toStation}"></span></td>
+				<td class="lablevalue">Bill/PNR/ Ticket No.</td>
+				<td><span th:text="${src.bookingNo}"></span></td>
+			</tr>
+			<tr>
+				<td class="lablevalue">Departure Time</td>
+				<td><span th:text="${src.journeyDate}"></span>
+					<input type="hidden" th:id="|journey_date_${srcStat.index}|" name="dtsJourneyDate" th:value="${src.journeyDate}"></td>
+				<td class="lablevalue">Arrival Time</td>
+				<td><input th:id="|journey_end_date_${srcStat.index}|" name="dtsJourneyEndDate" th:value="${src.journeyEndDate}" maxlength="20" readonly="readonly" /></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td bgcolor="#003A70" colspan="11">
+					<table class="filtersearch" cellspacing="1" cellpadding="4" width="100%"
+						border="0">
+						<tbody class="all3">
+						<tr class="lablevalue">
+							<td>Traveler Name</td>
+							<td>Relation</td>
+							<td>Journey Performed?</td>
+						</tr>
+
+				<tr th:each="dtl : ${src.journeyFamily.familyTravellerDeatils}">
+
+					<td><span th:text="${dtl.travellerName}"></span></td>
+					<td><span th:text="${dtl.relation}"></span></td>
+					<td>Yes
+					<input type="hidden" th:name="|dtsJourneyPerformed${srcStat.index}|" value="0">
+					</td>
+					<input type="hidden" th:name="|dtsJrnyCanType${srcStat.index}|" th:id="|dtsJrnyCanType${srcStat.index}_${dtlStat.index}|">
+					<input type="hidden" th:name="|dtsJrnyCanSanNo${srcStat.index}|" th:id="|dtsJrnyCanSanNo${srcStat.index}_${dtlStat.index}|">
+					<input type="hidden" th:name="|dtsJrnyCanSanDate${srcStat.index}|" th:id="|dtsJrnyCanSanDate${srcStat.index}_${dtlStat.index}|">
+					<input type="hidden" th:name="|dtsJrnyPassengerData${srcStat.index}|"
+					th:value="|${dtl.travellerName}::${dtl.relation}::${dtl.age}::${dtl.ticketNo}::${dtl.passangerFare}::${dtl.passRefundAmt}::${dtl.passClaimedAmt}::${dtl.currentStatus}|">
+
+				</tr>
+				</tbody>
+			</table>
+		</td>
+	</tr>
+<input type="hidden" name="dtsJrnyRequestData"
+th:value="|${src.bookingID}::${src.travelmodeInt}::${src.bookingNo}::${src.journeyClass}::${src.journeyTypeInt}::${src.fromStation}::${src.toStation}::${src.bookingAmount}::${src.refundAmount}::${src.requestId}::${src.journeyFamily.sector}::${src.claimedAmount}|">
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+<div class="welcomebox" style="margin-bottom:1rem">
+	<input type="hidden" name="claimCertify" th:value="${stm.value}" th:each="stm : ${claimView.claimStatement}">
+
+	<table align="center" width="100%" border="0" class="filtersearch">
+<tbody class="all1">
+			<tr th:if="${claimView.personalInfo.isArmedForce} == 1">
+				<td class="lablevalue">Counter Singing Authority</td>
+				<td colspan="3">
+					<input name="counterPersonalName" id="counterPersonalName" size="20" maxlength="100" autocomplete="off">
+				</td>
+			</tr>
+
+			<tr th:unless="${claimView.personalInfo.isArmedForce} == 1">
+				<td class="lablevalue">Counter Singing Authority Personal No</td>
+				<td>
+					<input name="counterPersonalNo" id="counterPersonalNo" onblur="getCounterPersonalInfo();" autocomplete="off">&#160;&#160;
+				</td>
+				<td>
+					<input type="hidden" name="counterPersonalName" id="counterPersonalName">
+					<span id="counter_personal_name"></span>
+				</td>
+				<td>
+					<input type="hidden" name="counterPersonalLevel" id="counterPersonalLevel">
+					<span id="counter_personal_level"></span>
+				</td>
+			</tr>
+
+			<tr>
+				<td class="lablevalue" colspan="2">Date of Claim preferred by the
+						Individual to the Office</td>
+				<td colspan="2">
+					<input name="claimPreferredDate" id="claimPreferredDate" readonly="readonly" autocomplete="off">&#160;&#160;
+				</td>
+			</tr>
+			<tr>
+				<td colspan="4">
+					<span class="lablevalue">If Date of Claim Preferred is more than 60 days from last date of Journey then whether time barred sanction taken?</span>
+					<select name="claimPreferredSanction" id="claimPreferredSanction" class="combo">
+						<option value="">Select</option>
+						<option value="NA">Not applicable</option>
+						<option value="Yes">Yes</option>
+						<option value="No">No</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<span class="lablevalue">Sanction No:</span>
+					<input name="claimPreferredSanctionNo" id="claimPreferredSanctionNo" autocomplete="off">
+				</td>
+
+				<td colspan="3">
+					<span class="lablevalue">Sanction Date:</span>
+					<input name="claimPreferredSanctionDate" id="claimPreferredSanctionDate" readonly="true" autocomplete="off">
+				</td>
+			</tr>
+</tbody>
+	</table>
+</div>
+
+		<table class="filtersearch">
+			<tr>
+				<td>
+					<input type="button" onclick="fileLTCClaim();" class="butn" value="File Claim">
+				</td>
+
+				<td style="text-align:right">
+					<input type="button" onclick="fileAutoClaim();" class="butn" value="Auto Submit Claim">
+				</td>
+			</tr>
+		</table>
+
+	</form>
+
+	<div class="screen-freeze" id="screen-freeze">
+		<div style="margin: 15% 0% 0% 45%">
+			<img th:src="@{/images/spinning_wheel_96x96px.gif}" alt="" />
+		</div>
+	</div>
+	
+</div>
+</div>
+</div>
+</section>
+<section>
+<div class="blank"></div>
+</section>
+    <section>
+			<div th:insert="~{fragments/login/footer}"></div>
+		</section>
+</body>
+</html>

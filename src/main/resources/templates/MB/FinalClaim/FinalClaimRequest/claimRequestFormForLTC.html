@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<div id="program" class="programBlock">
+                        <div class="welcomebox" style="margin-bottom:2px">
+                            <div class="welcomeHead">
+                                <b><p style="text-align: center;">
+                                 CLAIM FOR MOVE ON LEAVE TRAVEL CONCESSION (LTC)
+                                </p></b>
+                            </div>
+                            </div>
+                            </div>
+
+<div id="program" class="programBlock">
+                        <div class="welcomebox">
+                            <div class="welcomeHead">
+                            <b><p>Personal Details
+                            </p></b>
+                            </div>
+                            <div class="welcomecont">
+<table class="filtersearch">
+  		<tbody class="all1">
+  		<tr>
+  		  <td class="lablevalue">Name of Claimant</td> 
+  		  <td><span th:text="${claimView.personalInfo.name}"></span></td>
+  		  <td class="lablevalue">Designation</td> 
+  		  <td><input name="personalDesignation" id="personalDesignation" maxlength="50" autocomplete="off"/></td>
+  		  <td class="lablevalue" >Level</td> 
+  		  <td><span th:text="${claimView.personalInfo.levelName}"></span></td>
+  		  <td class="lablevalue">Office / Unit</td> 
+  		  <td><span th:text="${claimView.personalInfo.unitName}"></span></td>
+	  	</tr>
+	  	<tr>
+  		  <td class="lablevalue">Move Sanction No</td> 
+  		  <td><input name="moveSanctionNo" id="moveSanctionNo" th:value="${claimView.eachRecord.reqAuthorityNumber}" maxlength="50" autocomplete="off"/></td>
+  		  <td class="lablevalue">Move Sanction Date</td> 
+  		  <td><input name="moveSanctionDate" id="move_Sanction_Date" th:value="${claimView.eachRecord.authorityDate}" maxlength="12" readonly="true" autocomplete="off"/></td>
+  		  <td class="lablevalue">Authority (Rule in TR/SR)</td> 
+  		  <td><span th:text="${claimView.eachRecord.ruleName}"></span><input type="hidden" name="trRuleName" th:value="${claimView.eachRecord.ruleName}"></td>
+  		  <td class="lablevalue">Personal/Staff No</td> 
+  		  <td><span th:text="${claimView.travelContent.personalNumber}"></span></td>
+	  	</tr>
+
+	  	<tr >
+  		  <td class="lablevalue" colspan="2">Leave Details</td> 
+  		  <td class="lablevalue">Leave From</td> 
+  		  <td><input name="leaveFrom" id="leave_From" th:value="${claimView.travelContent.travelStartDate}" readonly="true" autocomplete="off"/></td>
+  		  <td class="lablevalue">Leave To</td> 
+  		  <td><input name="leaveTo" id="leave_To" th:value="${claimView.travelContent.travelEndDate}" readonly="true" autocomplete="off"/></td>
+  		  <td class="lablevalue">Date/Time of start</td> 
+  		  <td><input name="jrnyStartDate" id="start_date_time" maxlength="20" readonly="true" autocomplete="off"/></td>
+	  	</tr>
+	  	<tr>
+  		  <td class="lablevalue">Home Town</td> 
+  		  <td><input name="personalHomeTown" id="personalHomeTown" maxlength="50" autocomplete="off"/></td>
+  		  <td class="lablevalue">Declared Leave Station</td> 
+  		  <td><input name="declaredLeaveStation" id="declaredLeaveStation" maxlength="50" autocomplete="off"/></td>
+  		  <td class="lablevalue">LTC Calendar Year</td> 
+  		  <td><input name="ltcCalendarYear" id="ltcCalendarYear" maxlength="4" onkeypress="isNumberKey(event)" autocomplete="off"/></td>
+
+		<td class="lablevalue" th:if="${claimView.personalInfo.isArmedForce} == 1">LTC Block Year</td>
+		<td th:if="${claimView.personalInfo.isArmedForce} == 1">
+			<span th:text="${claimView.eachRecord.ltcBlockYear}"></span><input type="hidden" name="ltcBlockYear" th:value="${claimView.eachRecord.ltcBlockYear}">
+		</td>
+
+		<td th:unless="${claimView.personalInfo.isArmedForce} == 1"></td>
+		<td th:unless="${claimView.personalInfo.isArmedForce} == 1"></td> 
+
+  		</tr>
+  		</tbody>
+</table>
+</div>
+</div>
+</div>
+
+ <div class="welcomebox" style="margin-bottom:2px">
+<table class="filtersearch">
+<tbody class="all1">
+<tr class="tadaHeading">
+	 <td align="left"><b>DTS Journey Details</b></td>
+</tr>
+</tbody>
+</table>
+<table class="filtersearch" cellspacing="1" cellpadding="4" width="100%" border="0" th:each="src : ${claimView.eachRecord.journeyDetails}">
+<tbody class="all1">
+  		<tr><td colspan="11" class="lablevalue" style="text-align:right;background-color:#AAAAAA">
+  		      Journey Type:<span style="font-weight: normal;" th:text="${src.journeyType}"></span>
+  		       <input type="hidden" name="dtsLtcJrnyTableIdlen" th:value="${srcStat.index}">
+  		    </td>
+  		</tr> 
+  		<tr>
+  		  <td class="lablevalue">Mode of Travel</td> 
+  		   <td><span th:text="${src.travelMode}"></span></td>
+  		  <td class="lablevalue">Departure Place</td> 
+  		  <td><span th:text="${src.fromStation}"></span></td>
+  		  <td class="lablevalue">Arrival Place</td> 
+  		  <td><span th:text="${src.toStation}"></span></td>
+  		  <td class="lablevalue">Class of Accommodation</td> 
+  		  <td><span th:text="${src.journeyClass}"></span></td>
+	  	</tr>
+
+	  	<tr>
+  		  <td class="lablevalue">Departure Time</td> 
+  		   <td><input th:id="|journey_date_${srcStat.index}|" name="dtsJourneyDate" th:value="${src.journeyDate}" maxlength="20" readonly="true" autocomplete="off"/></td>
+  		  <td class="lablevalue">Arrival Time</td> 
+  		  <td><input th:id="|journey_end_date_${srcStat.index}|" name="dtsJourneyEndDate" th:value="${src.journeyEndDate}" maxlength="20" readonly="true" autocomplete="off"/></td>
+  		  <td class="lablevalue">Sector</td> 
+  		  <td><span th:text="${src.journeyFamily.sector}"></span></td>
+  		  <td class="lablevalue">Bill/PNR/ Ticket No.</td> 
+  		  <td><span th:text="${src.bookingNo}"></span></td>
+	  	</tr>
+	  	<tr>
+  		  <td class="lablevalue">Distance(KM)</td> 
+  		  <td>NA</td>
+  		  <td class="lablevalue">Total Fare</td> 
+  		  <td><span th:text="${src.bookingAmount}"></span></td>
+  		  <td class="lablevalue">Total Refund</td> 
+  		  <td><span th:text="${src.refundAmount}"></span><input type="hidden" th:id="|jrnyRefundAmount${srcStat.index}|" th:value="${src.refundAmount}"></td>
+  		  <td class="lablevalue">Total Claimed Amount</td> 
+  		  <td><span th:text="${src.claimedAmount}"></span><input type="hidden" th:id="|jrnyClaimedAmount${srcStat.index}|" th:value="${src.claimedAmount}"></td>
+	  	</tr>
+	  	<tr>
+	  	  <td bgcolor="#003A70" align="left" colspan="11">
+	  	       <table class="filtersearch">
+	  	       <tbody class="all3">
+		  		<tr class="lablevalue">
+		  		      <td>Traveler Name</td>
+			  		  <td>Relation</td>
+			  		  <td>Age</td>
+			  		  <td>Ticket No</td> 
+			  		  <td>Journey Performed?</td>
+			  		  <td>Booking Amount</td>
+			  		  <td>Refund Amount</td>
+			  		  <td>Claimed Amount</td>
+			    </tr>
+	    	    <tr th:each="dtl : ${src.journeyFamily.familyTravellerDeatils}">
+		  		      <td><span th:text="${dtl.travellerName}"></span></td>
+			  		  <td><span th:text="${dtl.relation.getDisplayValue}"></span></td>
+			  		  <td><span th:text="${dtl.age}"></span></td>
+			  		  <td><span th:text="${dtl.ticketNo}"></span></td> 
+			  		  <td>
+			  		     <select th:name="|dtsJourneyPerformed${srcStat.index}|" th:id="|dtsJourneyPerformed${srcStat.index}_${dtlStat.index}|" class="combo"
+			  		     th:attr="onchange='takeLTCCancellation(this.value,'+${srcStat.index}+','+${dtlStat.index}+','+${dtl.currentStatus}+');'">
+							<option value="">Select</option>
+							<option th:if="${dtl.currentStatus} == 15" th:value="1">No</option>
+			                <option th:unless="${dtl.currentStatus} == 15" th:value="0">Yes</option>
+			                <option th:unless="${dtl.currentStatus} == 15" th:value="1">No</option>
+				         </select>
+			  		  </td>
+
+			  		  <td><span th:text="${dtl.passangerFare}"></span></td>
+			  		   <td><span th:text="${dtl.passRefundAmt}"></span></td>
+			  		  <td><span th:text="${dtl.passClaimedAmt}"></span></td>
+			    <input type="hidden" th:name="|dtsJrnyCanType${srcStat.index}|" th:id="|dtsJrnyCanType${srcStat.index}_${dtlStat.index}|">
+  	  			<input type="hidden" th:name="|dtsJrnyCanSanNo${srcStat.index}|" th:id="|dtsJrnyCanSanNo${srcStat.index}_${dtlStat.index}|">
+  	  			<input type="hidden" th:name="|dtsJrnyCanSanDate${srcStat.index}|" th:id="|dtsJrnyCanSanDate${srcStat.index}_${dtlStat.index}|">
+				<input type="hidden" th:name="|dtsJrnyPassengerData${srcStat.index}|"
+				th:value="|${dtl.travellerName}::${dtl.relation}::${dtl.age}::${dtl.ticketNo}::${dtl.passangerFare}::${dtl.passRefundAmt}::${dtl.passClaimedAmt}::${dtl.currentStatus}|">
+			    </tr>
+			    </tbody>
+		  	 </table>
+          </td>
+       </tr>
+
+<input type="hidden" name="dtsJrnyRequestData" th:value="|${src.bookingID}::${src.travelmodeInt}::${src.bookingNo}::${src.journeyClass}::${src.journeyTypeInt}::${src.fromStation}::${src.toStation}::${src.bookingAmount}::${src.refundAmount}::${src.requestId}::${src.journeyFamily.sector}::${src.claimedAmount}|">
+</tbody>
+</table> 		
+</div>
+	
+<div class="welcomebox" style="margin-bottom:2px">	
+<table class="filtersearch">
+<tbody class="all1">
+	<tr class="tadaHeading">
+	 <td style="border-right:1px solid white"><b>Non DTS Journey Details</b></td>
+	 <td colspan="11" style="text-align:right"><a onclick="createLTCJrnyDetails()" style="color: rgb(255, 255, 255); border: medium none; cursor: pointer; padding: 2px 8px; background: rgb(13, 57, 94) none repeat scroll 0% 0%;">Add Segment</a></td>
+	</tr>
+	</tbody>
+</table>
+<table id="ltcNonDtsJrnyTableGrid"  cellpadding="0" cellspacing="0" width="100%"  border="0" class="filtersearch">
+
+</table>
+</div>
+
+<div class="welcomebox" style="margin-bottom:2px">
+<table class="filtersearch">
+<tbody class="all1">
+	<tr class="tadaHeading">
+	<td><b>Advances Drawn</b></td>
+	</tr>
+	</tbody>
+</table>
+
+<table class="filtersearch">
+<tbody class="all1">
+	<tr class="lablevalue">
+	    <td>Advance Drawn from PAO</td>
+		<td>Date of Advance Drawn from PAO</td>
+		<td>Advance Drawn from Other Sources</td>
+		<td>Voucher No for Advance Drawn from Other Sources</td>
+		<td>Date of Advance Drawn from Other Sources</td>
+	</tr>
+	<tr>
+	    <td><input name="advFromPAO" id="Adv_From_PAO" onkeypress="isNumberKey(event)" maxlength="10" onblur="calculateLTCFinalAmount()" autocomplete="off"/></td>
+		<td><input name="advFromPAODate" id="Adv_From_PAO_Date" readonly="readonly" autocomplete="off"/></td>
+		<td><input name="advFromOther" id="Adv_From_Other" onkeypress="isNumberKey(event)" maxlength="10" onblur="calculateLTCFinalAmount()" autocomplete="off"/></td>
+		<td><input name="advFromOtherVoucherNo" id="Adv_From_Other_VNo" autocomplete="off"/></td>
+		<td><input name="advFromOtherDate" id="Adv_From_Other_Date" readonly="readonly" autocomplete="off"/></td>
+	</tr>
+	</tbody>
+	</table>
+</div>
+
+<div class="welcomebox" style="margin-bottom:2px">
+	<table class="filtersearch">
+	<tbody class="all1">
+	<tr class="tadaHeading">
+		<td><b>Advances Refunded</b></td>
+	</tr>
+	</tbody>
+</table>
+
+<table class="filtersearch">
+<tbody class="all1">
+	<tr class="lablevalue">
+	    <td>eMRO/MRO/Refund Amount</td>
+		<td>eMRO/MRO/Refund No</td>
+		<td>eMRO/MRO Submission Date/Refund  Date</td>
+	</tr>
+
+	<tr>
+	    <td><input name="mroRefund" id="Advance_MRO" onkeypress="isNumberKey(event)" maxlength="10" onblur="calculateLTCFinalAmount()" autocomplete="off"/></td>
+		<td><input name="mroNumber" id="MRO_Number" maxlength="20" autocomplete="off"/></td>
+		<td><input name="mroDate" id="MRO_Date" maxlength="20" readonly="readonly" autocomplete="off"/></td>
+	</tr>
+	</tbody>
+</table>
+</div>
+
+<div class="welcomebox" style="margin-bottom:2px" th:if="${claimView.recoverydeatils} != null">
+<table class="filtersearch">
+<tbody class="all1">
+    <tr class="tadaHeading">
+	  <td colspan="4">Details of Recovery against this Travel (if any)</td>
+    </tr>
+ 	<tr class="lablevalue">
+ 	    <td>IRLA Recovery Amount</td>
+ 	    <td><span th:text="${claimView.recoverydeatils.irlaRecoveryAmnt}"></span><input type="hidden" id="irlaRecoveryAmt" th:value="${claimView.recoverydeatils.irlaRecoveryAmnt}"></td>
+ 	</tr>
+ 	</tbody>
+</table>
+</div>
+
+<div class="welcomebox" style="margin-bottom:2px">
+<table class="filtersearch" align="center" width="100%" border="0">
+<tbody class="all1">
+ 	<tr class="lablevalue">
+	 	<td>Total Amount of Claim(Submitted):&#160;&#160;<span id="total_spent_amount"> </span></td>
+ 	</tr>
+ 	<tr class="lablevalue">
+	 	<td>less: Advance Taken(User) including DTS Tickets:&#160;&#160;<span id="total_advance_amount"> </span></td>
+ 	</tr>
+ 	<tr class="lablevalue">
+	 	<td>add: e-MRO Refunds(User):&#160;&#160;<span id="total_refund_amount"> </span></td>
+ 	</tr>
+ 	<tr class="lablevalue">
+	 	<td>Payable/Recoverable Amount:&#160;&#160;<span id="total_claimed_amount"> </span><span class="mandatory">*</span></td>
+ 	</tr>
+ 	<tr class="lablevalue">
+	 	<td><span style="color:red;font-weight:normal">* Negative amount reflects recovery from the Officer</span></td>
+ 	</tr>
+ 	</tbody>
+</table>
+</div>
+ 
+</html>

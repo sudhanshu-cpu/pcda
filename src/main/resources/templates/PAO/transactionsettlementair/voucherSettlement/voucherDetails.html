@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{fragments/login/head}"></head>
+
+
+
+<body>
+<div class="container">
+    <div th:insert="~{fragments/header/mainHeader}"></div>
+    <section>
+
+        <div>
+            <div  style="padding-bottom:10px!important">
+                <form>
+
+
+                     <input type="hidden" name="fromBookingDate" th:value="${searchModel.fromBookingDate}">
+                     <input type="hidden" name="toBookingDate" th:value="${searchModel.toBookingDate}">
+                     <input type="hidden" name="voucherNo" th:value="${searchModel.voucherNo}">
+                     <input type="hidden" name="invoiceNo" th:value="${searchModel.invoiceNo}">
+                     <input type="hidden" name="statusType" th:value="${searchModel.statusType}">
+                     <input type="hidden" name="accountOffice" th:value="${searchModel.accountOffice}">
+                     <input type="hidden" name="serviceProvider" th:value="${searchModel.serviceProvider}">
+
+
+                    <div class="programBlock">
+                        <div class="welcomebox" style="margin-bottom:1rem">
+                            <div class="welcomeHead">
+                                <p>Voucher Details View</p>
+                            </div>
+                            <div class="welcomecont">
+                                <table class="filtersearch"  width="100%" cellspacing="1" cellpadding="4" border="0" align="center">
+                                    <tbody class="all1">
+                                    <tr  style="font-weight:bold">
+                                        <td style="width:10%; border-right: 1px solid #d1d1d1;">Voucher No:</td>
+                                        <td style="width:10%; border-right: 1px solid #d1d1d1;">Voucher Date:</td>
+                                        <td style="width:10%; border-right: 1px solid #d1d1d1;">Voucher Status:</td>
+                                        <td style="width:10%; border-right: 1px solid #d1d1d1;">Account Office:</td>
+                                        <td style="width:10%; border-right: 1px solid #d1d1d1;">Total Amount:</td>
+                                        <td style="width:10%; border-right: 1px solid #d1d1d1;">Outstanding Amount:</td>
+                                        <td style="width:10%; border-right: 1px solid #d1d1d1;">Service Provider:</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td style=" border-right: 1px solid #d1d1d1;" th:text="${voucherModel.voucherNo}"></td>
+                                        <td style=" border-right: 1px solid #d1d1d1;" th:text="${voucherModel.creationTime}"></td>
+                                        <td style=" border-right: 1px solid #d1d1d1;" th:text="${voucherModel.voucherStatus}"></td>
+                                        <td style=" border-right: 1px solid #d1d1d1;" th:text="${voucherModel.accountOffice}"></td>
+                                        <td style=" border-right: 1px solid #d1d1d1;" th:text="${voucherModel.totalAmount}"></td>
+                                        <td style=" border-right: 1px solid #d1d1d1;" th:text="${voucherModel.balanceTotalAmount}"></td>
+                                        <td style=" border-right: 1px solid #d1d1d1;" th:text="${voucherModel.serviceProvider}"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div>
+                                <div class="welcomeHead">
+                                    <span  id="user-info-txt">Voucher Transaction Details</span>
+                                    <span class="d-inline field-marked-txt"> </span>
+                                </div>
+
+                                <table class="filtersearch"   width="100%" border="0" cellspacing="1" cellpadding="4" align="center"
+                                       summary="Process summary" th:unless="${#lists.isEmpty(settled)}"  >
+                                    <tbody  class="all1"  th:each="src,stat:${settled}">
+
+                                    <tr   style=" font-weight:bold; background-color: #D1D1D16c;">
+                                        <td style=" width:20%; border-right: 1px solid #d1d1d1;"> UTR NO :  </td>
+                                        <td style= "width:20%; border-right: 1px solid #d1d1d1;" > Settled Amount :  </td>
+                                        <td style=" width:20%; border-right: 1px solid #d1d1d1;"> Payment Date :   </td>
+                                        <td style=" width:20%; border-right: 1px solid #d1d1d1;"> Ack Date :  </td>
+                                        <td style=" width:40%; border-right: 1px solid #d1d1d1;"> Calculated Amount  </td>
+                                        <td style=" width:0%; border-right: 1px solid #d1d1d1;"></td>
+                                    </tr>
+
+
+                                    <tr style=" background-color: #D1D1D16c;">
+                                        <td style=" border-right: 1px solid #d1d1d1;" th:text="${src.utrNo}"></td>
+                                        <td style=" border-right: 1px solid #d1d1d1;" th:text="${src.paidAmount}"></td>
+                                        <td style=" border-right: 1px solid #d1d1d1;" th:text="${src.paymentDate}"></td>
+                                        <td style=" border-right: 1px solid #d1d1d1;" th:text="${src.paymentAckDate}"></td>
+                                        <td style=" border-right: 1px solid #d1d1d1;" th:text="${voucherModel.calSettleAmount}"></td>
+                                         <td style=" border-right: 1px solid #d1d1d1;"></td>
+                                      <tr>
+
+
+
+                                    <tr   style=" font-weight:bold; background-color: #D1D1D16c;">
+                                        <td style=" border-right: 1px solid #d1d1d1;">S.No</td>
+                                        <td style=" border-right: 1px solid #d1d1d1;">Transaction No</td>
+                                        <td style=" border-right: 1px solid #d1d1d1;">Reference No</td>
+                                        <td style=" border-right: 1px solid #d1d1d1;">Traveler Name</td>
+                                        <td style=" border-right: 1px solid #d1d1d1;">Due Amount</td>
+                                        <td style=" border-right: 1px solid #d1d1d1;">Payment Status</td>
+                                    </tr>
+                                    <tr>
+                                        <td style=" border-right: 1px solid #d1d1d1;" th:text="${stat.index+1}"> </td>
+                                        <td style=" border-right: 1px solid #d1d1d1;" th:text="${src.txnInvoiceCreditnoteNo}"></td>
+                                        <td style=" border-right: 1px solid #d1d1d1;" th:text="${src.fbReferenceNo}"></td>
+                                        <td style=" border-right: 1px solid #d1d1d1;" th:text="${src.travelerName}"></td>
+                                        <td style=" border-right: 1px solid #d1d1d1;" th:text="${src.txnOutstandingAmount}"></td>
+                                        <td style=" border-right: 1px solid #d1d1d1;" th:text="${src.txnPaymentStatus}"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <div th:if="${#lists.isEmpty(settled)}">
+                                    <p  style="text-align: center;">NO Record Available!! </p>
+                                </div>
+                            </div>
+                            <div >
+                                <div class="welcomeHead">
+                                    <span  id="user-info-txt">Pending Voucher Transaction Details</span>
+                                    <span class="d-inline field-marked-txt"> </span>
+                                </div>
+                                <table  width="100%" border="0" cellspacing="2" cellpadding="2" align="center"
+                                        summary="Process summary" th:unless="${#lists.isEmpty(pending)}">
+                                    <tbody>
+                                    <tr  style="font-weight:bold">
+                                        <td style=" border-right: 1px solid #d1d1d1;">S.No</td>
+                                        <td style=" border-right: 1px solid #d1d1d1;">Transaction No</td>
+                                        <td style=" border-right: 1px solid #d1d1d1;">Reference No</td>
+                                        <td style=" border-right: 1px solid #d1d1d1;">Traveler Name</td>
+                                        <td style=" border-right: 1px solid #d1d1d1;">Due Amount</td>
+                                        <td style=" border-right: 1px solid #d1d1d1;">Payment Status</td>
+                                    </tr>
+
+                                    <tr th:each="src,stat:${pending}">
+                                        <td style=" border-right: 1px solid #d1d1d1;" th:text="${stat.index+1}"> </td>
+                                        <td style=" border-right: 1px solid #d1d1d1;" th:text="${src.txnInvoiceCreditnoteNo}"></td>
+                                        <td style=" border-right: 1px solid #d1d1d1;" th:text="${src.fbReferenceNo}"></td>
+                                        <td style=" border-right: 1px solid #d1d1d1;" th:text="${src.travelerName}"></td>
+                                        <td style=" border-right: 1px solid #d1d1d1;" th:text="${src.txnOutstandingAmount}"></td>
+                                        <td style=" border-right: 1px solid #d1d1d1;" th:text="${src.txnPaymentStatus}"></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td style=" border-right: 1px solid #d1d1d1;" colspan="3"><b>Calculated Amount </b> </td>
+                                        <td style=" border-right: 1px solid #d1d1d1;" colspan="3" th:text="${voucherModel.calPendingAmount}"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+
+                                <div th:if="${#lists.isEmpty(pending)}">
+                                    <p class="error" style="text-align: center;margin:0">No Record Available!! </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div >
+                            <button type="submit" name="backButton"  th:formaction="@{/pao/voucherSetDataList}"  th:formmethod="post"  class="butn">Back </button>
+                        </div>
+                    </div>
+            </form>
+        </div>
+</div>
+
+
+</section>
+<section>
+    <div id="blank"   style="padding-top: 3.2rem"></div>
+</section>
+
+<!-- footer start here
+<div th:insert="~{fragments/login/footer}"></div> -->
+</div>
+</body>
+
+</html>

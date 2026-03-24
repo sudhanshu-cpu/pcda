@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<table border="0" width="100%" cellpadding="4" cellspacing="1" align="center" class="filtersearch">
+<tbody class="all1">
+	<tr style="background-color:#00ff80;">
+	     <td colspan="4" class="lablevalue">Onwards</td>
+	</tr>
+	</tbody>
+</table>
+
+<div id="mainouterline" th:unless="${list.reqStatus}">
+		<table border="0" width="100%" cellpadding="4" cellspacing="1" align="center" class="filtersearch">
+		<tbody class="all1">
+			<tr>
+				<td align="left">		
+        			Onward request not created due to following reasons :<br/>
+					<br/>
+		 			<span class="lablevalue" th:text="${list.errorMessage}"></span>
+				</td>
+			</tr>
+			</tbody>
+		</table>
+</div>
+
+<table border="0" cellpadding="4" cellspacing="1" width="100%" class="filtersearch" th:if="${list.reqStatus}">
+<tbody class="all1">
+	<tr><td class="lablevalue" colspan="4">
+	<label th:if="${list.travelMode} == 0">
+		Rail Travel Request has been saved successfully and Request ID generated for Travel Type
+		<span th:text="${list.travelType}"></span> is <span th:text="${list.requestId}"></span>
+	</label>
+	<label th:if="${list.travelMode} == 1">
+		Flight Travel Request has been saved successfully and Request ID generated for Travel Type
+		<span th:text="${list.travelType}"></span> is <span th:text="${list.requestId}"></span>
+	</label>
+	<label th:if="${list.travelMode} == 2">
+		Mixed Mode Travel Request has been saved successfully and Request ID generated for Travel Type
+		<span th:text="${list.travelType}"></span> are <span th:text="${list.requestId}"></span> (Rail) and  
+		<span th:text="${list.refRequestId}"></span>(Flight)
+	</label>
+	</td></tr>
+
+	<tr>
+		<td class="lablevalue" colspan="4">
+			Request Information
+	 	</td>
+	</tr>
+	<tr>
+	  <td>Request Type</td>
+	  <td th:text="${list.bookingType}"></td>
+	  <td>Travel Request Type</td>
+	  <td th:text="${list.travelType}"></td>
+	</tr>
+
+	<tr>
+		   <td>Traveler Name</td>
+		   <td th:text="${list.name}"></td>
+		   <td>Traveler Personal No.</td>
+		   <td th:text="${list.personalNumber}"></td>
+	</tr>
+
+	<tr>
+		   <td>TR Rule</td>
+		   <td th:text="${list.travelRule}"></td>
+	</tr>
+
+				<tr th:if="${list.travelMode} == 0">
+					   <td> Type of ticket </td>
+					   <td th:text="${list.ticketType}"></td>
+					   <td> Is Tatkal</td>
+					   <td th:text="${list.isTatkal}"></td>
+				</tr>
+				<tr th:if="${list.travelMode} == 2">
+					   <td> Type of ticket</td>
+					   <td th:text="${list.ticketType}"></td>
+					   <td> Is Tatkal</td>
+					   <td th:text="${list.isTatkal}"></td>
+				</tr>
+
+	 <tr th:if="${list.bookingType} == 'Offline Booking'">
+		   <td> Warrant Issue Date </td>
+		   <td th:text="${list.warrantIssueDate}"></td>
+		   <td> Warrant Issue Reason </td>
+		   <td th:text="${list.warrantReason}"></td>
+	 </tr>
+
+	<tr>
+		 <td  colspan="4">
+			<table border="0" cellpadding="4" cellspacing="1" width="100%" class="filtersearch">
+				<tr><td class="lablevalue"  colspan="6">Request Ticket Information</td></tr>
+				<tr>
+					<td>Ticket No</td>
+					<td>Journey Mode</td>
+					<td>Class</td>
+					<td>From</td>
+					<td>To</td>
+					<td>Journey Date</td>
+				</tr>
+				<tr th:each="railRoute :${list.combinedBean}">
+					<td th:text="${railRouteStat.count}"></td>
+					<td th:text="${railRoute.journeyMode}"></td>
+					<td th:text="${railRoute.entitledClass}"></td>
+					<td th:text="${railRoute.frmStation}"></td>
+					<td th:text="${railRoute.toStation}"></td>
+					<td th:text="${railRoute.journeyDate}"></td>
+				</tr>
+				
+			</table>
+		 </td>
+	</tr>
+
+	<tr>
+		 <td  colspan="4">
+			<table border="0" cellpadding="4" cellspacing="1" width="100%" class="formtxt">
+				<tr><td class="lablevalue"  colspan="5">Request Passenger Information</td></tr>
+				<tr>
+					<td>S.No</td>
+					<td>Name</td>
+					<td>Relation</td>
+					<td>Gender</td>
+					<td>Age</td>
+				</tr>
+				<tr th:each="pas : ${list.requestPassengers}">
+					<td th:text="${pasStat.count}"></td>
+					<td th:text="${pas.name}"></td>
+					<td th:text="${pas.relation}"></td>
+					<td th:text="${pas.gender}"></td>
+					<td th:text="${pas.age}"></td>
+				</tr>
+			</table> 
+		 </td>
+	</tr>
+
+	<!--   DA Advance Details -->
+
+		<tr th:if="${list.travelType} == 'TD'">
+		  <td  colspan="4">
+			<table border="0" cellpadding="4" cellspacing="1" width="100%" class="filtersearch">
+			<tr><td class="lablevalue" colspan="5">DA Advance Details</td></tr>
+	
+			<tbody th:if="${list.daAdvanceAvailed} == 'YES'">
+				<tr>
+					<td>Expected Return Date</td>
+					<td>Destination City</td>
+					<td>DA Amount Requested</td>
+				</tr>
+				<tr>
+						<td th:text="${list.daAdvance.returnDate}"></td>
+						<td th:text="${list.daAdvance.destination}"></td>
+						<td th:text="${list.daAdvance.advanceAmount}"></td>
+				</tr>
+			</tbody>
+			<tbody th:unless="${list.daAdvanceAvailed} == 'YES'">
+					<tr>
+						<td  colspan="5">DA Advance Not Availed</td>
+					</tr>
+			</tbody>
+			</table>
+		</td>
+		</tr>
+
+	<!--   CTG Advance Details 	-->
+
+	<tr th:if="${list.travelType} == 'PT'">
+		 <td  colspan="4">
+			<table border="0" cellpadding="4" cellspacing="1" width="100%" class="filtersearch">
+				<tr><td class="lablevalue" colspan="5">Total Advance Claimed</td></tr>
+			<tbody th:if="${list.daAdvanceAvailed} == 'YES'">
+					<tr>
+						<td>Amount For Luggage Transport</td>
+						<td>Amount For Vehicle Transport</td>
+						<td>CTG </td>
+						<td>Total Advance</td>
+					</tr>
+					<tr>
+						<td th:text="${list.ctgDetails.goodsAmnt}"></td>
+						<td th:text="${list.ctgDetails.vehicleTransport}"></td>
+						<td th:text="${list.ctgDetails.ctgAmount}"></td>
+						<td th:text="${list.ctgDetails.advanceAmount}"></td>
+					</tr>
+			</tbody>
+			<tbody th:unless="${list.daAdvanceAvailed} == 'YES'">
+					<tr>
+						<td  colspan="5">Composite Transfer Grant Not Availed</td>
+					</tr>
+			</tbody>
+			</table> 
+		 </td>
+	</tr>
+	</tbody>	
+</table> 
+
+</html>

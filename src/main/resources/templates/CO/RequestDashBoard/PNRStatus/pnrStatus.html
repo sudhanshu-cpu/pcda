@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+<script>
+function validatePNR() {
+	if ($("#pnrNo").val().length == 10) {
+		$("#pnrStatusForm").submit();
+	} else {
+		alert("Enter Valid PNR Number");
+		$("#pnrNo").focus();
+	}
+}
+</script>
+
+<body oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+
+	<div th:insert="~{fragments/header/mainHeader}"></div>
+<section id="midpart" class="midpart">
+		<div class="container-fluid">
+				<div class="row">
+					<div class="col-lg-1"></div>
+					<div class="col-lg-10">
+			<form id="pnrStatusForm" th:action="@{/co/getPnrStatus}" method="post">
+			<div id="program" class="programBlock">
+							<div class="welcomebox">
+								<div class="welcomeHead">
+									<p>
+										Ticket PNR Status
+									</p>
+								</div>
+								<div class="welcomecont" >
+				<table id='pnrDetails' class="filtersearch" cellpadding="4" cellspacing="1" width="100%" border="0">
+					<tbody class="all1">
+					<tr align="center">
+					 		<td style="text-align:center">
+						 	PNR Number<Span class="text-danger">*</Span>
+						 	<input type="text" name="pnrNo" id="pnrNo" size="10" maxlength="10">
+							<input type="button" class="butn" value="PNR Status" onclick="validatePNR()">
+					 	</td> 	
+					</tr>
+				</table>
+			</div>
+				</div>
+				</div>
+			</form>
+		</div>
+			</div>
+		</div>
+	</section>
+	<section>
+			<div class="blank"></div>
+	</section>
+	<section>
+		<div th:insert="~{fragments/login/footer}"></div>
+	</section>
+
+</body>
+
+</html>

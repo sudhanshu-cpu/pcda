@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+	
+	<div id="program" class="programBlock">
+							<div class="welcomebox" style="margin-bottom:2px">
+								<div class="welcomeHead">
+									<p style="text-align: center;"><strong>CLAIM FOR MOVE ON TEMPORARY DUTY (TOUR)</strong></p>
+								</div>
+								<div class="welcomecont">
+<table class="filtersearch" cellspacing="1" cellpadding="4" width="100%" border="0">
+  		<tbody class="all1">
+  		<tr>
+  		      <td><span class="lablevalue">Claim Id: </span><span th:text="${claimView.rejectedTaDaClaimDetails.tadaClaimId}"></span></td>
+	  		  <td><span class="lablevalue">Personal No: </span><span th:text="${claimView.rejectedTaDaClaimDetails.personalNo}"></span></td>
+	  		  <td><span class="lablevalue">CDAO A/c No: </span><span th:text="${claimView.rejectedTaDaClaimDetails.cdaoAcc}"></span></td>
+	  		  <td><span class="lablevalue">Name: </span><span th:text="${claimView.rejectedTaDaClaimDetails.name}"></span></td>
+	  	</tr>
+	  	</tbody>
+</table>
+
+    <table class="filtersearch" cellspacing="1" cellpadding="4" width="100%" border="0" th:if="${claimView.rejectedTaDaClaimDetails.claimType} == 1">
+    <tbody class="all1">
+	   <tr>
+	     <td colspan="11" style="text-align: center;" class="lablevalue">
+	     This is supplementary claim for claim id 
+	        <a href="javascript:void(0);" th:attr="onclick='viewMainClaimDetails(\''+${claimView.rejectedTaDaClaimDetails.mainClaimId}+'\');'">
+	        	<span th:text="${claimView.rejectedTaDaClaimDetails.mainClaimId}"></span>
+	        </a>
+	      
+	     </td>
+	  </tr> 
+	  </tbody>
+	</table>
+								</div>
+							</div>
+	</div>
+
+<div id="program" class="programBlock">
+							<div class="welcomebox" style="margin-bottom:2px">
+								<div class="welcomeHead">
+									<p>A. Traveler Details</p>
+								</div>
+								<div class="welcomecont">
+<table class="filtersearch" cellspacing="1" cellpadding="4" width="100%" border="0">
+  		<tbody class="all1">
+  		<tr class="lablevalue">
+	  		  <td>Travel Type</td> 
+	  		  <td>Level</td>
+	  		  <td>TR Rule</td>
+	  		  <td>Move Sanction No</td>
+	  		  <td>Move Sanction Date</td>
+	  		  <td>Travel ID</td>
+	  		  <td>Travel ID Start Date</td>
+	  		  <td>Travel ID End Date</td>
+	  		  <td>Journey Commenced From</td>
+	  		  <td>Journey Commenced Date</td>
+	  	</tr>
+ 
+  	    <tr>
+  		  <td><span th:text="${claimView.rejectedTaDaClaimDetails.travelTypeName}"></span></td>
+  		  <td><span th:text="${claimView.rejectedTaDaClaimDetails.levelName}"></span></td>
+  		  <td><span th:text="${claimView.rejectedTaDaClaimDetails.trRuleName}"></span><input type="hidden" name="trRuleName" th:value="${claimView.rejectedTaDaClaimDetails.trRuleName}"/></td>
+  		  <td><input type="text" name="moveSanctionNo" id="moveSanctionNo" class="txtfldM" th:value="${claimView.rejectedTaDaClaimDetails.moveSanctionNo}" style="width:100px;" maxlength="50" autocomplete="off"/> </td>
+  		  <td><input type="text" name="moveSanctionDate" class="txtfldM" id="move_Sanction_Date" th:value="${claimView.rejectedTaDaClaimDetails.movSanctionDate}" style="width:95px;" maxlength="12" readonly="readonly" autocomplete="off"> </td>
+  		  <td><span th:text="${claimView.rejectedTaDaClaimDetails.travelID}"></span></td>
+  		  <td><span th:text="${claimView.rejectedTaDaClaimDetails.travelStartDate}"></span></td>
+  		  <td><span th:text="${claimView.rejectedTaDaClaimDetails.travelEndDate}"></span></td>
+  		  <td><input type="text" name="jrnyStartedFrom" class="txtfldM" id="jrnyStartedFrom" th:value="${claimView.rejectedTaDaClaimDetails.jrnyStrtdFrom}" style="width:105px;" maxlength="50" autocomplete="off"/> </td>
+  		  <td><input type="text" name="jrnyStartDate" class="txtfldM" id="start_date_time" th:value="${claimView.rejectedTaDaClaimDetails.jrnyStrtdTime}" style="width:80%;" maxlength="20" readonly="readonly" autocomplete="off"/> </td>
+  		</tr>
+</tbody>
+</table>
+								</div>
+							</div>
+</div>
+
+<div id="program" class="programBlock">
+							<div class="welcomebox" style="margin-bottom:2px" th:if="${claimView.rejectedTaDaClaimDetails.taDaJourneyDetails} != null">
+								<div class="welcomeHead">
+									<p>B. DTS Journey Details</p>
+								</div>
+								<div class="welcomecont">
+	<table class="filtersearch" cellspacing="1" cellpadding="4" width="100%" border="0" th:if="${claimView.rejectedTaDaClaimDetails.taDaJourneyDetails} != null">
+	  	<tbody class="all1">
+	  		<tr class="lablevalue">
+	  		      <td>From</td>
+		  		  <td>To</td>
+		  		  <td>Travel Mode</td>
+		  		  <td>Travel Class</td>  
+		  		  <td>Journey Start Date</td>  
+		  		  <td>Journey End Date</td>
+		  		  <td>Bill/PNR/Ticket No</td>
+		  		  <td>Journey Performed?</td>
+		  		  <td>Booking Amount</td>
+		  		  <td>Refund Amount</td>
+	  		</tr>
+<!-- 	   <repeat ref="taDaClaimDetails/taDaDTSJryDetails/dtsJryDetails" index="index"> -->
+	  	    <tr th:each="src : ${claimView.rejectedTaDaClaimDetails.taDaJourneyDetails}">
+	  	      <td th:text="${src.fromStation}"></td>
+	  		  <td th:text="${src.toStation}"></td>
+              <td th:text="${src.travelMode}"></td>
+	  		  <td><span th:text="${src.journeyClass}"></span> (<span th:text="${src.journeyType}"></span>)</td>
+	  		  <td><input th:id="|journey_date_${srcStat.index}|" name="dtsJourneyDate" th:value="${src.journeyDate}" maxlength="20" style="width:130px;" readonly="readonly" autocomplete="off"/></td>
+	  		  <td><input th:id="|journey_end_date_${srcStat.index}|" name="dtsJourneyEndDate" th:value="${src.journeyEndDate}" maxlength="20" style="width:130px;" readonly="readonly" autocomplete="off"/></td>
+	  		  <td><span th:text="${src.bookingNo}"></span> 
+<!-- 	  		  (<span th:text="BOOKING_STATUS"></span>) -->
+	  		  </td>
+	          <td>
+	  		     <select name="dtsJourneyPerformed" th:id="|dtsJourneyPerformed${srcStat.index}|" class="combo" th:attr="onchange='takeCancellation(this.value,'+${srcStat.index}+');'">
+	                <option value="">Select</option>
+	                <option th:selected="${src.journeyPerformed} == '0'" value="0">Yes</option>
+	                <option th:selected="${src.journeyPerformed} == '1' or ${src.journeyPerformed} == null " value="1">No</option>
+	             </select>
+	          </td>
+	          <td><span th:text="${src.bookingAmount}"></span><input type="hidden" th:id="|dtsJourneyBKGAmount${srcStat.index}|" th:value="${src.bookingAmount}"/></td>
+	  		  <td><span th:text="${src.refundAmount}"></span><input type="hidden" th:id="|dtsJourneyRefAmount${srcStat.index}|" th:value="${src.refundAmount}"/></td>
+	  	     <input type="hidden" name="dtsJrnyCanType" th:id="|dtsJrnyCanType${srcStat.index}|" th:value="${src.cancellationGrnd}"/>
+	  	     <input type="hidden" name="dtsJrnyCanSanNo" th:id="|dtsJrnyCanSanNo${srcStat.index}|" th:value="${src.cancellationRmrk}"/>
+	  	     <input type="hidden" name="dtsJrnyCanSanDate" th:id="|dtsJrnyCanSanDate${srcStat.index}|" th:value="${src.cancellationDate}"/>
+<input type="hidden" name="dtsJrnyRequestData" th:value="|${src.bookingId}::${src.travelModeInt}::${src.bookingNo}::${src.journeyClass}::${src.journeyTypeInt}::${src.fromStation}::${src.toStation}::${src.bookingAmount}::${src.refundAmount}::${src.requestId}|">
+	  	   </tr>
+	</tbody>
+	</table>
+								</div>
+								</div></div>
+
+<table class="filtersearch" style="margin-bottom:2px">
+	<tbody class="all1">
+<tr class="tadaHeading">
+	 <td align="left"><font color="#fff"> <b>Expense Details </b></font></td>
+</tr>
+</tbody>
+</table>
+
+<div class="welcomebox" style="margin-bottom:2px">
+<table class="filtersearch" width="100%" cellspacing="1"  cellpadding="4" border="0">
+	<tbody class="all1">
+<tr class="tadaHeading">
+	<td style="border-right:1px solid white	">C. Leave Period </td>
+	<td  colspan="6" style="text-align:right" id="leave_period_td"><a id="add_row"  onclick="myCreateFunction('leavePeriodAddmore')" style="color: rgb(255, 255, 255); border: medium none; cursor: pointer; padding: 2px 8px; background: rgb(13, 57, 94) none repeat scroll 0% 0%;"  >Add More</a></td>
+</tr>
+</tbody>
+</table>
+
+<table id="leavePeriodTableGrid"  class="filtersearch">
+<tbody class="allp" th:if="${claimView.rejectedTaDaClaimDetails.rejectedLeave} != null and ${claimView.rejectedTaDaClaimDetails.rejectedLeave.claimLeaveDtls} != null">
+
+       <tr class="lablevaluebg" id="leaveHeaderId">
+  		  <td class="lablevalue" style="width:50%">Leave Date</td>
+  		  <td class="lablevalue" colspan="2">Full/Half</td>
+  		</tr>
+<!--       <repeat ref="taDaClaimDetails/taDaLeaveDetails/taDaLeaves" index="index"> -->
+         <tr th:each="src : ${claimView.rejectedTaDaClaimDetails.rejectedLeave.claimLeaveDtls}">
+            <td><input type="text" th:id="|leavePeriodDate${src.seqNo}|" size="11" class="txtfldM" readonly="true" style="width:200px" th:value="${src.leaveDateStr}" autocomplete="off"/></td>
+			<td><select th:id="|leaveFullHalf${src.seqNo}|" class="combo" style="width:90px;" th:attr="onchange='setLeaveFullHalfInfo(this.value,'+${src.seqNo}+');'" name="leaveFulHal">
+			   <option value="">Select</option>
+               <option value="0" th:selected="${src.leaveFullHalf} == 0">Full</option>
+               <option value="1" th:selected="${src.leaveFullHalf} == 1">Half</option>
+			   </select>
+			</td>
+			<td><input type="hidden" readonly="readonly" name="leavePeriodDate" th:id="|leavePeriodDate_${src.seqNo}|" th:value="${src.leaveDateStr}">
+			    <input type="hidden" readonly="readonly" name="leaveFullHalf" th:id="|leaveFullHalf_${src.seqNo}|" th:value="${src.leaveFullHalf}">
+			    <input type="hidden" readonly="readonly" name="leaveTableIdlen" th:value="${src.seqNo}">
+			    <input type="button" value="Row X" class="butn leave_disabled_row" th:attr="onclick='deleteCurrentRow(this,\'leaveRowDelete\','+${src.seqNo}+')'">
+			 </td>
+		  </tr>
+</tbody>
+</table>
+</div>
+
+<div class="welcomebox" style="margin-bottom:2px">
+<table class="filtersearch">
+	<tbody class="all1">
+<tr class="tadaHeading">
+	<td style="border-right:1px solid white">D. Non DTS Journey Details (Other than Local Travel in Tab G) </td>
+	<td  colspan="6" style="text-align:right"><a id="add_row"  onclick="myCreateFunction('taAddmore')" style="color: rgb(255, 255, 255); border: medium none; cursor: pointer; padding: 2px 8px; background: rgb(13, 57, 94) none repeat scroll 0% 0%;"  >Add More</a></td>
+</tr>
+</tbody>
+</table>
+
+
+<table id="taTableGrid"  class="filtersearch">
+<tbody class="allp" th:if="${claimView.rejectedTaDaClaimDetails.nonDtsJrny} != null and ${claimView.rejectedTaDaClaimDetails.nonDtsJrny.nonDtstaDaJourneyDetails} != null">
+    <tr class="lablevaluebg" id="taHeaderId">
+  		  <td class="lablevalue" style="width:7%;">From</td>
+  		  <td class="lablevalue" style="width:7%;">To</td>
+  		  <td class="lablevalue" style="width:8%;">Travel Mode</td>
+  		  <td class="lablevalue" style="width:8%;">Travel Class</td>
+  		  <td class="lablevalue" style="width:13%;">Journey Start Date</td>
+  		  <td class="lablevalue" style="width:11%;">Journey End Date</td>
+  		  <td class="lablevalue" style="width:8%;">Distance by Road in Km</td>
+  		  <td class="lablevalue" style="width:10%;">Bill/PNR/Ticket No.</td>
+  		  <td class="lablevalue" style="width:7%;">Journey Performed?</td>
+  		  <td class="lablevalue" style="width:7%;">Booking Amount</td>
+  		  <td class="lablevalue" style="width:7%;">Refund Amount</td>
+  	</tr>
+<!--     <repeat ref="taDaClaimDetails/taDaNonDTSJryDetails/nonDTSJryDetails" index="index"> -->
+        <tr class="lablevaluebg" th:each="src : ${claimView.rejectedTaDaClaimDetails.nonDtsJrny.nonDtstaDaJourneyDetails}">
+               <td th:if="${srcStat.index} == 0">
+                   <input type="text" name="nonDTSFromPlace" th:id="|nonDTSFromPlace${src.seqNo}|" th:value="${src.fromPlace}" class="txtfldM" size="15" style="width:90px;" maxlength="50" readonly="readonly" autocomplete="off"/>
+               </td>
+               <td th:unless="${srcStat.index} == 0">
+                  <input type="text" name="nonDTSFromPlace" th:id="|nonDTSFromPlace${src.seqNo}|" th:value="${src.fromPlace}" class="txtfldM" size="15" style="width:90px;" maxlength="50" autocomplete="off"/>
+               </td>
+              
+			   <td>
+			      <input type="text" name="nonDTSToPlace" th:id="|nonDTSToPlace${src.seqNo}|" th:value="${src.toPlace}" class="txtfldM" size="15" style="width:90px;" maxlength="50" autocomplete="off"/>
+			   </td>
+			   <td>
+
+             <select name="nonDTSModeOfTravel" th:id="|nonDTSModeOfTravel${src.seqNo}|" class="combo" style="width:120px;"
+             	th:attr="onchange='setClassOfTravel(this.value,'+${src.seqNo}+');'">
+               <option value="">Select</option>
+               <option th:each="mode : ${claimView.transportModes}" th:selected="${#strings.equalsIgnoreCase(src.modeOfTravel, mode.transportModeVal)}"
+               	th:text="${mode.transportModeVal}" th:value="${mode.transportModeVal}"></option>
+             </select>
+			   </td>
+
+		    <td>
+             <select name="nonDTSClassOfTravel" th:id="|nonDTSClassOfTravel${src.seqNo}|" style="width:140px;" class="combo">
+                <option value="">Select</option>
+                <option th:each="cls : ${classOfTravelMap.get(src.modeOfTravel)}" th:selected="${#strings.equalsIgnoreCase(cls, src.travelClass)}"
+                	th:value="${cls}" th:text="${cls}"></option>
+              </select>
+		    </td>
+
+			    <td>
+			      <input type="text" name="nonDTSJryStartDate" th:id="|nonDTSJryStartDate${src.seqNo}|" th:value="${src.journeyStartTime}" size="12" style="width:85%" class="txtfldM" readonly="readonly" autocomplete="off"/>
+			    </td>
+			    <td>
+			      <input type="text" name="nonDTSJryEndDate" th:id="|nonDTSJryEndDate${src.seqNo}|" th:value="${src.journeyEndTime}" class="txtfldM" size="13" style="width:95%" maxlength="20" readonly="readonly" autocomplete="off"/>
+			    </td>
+			    <td>
+			      <input type="text"   name="nonDTSDistanceKM" th:id="|nonDTSDistanceKM${src.seqNo}|" th:value="${src.distance}" size="5" maxlength="5" style="width:65px;" class="txtfldM" onkeypress="isNumericOnlyKey(event)" autocomplete="off"/>
+			    </td>
+			    <td>
+			      <input type="text" name="nonDTSTicketNo" th:id="|nonDTSTicketNo${src.seqNo}|" th:value="${src.jrnyRefNo}" class="txtfldM" size="10" maxlength="20" style="width:110px;" autocomplete="off"/>
+			    </td>
+			    <td>
+			     <select name="nonDTSJryPerformed" th:id="|nonDTSJryPerformed${src.seqNo}|" class="combo" style="width:78px;" th:attr="onchange='takeNonDTSCancellation(this.value,'+${src.seqNo}+');'">
+		           <option value="">Select</option>
+                   <option value="0" th:selected="${src.journeyPerformed} == 0">Yes</option>
+                   <option value="1" th:selected="${src.journeyPerformed} == 1">No</option>
+			     </select>
+			    </td>
+			    <td>
+			      <input type="text" name="nonDTSJryAmount" th:id="|nonDTSJryAmount${src.seqNo}|" th:value="${src.amount}" class="txtfldM" size="8" maxlength="8" style="width:78px;" th:attr="onblur='getAmount(6,'+${src.seqNo}+');'" onkeypress="isNumberKey(event)" autocomplete="off"/>
+			    </td>
+			    <td>
+			      <input type="text" name="nonDTSJryRefundAmount" th:id="|nonDTSJryRefundAmount${src.seqNo}|" th:value="${src.refundAmount}" class="txtfldM" size="8" maxlength="8" style="width:78px;" onblur="calculateFinalAmount();" onkeypress="isNumberKey(event)" autocomplete="off"/>
+			    </td>
+			    <td>
+			    <input type="hidden"  readonly="readonly" name="nonDTSJrnyCanType" th:id="|nonDTSJrnyCanType${src.seqNo}|" th:value="${src.cancellationGrnd}"/>
+			    <input type="hidden"  readonly="readonly" name="nonDTSJrnyCanSanNo" th:id="|nonDTSJrnyCanSanNo${src.seqNo}|" th:value="${src.cancellationRmrk}"/>
+			    <input type="hidden"  readonly="readonly" name="nonDTSJrnyCanSanDate" th:id="|nonDTSJrnyCanSanDate${src.seqNo}|" th:value="${src.cancellationDate}"/>
+			    <input type="hidden"  readonly="readonly" name="taTableIdlen" th:value="${src.seqNo}"/>
+			    <input type="button"  value="Row X" class="butn" th:attr="onclick='deleteCurrentRow(this,\'taRowDelete\','+${src.seqNo}+')'"/>
+			    </td>
+		 </tr>
+	 </tbody>
+</table>
+</div>
+
+<div class="welcomebox" style="margin-bottom:2px">
+<table class="filtersearch" width="100%" cellspacing="1"  cellpadding="4" border="0">
+	<tbody class="all1">
+<tr class="tadaHeading">
+	<td style="border-right:1px solid white">E. Hotel Bill Details </td>
+	<td  colspan="4" style="text-align:right"><a id="add_row"  onclick="myCreateFunction('hotelAddmore')" style="color: rgb(255, 255, 255); border: medium none; cursor: pointer; padding: 2px 8px; background: rgb(13, 57, 94) none repeat scroll 0% 0%;"  >Add More</a></td>
+	  
+</tr>
+</tbody>
+</table>
+
+<table id="hotelTableGrid"  class="filtersearch">
+<tbody class="allp" th:if="${claimView.rejectedTaDaClaimDetails.hotelDtls} != null and ${claimView.rejectedTaDaClaimDetails.hotelDtls.claimHotelDtls} != null">
+
+       <tr class="lablevaluebg" id="hotelHeaderId">
+  		  <td class="lablevalue" style="width:10%;">Hotel/Mess</td>
+  		  <td class="lablevalue" style="width:10%;">Hotel/MESS Name</td>
+  		  <td class="lablevalue" style="width:12%;">Hotel/MESS location</td>
+  		  <td class="lablevalue" style="width:10%;">Hotel GST No</td>
+  		  <td class="lablevalue" style="width:10%;">Check In Date</td>
+  		  <td class="lablevalue" style="width:10%;">Check Out Date</td>
+  		  <td class="lablevalue" style="width:10%;">Number of Days</td>
+  		  <td class="lablevalue" style="width:13%;">Hotel Bill (Excluding GST)</td>
+  		  <td class="lablevalue" style="width:10%;">GST Amt</td>
+  	</tr>
+<!--     <repeat ref="taDaClaimDetails/taDaHotelDetails/taDaHotel" index="index"> -->
+        <tr class="lablevaluebg" th:each="src : ${claimView.rejectedTaDaClaimDetails.hotelDtls.claimHotelDtls}">
+           <td>
+              <select name="hotelOrMess" th:id="|hotelOrMess${src.seqNo}|" class="combo" style="width:80%;" th:attr="onchange='takeMessOrNACInfo(this.value,'+${src.seqNo}+');'">
+				<option value="">Select</option>
+				<option value="Hotel" th:selected="${src.stayLocation} == 'Hotel'">Hotel</option>
+				<option value="Mess" th:selected="${src.stayLocation} == 'Mess'">Mess</option>
+              </select>
+		     <input type="hidden" name="hotelNACTaken" th:id="|hotelNACTaken${src.seqNo}|" class="txtfldM" th:value="${src.nacTaken}"/>
+		     <input type="hidden" name="messLevel" th:id="|messLevel${src.seqNo}|" class="txtfldM" th:value="${src.messLevel}"/>
+		   </td>
+		   <td>
+		      <input type="text" name="hotelName" th:id="|hotelName${src.seqNo}|" class="txtfldM" size="15" maxlength="50" style="width:80%;" th:value="${src.hotelName}" autocomplete="off"/>
+		   </td>
+		   <td>
+			 <div>
+			   <input type="text" name="hotelCity" th:id="|hotelCity${src.seqNo}|" class="txtfldM" size="7" th:value="${src.hotelLocation}" style="width:80%;" autocomplete="off" th:attr="onkeyup='fetchCityList('+${src.seqNo}+',this)', onblur='fillCity(\'\',\'\',\''+${src.seqNo}+'\')'"/>
+			   <input type="hidden" name="destinationCityGrade" th:id="|destinationCityGrade${src.seqNo}|" />
+			   <div class="suggestionsBox" th:id="|suggestionsDestCity${src.seqNo}|" style="display: none;">
+			     <div class="suggestionList" th:id="|autoSuggestionsListforDestCity${src.seqNo}|"></div>
+			   </div>
+			 </div>
+		   </td>
+		   <td>
+			    <input type="text" name="hotelGSTNo" th:id="|hotelGSTNo${src.seqNo}|" size="12" class="txtfldM" maxlength="20" th:value="${src.gstNo}" style="width:80%;" autocomplete="off"/>
+			</td>
+			<td>
+			    <input type="text" readonly="readonly" name="checkInDate" th:id="|checkInDate${src.seqNo}|" size="14" class="txtfldM" maxlength="20"  th:value="${src.checkInTime}" autocomplete="off">
+			</td>
+			<td>
+			   <input type="text" readonly="readonly" name="checkOutDate" th:id="|checkOutDate${src.seqNo}|" size="14" class="txtfldM" maxlength="20"  th:value="${src.checkOutTime}" autocomplete="off"/>
+			</td>
+			<td>
+			   <input type="text" name="hotelNoDays" th:id="|hotelNoDays${src.seqNo}|" size="4" class="txtfldM" onkeypress="isNumericOnlyKey(event)" style="width:80%;" th:attr="onblur='validateHotelDays('+${src.seqNo}+');'" maxlength="4" th:value="${src.noOfDay}" autocomplete="off"/>
+			</td>
+			<td>
+			   <input type="hidden" name="hotelDailyAmount" th:id="|hotelDailyAmount${src.seqNo}|" class="txtfldM" style="width:80%;" th:value="${src.oneDayMaxHotelAmnt}"/>
+			   <input type="text" name="hotelAmount" th:id="|hotelAmount${src.seqNo}|" onkeypress="isNumberKey(event)" th:attr="onblur='getAmount(1,'+${src.seqNo}+');'" size="7" style="width:80%;" class="txtfldM" maxlength="7" th:value="${src.billAmount}" autocomplete="off"/>
+			   <input type="hidden" name="actualHotelAmount" th:id="|actualHotelAmount${src.seqNo}|" th:value="${src.actualHotelAmnt}"/>
+			</td>
+			<td>
+			   <input type="text" name="hotelGSTAmount" th:id="|hotelGSTAmount${src.seqNo}|" th:value="${src.gstAmount}" onkeypress="isNumberKey(event)"  size="7" style="width:80%;" class="txtfldM" maxlength="7" autocomplete="off"/>
+			</td>
+			<td>
+			   <input type="hidden"  readonly="readonly" name="hotelTableIdlen" th:value="${src.seqNo}" class="txtfldM">
+			   <input type="button"  value="Row X" class="butn" th:attr="onclick='deleteCurrentRow(this,\'hotelRowDelete\','+${src.seqNo}+')'">
+			</td>
+         </tr>
+        </tbody>
+</table>
+</div>
+
+<div class="welcomebox" style="margin-bottom:2px">
+<table class="filtersearch" width="100%" cellspacing="1"  cellpadding="4" border="0">
+	<tbody class="all1">
+<tr class="tadaHeading">
+	<td style="border-right:1px solid white">F. Food Bill Details </td>
+	<td  colspan="4" style="text-align:right"><a id="add_row"  onclick="myCreateFunction('foodAddmore')" style="color: rgb(255, 255, 255); border: medium none; cursor: pointer; padding: 2px 8px; background: rgb(13, 57, 94) none repeat scroll 0% 0%;"  >Add More</a></td>
+</tr>
+</tbody>
+</table>
+
+<table id="foodTableGrid"  class="filtersearch" th:if=" ${claimView.rejectedTaDaClaimDetails.foodDtls} == null or  ${claimView.rejectedTaDaClaimDetails.foodDtls.claimFoodDtls} == null ">
+	<tbody class="allp">
+	<tr>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+	</tr>
+	</tbody>
+</table>
+
+<table id="foodTableGrid" class="filtersearch" th:if="${claimView.rejectedTaDaClaimDetails.foodDtls!= null} AND ${claimView.rejectedTaDaClaimDetails.foodDtls.claimFoodDtls !=null}">
+
+          <tbody class="allp" th:if="${claimView.rejectedTaDaClaimDetails.armedfrc} == 1">
+             <tr class="lablevaluebg" id="foodHeaderId">
+	  		  <td class="lablevalue" style="width:20%;">Number of Days</td>
+	  		  <td class="lablevalue" style="width:20%;">Amount</td>
+		  	</tr>
+<!-- 		    <repeat ref="taDaClaimDetails/taDaFoodDetails/taDaFood" index="index"> -->
+	        <tr class="lablevaluebg" th:each="src : ${claimView.rejectedTaDaClaimDetails.foodDtls.claimFoodDtls}">
+	           <td>
+			      <input type="text" name="foodNoDay" th:id="|foodNoDay${src.seqNo}|" th:value="${src.noOfDay}" class="txtfldM" size="10" style="width:50%" maxlength="5" onkeypress="isNumericOnlyKey(event)" th:attr="onblur='calculateFoodAmount('+${src.seqNo}+');'" autocomplete="off">
+			   </td>
+			   <td>
+				<input type="text" name="foodAmount" th:id="|foodAmount${src.seqNo}|" th:value="${src.billAmount}" onkeypress="isNumberKey(event)" class="txtfldM" style="width:50%" size="10" maxlength="10" th:attr="onblur='validateFoodAmount('+${src.seqNo}+');'" autocomplete="off"/>
+				<input type="hidden" name="actualFoodAmount" th:id="|actualFoodAmount${src.seqNo}|" th:value="${src.actualBillAmount}">
+	           </td>
+			   <td>
+		        <input type="hidden" readonly="readonly" name="nonDrawlCertificate" th:id="|nonDrawlCertificate${src.seqNo}|" value="1">
+			    <input type="hidden" readonly="readonly" name="foodTableIdlen" th:value="${src.seqNo}" class="txtfldM">
+			    <input type="button" value="Row X" class="butn" th:attr="onclick='deleteCurrentRow(this,\'foodRowDelete\','+${src.seqNo}+')'">
+		      </td>
+	         </tr>
+          </tbody>
+
+      <tbody class="allp" th:if="${claimView.rejectedTaDaClaimDetails.armedfrc} != 1">
+       <tr class="lablevaluebg" id="foodHeaderId">
+  		  <td class="lablevalue" style="width:50%;">Is the Non-drawl for Ration Certificate issued by the Quarter Master of the Parent Unit ?</td>
+  		  <td class="lablevalue" style="width:20%;">Number of Days</td>
+  		  <td class="lablevalue" style="width:20%;">Amount</td>
+  	</tr>
+<!--     <repeat ref="taDaClaimDetails/taDaFoodDetails/taDaFood" index="index"> -->
+        <tr class="lablevaluebg" th:each="src : ${claimView.rejectedTaDaClaimDetails.foodDtls.claimFoodDtls}">
+           <td>
+          	  <select name="nonDrawlCertificate" th:id="|nonDrawlCertificate${src.seqNo}|" style="width:200px;" class="combo">
+          	     <option value="">Select</option>
+                 <option value="0" th:selected="${src.rationCertiIssue} == 0">Yes</option>
+                 <option value="1" th:selected="${src.rationCertiIssue} == 1">No</option>
+          	  </select>
+           </td>
+		   <td>
+		      <input type="text" name="foodNoDay" th:id="|foodNoDay${src.seqNo}|" th:value="${src.noOfDay}" class="txtfldM" size="10" maxlength="5" style="width:50%" onkeypress="isNumericOnlyKey(event)" th:attr="onblur='calculateFoodAmount('+${src.seqNo}+');'" autocomplete="off">
+		   </td>
+		   <td>
+				<input type="text" name="foodAmount" th:id="|foodAmount${src.seqNo}|" th:value="${src.billAmount}" onkeypress="isNumberKey(event)" class="txtfldM" style="width:50%" size="10" maxlength="10" th:attr="onblur='validateFoodAmount('+${src.seqNo}+');'" autocomplete="off">
+			<input type="hidden" name="actualFoodAmount" th:id="|actualFoodAmount${src.seqNo}|" th:value="${src.actualBillAmount}">
+           </td>
+		   <td>
+			    <input type="hidden" readonly="readonly" name="foodTableIdlen" th:value="${src.seqNo}" class="txtfldM" />
+			    <input type="button" value="Row X" class="butn" th:attr="onclick='deleteCurrentRow(this,\'foodRowDelete\','+${src.seqNo}+')'"/>
+	      </td>
+         </tr>
+	</tbody>
+</table>
+</div>
+
+<div class="welcomebox" style="margin-bottom:2px">
+<table class="filtersearch" width="100%" cellspacing="1"  cellpadding="4" border="0">
+	<tbody class="all1">
+<tr class="tadaHeading">
+	<td style="border-right:1px solid white">G. Taxi Charges within TD City </td>
+	<td  colspan="4" style="text-align:right"><a id="add_row"  onclick="myCreateFunction('tourAddmore')" style="color: rgb(255, 255, 255); border: medium none; cursor: pointer; padding: 2px 8px; background: rgb(13, 57, 94) none repeat scroll 0% 0%;"  >Add More</a></td>
+</tr>
+</tbody>
+</table>
+<table id="tourTableGrid" class="filtersearch" cellpadding="0" cellspacing="2" width="100%"  border="0" style="table-layout:fixed"
+    th:unless="${claimView.rejectedTaDaClaimDetails.conyncDtls} != null and ${claimView.rejectedTaDaClaimDetails.conyncDtls.taDaLocalCon} != null">
+</table>
+<table id="tourTableGrid" class="filtersearch"  cellpadding="0" cellspacing="2" width="100%"  border="0" style="table-layout:fixed"
+	th:if="${claimView.rejectedTaDaClaimDetails.conyncDtls} != null and ${claimView.rejectedTaDaClaimDetails.conyncDtls.taDaLocalCon} != null">
+
+        <tbody class="allp" th:if="${claimView.rejectedTaDaClaimDetails.conyncDtls.isConveyanceDtls} == 0">
+        <tr class="lablevaluebg" id="tourHeaderId">
+  		  <td class="lablevalue" style="width:25%;">Vehicle No</td>
+  		  <td class="lablevalue" style="width:15%;">Date of Travel</td>
+  		  <td class="lablevalue" style="width:15%;">Distance</td>
+  		  <td class="lablevalue" style="width:15%;">Bill No</td>
+  		  <td class="lablevalue" style="width:20%;">Amount</td>
+	  	</tr>
+<!-- 	    <repeat ref="taDaClaimDetails/taDaLocalConDetails/taDaLocalCon" index="index"> -->
+	        <tr class="lablevaluebg" th:each="src : ${claimView.rejectedTaDaClaimDetails.conyncDtls.taDaLocalCon}">
+	           <td>
+	             <input type="text" name="tourVehicleNo" th:id="|tourVehicleNo${src.seqNo}|" th:value="${src.vehicleNo}" class="txtfldM" size="20" maxlength="20" autocomplete="off"/>
+	           </td>
+			   <td>
+			     <input type="text" readonly="readonly" name="tourDate" th:id="|tourDate${src.seqNo}|" th:value="${src.dateOftravelStr}" class="txtfldM" size="12" style="width:90.5%" maxlength="20" autocomplete="off"/>
+			   </td>
+			   <td>
+			     <input type="text" name="tourDistance" th:id="|tourDistance${src.seqNo}|" th:value="${src.distance}" class="txtfldM" size="8" maxlength="10" onkeypress="isNumericOnlyKey(event)" autocomplete="off"/>
+			   </td>
+			   <td>
+			     <input type="text" name="tourBillNo" th:id="|tourBillNo${src.seqNo}|" th:value="${src.billNo}" class="txtfldM" size="10" maxlength="30" autocomplete="off"/>
+			   </td>
+			   <td>
+			     <input type="text" name="tourAmount" th:id="|tourAmount${src.seqNo}|" th:value="${src.billAmount}" onkeypress="isNumberKey(event)" th:attr="onblur='getAmount(3,'+${src.seqNo}+');'" class="txtfldM" size="10" maxlength="10" autocomplete="off"/>
+			     <input type="hidden" name="actualTourAmount" th:id="|actualTourAmount${src.seqNo}|" th:value="${src.actualBillAmount}"/>
+			   </td>
+			   <td> 
+                 <input type="hidden"  readonly="readonly" name="tourTableIdlen" th:value="${src.seqNo}" class="txtfldM">
+                 <input type="button"  value="Row X" class="butn" th:attr="onclick='deleteCurrentRow(this,\'tourRowDelete\','+${src.seqNo}+')'">
+               </td>
+	        </tr>
+	     </tbody>
+
+	     <tbody class="allp" th:unless="${claimView.rejectedTaDaClaimDetails.conyncDtls.isConveyanceDtls} == 0">
+	        <tr class="lablevaluebg" id="tourHeaderId">
+	  		  <td class="lablevalue" style="width:25%;">Number of Days</td>
+	  		  <td class="lablevalue" style="width:15%;">Amount</td>
+		  	</tr>
+<!-- 		    <repeat ref="taDaClaimDetails/taDaLocalConDetails/taDaLocalCon" index="index"> -->
+		        <tr class="lablevaluebg" th:each="src : ${claimView.rejectedTaDaClaimDetails.conyncDtls.taDaLocalCon}">
+		          <td>
+		            <input type="text" name="tourNoOfDays" th:id="|tourNoOfDays${src.seqNo}|" th:value="${src.noOfDay}" class="txtfldM" size="10" maxlength="5" onkeypress="isNumericOnlyKey(event)" autocomplete="off">
+		          </td>
+			      <td>
+			        <input type="text" name="tourAmount" th:id="|tourAmount${src.seqNo}|" th:value="${src.billAmount}" onkeypress="isNumberKey(event)" th:attr="onblur='getAmount(3,'+${src.seqNo}+');'" class="txtfldM" size="10" maxlength="10" autocomplete="off"/>
+			        <input type="hidden" name="actualTourAmount" th:id="|actualTourAmount${src.seqNo}|" th:value="${src.actualBillAmount}"/>
+			      </td>
+			      <td>
+			        <input type="hidden"  readonly="readonly" name="tourTableIdlen" th:value="${src.seqNo}" class="txtfldM" />
+			        <input type="button"  value="Row X" class="butn" th:attr="onclick='deleteCurrentRow(this,\'tourRowDelete\','+${src.seqNo}+')'"/>
+			      </td>
+		        </tr>
+        </tbody>
+</table>
+</div>
+
+<div class="welcomebox" style="margin-bottom:2px">
+<table class="filtersearch" width="100%" cellspacing="1"  cellpadding="4" border="0">
+	<tbody class="all1">
+<tr class="tadaHeading">
+	<td>H. Advances Drawn </td>
+</tr>
+</tbody>
+</table>
+
+<table class="filtersearch">
+	<tbody class="allp">
+<tr class="lablevalue">
+    <td>DA Advance from DTS</td>
+	<td>Advance Drawn from PAO</td>
+	<td>Date of Advance Drawn from PAO</td>
+	<td>Advance Drawn from Other Sources</td>
+	<td>Voucher No for Advance Drawn from Other Sources</td>
+	<td>Date of Advance Drawn from Other Sources</td>
+</tr>
+<tr>
+    <td><span th:text="${claimView.rejectedTaDaClaimDetails.claimAdvanceDtls.daAdvanceAmount}"></span></td>
+	<td><input name="advFromPAO" id="Adv_From_PAO" th:value="${claimView.rejectedTaDaClaimDetails.claimAdvanceDtls.paoAdvanceAmount}" onkeypress="isNumberKey(event)" maxlength="10" onblur="calculateFinalAmount();" autocomplete="off"/></td>
+	<td><input name="advFromPAODate" id="Adv_From_PAO_Date" th:value="${claimView.rejectedTaDaClaimDetails.claimAdvanceDtls.paoAdvanceDate}" readonly="readonly" autocomplete="off"/></td>
+	<td><input name="advFromOther" id="Adv_From_Other" th:value="${claimView.rejectedTaDaClaimDetails.claimAdvanceDtls.otherAdvncAmnt}" onkeypress="isNumberKey(event)" maxlength="10" onblur="calculateFinalAmount();" autocomplete="off"/></td>
+	<td><input name="advFromOtherVoucherNo" id="Adv_From_Other_VNo" th:value="${claimView.rejectedTaDaClaimDetails.claimAdvanceDtls.otherAdvncRefId}" autocomplete="off"/></td>
+	<td><input name="advFromOtherDate" id="Adv_From_Other_Date" th:value="${claimView.rejectedTaDaClaimDetails.claimAdvanceDtls.otherAdvncDate}" readonly="readonly" autocomplete="off"/></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="welcomebox" style="margin-bottom:2px">
+<table class="filtersearch" width="100%" cellspacing="1"  cellpadding="4" border="0">
+	<tbody class="all1">
+<tr class="tadaHeading">
+	<td>I. Advances Refunded </td>
+</tr>
+</tbody>
+</table>
+
+<table class="filtersearch">
+	<tbody class="allp">
+<tr class="lablevalue">
+    <td>eMRO/MRO/Refund Amount</td>
+	<td>eMRO/MRO/Refund No</td>
+	<td>eMRO/MRO Submission Date/Refund  Date</td>
+</tr>
+
+<tr>
+    <td><input name="mroRefund" id="Advance_MRO" th:value="${claimView.rejectedTaDaClaimDetails.claimAdvanceDtls.mroRefundAmount}" onkeypress="isNumberKey(event)" maxlength="10" onblur="calculateFinalAmount();" autocomplete="off"/></td>
+	<td><input name="mroNumber" id="MRO_Number" th:value="${claimView.rejectedTaDaClaimDetails.claimAdvanceDtls.mroRefundRefId}" maxlength="20" autocomplete="off"/></td>
+	<td><input name="mroDate" id="MRO_Date" th:value="${claimView.rejectedTaDaClaimDetails.claimAdvanceDtls.mroRefundDate}" maxlength="20" readonly="readonly" autocomplete="off"/></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="welcomebox" style="margin-bottom:2px">
+<table class="filtersearch" width="100%" border="0" align="center">
+	<tbody class="all1">
+    <tr class="tadaHeading">
+	  <td colspan="4">Details of Recovery against this Travel (if any)</td>
+    </tr>
+ 	<tr>
+ 	    <td class="lablevalue">IRLA Recovery Amount</td>
+ 	    <td><span th:text="${claimView.recoverydeatils.irlaRecoveryAmnt}"></span><input type="hidden" id="irlaRecoveryAmt" th:value="${claimView.recoverydeatils.irlaRecoveryAmnt}"/></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="welcomebox" style="margin-bottom:2px">
+<table class="filtersearch" align="center" width="100%" border="0">
+	<tbody class="all1">
+ 	<tr class="lablevalue">
+	 	<td>Total Amount of Claim(Submitted):&#160;&#160;<span id="total_spent_amount" th:text="${claimView.rejectedTaDaClaimDetails.totalSpentAmount}"/></span></td>
+ 	</tr>
+ 	<tr class="lablevalue">
+	 	<td>less: Advance Taken(User) including DTS Tickets:&#160;&#160;<span id="total_advance_amount" th:text="${claimView.rejectedTaDaClaimDetails.totalAdvanceAmount}"/></span></td>
+ 	</tr>
+ 	<tr class="lablevalue">
+	 	<td>add: e-MRO Refunds(User):&#160;&#160;<span id="total_refund_amount" th:text="${claimView.rejectedTaDaClaimDetails.totalRefundAmount}"/></span></td>
+ 	</tr>
+ 	<tr class="lablevalue">
+	 	<td>Payable/Recoverable Amount:&#160;&#160;<span id="total_claimed_amount" th:text="${claimView.rejectedTaDaClaimDetails.totalClaimedAmount}"/></span><span class="mandatory">*</span></td>
+ 	</tr>
+ 	<tr>
+	 	<td><font color="red">* Negative amount reflects recovery from the Officer</font></td>
+ 	</tr>
+ 	</tbody>
+</table>
+</div>
+</body>
+</html>

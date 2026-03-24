@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+<link rel="stylesheet" type="text/css" th:href="@{/css/common/popup/LightFace.css}">
+<script th:src="@{/js/common/popup/mootools.js}"></script>
+<script th:src="@{/js/common/popup/LightFace.IFrame.js}"></script>
+<script th:src="@{/js/common/popup/LightFace.js}"></script>
+<script th:src="@{/js/common/popup/LightFace.Request.js}"></script>
+
+<script th:src="@{/js/MB/Reports/TdrReport/tdrReport.js(random=${session.jsToken})}"></script>
+<script type="text/javascript" th:src="@{/js/common/crypto.js}"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	
+    $('#bookingRecordTable').DataTable({
+searching: false,
+info: false,
+ordering:false
+    });
+});
+</script>
+
+<body oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+	<div th:insert="~{fragments/header/mainHeader}"></div>
+	<section id="midpart" class="midpart">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-1"></div>
+				<div class="col-lg-10">
+
+					<form  id="tdrForm" th:action="@{/reports/getTdrReport}" method="post">
+
+						<input name="userAction" type="hidden" id="userAction">
+						<input name="userIsMemberOf" type="hidden" id="userIsMemberOf" value="UNIT">
+						<input name="bookingViewId" type="hidden" id="bookingViewId">
+						<input name="event" type="hidden" value="next" id="event">
+						<input name="exportType" type="hidden" id="exportType">
+						<div id="program" class="programBlock">
+							<div class="welcomebox" style="margin-bottom:1rem">
+								<div class="welcomeHead">
+									<p th:text="#{mb.report.tdrReport.report}">
+
+									</p>
+								</div>
+								<div class="welcomecont">
+									<table class="filtersearch" width="100%" cellspacing="1" cellpadding="4" border="0">
+										<tbody class="all1">
+
+											<tr align="left">
+												<td><span th:text="#{mb.report.tdrReport.bookingId}"></span>
+												</td>
+												<td><input name="bookingId" type="text" id="bookingId"
+														onchange="hideExport();" class="txtfldM" size="15"
+														maxlength="20" th:value="${formModel.bookingId}"> </td>
+												<td><span th:text="#{mb.report.tdrReport.requestId}"></span>
+												</td>
+												<td> <input name="requestId" type="text" id="requestId"
+														onchange="hideExport();" class="txtfldM" size="15"
+														maxlength="20" th:value="${formModel.requestId}"> </td>
+											
+												<td><span th:text="#{mb.report.tdrReport.pnrNo}"></span></td>
+												<td><input name="pnrNo" type="text" id="pnrNo" th:value="${formModel.pnrNo}"
+														class="txtfldM" size="15" maxlength="20"></td>
+												<td><span th:text="#{mb.report.tdrReport.personalNo}"></span></td>
+												<td><input name="personalNo" type="text" class="txtfldM" id="personalNo" th:value="${formModel.personalNo}"
+														size="20">
+												</td>
+												
+											</tr>
+											<tr align="left">
+												<td><span th:text="#{mb.report.tdrReport.fmDate}"></span></td>
+												<td><input name="fromDate" type="text" th:value="${formModel.fromDate}"
+														class="txtfldM" id="fromDate" size="15" readonly="readonly">
+													<div id="calendar3_container"></div>
+												</td>
+												<td align="left"><span th:text="#{mb.report.tdrReport.toDate}"></span>
+												</td>
+												<td><input name="toDate" type="text"  th:value="${formModel.toDate}"
+														class="txtfldM" id="toDate" size="15" readonly="readonly">
+													<div id="calendar3_container"> </div>
+												</td>
+											
+												<td>
+													<span th:text="#{mb.report.tdrReport.trvlType}"></span>
+												</td>
+												<td>
+													<select name="travelType" id="travelType" class="combo"
+														style="width: 33%;">
+														<option value="">All</option>
+														<option th:each=" src : ${travelTypeList}"
+															th:text="${src.travelName}" th:value="${src.travelTypeId}"
+															th:selected="${src.travelTypeId} == ${formModel.travelType}">
+														</option>
+													</select>
+												</td>
+												<td>
+													<span th:text="#{mb.report.tdrReport.tdrSatus}"></span>
+												</td>
+												<td class="label" >
+
+													<select name="tdrStatus" id="tdrStatus" class="combo">
+														<option value="">All</option>
+														
+														<option value="1" th:selected="${formModel.tdrStatus}== '1'">
+															Approved
+														</option>
+														
+														<option value="3" th:selected="${formModel.tdrStatus} == '3'">
+															TDR Filed
+														</option>
+														<option value="0" th:selected="${formModel.tdrStatus}== '0'">
+															Requested
+														</option>
+														
+														<option value="2" th:selected="${formModel.tdrStatus} == '2'">
+															Rejected
+														</option>
+														
+													</select>
+												</td>
+											</tr>
+
+											<tr id="accountOffices">
+												<td>
+													<span th:text="#{mb.report.tdrReport.accofc}"></span>
+												</td>
+												<td colspan="7">
+													<select name="accountOfice" id="paoId" class="combo"
+														style="width: 13%;">
+														<option value="">All</option>
+															<option th:each=" src : ${paoList}" th:text="${src.name}"
+																th:value="${src.groupId}"
+																th:selected="${src.groupId} == ${formModel.accountOfice}">
+															</option>
+													</select>
+												</td>
+
+												
+
+											</tr>
+											<tr>
+												<td colspan="10" id="downLoadFile" style="text-align:right">
+													<a href="#" style="text-align:right"><input type="button"
+															value="Generate Report" class="butn"
+															  onclick = "generateReport(this.value);"></a>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+						<div id="bookingDetailsTR">
+							<div class="welcomebox" th:if="${not #lists.isEmpty(tdrReportList)}">
+								<table class="filtersearch" id="bookingRecordTable" width="100%" cellspacing="1"
+									cellpadding="4" border="0">
+									<thead class="head">
+										<tr>
+											<th style="width:8%"><span th:text="#{mb.report.tdrReport.requestId}"></span>
+											</th>
+											<th style="width:8%"><span th:text="#{mb.report.tdrReport.bookingId}"></span>
+											</th>
+											<th style="width:8%"><span th:text="#{mb.report.tdrReport.personalNo}"></span>
+											</th>
+											<th style="width:8%"><span th:text="#{mb.report.tdrReport.pnrNo}"></span>
+											</th>
+											<th style="width:10%"><span th:text="#{mb.report.tdrReport.ackNo}"></span>
+											</th>
+											<th style="width:8%"><span th:text="#{mb.report.tdrReport.trvlType}"></span>
+											</th>
+											<th style="width:8%"><span th:text="#{mb.report.tdrReport.tdrSatus}"></span>
+											</th>
+											<th style="width:10%"><span th:text="#{mb.report.tdrReport.tdrCreationDateTime}"></span>
+											</th>
+											<th style="width:13%"><span th:text="#{mb.report.tdrReport.tdrReason}"></span>
+											</th>
+											<th style="width:13%"><span th:text="#{mb.report.tdrReport.erroMsg}"></span>
+											</th>
+
+										</tr>
+										</thead>
+										<tbody class="all1">
+										<tr align="left" th:each="tdrData : ${tdrReportList}">
+											<td th:text="${tdrData.requestId}"></td>
+											<td> <a href="#" class="links"
+													th:attr="onclick='viewBookingReports(\''+${tdrData.bookingId}+'\')'"
+													th:text="${tdrData.bookingId}"></a></td>
+											<td th:text="${tdrData.personalNo}"></td>
+											<td th:text="${tdrData.pnrNo}"></td>
+											<td th:text="${tdrData.tdrTxnId}"></td>
+											<td th:text="${tdrData.travelType}"></td>
+											<td th:text="${tdrData.isTdrSucess}"></td>
+
+											
+											<td th:text="${tdrData.creationFomattedTime}"></td>
+											
+											<td th:text="${tdrData.tdrReason}"></td>
+											<td th:text="${tdrData.tdrErrorMsg}"></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						</tr>
+					</form>
+					<p class="errors" th:text="${listEmpty}"></p>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section>
+	<div class="blank"></div>
+	</section>
+	<section>
+    <div th:insert="~{fragments/login/footer}"></div>
+    </section>
+
+</body>
+
+</html>

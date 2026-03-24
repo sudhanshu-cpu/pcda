@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+	<div class="programblock">
+		<div class="welcomebox">
+			<div class="welcomeHead" th:unless="${#lists.isEmpty(popupDataList)}">
+				<p>Voucher Generation Summary CDA</p>
+			</div>
+			<div class="welcomecont">
+				<div th:if="${#lists.isEmpty(popupDataList)}">Voucher Generation Summary Not Found.</div>
+
+				<div style="overflow:auto; width:100%;height:400px;">
+					<table class="filtersearch">
+						<tbody class="all1">
+							<tr>
+								<td>Sequence </td>
+								<td>Personal Number</td>
+								<td>Transaction Id</td>
+								<td>Net Outstanding</td>
+								<td>Due Amount</td>
+							</tr>
+							
+								<tr class="lablevaluebg" th:each="src : ${popupDataList}">
+									<td><span th:text="${src.seqNo}">
+									</span></td>
+									<td><span th:text="${src.personalNo}"> </span>
+									<input type="hidden" name= "@{||}"> </td>
+									<td><span th:text="${src.transactionId}"> </span>
+									<input type="hidden" name= "@{||}"> </td>
+									<td><span th:text="${src.netOutstanding}"> </span>
+									<input type="hidden" name= "@{||}"> </td>
+									<td><span th:text="${src.dueAmount}"> </span>
+									<input type="hidden" name= "@{||}"> </td>
+								</tr>
+							
+							<tr class="lablevaluebg">
+								<td colspan="3" class="lablevalue">Total <input type="hidden" name="accountOffice" th:value="${reqModel.accountOffice}">
+							    <input type="hidden" name="loginUserId" th:value="${reqModel.loginUserId}">
+							      <input type="hidden" name="serviceProvider" th:value="${reqModel.serviceProvider}"></td>
+							      
+								<td colspan="1" class="lablevalue"><span th:text="${popupDataList.get(0).netOutstandingTotal}"> </span></td>
+								<td colspan="1" class="lablevalue"><span th:text="${popupDataList.get(0).dueAmountTotal}"> </span></td>
+								
+							</tr>
+							
+							
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+</body>
+
+</html>

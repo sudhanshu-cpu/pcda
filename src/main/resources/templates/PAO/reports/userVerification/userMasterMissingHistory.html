@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<script type="text/javascript">
+function trim(n)
+{
+   		return n.replace(/^\s+|\s+$/g,'');
+}
+	
+function isEmpty(value)
+{
+	return value==null||""==value;
+}
+	
+function submitCommentForm()
+{
+  var form = document.forms['commentForm'];
+  var actionOriginal=form.action;
+  //alert(actionOriginal);
+  form.action=actionOriginal.replace('/page', "");
+  form.submit();
+}
+
+function  doBack(formName,event) {
+  
+  var form = document.forms[formName];
+  form.event.value = event;
+  form.action="/pcda/af/pcda/user/profileauditdashboardforapproval.do";
+  var actionOriginal=form.action;
+  form.action=actionOriginal.replace('/page', "");
+  form.submit();
+}
+</script>
+<body>
+
+<form name="commentForm" method="post" id="commentForm">
+<input type="hidden" name="personalNo" id="personalNo" value="${personalNo}" />
+<input type="hidden" name="event" id="event" value="next" />
+<div id="program" class="programBlock">
+						<div class="welcomebox">
+							<div class="welcomeHead">
+								<p><span th:text="${personalNo}"></span>
+									Master Missing Comment History
+								</p>
+							</div>
+								<div class="welcomecont">
+ 		<div id="reqPoolDiv" th:unless="${#lists.isEmpty(userMmHistory)}">
+ 		<table id="loginForm" class="filtersearch" cellpadding="5" cellspacing="1" width="100%" border="0">
+ 			<tbody class="all1">
+ 						<tr class="lablevalue">
+						 <td>SN#</td>
+						 <td>Comment</td>
+						 <td>Comment Date</td>
+						 <td>Comment By</td>
+						 </tr>
+ 					 <tr th:each="list:${userMmHistory}">
+						 <td><span th:text="${list.seqNumber}"></span> </td>
+						 <td><span th:text="${list.comment}"></span></td>
+						 <td><span th:text="${list.comunctionDateStr}"></span></td>
+						 <td><span th:text="${list.commentBy}"></span></td>
+						 </tr>
+ 						
+ 						</tbody>
+ 						
+ 						
+ 						
+ 		</table>
+
+ 		</div>
+ 		<div th:if="${#lists.isEmpty(userMmHistory)}">
+ 		<p th:text="${noDataFound}" class="errors" style="margin-bottom:0"></p>
+        </div>
+ 		</div>
+ 		</div>
+ 		</div>
+</form>
+
+
+</body>
+</html>

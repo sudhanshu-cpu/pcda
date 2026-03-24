@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+
+
+<link rel="stylesheet" type="text/css" th:href="@{/css/common/popup/LightFace.css}">
+
+<script th:src="@{/js/common/popup/mootools.js}"></script>
+
+<script th:src="@{/js/common/popup/LightFace.js}"></script>
+<script th:src="@{/js/common/popup/LightFace.Request.js}"></script>
+<script th:src="@{/js/MB/Reports/AirTravelReport/airtravelreport.js(random=${session.jsToken})}">
+</script>
+<script type="text/javascript" th:src="@{/js/common/crypto.js}"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	
+    $('#bookingRecordTable').DataTable({
+searching: false,
+info: false,
+ordering:false
+    });
+});
+</script>
+<style>
+    #bookingRecordTable th,
+    #bookingRecordTable td {
+        text-align: center !important;
+    }
+</style>
+
+<body>
+	<div th:insert="~{fragments/header/mainHeader}"></div>
+	<section id="midpart" class="midpart">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-1"></div>
+				<div class="col-lg-10">
+					<form method="post" th:action="@{/reports/getAirTravelReport}" name="bookingRptFilter"
+						id="bookingRptFilter">
+						<div id="program" class="programBlock">
+							<div class="welcomebox" style="margin-bottom:1rem">
+								<div class="welcomeHead">
+								
+										<p th:text="#{pao.report.airBookingReport.airBookingReports}"></p>
+									
+								</div>
+								<div class="welcomecont">
+									<table class="filtersearch" width="100%" cellspacing="1" cellpadding="4" border="0">
+										<tbody class="all1">
+											<tr align="left">
+												<td><span
+															th:text="#{pao.report.airBookingReport.bookingId}"></span>
+												</td>
+												<td><input name="bookingId" type="text" id="bookingId"
+														 class="txtfldM" size="19" autocomplete="off"
+														maxlength="20" th:value="${formModel.bookingId}"> </td>
+
+												<td><span
+															th:text="#{pao.report.airBookingReport.requestId}"></span>
+												</td>
+												<td> <input name="requestId" type="text" id="requestId"
+														 class="txtfldM" size="19"
+														maxlength="20" th:value="${formModel.requestId}"> </td>
+											
+
+												<td><span
+															th:text="#{pao.report.airBookingReport.frmBookingDate}"></span>
+												</td>
+												<td><input name="fromDate" type="text" id="frmBookingDt" size="19" readonly="readonly" th:value="${formModel.fromDate}">
+													<div id="calendar3_container"></div>
+												</td>
+
+												<td><span
+															th:text="#{pao.report.airBookingReport.toBookingDate}"></span>
+												</td>
+												<td><input name="toDate" type="text" 
+														class="txtfldM" id="toBookingDt" size="19" readonly="readonly" th:value="${formModel.toDate}">
+													<div id="calendar3_container"> </div>
+												</td>
+											</tr>
+
+											<tr align="left">
+												<td><span
+															th:text="#{pao.report.airBookingReport.frmJournyDate}"></span>
+												</td>
+												<td><input name="fromJourneyDate" type="text" 
+														class="txtfldM" id="frmJourneyDt" size="19" readonly="readonly" th:value="${formModel.fromJourneyDate}">
+													<div id="calendar3_container"> </div>
+												</td>
+												<td><span
+															th:text="#{pao.report.airBookingReport.toJornyDate}"></span>
+												</td>
+												<td><input name="toJourneyDate" type="text" 
+														class="txtfldM" id="toJourneyDt" size="19" readonly="readonly" th:value="${formModel.toJourneyDate}">
+													<div id="calendar3_container"> </div>
+												</td>
+											
+												<td><span
+															th:text="#{pao.report.airBookingReport.personalNo}"></span>
+												</td>
+												<td align="left">
+													<input name="personalNo" type="text" id="personalNo1"
+														class="txtfldM" size="19" th:value="${formModel.personalNo}">
+												</td>
+
+
+												<td> 
+													<span
+															th:text="#{pao.report.airBookingReport.trvlType}"></span>
+												</td>
+												<td>
+													<select name="traveType" id="travelType" class="combo"
+														style="width: 33%;">
+														<option value="">All</option>
+														<option th:each=" src : ${travelTypeList}"
+															th:text="${src.travelName}" th:value="${src.travelTypeId}" th:selected="${formModel.traveType}==${src.travelTypeId}">
+														</option>
+													</select>
+												</td>
+											</tr>
+											<tr align="left">
+
+												<td><span
+															th:text="#{pao.report.airBookingReport.bookingStatus}"></span>
+												</td>
+												<td><select name="bookingStatus" 
+														class="txtfldM" id="bookingStatus">
+														<option value="">All</option>
+														
+														<option value="3" th:selected="${formModel.bookingStatus}==3">Booked</option>
+														<option value="2" th:selected="${formModel.bookingStatus}==2">Booking Requested</option>
+														<option value="15" th:selected="${formModel.bookingStatus}==15">Cancelled</option>
+														<option value="10" th:selected="${formModel.bookingStatus}==10">Cancellation Approved by CO
+														</option>
+														<option value="9" th:selected="${formModel.bookingStatus}==9">Cancellation Pending for CO
+															Approval</option>														
+													<option value="0" th:selected="${formModel.bookingStatus}==0">Not Booked</option>
+
+													</select>
+												</td>
+												<td><span
+															th:text="#{pao.report.airBookingReport.serviceProvider}"></span>
+												</td>
+												<td><select name="serviceProvider" class="txtfldM" id="serviceProvider"
+														style="width: 169px">
+														<option value="">All</option>
+														<option value="1" th:selected="${formModel.serviceProvider}==1">ATT</option>
+														<option value="0" th:selected="${formModel.serviceProvider}==0">BL</option>		
+													</select>
+												</td>
+											</tr>
+
+
+											<tr>
+												<td colspan="10" id="downLoadFile" style="text-align:right">
+													<a href="#"><input type="button"
+															value="Generate Report" onClick="generateReport();"
+															class="butn"></a>
+
+												</td>
+											</tr>
+
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</form>
+
+
+					<div class="welcomebox" th:if="${not #lists.isEmpty(airBookingModel)}">
+						<table id="bookingRecordTable" class="filtersearch" width="100%" cellspacing="4" cellpadding="1">
+							<thead class="head">
+								<tr>
+
+									<th><span th:text="#{pao.report.airBookingReport.srNo}"></span></th>
+									<th><span th:text="#{pao.report.airBookingReport.bookingId}"></span></th>
+									<th><span th:text="#{pao.report.airBookingReport.name}"></span></th>
+									<th><span th:text="#{pao.report.airBookingReport.prNo}"></span></th>
+									<th><span th:text="#{pao.report.airBookingReport.noOfPassenger}"></span></th>
+									<th><span th:text="#{pao.report.airBookingReport.flightNo}"></span></th>
+									<th><span th:text="#{pao.report.airBookingReport.from}"></span></th>
+									<th><span th:text="#{pao.report.airBookingReport.to}"></span></th>
+									<th><span th:text="#{pao.report.airBookingReport.bookingDate}"></span></th>
+									<th><span th:text="#{pao.report.airBookingReport.jrnyDate}"></span></th>
+									<th><span th:text="#{pao.report.airBookingReport.cls}"></span></th>
+									<th><span th:text="#{pao.report.airBookingReport.trvlType}"></span></th>
+									<th><span th:text="#{pao.report.airBookingReport.trRule}"></span></th>
+									<th><span th:text="#{pao.report.airBookingReport.totlFare}"></span></th>
+									<th><span th:text="#{pao.report.airBookingReport.transactionId}"></span></th>
+									<th><span th:text="#{pao.report.airBookingReport.paoOffice}"></span></th>
+									<th><span th:text="#{pao.report.airBookingReport.reqType}"></span></th>
+									<th><span th:text="#{pao.report.airBookingReport.bookingStatus}"></span></th>
+									<th><span th:text="#{pao.report.airBookingReport.serviceProvider}"></span>
+									</th>
+
+								</tr>
+								</thead>
+								<tbody class="all1">
+								<!-- 			th:attr="onclick='viewBookingReports(\''+${tdrData.bookingId}+'\')'" -->
+								<!-- th:attr="onclick='viewBookingReports(\''+'AB575029'+'\')'"  For TESTING-->
+								<tr align="left" th:each="airBookingModel,stat : ${airBookingModel}">
+									<td th:text="${stat.index+1}"></td>
+									<td><a href="#" class="links"
+											th:attr="onclick='viewBookingReports(\''+${airBookingModel.bookingId}+'\')'"
+											th:text="${airBookingModel.bookingId}"></a></td>
+									<td th:text="${airBookingModel.name}"></td>
+									<td th:text="${airBookingModel.userAlias}"></td>
+									<td th:text="${airBookingModel.noOfPassenger}"></td>
+									<td th:text="${airBookingModel.flightNo}"></td>
+									<td th:text="${airBookingModel.fromStation}"></td>
+									<td th:text="${airBookingModel.toStation}"></td>
+									<td th:text="${airBookingModel.bookingDate}"></td>
+									<td th:text="${airBookingModel.journeyDate}"></td>
+									<td th:text="${airBookingModel.cabinClass}"></td>
+									<td th:text="${airBookingModel.travelType}"></td>
+									<td th:text="${airBookingModel.trRule}"></td>
+									<td th:text="${airBookingModel.totalInvoice}"></td>
+									<td th:text="${airBookingModel.transactionId}"></td>
+									<td th:text="${airBookingModel.accountOfficeName}"></td>
+									<td th:text="${airBookingModel.bookingType}"></td>
+									<td th:text="${airBookingModel.currBookingStatus}"></td>
+									<td th:text="${airBookingModel.serviceProvider}"></td>
+								</tr>
+
+
+							</tbody>
+						</table>
+					</div>
+
+					<div class="showalert" colspan="5" align="center">
+						<p class="errors" th:text="${errorMessage}"></p>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</section>
+	<section>
+	<div class="blank"></div>
+	</section>
+	<section>
+    <div th:insert="~{fragments/login/footer}"></div>
+    </section>
+
+
+
+</body>
+
+</html>

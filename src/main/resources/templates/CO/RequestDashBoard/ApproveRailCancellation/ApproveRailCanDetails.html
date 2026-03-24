@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{fragments/login/head}"></head>
+
+<script
+	th:src="@{/js/CO/RequestDashBoard/railCancellationApproval/cancellationApproval.js(random=${session.jsToken})}"></script>
+
+<body oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+	<div th:insert="~{fragments/header/mainHeader}"></div>
+	<section>
+		<div class="container-fluid">
+			<div class="row" style="width: 100%">
+				<div class="col-lg-1"></div>
+				<div class="col-lg-10">
+				
+				
+				
+		
+			<form th:action="@{cancellationApproval}" method="post" name="bookingDetails" id="bookingDetailsApp">
+			
+        <input type ="hidden" name="totalPessnager" th:value="${expCancelData.noOfAdults}">
+	    <input type ="hidden" name="pnrNo" th:value="${expCancelData.pnrNo}">
+	     <input type="hidden" name="event" id="event" value="" />
+        
+					<div id="program" class="programBlock">
+						<div class="welcomebox" style="margin-bottom: 1rem;">
+							<div class="welcomeHead">
+								<p th:text="#{mb.travelrequest.exceptionalcancellatio.info}"></p>
+								<span></span>
+							</div>
+							<div class="welcomecont">
+								<table class="filtersearch">
+									<tbody class="all" th:each="src : ${expCancelData}">
+										<tr>
+											<td style="width: 25%"><span
+												th:text="#{mb.travelrequest.exceptionalcancellatio.tckno}"></span></td>
+												<td style="width: 25%"><span
+												th:text="${src.ticketNo}"></span></td>
+											<td style="width: 25%"><span
+												th:text="#{mb.travelrequest.exceptionalcancellatio.pnr}"></span></td>
+												<td style="width: 25%"><span
+												th:text="${src.pnrNo}"></span></td>
+										</tr>
+										<tr>
+											<td style="width: 25%"><span
+												th:text="#{mb.travelrequest.exceptionalcancellatio.trnno}"></span></td>
+												<td style="width: 25%"><span
+												th:text="${src.trainNo}"></span></td>
+											<td style="width: 25%"><span
+												th:text="#{mb.travelrequest.exceptionalcancellatio.tname}"></span></td>
+												<td style="width: 25%"><span
+												th:text="${src.trainName}"></span></td>
+										</tr>
+										<tr>
+											<td style="width: 25%"><span
+												th:text="#{mb.travelrequest.exceptionalcancellatio.datej}"></span></td>
+												<td style="width: 25%"><span
+												th:text="${src.journeyDateStr}"></span></td>
+											<td STYLE="WIDTH: 25%"><span
+												th:text="#{mb.travelrequest.exceptionalcancellatio.cls}"></span></td>
+												<td style="width: 25%"><span
+												th:text="${src.journeyClass}"></span></td>
+										</tr>
+										<tr>
+											<td style="width: 25%"><span
+												th:text="#{mb.travelrequest.exceptionalcancellatio.qut}"></span></td>
+												<td style="width: 25%"><span
+												th:text="${src.journeyQuota}"></span></td>
+											<td style="width: 25%"><span
+												th:text="#{mb.travelrequest.exceptionalcancellatio.Dateb}"></span></td>
+												<td style="width: 25%"><span
+												th:text="${src.bookingDateStr}"></span></td>
+										</tr>
+										<tr>
+											<td style="width: 25%"><span
+												th:text="#{mb.travelrequest.exceptionalcancellatio.bstatus}"></span></td>
+												<td style="width: 25%"><span
+												th:text="${src.currbookingStatus}"></span></td>
+											<td style="width: 25%"><span
+												>Approval state</span></td>
+												<td style="width: 25%"><span th:text="${src.isCanApproved}"></span></td>
+										</tr>
+										<tr>
+										
+												
+												<td style="width: 25%"><span
+												>Cancellation Reason</span></td>
+												<td style="width: 25%"><span
+												th:text="${src.canceltnReason}"></span></td>
+											
+											
+										</tr>
+									
+									
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					<div id="program" class="programBlock">
+						<div class="welcomebox" style="margin-bottom: 1rem;">
+							<div class="welcomeHead">
+								<p th:text="#{mb.travelrequest.exceptionalcancellatio.pdetails}"></p>
+							</div>
+							<div class="welcomecont">
+								<table class="filtersearch" >
+									<tbody class="all" th:each="src : ${expCancelData}">
+									
+											<input type="hidden" name="ticketNo" th:value="${src.ticketNo}" />
+	
+	   <input type="hidden" th:value="${src.bookingId}" name="bookingId"/>
+									
+										<tr>
+											
+											<td>S.No.</td>
+											<td th:text="#{mb.travelrequest.exceptionalcancellatio.name}"> </td>
+											<td th:text="#{mb.travelrequest.exceptionalcancellatio.age}"> </td>
+											
+											<td th:text="#{mb.travelrequest.exceptionalcancellatio.coach}"> </td>
+											<td th:text="#{mb.travelrequest.exceptionalcancellatio.seat}"> </td>
+											<td th:text="#{mb.travelrequest.exceptionalcancellatio.berth}"> </td>
+											<td th:text="#{mb.travelrequest.exceptionalcancellatio.status}"> </td>
+											<td th:text="#{mb.travelrequest.exceptionalcancellatio.oog}"> </td>
+											
+											<td th:text="#{mb.travelrequest.exceptionalcancellatio.canstatus}"> </td>
+											<td th:text="#{mb.travelrequest.exceptionalcancellatio.aoog}"> </td>
+											
+										</tr>
+										<tr th:each="sr,stat : ${src.passengerList}">
+										
+										
+										<!-- '+${}+'      +':'+    -->
+										    
+										    <td th:text="${sr.passangerNo}"> </td>
+											<td th:text="${sr.passangerName}"></td>
+											<td th:text="${sr.passangerAge}"></td>
+											
+											<td th:text="${sr.trnCoach}"></td>
+											<td th:text="${sr.trnSeat}"></td>
+											<td th:text="${sr.trnBerth}"></td>
+											<td th:text="${sr.currentStatus}"></td>
+											
+										
+                                            <td th:text="${sr.isOfficial}"></td>
+                                            
+                                         
+											
+											<td th:text="${sr.currentCancelStatus}"></td>
+											
+											
+											
+											<td th:if="${sr.currentCancelStatus} != 'Cancelled' and ${sr.currentCancelStatus} == 'For Cancellation' and ${sr.isOfficial}=='YES' and ${src.isPartyBooking}=='No' ">
+											
+										         <input type="radio" class="peace" checked="true" th:name="@{|isOnGovtInt_${stat.index+1}|}" th:value="0"/>Yes 
+					                             <input type="radio" class="peace1" th:name="@{|isOnGovtInt_${stat.index+1}|}"  th:value="1"/>No
+											
+											</td>
+											
+											  <td th:if="${sr.currentCancelStatus} != 'Cancelled' and ${sr.currentCancelStatus} == 'For Cancellation' and ${sr.isOfficial}=='YES' and ${src.isPartyBooking} == 'Yes' ">
+											  <input type="radio" class="peace" checked="true" th:name="@{|isOnGovtInt_${stat.index+1}|}" th:value="0"/>Yes 
+					                         </td>
+											
+											
+											  <td th:if="${sr.currentCancelStatus} != 'Cancelled' and ${sr.currentCancelStatus} == 'For Cancellation' and ${sr.isOfficial}=='NO' and ${src.isPartyBooking}== 'No'"> 
+											  <input type="radio" class="peace" th:name="@{|isOnGovtInt_${stat.index+1}|}" th:value="0"/>Yes 
+					                          <input type="radio" class="peace1" th:name="@{|isOnGovtInt_${stat.index+1}|}" checked="true" th:value="1"/>No 
+					                          </td>
+										
+										     <td th:if="${sr.currentCancelStatus} != 'Cancelled' and ${sr.currentCancelStatus} == 'For Cancellation' and ${sr.isOfficial}=='NO' and ${src.isPartyBooking} == 'Yes'"> 
+											  <input type="radio" class="peace" th:name="@{|isOnGovtInt_${stat.index+1}|}" checked="true" th:value="1"/>No 
+					                          </td>
+										
+											<td  th:if="${sr.currentCancelStatus} == 'Cancelled' or  ${sr.currentCancelStatus} != 'For Cancellation'">
+											<input type="hidden" class="peace" th:name="@{|isOnGovtInt_${stat.index+1}|}" value="0" th:if="${sr.isOnGovtInt}=='YES'"/>
+											<input type="hidden" class="peace" th:name="@{|isOnGovtInt_${stat.index+1}|}" value="1" th:if="${sr.isOnGovtInt}=='NO'"/>
+											<span th:text="${sr.isOnGovtInt}"></span>
+											</td>
+											
+											
+	   
+		
+		<input type="hidden"    th:name="@{|passangerNo${stat.index+1}|}"    th:value="${sr.passangerNo}" />	
+	
+		<input type="hidden" th:id="@{|cancelStatus_${stat.index+1}|}"  th:name="@{|cancelStatus_${stat.index+1}|}" th:value="${sr.currentCancelStatus}" />
+											
+										</tr>
+									</tbody>
+								</table>
+							     	<table class="filtersearch" th:each="src : ${expCancelData}">
+									
+								
+							  	   <tbody class="all" th:each="sr : ${src.passengerList}">
+									
+									<tr th:if="${sr.childName}!=null">
+									<td> sNo</td>
+									<td> Passenger Name</td>
+									<td> Passenger Age</td>
+									<td> Passenger Sex</td>
+									
+									</tr>
+									<tr th:if="!${sr.childName}==null">
+									<td th:text="${sr.childSno}"> </td>
+									<td th:text="${sr.childName}"> </td>
+									<td th:text="${sr.childAge}"> </td>
+									<td th:text="${sr.childGender}"> </td>
+									</tr>
+									
+									</tbody>
+										
+								</table>
+							
+							</div>
+						</div>
+					</div>
+					
+					
+					<div id="program" class="programBlock">
+						<div class="welcomebox" style="margin-bottom: 1rem;">
+							<div class="welcomeHead">
+								<p th:text="#{mb.travelrequest.exceptionalcancellatio.fdetails}"> </p>
+							</div>
+							<div class="welcomecont">
+							<table class="filtersearch">
+							<tbody class="all" th:each="src : ${expCancelData}">
+							<tr>
+							<td th:text="#{mb.travelrequest.exceptionalcancellatio.base}"> </td>
+							<td th:text="${src.irlFare}"></td>
+							</tr>
+							<tr>
+							<td th:text="#{mb.travelrequest.exceptionalcancellatio.irctc}">  </td>
+							<td th:text="${src.irctcSerCharge}"></td>
+							</tr>
+							
+							<tr>
+							<td th:text="#{mb.travelrequest.exceptionalcancellatio.tamount}"> </td>
+							<td th:text="${src.totalAmount}"></td>
+							</tr>
+							</tbody>
+							</table>
+							</div>
+						</div>
+					</div>
+					
+					
+					
+							<div class="welcomebox" style="margin-bottom: 1rem;">
+							
+								
+ 	<table class="filtersearch" cellpadding="4" cellspacing="1" width="100%" border="0" th:each="src : ${expCancelData}" >
+ 	<tbody class="all">
+	<tr>
+<!-- 	 th:each="sr : ${src.passengerList}"> -->
+	<td style="text-align:right">
+		<input class="butn" type="button" th:attr="onclick='submitRequestForm(\''+${expCancelData.noOfAdults}+'\',\''+approve+'\')'" value="Approve"/>
+		<input class="butn" type="submit" th:formaction="@{/co/cancellationDisApproval}" th:formmethod="post" value="Disapprove"/>
+	</td></tr>
+ 	</tbody>
+	</table> 
+</div>
+							
+					</form>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section>
+<div class="blank"></div>
+</section>
+	<section>
+		<div th:insert="~{fragments/login/footer}"></div>
+	</section>
+</body>
+</html>

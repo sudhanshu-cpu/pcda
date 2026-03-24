@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+
+<link rel="stylesheet" type="text/css" th:href="@{/css/common/popup/LightFace.css}">
+
+<script th:src="@{/js/common/popup/mootools.js}"></script>
+<script th:src="@{/js/common/popup/LightFace.IFrame.js}"></script>
+<script th:src="@{/js/common/popup/LightFace.js}"></script>
+<script th:src="@{/js/common/popup/LightFace.Request.js}"></script>
+
+
+<script type="text/javascript" th:src="@{/js/MB/RequestDashBoard/OfflineCancelDashBoard/OfflineCanDash.js(random=${session.jsToken})}"></script>
+
+<body oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+	<div th:insert="~{fragments/header/mainHeader}">...</div>
+	<section id="midpart" class="midpart">
+		<div class="container-fluid">
+		<form th:action="@{/mb/sendForCancelReq}" method="post" id="getOfflineCancelDashboard">
+		<input type="hidden" name="requestId" id="requestId">
+		
+			<div class="row" id="dataDiv">
+				<div class="col-lg-1"></div>
+				<div class="col-lg-10">
+					<div id="program" class="programBlock">
+						<div class="welcomebox">
+							<div class="welcomeHead">
+								<p>
+									Offline Request Pool
+								</p>
+							</div>
+							<div class="welcomecont" style="margin:0" th:if="${not #lists.isEmpty(dataUserList)}">
+								
+									
+								
+								<div th:each="src : ${dataUserList}" style="margin-top:1px;margin-bottom:0.5rem">
+									<p style="margin-bottom:0;background-color:  #99CCCC;">
+										<font color="#006666"> <b style="font-size:15px;">Personal No:</b>
+											<a class="links" href="#"
+												th:attr="onclick='personalNoView(\''+${src.personalNo}+'\',\''+${groupId}+'\')'"
+												th:text="${src.personalNo}"></a>
+										</font>
+									</p>
+									<table width="100%" class="filtersearch" th:each="list : ${src.offBeanList}" style="border:1px solid black;margin-bottom:5px">
+										<tbody class="all">
+											<tr class="lablevalue">
+												<td style="width:5%">Request ID</td>
+												<td style="width:10%">Status</td>
+												<td style="width:13%">From</td>
+												<td style="width:13%">To</td>
+												<td style="width:10%" class="side">Request Type</td>
+											</tr>
+											<tr>
+												<td><a class="links" href="#"
+														th:attr="onclick='viewRequestReports(\''+${list.requestId}+'\')'"
+														th:text="${list.requestId}"></a></td>
+												<td><span th:text="${list.approvalStateStr}"></span></td>
+												<td><span th:text="${list.originStnName}"></span></td>
+												<td><span th:text="${list.destnStnName}"></span></td>
+												<td class="side"><span th:text="${list.requestType}"></span></td>
+											</tr>
+											<tr class="lablevalue">
+												<td style="width:5%">Journey Date</td>
+												<td style="width:10%">Tatkal Approval Status</td>
+												<td style="width:13%">Booking Status For Request</td>
+												<td class="side" colspan="2"></td>
+											</tr>
+											<tr>
+												<td class="offline"><span th:text="${list.dateFormateJurny}"></span></td>
+												<td class="offline"><span th:text="${list.isTatkalApproved}"></span></td>
+												<td class="offline"><span th:text="${list.approvalStateStr}"></span></td>
+												<td class="offline side" colspan="2" style="text-align:right">
+													<input type="button" class="butn" value="Cancel"
+														th:attr="onclick='cancelBtnAction(\''+${list.encryptedReqId}+'\')'" />
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<div style="text-align: right;">
+								 <input type="button" class="butn"
+												value=" Print this page " onclick="window.print();" />
+									
+								</div>
+							</div>
+							<div th:if="${#lists.isEmpty(dataUserList)}">
+							<p th:text="${errorMessage}" class="errors" style="margin-bottom:0"> </p>
+							</div>
+							
+						</div>
+						
+					</div>
+				</div>
+			</div>
+			<div class="row" id="cancelDiv">
+				<div class="col-lg-1"></div>
+				<div class="col-lg-10">
+					<div id="program" class="programBlock">
+						<div class="welcomebox">
+							<div class="welcomeHead">
+								<p>
+									Cancel Request Reason
+								</p>
+							</div>
+							<div class="welcomecont">
+								<table class="filtersearch">
+									<tbody class="all1">
+										<tr>
+											<td>
+												<textarea name="reasonForDisapprove" id="reasonForDisapprove" style="border:1px solid #ccc; width:50%; height:80px;"></textarea>
+											</td>
+										</tr>
+										<tr>
+											<td style="text-align:right">
+												<input class="butn" type="button" value="Submit" onclick="submitCancelForm();" />
+											</td>
+										</tr>
+									</tbody>
+								</table>
+								
+							</div>
+								<table class="filtersearch">
+									<tr>
+										<td><input type="button" class="butn"
+												value=" Print this page " onclick="window.print();" /></td>
+									</tr>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+		</div>
+	</section>
+	<section>
+	<div class="blank"></div>
+	</section>
+	<section>
+    <div th:insert="~{fragments/login/footer}"></div>
+    </section>
+</body>
+
+</html>

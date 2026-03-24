@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title th:text="#{title}"></title>
+<link rel="stylesheet" type="text/css" th:href="@{/css/lib/bootstrap.min.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/common/style.css(random=${session.jsToken})}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/common/main.css(random=${session.jsToken})}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/lib/jquery.datetimepicker.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/common/dataTables.bootstrap4.min.css}">
+<script type="text/javascript" th:src="@{/js/bootstrap/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/lib/jquery-3.6.0.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/lib/jquery.datetimepicker.full.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/lib/jquery.validate.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/lib/datatable.jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/lib/dataTables.bootstrap4.min.js}"></script>
+
+<input type="hidden" id="countdown" value="1800" />
+
+<div th:if="${session.windowNameToSet != null}">
+    <script  th:inline="javascript">
+     window.name = /*[[${session.windowNameToSet}]]*/ null;
+    </script>
+    <div th:text="${@loginService.removeVerificationMessageFromSession()}"></div>
+</div> 
+
+<script  th:inline="javascript">
+  //  alert(/*[[${session.windowName}]]*/'');
+   //  alert(window.name);
+   if (window.name != 'topwindow' && window.name != /*[[${session.windowName}]]*/'') {
+	    alert("You have opened this webpage in a new tab or a new window, your session will expired by the system.");
+        window.location = "/pcda/logout";
+   }
+    
+</script>
+<input type="hidden" sec:authorize="hasAuthority('10004')" th:value="10004" id="has_Authority"/>
+<input type="hidden" sec:authorize="!hasAuthority('10004')" th:value="false" id="has_Authority" />
+<script>
+  $(document).ready(function() {
+
+    var hasRole = $("#has_Authority").val();
+
+ 
+    if (hasRole === "10004") {
+	$.ajax({
+            url: $("#context_path").val() + "mb/getCount",
+            type: "GET",
+            dataType: "json",
+            success: function(count) {
+                if (count > 0) {
+                    $("#extraInfoCountBadge").text(count).show();
+                } else {
+                    $("#extraInfoCountBadge").hide();
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("Error fetching count:", error);
+		}
+	});
+    }
+
+
+      window.history.pushState(null, "", window.location.href);        
+
+      window.onpopstate = function() {
+
+          window.history.pushState(null, "", window.location.href);
+
+        };
+
+  $(document).on("keydown", disableF5);
+  
+  $(this).bind("contextmenu", function(e) {alert("Mouse Right Click is blocked");e.preventDefault();});
+ 
+ 
+ 
+
+ 
+  });
+  
+ 
+ 
+  function disableF5(e) {
+	   if ((e.which || e.keyCode) == 116 ) e.preventDefault();
+	 if ((e.which || e.keyCode) == 123 ) e.preventDefault();
+
+	        e = e || window.event;
+	        if (e.ctrlKey) {
+	            var c = e.which || e.keyCode;
+	            if (c == 82) {
+	                e.preventDefault();
+	            }
+   }
+   }
+
+
+timeoutfn = function(){
+	
+	$("#countdown").val(parseInt($("#countdown").val()) - 1);
+    setTimeout(timeoutfn, 1000);
+};
+setTimeout(timeoutfn, 1000);
+
+
+</script>
+</head>
+
+
+
+<input type="hidden" id="context_path" th:value="@{/}" />

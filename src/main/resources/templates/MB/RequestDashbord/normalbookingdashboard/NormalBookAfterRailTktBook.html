@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"> 
+
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title th:text="#{title}"></title>
+<link rel="stylesheet" type="text/css" th:href="@{/css/lib/bootstrap.min.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/common/style.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/common/main.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/lib/jquery.datetimepicker.css}">
+<script type="text/javascript" th:src="@{/js/bootstrap/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/lib/jquery-3.6.0.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/lib/jquery.datetimepicker.full.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/lib/jquery.validate.min.js}"></script>
+
+</head>
+
+    
+<body oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+<div th:insert="~{fragments/header/mainHeader}"></div>
+<section id="midpart" class="midpart">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-1"></div>
+				<div class="col-lg-10">
+<form name="bookingConfirmation" id="bookingConfirmation">
+<div class="mainHeaderBroad"> 
+	 
+	
+ 		<div th:unless="${ModelData}==null">
+ 	 		<div id="program" class="programBlock">
+						<div class="welcomebox" style="margin-bottom: 1rem;">
+							<div class="welcomeHead">
+								<p th:text="#{dod.form.label.trnInfoLabel}"></p>
+							</div>
+							<div class="welcomecont">
+ 	 			
+				<table border='0' width="100%" cellpadding='4' cellspacing='1' align='center' class="filtersearch" id='pnrDetails'>
+	
+				<tbody class="all1">
+	
+	
+	
+				
+				<tr>
+					<td class="lablevalue">Request Id</td>
+					<td><span th:text="${ModelData.requestId}"> </span></td>
+					<td class="lablevalue">Pnr Number</td>
+					<td><span th:text="${ModelData.pnrNumber}"> </span></td>
+				</tr>
+	
+	
+						       
+				<tr>
+					<td class="lablevalue"><span th:text="#{dod.form.label.trnNo}"> </span></td>
+					<td><span th:text="${ModelData.trainNumber}"> </span> </td>
+					<td class="lablevalue"><span th:text="#{dod.form.label.trnName}"> </span></td>
+					<td><span th:text="${ModelData.trainName}"> </span></td>
+				</tr>
+	           
+				<tr>
+					<td class="lablevalue"><span th:text="#{dod.form.label.srcStation}"> </span></td>
+					<td><span th:text="${ModelData.fromStn}"> </span></td>
+					<td class="lablevalue"><span th:text="#{dod.form.label.destStation}"> </span></td>
+					<td><span th:text="${ModelData.destStn}"> </span></td>
+				</tr> 
+	            
+				<tr>
+					<td class="lablevalue"><span th:text="#{dod.form.label.boardingDt}"> </span></td>
+					<td><span th:text="${ModelData.boardingDateStr}"> </span></td>
+					<td class="lablevalue"><span th:text="#{dod.form.label.bookingDt}"> </span></td>
+					<td><span th:text="${ModelData.bookingDateStr}"> </span></td>
+			
+				</tr> 
+	           
+				<tr>
+					<td class="lablevalue"><span th:text="#{dod.form.label.boardingPt}"> </span></td>
+					<td><span th:text="${ModelData.boardingStn}"> </span></td>
+					<td class="lablevalue"><span th:text="#{dod.form.label.reservUpto}"> </span></td>
+					<td><span th:text="${ModelData.resvnUptoStn}"> </span> </td>
+				</tr> 
+	          
+				<tr>
+					<td class="lablevalue"> <span th:text="#{dod.form.label.depTime}"> </span></td>
+					<td> <span th:text="${ModelData.departureTime}"> </span> </td>
+					<td class="lablevalue"><span th:text="#{dod.form.label.distance}"> </span>(Kms)</td>
+					<td><span th:text="${ModelData.distance}"> </span> </td>
+				</tr> 
+	            
+				<tr>
+				 <td class="lablevalue"><span th:text="#{dod.form.label.qouta}"> </span></td>
+				 <td>
+				 <span th:if="${ModelData.journeyQuota}=='GN'">General </span>
+				 <span th:if="${ModelData.journeyQuota}=='CK'">Tatkal </span>
+				 <span th:if="${ModelData.journeyQuota}=='LD'">Ladies</span>
+				 (<span th:text="${ModelData.journeyQuota}"> </span>)
+				 </td>
+				 
+				 <td class="lablevalue"><span th:text="#{dod.form.label.class}"> </span></td>
+				 <td>
+				  <span th:if="${ModelData.journeyClass}=='1A'">First Class AC </span>
+				  <span th:if="${ModelData.journeyClass}=='EC'">Executive Class </span>
+				  <span th:if="${ModelData.journeyClass}=='2A'">Two Tier AC </span>
+				  <span th:if="${ModelData.journeyClass}=='3A'">Three Tier AC </span>
+				  <span th:if="${ModelData.journeyClass}=='3E'">Three Tier AC Economy </span>
+				  <span th:if="${ModelData.journeyClass}=='SL'">Sleeper Class </span>
+				  <span th:if="${ModelData.journeyClass}=='FC'">First Class </span>
+				  <span th:if="${ModelData.journeyClass}=='CC'">AC Chair Car </span>
+				  <span th:if="${ModelData.journeyClass}=='2S'">Second Seating </span>
+				  (<span th:text="${ModelData.journeyClass}">  </span>)
+				 </td>
+				 
+				</tr>
+					
+	</tbody>
+				</table> 
+				</div>
+				</div>
+				</div>
+					           
+			
+		
+				
+				<div id="program" class="programBlock">
+						<div class="welcomebox" style="margin-bottom: 1rem;">
+							<div class="welcomeHead">
+								<p th:text="#{dod.form.label.psngerDetailsLabel}"></p>
+							</div>
+							<div class="welcomecont">
+				
+				<table border='0' width="100%" cellpadding='4' cellspacing='1' align='center' class="filtersearch" id='pnrDetails'>
+				
+				<tbody class="all1">
+				
+				<tr class="lablevalue">
+						<td style="width:5%"><span th:text="#{dod.form.label.sNo}"></span></td>
+						<td style="width:30%"><span th:text="#{dod.form.label.psngrName}"> </span></td>
+						<td style="width:10%"><span th:text="#{dod.form.label.psngrAge}"> </span></td>
+						<td style="width:10%"><span th:text="#{dod.form.label.psngrSex}"> </span></td>
+						<td style="width:10%"><span th:text="#{dod.form.label.psngrCoach}"> </span></td>
+						<td style="width:10%"><span th:text="#{dod.form.label.psngrSeat}"> </span></td>
+						<td style="width:10%"><span th:text="#{dod.form.label.psngrBerth}"> </span></td>
+						<td style="width:15%"><span th:text="#{dod.form.label.psngrStatus}"> </span></td>
+				</tr>
+						
+				  <tr th:each="src :${ModelData.passDetails}">
+				  				
+						<td><span th:text="${src.passengerSerialNumber}"> </span></td>
+						<td><span th:text="${src.passengerName}"> </span></td>
+						<td><span th:text="${src.passengerAge}"> </span></td>
+						<td th:if="${src.passengerGender}=='M'">Male</td></when>
+				  	  	<td th:if="${src.passengerGender}=='F'">Female</td></when>
+				 		<td> <span th:text="${src.currentCoachId}"> </span></td>
+						<td> <span th:text="${src.currentBerthNo}"> </span></td>
+						<td> <span th:text="${src.currentBerthCode}"> </span></td>	
+						<td> <span th:text="${src.currentStatus}"> </span></td>	
+				  </tr>    
+			</tbody>
+				</table>
+</div>
+</div>
+</div>
+
+			
+				
+				
+											
+	<div id="program" class="programBlock">
+						<div class="welcomebox" style="margin-bottom: 1rem;">
+							<div class="welcomeHead">
+								<p th:text="#{dod.form.label.fareInfoLabel}"></p>
+							</div>
+							<div class="welcomecont">
+	
+			<table border='0' width="100%" cellpadding='4' cellspacing='1' align='center' class="filtersearch" id='pnrDetails'>
+	
+				<tbody class="all1">	       
+				<tr>
+						<td class="lablevalue">Catering Charge</td>
+						<td><span th:text="${ModelData.cateringCharge}"> </span> </td>
+						<td class="lablevalue">Fuel Amount</td>
+						<td><span th:text="${ModelData.fuelAmount}"> </span> </td>
+				</tr>
+					
+				<tr>
+						<td class="lablevalue">Reservation Charge</td>
+						<td><span th:text="${ModelData.reservationCharge}"> </span> </td>
+						<td class="lablevalue">Service Tax</td>
+						<td><span th:text="${ModelData.serviceTax}"> </span> </td>
+				</tr>
+		
+				<tr>
+						<td class="lablevalue">Tatkal Fare</td>
+						<td><span th:text="${ModelData.tatkalFare}"> </span> </td>
+						<td class="lablevalue">Total Concession</td>
+						<td><span th:text="${ModelData.totalConcession}"> </span> </td>
+				</tr>
+		
+				<tr>
+						<td class="lablevalue">WP Service Charge</td>
+						<td><span th:text="${ModelData.wpServiceCharge}"> </span></td>
+						<td class="lablevalue">WP Service Tax</td>
+						<td><span th:text="${ModelData.wpServiceTax}"> </span></td>
+				</tr>
+		
+				<tr>
+						<td class="lablevalue">Total Fare</td>
+						<td><span th:text="${ModelData.totalFare}"> </span></td>
+						<td class="lablevalue">Total Collectible Amount</td>
+						<td> <span th:text="${ModelData.totalCollectibleAmount}"> </span></td>
+				</tr>
+		
+		</tbody>
+		</table>
+		</div>
+		</div>
+		</div>
+		
+		<div> 
+		<input type="hidden" name="bookingId" th:value="${ModelData.bookingId}"> 
+		<button type="submit" class="butn" th:formaction="@{/mb/railTicketPDF}" th:formmethod="post">Print Pdf</button>
+		</div>
+		
+ 		</div>
+ 	 
+ 	 		<div th:if="${ModelData}==null">
+ 	 		<div id="program" class="programBlock">
+						<div class="welcomebox" style="margin-bottom: 1rem;">
+							<div class="welcomeHead">
+								<p>Booking Response</p>
+							</div>
+							<div class="welcomecont">
+			
+				<table border='0' width="100%" cellpadding='4' cellspacing='1' align='center' class="filtersearch">
+			
+				<tbody class="all1">
+			
+				<tr>
+					<td>Ticket is not booked at CRIS end due to following reason:</td>
+			    </tr>
+
+				<tr>
+					<td style="text-align:center"><p class="errors" th:text="${errorMessage}"> </p></td>
+			    </tr>
+			  </tbody>
+				</table> 
+			</div>
+			</div>
+			</div>
+			</div>
+	 
+	 
+
+	    	
+</div>
+</form>
+</div>
+</div>
+</div>
+</section>
+<section>
+	<div class="blank"></div>
+	</section>
+	<section>
+    <div th:insert="~{fragments/login/footer}"></div>
+    </section>
+</body>  	
+</html>        

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+
+<script type="text/javascript" th:src="@{/js/common/crypto.js}"></script>
+<link rel="stylesheet" type="text/css" th:href="@{/css/common/popup/LightFace.css}">
+
+<script th:src="@{/js/common/popup/mootools.js}"></script>
+<script th:src="@{/js/common/popup/LightFace.js}"></script>
+<script th:src="@{/js/common/popup/LightFace.Request.js}"></script>
+<script th:src="@{/js/common/jquery.tablesorter.js}"> </script>
+<script th:src="@{/js/MB/Grievance/complaintRedressal/grievance.js(random=${session.jsToken})}"></script>
+
+<body>
+	
+	<div th:insert="~{fragments/header/mainHeader}"></div>
+
+	<section id="midpart" class="midpart">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-1"></div>
+				<div class="col-lg-10">
+
+						<form th:action="@{/mb/viewComplaintHistory}" method="post" id="historyFormData">
+						<div id="program" class="programBlock">
+							<div class="welcomebox" style="margin-bottom:1rem">
+								<div class="welcomeHead">
+									<span>Track Query Status</span>
+								</div>
+
+
+
+								<div class="welcomecont">
+
+									<table class="filtersearch" cellspacing="1" cellpadding="4" width="100%" border="0">
+										<tbody class="all1">
+
+											<tr align="left">
+												<td style="width:10%; vertical-align: middle;">
+													Personal No.
+												</td>
+												<td><input name="personalNo" type="text" id="personalNo"
+														autocomplete="off" th:value="${personalNo}">
+												</td>
+												<td
+													style="width:20%; text-align: center; vertical-align: middle; font-weight:bold; padding-right:80px;">
+													OR
+												</td>
+												<td style="width:10%; vertical-align: middle;">
+													Query No
+												</td>
+												<td>
+													<input name="grievanceId" type="text" id="grievanceId" 
+													autocomplete="off" th:value="${grievanceId}"  onkeyup="getSuggestion(this)" onblur="clearField(this)">
+													<div class="suggestionsBox" id="suggestionsTo"  style="display: none;">
+														<div class="suggestionList" id="autoSuggestionsListTo"></div>
+													</div>
+												</td>
+										
+										<tr>
+												
+												
+
+											</tr>
+
+											<tr>
+											<td colspan="5" style="text-align: right; padding-top: 20px;">
+													<button type="button" class="butn"
+														onclick="showDashDiv()">Search</button>
+												</td>
+
+											</tr>
+
+										</tbody>
+									</table>
+								</form>
+								</div>
+
+
+							</div>
+						</div>
+						</form>
+					<div>
+						<span th:text="${message}" style="color: red; margin-right: 15px;"></span>
+					</div>
+					
+					<div class="welcomebox" th:unless="${complaintHistoryList}==null" style="margin-top:1rem">
+						<div class="welcomeHead">
+				<span>Query Status</span>
+				</div>
+						<div class="welcomecont">
+							<table id="myTable" class="filtersearch">
+								<thead class="head">
+									<tr>
+										<th>Query No</th>
+										<th>Category</th>
+							<th>Current Status</th>
+										<th>Filed On</th>
+										<th>Closed On</th>
+									</tr>
+								</thead>
+								<tbody class="all1">
+									<tr th:each="status :${complaintHistoryList}">
+										<td>
+									    <a href="javascript:void(0);" class="links"
+									       th:text="${status.grievanceId}"
+												th:attr="onclick='viewGrievanceStatus(' + '\'' + ${status.grievanceId} + '\'' + ')'"
+									       
+									       th:style="(${status.grievanceStatus.name() == 'EXTRA_INFO_REQUIRED'} ? 
+									                    'color: green;' : 
+									                    'color: blue;')">
+											</a>
+										</td>
+
+
+										<td th:text="${status.grievanceCategory}"></td>
+										<td th:text="${status.grievanceStatus.displayValue}"></td>
+							<td
+								th:text="${status.creationTime != null ? #dates.format(status.creationTime,'dd-MM-yyyy HH:mm') + ' Hrs' : ''}">
+							</td>
+							<td
+								th:text="${status.closedOnDate != null ? #dates.format(status.closedOnDate,'dd-MM-yyyy HH:mm') + ' Hrs' : ''}">
+							</td>
+
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+
+					</div>
+
+
+				</div>
+			</div>
+
+	</section>
+
+	<section>
+		<div class="blank"></div>
+	</section>
+</body>
+
+</html>

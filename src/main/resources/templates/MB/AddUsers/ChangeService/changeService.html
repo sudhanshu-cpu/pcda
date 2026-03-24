@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+<script th:src="@{/js/MB/AddUsers/ChangeService/changeService.js(random=${session.jsToken})}"></script>
+<script th:src="@{/js/MB/AddUsers/ChangeService/changeServiceValidation.js(random=${session.jsToken})}"></script>
+
+<body oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+		<div th:insert="~{fragments/header/mainHeader}">...</div>
+
+
+		<section id="midpart" class="midpart">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-lg-1"></div>
+					<div class="col-lg-10">
+           <form th:action="@{saveChangeService}" method="post" id="changeServiceForm"> 
+						<div id="program" class="programBlock">
+							<div class="welcomebox">
+								<div class="welcomeHead">
+									<p th:text="#{addusers.changeService.title}">
+										
+									</p>
+								</div>
+								<div class="welcomecont" >
+									<table class="filtersearch">
+										<tbody class="all1">
+											<tr>
+												<td colspan="6">
+													<font color="#006666">
+														<b th:text="#{addusers.changeService.pno}"></b>
+													</font>
+													<input name="personalNo" type="text" class="txtfldM"
+														id="personalNo" autocomplete="off" th:value="${personalNo}">
+													
+														<input type="submit" id="search1" value="Search" class="butn" th:formaction="@{/mb/navyChangeService}" th:formmethod="post">
+													
+												</td>
+											</tr>
+										</tbody>
+										</table>
+										</div>
+										
+																				<div th:if="${error} != null">
+											<p th:text="${error}" class="errors" style="margin-bottom:0"></p>
+										</div>
+
+										<div class="welcomecont" th:if ="${getModel} != null">
+									<table class="filtersearch">
+										
+										<tbody class="all1">
+										
+											<tr>
+												<td th:text="#{addusers.changeService.user}">
+											
+												</td>
+													<td  th:text="${getModel.unitServiceName}">
+												</td>
+												<td th:text="#{addusers.changeService.tser}">
+													
+												</td>
+												<td  th:text="${getModel.loginUserServiceName}">
+												
+												</td>
+												<input name="loginUserServiceId" type="hidden" th:value="${getModel.loginUserServiceId}" id="LoginUserServiceId">
+												<input name="loginUserUnitId" type="hidden" th:value="${getModel.loginUserUnitId}"	id="LoginUserUnitId">
+												<input name="loginUserUnitName" type="hidden"  th:value="${getModel.loginUserUnitName}"	id="LoginUserUnitName">
+													<input name="serviceId" type="hidden"  th:value="${getModel.loginUserServiceId}" id="serviceId">
+											</tr>
+											<tr>
+												<td th:text="#{addusers.changeService.tcat}"></td>
+											<td   th:text="${getModel.categoryName}"></td>
+									
+												<td th:text="#{addusers.changeService.trank}"></td>
+											<td  th:text="${getModel.rankName}"></td>
+
+											</tr>
+											<tr>
+												<td th:text="#{addusers.changeService.tname}"></td>
+												<td  th:text="${getModel.personalName}"></td>
+												<td th:text="#{addusers.changeService.tpno}"> </td>
+												<td  th:text="${getModel.personalNumber}"></td>
+												<input name="personalNumber" type="hidden" th:value="${getModel.personalNumber}"
+													id="PersonalNumber">
+											</tr>
+											<tr>
+
+												 <td><label th:text="#{addusers.changeService.cname}"></label><span class="mandatory">*</span></td>
+												<td>
+													<select name="categoryId" style="width:80%"
+														class="combo" id="categoryId">
+														<option value="">select</option>
+                                                      <option th:each="src : ${getCategories}" th:value="${src.key}" th:text="${src.value}"></option>
+													
+
+													</select>
+												</td>
+
+
+												 <td><label th:text="#{addusers.changeService.lname}"></label><span class="mandatory">*</span></td>
+												<td>
+													<select name="levelName" id="levelId" class="combo" onchange="setRankLevel(this)">
+														<option value="">select</option>
+													</select>
+                                           
+                                            	<input type="hidden" name="rankId" id="rankId">
+                                            	<span class="mandatory" id="rank"></span>
+                                           
+                                            </td>
+											</tr>
+											<tr>
+
+			 	   <td><label th:text="#{addusers.changeService.rpao}"></label><span class="mandatory">*</span></td>
+			 	    <td>
+			 	   		<select name="payAcOff" id="payAcOff" class="combo" style="width: 70%;">
+                                                    <option value="-1">Select</option>
+                                                </select>
+                                                
+					</td>
+					<td><label th:text="#{addusers.changeService.apao}"></label><span class="mandatory">*</span></td>
+
+			 	   <td>
+			 	   		<select name="airAcOff" id="airAcOff" class="combo" style="width: 80%;">
+                                                   <option value="-1">Select</option>
+                                               </select>
+                                                
+<!--                                                 <input name="airAcOff" id="airAcOff" class="combo" style="width: 70%;" value=""> -->
+					</td>
+					
+					
+					
+					
+				</tr>
+				<tr>		
+				   <td th:text="#{addusers.changeService.reason}"><span class="mandatory">*</span></td>
+			 	   <td colspan="3"> 
+			 	   		<input name="reason" type="text" class="txtfldM" id="reason" maxlength="20" size="20" autocomplete="off">
+			 	   </td>
+		 	   </tr>
+		 	   <tr>
+		 	 	   <td colspan="6" style="text-align:right">
+		 	 	   <input name="changeServiceBtn" type="button" value="Change Service" class="butn" id="changeServiceBtn" onclick="changeService('${$formAction}', 'next')"></td>
+	 	 		</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+</form>
+					</div>
+					
+				</div>
+			</div>
+		</section>
+		<section>
+			<div class="blank"></div>
+		</section>
+		<section>
+			<div th:insert="~{fragments/login/footer}"></div>
+		</section>
+
+
+</body>
+
+</html>

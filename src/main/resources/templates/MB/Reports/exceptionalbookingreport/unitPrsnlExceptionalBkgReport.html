@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+
+<link rel="stylesheet" type="text/css" th:href="@{/css/common/popup/LightFace.css}">
+
+<script th:src="@{/js/common/popup/mootools.js}"></script>
+<script th:src="@{/js/common/popup/LightFace.IFrame.js}"></script>
+<script th:src="@{/js/common/popup/LightFace.js}"></script>
+<script th:src="@{/js/common/popup/LightFace.Request.js}"></script>
+<script th:src="@{/js/MB/Reports/exceptionalbookingreport/unitPrsnlExceptionalBkgReport.js(random=${session.jsToken})}"></script>
+<script type="text/javascript" th:src="@{/js/common/crypto.js}"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	
+    $('#bookingRecordTable').DataTable({
+searching: false,
+info: false,
+ordering:false
+    });
+});
+</script>
+
+<body oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+
+	<div th:insert="~{fragments/header/mainHeader}"></div>
+	<section id="midpart" class="midpart">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-1"></div>
+				<div class="col-lg-10">
+					<form th:action="@{/reports/unitPrsnlExcepnlBkgReportData}" method="post" name="unitprsnlExcptnlBkgRptFilter"
+						id="unitprsnlExcptnlBkgRptFilter">
+						<div id="program" class="programBlock">
+							<div class="welcomebox">
+								<div class="welcomeHead">
+									<p th:text="#{mb.report.rail.travel.report.unitprsnlexceptionalbkgReports}">
+
+									</p>
+								</div>
+								<div class="welcomecont">
+
+									<table class="filtersearch">
+
+										<tbody class="all1">
+				
+											<tr>
+
+												<td th:text="#{mb.report.rail.travel.report.personalNumber}">
+												</td>
+												<td><input name="personalNo" type="text"
+														 class="txtfldM" 
+														id="personalNo" th:value="${formModel.personalNo}" size="20" autocomplete="off" style="width:65%"></td>
+												<td th:text="#{mb.report.rail.travel.report.fromBookingDate}">
+												</td>
+												<td><input name="fromDate" type="text" class="txtfldM"
+														 id="frmBookingDt" size="15" th:value="${formModel.fromDate}"
+														readonly="readonly" style="width:65%">
+												</td>
+
+												<td th:text="#{mb.report.rail.travel.report.toBookingDate}">
+												</td>
+												<td><input name="toDate" type="text" class="txtfldM"
+														 id="toBookingDt" size="15" th:value="${formModel.toDate}"
+														readonly="readonly" style="width:65%">
+													<div id="calendar3_container"></div>
+												</td>
+											
+											</tr>
+
+											<tr>
+												<td colspan="10" id="downLoadFile" style="text-align:right">
+													<input type="button" value="Generate Report" class="butn"
+														th:attr="onclick='generateReport()'">
+												</td>
+											</tr>
+
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+
+					</form>
+
+					<div id="bookingDetailsTR">
+						<div class="welcomebox" th:unless="${bookingRepoList}==null">
+
+							<table id="bookingRecordTable" class="filtersearch">
+
+								<thead class="head">
+
+									<tr>
+
+										<th><span th:text="#{mb.report.rail.travel.report.bookingId}"></span>
+										</th>
+
+										<th><span th:text="#{mb.report.rail.travel.report.pNRNumber}"></span>
+										</th>
+										<th><span th:text="#{mb.report.rail.travel.report.bookedbyunit}"></span>
+										</th>
+										<th><span th:text="#{mb.report.rail.travel.report.personalNo}"></span>
+										</th>
+										<th><span th:text="#{mb.report.rail.travel.report.ticketType}"></span>
+										</th>
+										<th><span th:text="#{mb.report.rail.travel.report.travelType}"></span>
+										</th>
+										<th><span th:text="#{mb.report.rail.travel.report.tatkalApprovalStatus}"></span>
+										</th>
+										<th><span th:text="#{mb.report.rail.travel.report.tatkalBooking}"></span>
+										</th>
+										<th><span th:text="#{mb.report.rail.travel.report.journeyDate}"></span>
+										</th>
+										<th><span th:text="#{mb.report.rail.travel.report.bookingDate}"></span>
+										</th>
+										<th><span th:text="#{mb.report.rail.travel.report.totalFare}"></span>
+										</th>
+										
+									</tr>
+									</thead>
+									<tbody class="all1">
+									<tr th:each="src:${bookingRepoList}">
+										<td><a href="#" class="links"
+												th:attr="onclick='viewUnitPrsnlBookingReports(\''+${src.bookingId}+'\')'">
+												<span th:text="${src.bookingId}"></span>
+											</a></td>
+
+
+										<td th:if="${src.canView}=='YES'"><a href="#" class="links"
+												th:attr="onclick='viewCancellationReports(\''+${src.bookingId}+'\')'">
+												<span th:text="${src.pnrNumber}"></span>
+											</a></td>
+										<td th:if="${src.canView}!='YES'">
+											<span th:text="${src.pnrNumber}"></span>
+										</td>
+
+										<td style="white-space: nowrap;" th:text="${src.unitName}"></td>
+										<td th:text="${src.personalNo}"></td>
+										<td th:text="${src.ticketType} == '0'? 'E-Ticket' : I-Ticket"></td>
+										<td th:text="${src.travelTypeName}"></td>
+										<td th:text="${src.tatkalApprovalStatus}== '0'? 'Yes' : No"></td>
+										<td th:text="${src.tatkalBooking}== '0'? 'Yes' : No"></td>
+										<td th:text="${src.journeyDate}"></td>
+										<td th:text="${src.bookingDate}"></td>
+										<td th:text="${src.totalFare}"></td>
+										
+
+									</tr>
+
+								</tbody>
+							</table>
+
+						</div>
+					</div>
+
+
+					<!-- Error message -->
+					<div>
+
+						<p class="errors" style="margin-bottom:0" th:text="${errorMessage}"></p>
+
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+	</section>
+	
+<div class="p_anch">
+	<a href="javascript:void(0);" class="js__p_start">&#160;</a>
+</div>
+<div class="p_body js__p_body js__fadeout">&#160;</div>
+<div class="popup js__popup js__slide_top">
+	<div class="p_content" id="voucher_Ack_History_Id"></div>
+
+</div>
+<section>
+	<div class="blank"></div>
+	</section>
+	<section>
+    <div th:insert="~{fragments/login/footer}"></div>
+    </section>
+
+</body>
+</html>

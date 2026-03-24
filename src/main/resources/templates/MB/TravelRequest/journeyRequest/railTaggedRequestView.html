@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:if="${requestData.message} == ''">
+ <div id="program" class="programBlock">
+                        <div class="welcomebox">
+   		<div class="welcomeHead">
+   		<p>Journey Details</p>
+   		 </div>
+                            <div class="welcomecont">
+
+
+
+<table border="0" cellpadding="4" cellspacing="1" width="100%" class="formtxt">
+<tbody class="all1">
+
+<tr align="left">
+	   <td class="lablevalue">Traveler Name 				</td>
+	   <td th:text="${requestData.name}"></td>
+	   <td class="lablevalue">  Personal No  		</td>
+	   <td th:text="${requestData.pesrNo}"></td>
+</tr>
+
+<tr align="left">
+	   <td class="lablevalue">  Travel Type   			</td>
+	   <td th:text="${requestData.travelType}"></td>
+	   <td class="lablevalue">	  Booking Type	   		</td>
+	   <td th:text="${requestData.bookingType}"></td>
+</tr>
+
+<tr align="left">
+	   <td class="lablevalue">  Travel Rule  		 	</td>
+	   <td th:text="${requestData.travelRule}"></td>
+	   <td class="lablevalue">  Booking Status  		</td>
+	   <td th:text="${requestData.bookingStatus}"></td>
+</tr>
+	   
+
+<tr align="left">
+	   <td class="lablevalue">  Created By   			</td>
+	   <td th:text="${requestData.createdBy}"></td>
+	   <td class="lablevalue">	  Approved By	   		</td>
+	   <td th:text="${requestData.approvedBy}"></td>
+</tr>
+
+<tr align="left">
+	   <td class="lablevalue">  Origin Station   								</td>
+	   <td> <span th:text="${requestData.originStation}"></span></td>
+	   <td class="lablevalue">	  Destination Station</td>
+	   <td> <span th:text="${requestData.destStation}"></span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+	 <div id="program" class="programBlock">
+                        <div class="welcomebox">
+   		<div class="welcomeHead">
+   		<p></p>
+   		 </div>
+                            <div class="welcomecont">		
+<table class="filtersearch" th:each="dtls : ${requestData.requestedDetails}">
+<tbody class="all1">
+
+
+<tr>
+	   <td  class="lablevalue">  From:(Place)  </td>
+	   <td><span th:text="${dtls.fromStation}"></span></td>
+	   <td  class="lablevalue">  To:(Place)   </td>
+	   <td ><span th:text="${dtls.toStation}"></span></td>
+</tr>
+
+<tr>
+	   <td class="lablevalue">  Class   </td>
+	   <td th:text="${dtls.jrnyClass}"></td>
+	   <td class="lablevalue">  Journey Date	   </td>
+	   <td th:text="${dtls.journeyDate}"></td>
+</tr>
+
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+	 <div id="program" class="programBlock">
+                        <div class="welcomebox">
+   		<div class="welcomeHead">
+   		<p>Passengers Details</p>
+   		 </div>
+                            <div class="welcomecont">		
+<table class="filtersearch">
+
+<tbody class="all1">
+
+<tr  class="lablevalue">
+      <td style="width:25%">Name</td>
+      <td style="width:25%">Relation</td>
+      <td style="width:25%">Gender</td>
+      <td style="width:25%">Age</td>
+    
+      </tr> 
+     
+       <tr th:each="pass : ${requestData.passDetails}">
+	      <td th:text="${pass.name}"></td>
+	      <td th:text="${pass.relation}"></td>
+	      <td th:text="${pass.gender}"></td>
+	      <td th:text="${pass.age}"> </td>     
+      </tr>
+     
+		</tbody>	
+</table>
+</div>
+</div>
+</div>
+
+</div>
+</body>
+</html>

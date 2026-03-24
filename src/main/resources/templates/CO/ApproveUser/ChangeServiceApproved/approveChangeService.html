@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{fragments/login/head}"></head>
+
+
+<script
+	th:src="@{/js/CO/ApproveUser/changeServiceApproved/appDisAppChangeSer.js(random=${session.jsToken})}"></script>
+
+<body
+	oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+	
+
+
+		<div th:insert="~{fragments/header/mainHeader}">...</div>
+		<section class="midpart">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-lg-1"></div>
+					<div class="col-lg-10">
+						<form th:action="@{/co/approvalChangeService}" method="POST" id="approveChangService">
+
+				<input type="hidden" name="personalNo" id="personalNumber">
+				<input type="hidden" name="sequenceNo" id="seqNo">
+				<input type="hidden" name="loginUserId" th:value="${loginUserId}">
+				
+		</form>
+
+
+			<form th:action="@{/co/disApproveChgSer}" method="POST" id="disApproveForm">
+               <input type="hidden" name="personalNo" id="personal_Number">
+				<input type="hidden" name="sequenceNo" id="seq_No">
+				<input type="hidden" name="loginUserId" th:value="${loginUserId}">
+
+			</form>
+			
+						<div class="programBlock">
+							<div class="welcomebox">
+							<div class="welcomeHead">
+									<p>
+										Change Service Approval
+									</p>
+									
+								</div>
+								
+								<p  th:text="${error}" class="errors" style="margin-bottom:0"></p>
+								<div class="welcomecont">
+											<table class="filtersearch"  th:each="sr:${details}">
+												
+												<tr style="color: #333; font: 11px verdana; background-color: #fbfaba;" th:if="${details}!=''">
+													<td>
+														<table class="filtersearch">
+												<tbody class="all1">
+															<tr>
+																<td class="lablevalue">Traveler Name:</td>
+																<td th:text="${sr.personalName}" ></td>
+																<td class="lablevalue">Traveler Personal Number:</td>
+															    <td th:text="${sr.personalNumber}" >
+															    </td>
+																<td class="lablevalue">Old Unit Service:</td>
+																<td th:text="${sr.oldUnitService}" ></td>
+																<td class="lablevalue">New Unit Service:</td>
+																<td th:text="${sr.newUnitService}" ></td>
+
+															</tr>
+
+															<tr>
+																<td class="lablevalue">Old User Service:</td>
+																<td th:text="${sr.oldUserService}" ></td>
+																<td class="lablevalue">New User Service:</td>
+																<td th:text="${sr.newUserService}" ></td>
+																<td class="lablevalue">Old Category:</td>
+																<td th:text="${sr.oldCategory}" ></td>
+																<td class="lablevalue">New Category:</td>
+																<td th:text="${sr.newCategory}" ></td>
+															</tr>
+
+															<tr >
+																<td class="lablevalue">Old Rank:</td>
+																<td th:text="${sr.oldRank}" ></td>
+																<td class="lablevalue">New Rank:</td>
+															<td th:text="${sr.newRank}" ></td>
+																<td class="lablevalue">Old Rail Pay Account Office:</td>
+																<td th:text="${sr.oldPayAccOff}" ></td>
+																<td class="lablevalue">New Rail Pay Account Office:</td>
+																<td th:text="${sr.newPayAccOff}" ></td>
+															</tr>
+
+															<tr>
+																<td class="lablevalue">Old Air Pay Account Office:</td>
+																<td th:text="${sr.oldAirPayAccOff}" ></td>
+																<td class="lablevalue" >New Air Pay Account Office:</td>
+																<td th:text="${sr.newAirPayAccOff}" ></td>
+																<td class="lablevalue">Old Level:</td>
+																<td th:text="${sr.oldLevel}" ></td>
+																<td class="lablevalue">New Level:</td>
+																<td th:text="${sr.newLevel}" ></td>
+															</tr>
+															<tr>
+																<td class="lablevalue">Reason To Change Service:</td>
+																<td colspan="7" th:text="${sr.reason}"></td>
+															</tr>
+															<tr>
+																<td colspan="8" style="text-align:right">
+																
+																<input type="button"
+																	class="butn" value="Approve" id="backBtn" name="backBtn" th:attr="onclick='approveChngeService(\''+${sr.PersonalNumber}+'\',\''+${sr.seqNo}+'\')'" />
+																	<input type="button" class="butn" value="Disapprove"
+																	id="backBtn" name="backBtn" th:attr="onclick='disapproveChangeService(\''+${sr.PersonalNumber}+'\',\''+${sr.seqNo}+'\')'" /></td>
+															</tr>
+															</tbody>
+														</table>
+													</td>
+												</tr>
+												<tr style="color: #333; font: 11px verdana; background-color: #dde7f8;" th:if="${details}==''">
+													<td>
+														<table class="filtersearch">
+														<tbody class="all1">
+															<tr>
+																<td class="lablevalue">Traveler Name:</td>
+																<td th:text="${sr.personalName}" ></td>
+																<td class="lablevalue">Traveler Personal Number:</td>
+															<td th:text="${sr.personalNumber}" ></td>
+																<td class="lablevalue">Old Unit Service:</td>
+																<td th:text="${sr.oldUnitService}" ></td>
+																<td class="lablevalue">New Unit Service:</td>
+																<td th:text="${sr.newUnitService}" ></td>
+															</tr>
+
+															<tr>
+																<td class="lablevalue">Old User Service:</td>
+																<td th:text="${sr.oldUserService}" ></td>
+																<td class="lablevalue">New User Service:</td>
+																<td th:text="${sr.newUserService}" ></td>
+																<td class="lablevalue">Old Category:</td>
+																	<td th:text="${sr.oldCategory}" ></td>
+																<td class="lablevalue">New Category:</td>
+																	<td th:text="${sr.newCategory}" ></td>
+															</tr>
+
+															<tr>
+																<td class="lablevalue">Old Rank:</td>
+																<td th:text="${sr.oldRank}" ></td>
+																<td class="lablevalue">New Rank:</td>
+															<td th:text="${sr.newRank}" ></td>
+																<td class="lablevalue">Old Rail Pay Account Office:</td>
+																<td th:text="${sr.oldPayAccOff}" ></td>
+																<td class="lablevalue">New Rail Pay Account Office:</td>
+																<td th:text="${sr.newPayAccOff}" ></td>
+															</tr>
+
+															<tr>
+																<td class="lablevalue">Old Air Pay Account Office:</td>
+																<td th:text="${sr.oldAirPayAccOff}" ></td>
+																<td class="lablevalue">New Air Pay Account Office:</td>
+																<td th:text="${sr.newAirPayAccOff}" ></td>
+																<td class="lablevalue">Old Level:</td>
+																<td th:text="${sr.oldLevel}" ></td>
+																<td class="lablevalue">New Level:</td>
+																<td th:text="${sr.newLevel}" ></td>
+															</tr>
+															<tr>
+																<td class="lablevalue">Reason To Change Service:</td>
+																<td colspan="7"  th:text="${sr.reason}"></td>
+															</tr>
+
+															<tr>
+																<td colspan="8" style="text-align:right">
+																
+																<input type="button"
+																	class="butn" value="Approve" id="backBtn" name="backBtn" th:attr="onclick='approveChngeService(\''+${sr.PersonalNumber}+'\',\''+${sr.seqNo}+'\')'" />
+																	<input type="button" class="butn" value="Disapprove"
+																	id="backBtn" name="backBtn" th:attr="onclick='disapproveChangeService(\''+${sr.PersonalNumber}+'\',\''+${sr.seqNo}+'\')'" /></td>
+															</tr>
+															</tbody>
+														</table>
+													</td>
+												</tr>
+												</table>
+												<table class="filtersearch">
+												<tbody class="all1">
+												<tr>
+													<td colspan="9"><p class="errors" th:text="${errorMassage}" style="margin-bottom:0"></p></td>
+												</tr>
+												</tbody>
+											</table>
+											</div>
+											</div>
+											</div>
+											</div>
+											</div>
+											</div>
+											</section>
+		<section>
+<div class="blank"></div>
+</section>
+	<section>
+		<div th:insert="~{fragments/login/footer}"></div>
+	</section>									
+										
+									
+</body>
+</html>

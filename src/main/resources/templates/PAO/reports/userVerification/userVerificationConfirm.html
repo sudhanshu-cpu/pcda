@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{fragments/login/head}"></head>
+<style type="text/css">
+
+table.sample {
+	
+}
+table.sample td {
+	border-width: 1px;
+	padding: 1px;
+	border-style: ridge;
+	border-color: white;
+}
+
+</style>
+<body>
+	<div th:insert="~{fragments/header/mainHeader}"></div>
+	<section id="midpart" class="midpart">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-1"></div>
+				<div class="col-lg-10">
+	<form name="userVerificationConfirmationForm" id="userVerificationConfirmationForm">
+
+<input type="hidden" name="event" id="event" value="next"/>
+<div id="program" class="programBlock">
+						<div class="welcomebox">
+							<div class="welcomeHead">
+								<p>
+									Action Status
+								</p>
+							</div>
+								<div class="welcomecont">
+<table class="filtersearch"  cellspacing="10" cellpadding="0" width="100%" border="0" >
+<tbody class="all1">
+<tr><td><p class="errors" th:text="${message}" style="margin-bottom:0"></p></td></tr> 
+</tbody>
+</table>
+<table id="userVerificationDetailsTRResult" class="filtersearch" cellspacing="1" cellpadding="2" width="100%" border="0" >
+
+<tr>
+	<td style="font-size: 17px; font-family:times new roman;background-color: #0AEFFE" >User Details</td> 
+</tr>
+
+<tr><td>
+	<table id="userConfirmationDetailsTR" class="filterserach" cellspacing="10" cellpadding="4" width="100%" border="0" >
+	
+	<tbody class="all1">
+			<tr class="lablevalue">
+						<td>Personal No.</td>
+						<td>Creation Date</td>
+						<td>Full Name</td>
+						<td>Unit Name</td>
+						<td>Service</td>
+						<td>Level</td>
+						<td>Category</td>
+						<td>Status</td>	
+						<td>Remarks</td>															
+			</tr>			
+				
+					<tr th:each="list:${data}">
+					
+						<td><span th:text="${list.personalNo}"></span></td>
+						<td><span th:text="${list.formatCreationDate}"></span></td>
+						<td><span th:text="${list.name}"></span></td>
+						<td><span th:text="${list.unitName}"></span></td>
+						<td><span th:text="${list.serviceName}"></span></td>
+						<td><span th:text="${list.levelName}"></span></td>
+						<td><span th:text="${list.categoryName}"></span></td>
+						<td><span th:text="${list.profileStatus}"></span></td>
+						<td><span th:text="${list.comment}"></span></td>
+					
+					</tr>
+        </tbody>
+</table>
+</td></tr>
+
+</table>
+</div>
+</div>
+</div>    		
+</form>
+</div>
+</div>
+</div>
+</section>
+		<section>
+<div class="blank"></div>
+</section>
+	<section>
+		<div th:insert="~{fragments/login/footer}"></div>
+	</section>
+       
+ <script type="text/javascript">
+       
+  var statusUpdated = '<output ref="isStatusUpdated"/>';
+   
+   if(statusUpdated == 'Yes')
+    {
+	    var pager = new Pager('userConfirmationDetailsTR',20); 
+	    pager.init(); 
+	    pager.showPageNav('pager', 'pageNavPosition'); 
+	    pager.showPage(1);
+    }
+  
+</script>
+	
+</body>
+</html>

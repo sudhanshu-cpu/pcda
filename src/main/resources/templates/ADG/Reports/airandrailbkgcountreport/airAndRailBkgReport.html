@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+
+<script th:src="@{/js/ADG/Reports/airandrailbkgcountreport/airAndRailBkgReport.js(random=${session.jsToken})}"></script>
+
+
+<body oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+
+	<div th:insert="~{fragments/header/mainHeader}"></div>
+	<section id="midpart" class="midpart">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-1">
+					<div id="navigation"></div>
+				</div>
+
+
+				<div class="col-lg-10">
+
+					<form th:action="@{/adg/airAndRailBkgCountReport}" method="post" name="adgRailAirBkgReportForm"
+						id="adgRailAirBkgReportForm">
+
+						<div id="program" class="programBlock">
+							<div class="welcomebox" style="margin-bottom: 1rem;">
+								<div class="welcomeHead">
+									<p th:text="#{adg.reports.booking.report.adgAirRailTicketsBooked}"></p>
+								</div>
+								<div class="welcomecont">
+									<table class="filtersearch" cellspacing="1" cellpadding="4" width="100%" border="0">
+										<tbody class="all1">
+											<tr align="left">
+												<td>
+													From Booking Date
+												</td>
+												<td><input type="text" name="fromDate" id="frmBookingDt" class="txtfldM"
+														size="15" th:value="${formModel.fromDate}" autocomplete="off" />
+												</td>
+
+												<td>
+													To Booking Date
+												</td>
+												<td><input type="text" name="toDate" id="toBookingDt" class="txtfldM"
+														size="15" th:value="${formModel.toDate}" autocomplete="off" />
+												</td>
+
+												<td>Service</td>
+												<td><select name="service" class="comboM" id="serviceId">
+
+														<option value="">All</option>
+														<option th:each=" src : ${serviceMap}" th:text="${src.value}"
+															th:selected="${src.key} == ${formModel.service}"
+															th:value="${src.key}">
+														</option>
+
+													</select></td>
+
+											</tr>
+											<tr>
+												<td colspan="8" class="lablevalue" style="text-align: right;">
+													<button type="button" value="" class="butn"
+														onclick="validateForm()">
+														Generate Report</button>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</form>
+					<!-- it is used for display data on same page  -->
+					<div class="welcomebox"
+     th:if="${reportData != null and !#lists.isEmpty(reportData)}">
+						<table id="data_info_list" class="filtersearch" width="100%" cellspacing="1" cellpadding="4"
+							border="0" align="center">
+							<thead class="head">
+								<tr>
+									<th style="text-align: center;">Travel Type</th>
+									<th style="text-align: center;">Air Ticket Count</th>
+									<th style="text-align: center;">Rail Ticket Count</th>
+								</tr>
+							</thead>
+							<tbody class="all1">
+								<tr th:each="type : ${reportData}">
+									<td style="text-align: center;" th:text="${type.travelType}"></td>
+									<td style="text-align: center;" th:text="${type.airCount}"></td>
+									<td style="text-align: center;" th:text="${type.railCount}"></td>
+									
+							</tr>
+							</tbody>
+						</table>
+
+					</div>
+					<div>
+						<p class="errors" th:text="${Errormessage}" style="margin-bottom:0"></p>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</section>
+	<section>
+		<div class="blank"></div>
+	</section>
+	<section>
+		<div th:insert="~{fragments/login/footer}"></div>
+	</section>
+</body>
+
+</html>

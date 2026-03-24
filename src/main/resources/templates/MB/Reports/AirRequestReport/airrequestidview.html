@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+
+
+
+<body oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+
+	<div th:insert="~{fragments/header/mainHeader}">...</div>
+
+	<section id="midpart" class="midpart">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-1"></div>
+				<div class="col-lg-10">
+
+
+					<div id="program" class="programBlock" th:unless="${DataModel}==null">
+						<div class="welcomebox" style="margin-bottom: 1rem;">
+							<div class="welcomeHead">
+								<p>
+									Request Details
+								</p>
+							</div>
+							<div class="welcomecont">
+								<table class="filtersearch" cellspacing="1" cellpadding="4" width="100%" border="0">
+									<tbody class="all1">
+										<tr align="left">
+											<td class="lablevalue">Request Id.</td>
+											<td th:text="${DataModel.requestId}"></td>
+											<td class="lablevalue">Personal No.</td>
+											<td th:text="${DataModel.personalNo}"></td>
+											<td class="lablevalue">Travel Type</td>
+											<td th:text="${DataModel.travelType}"></td>
+										</tr>
+										<tr align="left">
+											<td class="lablevalue">Code Head</td>
+											<td th:text="${DataModel.codeHead}"></td>
+											<td class="lablevalue">Account Office.</td>
+											<td th:text="${DataModel.accountOffice}"></td>
+											<td class="lablevalue">Request Date</td>
+											<td th:text="${DataModel.requestDate}"></td>
+										</tr>
+										<tr align="left">
+											<td class="lablevalue">Approval Status</td>
+											<td th:text="${DataModel.approvalStatus}"> </td>
+											<td class="lablevalue">Booking Type</td>
+											<td th:text="${DataModel.bookingType}"></td>
+											<td class="lablevalue">TR Rule No</td>
+											<td th:text="${DataModel.trRuleNo}"></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+
+					<div id="program" class="programBlock" th:unless="${DataModel}==null">
+						<div class="welcomebox" style="margin-bottom: 1rem;">
+							<div class="welcomeHead">
+								<p>
+									Journey Details
+								</p>
+							</div>
+							<div class="welcomecont">
+								<table class="filtersearch" cellspacing="1" cellpadding="4" width="100%" border="0">
+									<tbody class="all1">
+										<tr class="lablevalue">
+											<td width="4%">SNo.</td>
+											<td width="12%">Traveler Name</td>
+											<td width="12%">Origin Airport</td>
+											<td width="8%">Destination Airport</td>
+											<td width="10%">Journey Date</td>
+											<td width="6%">Relation</td>
+											<td width="10%">Class</td>
+											<td width="6%">Status</td>
+										</tr>
+
+										<tr>
+											<td th:text="${DataModel.count}"></td>
+											<td th:text="${DataModel.TravellerName}"> </td>
+											<td th:text="${DataModel.origin}"></td>
+											<td th:text="${DataModel.destination}"></td>
+											<td th:text="${DataModel.journeyDate}"></td>
+											<td th:text="${DataModel.relation}"></td>
+											<td th:text="${DataModel.cabinClass}"></td>
+											<td th:text="${DataModel.status}"></td>
+										</tr>
+
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					<div id="program" class="programBlock" th:unless="${DataModel}==null">
+						<div class="welcomebox" style="margin-bottom: 1rem;">
+							<div class="welcomeHead">
+								<p>
+									Passenger Details
+								</p>
+							</div>
+							<div class="welcomecont">
+								<table class="filtersearch" cellspacing="1" cellpadding="4" width="100%" border="0">
+									<tbody class="all1">
+									<tr class="lablevalue">
+										<td>SNo.</td>
+										<td>Name</td>
+										<td>Age</td>
+										<td>Gender</td>
+										<td>Relation</td>
+										<td>Passenger Type</td>
+										<td>Passport No</td>
+										<td>Passport Expiry Date</td>
+									</tr>
+
+									<tr th:each="src,stat:${DataModel.passengerDetailList}">
+										<td th:text="${stat.index}"></td>
+										<td th:text="${src.name}"></td>
+										<td th:text="${src.age}"></td>
+										<td th:text="${src.gender}"></td>
+										<td th:text="${src.relation}"></td>
+										<td th:text="${src.passengertype}"></td>
+										<td th:text="${src.passportNo}"></td>
+										<td th:text="${src.passportExpiryDate}"></td>
+									</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+
+					<div id="program" class="programBlock">
+						<div class="welcomebox" style="margin-bottom: 1rem;">
+							<div class="welcomeHead">
+								<p>
+									Question Details
+								</p>
+							</div>
+							<div class="welcomecont">
+								<table class="filtersearch" cellspacing="1" cellpadding="4" width="100%" border="0">
+									<tbody class="all1">
+										<tr class="lablevalue">
+											<td>SNo.</td>
+											<td>Question</td>
+											<td>Ans</td>
+										</tr>
+										<tr th:each="item,stat : ${DataModel.requestQuestionList}">
+											<td th:text="${stat.index+1}"> </td>
+											<td th:text="${item.question}"> </td>
+											<td th:text="${item.answer}"> </td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</section>
+	<section>
+		<div class="blank"></div>
+	</section>
+	<section>
+		<div th:insert="~{fragments/login/footer}"></div>
+	</section>
+</body>
+
+</html>

@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+
+
+<style>
+
+  .screen-freeze {
+	background-color: white;
+	display: none;
+	height: 100%;
+	left: 0;
+	opacity: 0.7;
+	position: absolute;
+	right: 0;
+	top: 0;
+	z-index: 99999;
+  }
+  
+</style> 
+
+	
+	<link rel="stylesheet" type="text/css"
+	th:href="@{/css/common/popup/LightFace.css}">
+	<script
+	th:src="@{/js/common/popup/mootools.js}"> </script>
+
+
+<script
+	th:src="@{/js/common/popup/LightFace.js}"> </script>
+
+<script
+	th:src="@{/js/common/popup/LightFace.Request.js}"> </script>
+
+	
+<script
+	th:src="@{/js/common/popup/LightFace.IFrame.js}"> </script>
+
+
+<script
+	th:src="@{/js/MB/RequestDashBoard/normalbookingdashboard/normalbookingdashboard.js(random=${session.jsToken})}"> </script>
+<body oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+
+		<div th:insert="~{fragments/header/mainHeader}"></div>
+<section id="midpart" class="midpart">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-lg-1"></div>
+					<div class="col-lg-10">
+<div id="program" class="programBlock">
+							<div class="welcomebox">
+								<div class="welcomeHead" style="height: auto;">
+									<p>
+										<font color="lightblue">Booking will be done after redirection at IRCTC site. A password will be required which was provided in the Token Issue letter,</font>  <font color="red"> if not found kindly contact helpdesk for password.</font>
+									
+									</p>
+								</div>
+								<div class="welcomecont" style="margin:0px;margin-top:5px;">
+			<form th:action="@{/mb/getNormalData}" method="post" id="railCanDash">
+				<div id="program" class="programBlock">
+							<div class="welcomebox">
+								<div class="welcomeHead">
+									<p>
+										Request Pool 
+									</p>
+								</div>
+								<div class="welcomecont" >
+
+										<table class="filtersearch" width="100%" cellspacing="1" cellpadding="4" border="0">
+											<tbody class="all1">
+
+
+												<tr align="left">
+													<td class="lablevalue" style="width:21%">Select Personal Number</td>
+													<td style="width:29%"><select name="personalNo" class="comboM"
+															id="searchPersonalNumber">
+															<option value="All">--All--</option>
+															<option th:each="src:${pNoList}" th:value="${src}"
+																th:text="${src}" th:selected="${src}== ${pno}">
+															</option>
+														</select>
+													</td>
+
+													<td class="lablevalue" style="width:20%">Select Request Mode</td>
+													<td style="width:29%"><select name="requestMode" class="comboM"
+															id="requestMode">
+															<option value="All">--All-</option>
+															<option value="1" th:selected="${req}== '1'">Air</option>
+															<option value="0" th:selected="${req}== '0'">Rail</option>
+															
+
+														</select>
+													</td>
+												</tr>
+
+												<tr>
+													<td colspan="4" style="text-align: right;"><button type="submit" class="butn"
+															value="Generate Report">Search</button></td>
+												</tr>
+											</tbody>
+										</table>
+								</div>
+							</div>
+				</div>
+			</form>
+
+			<div id="program" class="programBlock">
+				
+					<div class="welcomebox" th:unless="${#lists.isEmpty(modelList)}">
+						<table class="bgborder" width="100%" cellspacing="0" cellpadding="0" border="0"
+							th:each="src,stat : ${modelList}">
+							<tbody>
+								<tr>
+									<td>
+
+
+										<table class="filtersearch" style="border:1px solid black;margin-bottom:0.5rem"
+											th:if="${src.railRequestBean} !=null and ${src.railRequestBean.requestFor}=='RAIL'">
+											<form  th:action="@{/mb/getRailTktForm}" th:method="post" th:id="@{|railBookForm_${stat.index}|}">
+											
+                                             <input type="hidden" name="railRequestId" th:id="@{|railRequestId${stat.index}|}"/>
+                                              <input type="hidden" name="sequenceNo" id="sequenceNo" th:value="${src.railRequestBean.sequenceNo}">
+                                               <input type="hidden" name="tktSeqNo" id="tktSeqNo" th:value="${src.railRequestBean.tktSequenceNo}">
+                                                <input type="hidden" name="clusterFlag" id="clusterFlag" th:value="${src.railRequestBean.clusterFlag}">
+                                                
+                                 
+                              
+											<tbody class="all">
+												<tr>
+													<td colspan="4" style="border-right:1px solid black;color:#006666"><span style="font-size:17px;">Personal No:</span>
+													<a class="links" href="javascript:void(0);" 
+													 th:attr="onclick='viewPersonalNo(\''+${src.personalNo}+'\')'" 
+													 th:text="${src.personalNo}"></a></td>
+													
+
+												</tr>
+												<tr align="left" class="lablevalue">
+													<td style="width:25%">RequestID</td>
+													<td style="width:25%">Status</td>
+													<td style="width:25%">From</td>
+													<td style="border-right:1px solid black;width:25%">To</td>
+												</tr>
+												<tr align="left">
+
+													<td><a class="links" href="javascript:void(0);" 
+													 th:attr="onclick='viewRequestReports(\''+${src.railRequestBean.railRequestId}+'\')'" 
+													 th:text="${src.railRequestBean.travelTypeId}+${src.railRequestBean.railRequestId}"></a></td>
+													<td th:text="${src.railRequestBean.approvalStateStr}"></td>
+													<td th:text="${src.railRequestBean.originStnName}"></td>
+													<td style="border-right:1px solid black" th:text="${src.railRequestBean.destnStnName}"></td>
+
+												</tr>
+												<tr align="left" class="lablevalue">
+
+													<td>Request Type</td>
+													<td>Journey Date</td>
+													<td>Travel Id</td>
+													<td style="border-right:1px solid black">Tatkal Approval Status</td>
+												</tr>
+
+												<tr align="left">
+
+
+													<td th:text="${src.railRequestBean.requestType}"></td>
+													<td th:text="${src.railRequestBean.journeyDateStr}"></td>
+													<td th:text="${src.railRequestBean.travelId}"></td>
+                                                     <td style="border-right:1px solid black" th:text="${src.railRequestBean.isTatkalApproved}"></td>
+												</tr>
+												
+												<tr align="left" class="lablevalue">
+
+													
+													<td> Cluster Booking (Main Leg)</td>
+												</tr>
+												
+												<tr align="left">
+													
+                                                     <td th:if="${src.railRequestBean.clusterMainLeg}==1">No</td>
+                                                     <td th:unless="${src.railRequestBean.clusterMainLeg}==1">Yes</td>
+													
+
+												</tr>
+												
+												
+												
+												<tr>
+
+													<td colspan="4" style="text-align: right;border-bottom:1px solid black;border-right:1px solid black">
+														<input type="button" value="Book Rail" class="butn"
+															th:attr="onclick=' submitRequestForm(\''+${src.railRequestBean.railRequestId}+'\',\''+'railBook'+'\',\''+'RAIL'+'\',\''+${src.railRequestBean.encryptedReqId}+'\',\''+${stat.index}+'\')'" />
+														<button type="submit" class="butn" name="railReqId" th:value="${src.railRequestBean.railRequestId}"
+														th:formaction="@{/mb/RailCancelReasonPage}" th:method="post">Cancel</button>
+															
+													</td>
+												</tr>
+
+											</tbody>
+											</form>
+										</table>
+									</td>
+									<td>
+
+
+										<table class="filtersearch" style="border:1px solid black;margin-bottom:0.5rem" th:if="${src.airRequestBean} !=null and ${src.airRequestBean.requestForAir}=='AIR'">
+										
+										<form th:action=@{/mb/getAirBookData} method="post" th:id="@{|airBook${stat.index}|}">
+			
+			<input type="hidden" th:id="@{|originAirport_${src.airRequestBean.airRequestId}|}" name="originAirport" th:value="${src.airRequestBean.originStn}"/>
+ 			<input type="hidden"  th:id="@{|destinationAirport_${src.airRequestBean.airRequestId}|}" name="destinationAirport" th:value="${src.airRequestBean.destStn}"/>
+ 			<input type="hidden"  th:id="@{|journeyDate_${src.airRequestBean.airRequestId}|}" name="journeyDate" th:value="${src.airRequestBean.onwardJrnyDate}"/>
+ 			<input type="hidden" th:id="@{|returnJourneyDate_${src.airRequestBean.airRequestId}|}" name="returnJourneyDate" value=""/>
+ 			<input type="hidden" th:id="@{|tripType_${src.airRequestBean.airRequestId}|}"  th:name="@{|tripType_${src.airRequestBean.airRequestId}|}" th:value="${src.airRequestBean.tripType}"/>
+ 			
+ 			  <input type="hidden" name="airRequestId"  th:id="@{|airRequestId${stat.index}|}"/>
+ 			 
+											<tbody class="all">
+												<tr>
+													<td colspan="4" style="border-right:1px solid black;color: #006666;"><span style="font-size:17px;">Personal No.:</span>
+													<a class="links" href="javascript:void(0);" 
+													 th:attr="onclick='viewPersonalNo(\''+${src.personalNo}+'\')'" 
+													 th:text="${src.personalNo}"></a></td>
+
+												</tr>
+												<tr class="lablevalue" align="left">
+													<td style="width:25%">RequestID</td>
+													<td style="width:25%">Status</td>
+													<td style="width:25%">From</td>
+													<td style="border-right:1px solid black;width:25%">To</td>
+												</tr>
+												<tr align="left">
+
+													<td>
+														<a th:if="${{!#strings.isEmpty(src.airRequestBean.bulkBookingId)}}" class="links" href="javascript:void(0);"  th:attr="onclick='viewAirRequestReport(\''+${src.airRequestBean.airRequestId}+'\')'"   th:text="${src.airRequestBean.travelTypeId}+${src.airRequestBean.bulkBookingId}"> </a>
+														<a th:unless="${{!#strings.isEmpty(src.airRequestBean.bulkBookingId)}}" class="links" href="javascript:void(0);"  th:attr="onclick='viewAirRequestReport(\''+${src.airRequestBean.airRequestId}+'\')'"   th:text="${src.airRequestBean.travelTypeId}+${src.airRequestBean.airRequestId}"> </a>
+
+													</td>
+													<td th:text="${src.airRequestBean.approvalStateStr}"></td>
+													<td th:text="${src.airRequestBean.originStn}"></td>
+													<td style="border-right:1px solid black;width:25%" th:text="${src.airRequestBean.destStn}"></td>
+												</tr>
+												<tr class="lablevalue" align="left">
+
+													<td>Journey Type</td>
+													<td>Journey Date</td>
+													<td>Travel Id</td>
+
+												</tr>
+
+												<tr align="left">
+
+
+														<td th:if="${src.airRequestBean.tripType}==0">OneWay</td>
+													<td th:text="${src.airRequestBean.journeyDateStr}"></td>
+													<td th:text="${src.airRequestBean.travelId}"></td>
+
+
+												</tr>
+
+												<tr>
+													<td colspan="4" style="text-align:right;border-bottom:1px solid black;border-right:1px solid black">
+														<input type="button" class="butn" value="Book Air"
+															th:attr="onclick=' submitRequestForm(\''+${src.airRequestBean.airRequestId}+'\',\''+'airbook'+'\',\''+'AIR'+'\',\''+${src.airRequestBean.encrptdRequestId}+'\',\''+${stat.index}+'\')'" />
+														<button type="submit" class="butn" name="airReqId" th:value="${src.airRequestBean.airRequestId}"
+														th:formaction="@{/mb/AirCancelReasonPage}" th:method="post">Cancel</button>
+
+													</td>
+												</tr>
+											</tbody>
+										</form>
+										</table>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div>
+						<p th:text="${noData}" class="errors" style="margin-bottom:0"> </p>
+					</div>
+
+			</div>
+					</div>
+				</div>
+			
+			
+			 <div class="screen-freeze" id="screen-freeze" >&#160;</div>
+		</div>
+		</div>
+		</div>
+		</div>
+
+	</section>
+	<section>
+	<div class="blank"></div>
+	</section>
+	<section>
+    <div th:insert="~{fragments/login/footer}"></div>
+    </section>
+</body>
+
+
+</html>

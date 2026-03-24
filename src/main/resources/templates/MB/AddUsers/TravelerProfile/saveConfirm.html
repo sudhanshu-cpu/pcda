@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+
+<body>
+
+
+<div th:insert="~{fragments/header/mainHeader}"></div>
+
+	<section id="midpart" class="midpart">
+		<div class="container-fluid">
+			<div class="row">
+
+<div class="col-lg-1"></div>
+		<div class="col-lg-10">
+<div id="program" class="programBlock">
+                        <div class="welcomebox" style="margin-bottom:1rem">
+                            <div class="welcomeHead">
+                                <p th:text="#{mb.addusers.travelerconfirm.success}">
+                                </p>
+                            </div>
+                            <div class="welcomecont">
+
+ 		<table class="filtersearch">
+		<tbody class="all1">
+
+			  <tr>
+				   <td class="lablevalue"><span th:text="#{mb.addusers.travelerconfirm.trav}"></span></td>
+				   <td><span th:text="${traveller.firstName}"></span> <span th:text="${traveller.middleName}"></span> <span th:text="${traveller.lastName}"></span></td>
+			  </tr>
+			  <tr>
+				   <td class="lablevalue"><span th:text="#{mb.addusers.travelerconfirm.pno}"></span></td>
+				   <td><span th:text="${traveller.signInID}"></span></td>
+			  </tr>  
+		  
+			  <tr>
+			   <td class="lablevalue"><span th:text="#{mb.addusers.travelerconfirm.dob}"></span></td>
+			   <td><span th:text="${traveller.dateOfBirth}"></span></td>
+			  </tr>
+			  
+			  <tr>
+			   <td class="lablevalue"><span th:text="#{mb.addusers.travelerconfirm.gender}"></span></td>
+			   <td><span th:text="${traveller.gender}"></span></td>
+			  </tr> 
+		  
+			  <tr>
+			   <td class="lablevalue"><span th:text="#{mb.addusers.travelerconfirm.marstat}"></span></td>
+			   <td><span th:text="${traveller.maritalStatus}"></span></td>
+			  </tr>
+		  
+			  <tr>
+			   <td class="lablevalue"><span th:text=#{mb.addusers.travelerconfirm.email}></span></td>
+			   <td><span th:text="${traveller.email}"></span></td>
+			  </tr>
+			  
+			  <tr>
+			   <td class="lablevalue"><span th:text="#{mb.addusers.travelerconfirm.dor}"></span></td>
+			   <td><span th:text="${traveller.dateOfRetirement}"></span></td>
+			  </tr> 
+		
+			  <tr>
+			   <td class="lablevalue"><span th:text="#{mb.addusers.travelerconfirm.src}"></span></td>
+			   <td><span th:text="${traveller.serviceName}"></span></td>
+			  </tr>
+			  
+			  <tr>
+			   <td class="lablevalue"><span th:text="#{mb.addusers.travelerconfirm.ctg}"></span></td>
+			   <td><span th:text="${traveller.categoryName}"></span></td>
+			  </tr> 
+			  <tr>
+			   <td class="lablevalue"><span th:text="#{mb.addusers.travelerconfirm.railoff}"></span></td>
+			   <td><span th:text="${traveller.accountOffice}"></span></td>
+			  </tr>
+			  
+			  <tr>
+			   <td class="lablevalue"><span th:text="#{mb.addusers.travelerconfirm.airoff}"></span></td>
+			   <td><span th:text="${traveller.airAccountOffice}"></span></td>
+			  </tr> 
+		  
+			  <tr th:if="${traveller.serviceId} == 1000019">
+			   <td class="lablevalue"><span th:text="#{mb.addusers.travelerconfirm.serviceNo}"></span></td>
+			   <td><span th:text="${traveller.serviceNo}"></span></td>
+			  </tr> 
+			  
+		  
+		  
+			  <tr>
+			   <td class="lablevalue"><span th:text="#{mb.addusers.travelerconfirm.nrsduty}"></span></td>
+			   <td><span th:text="${traveller.nrsDutyStn}"></span></td>
+			  </tr> 
+			  
+			   <tr>
+			   <td class="lablevalue"><span th:text="#{mb.addusers.travelerconfirm.nrshome}"></span></td>
+			   <td><span th:text="${traveller.homeTownNrs}"></span></td>
+			  </tr> 
+			  
+			  <tr>
+			   <td class="lablevalue"><span th:text="#{mb.addusers.travelerconfirm.naduty}"></span></td>
+			   <td><span th:text="${traveller.naDutyStn}"></span></td>
+			  </tr> 
+			  
+			   <tr>
+			   <td class="lablevalue"><span th:text="#{mb.addusers.travelerconfirm.homeap}"></span></td>
+			   <td><span th:text="${traveller.homeTownNa}"></span></td>
+			  </tr> 
+			  
+			  <tr>
+			   <td class="lablevalue"><span th:text="#{mb.addusers.travelerconfirm.childnrs}"></span></td>
+			   <td><span></span></td>
+			  </tr> 
+			  </tbody>
+    </table>
+    </div>
+    </div>
+    </div>
+    
+<div id="program" class="programBlock">
+                        <div class="welcomebox" style="margin-bottom:1rem">
+                            <div class="welcomeHead">
+                                <p th:text="#{mb.addusers.travelerconfirm.famdtls}">
+                                </p>
+                            </div>
+                            <div class="welcomecont">
+ 
+ <table class="filtersearch">
+ <tbody class="all1">
+
+   <tr>
+      <td class="lablevalue" style="width:15%"><span th:text="#{mb.addusers.travelerconfirm.famname}"></span></td>
+      <td class="lablevalue" style="width:15%"><span th:text="#{mb.addusers.travelerconfirm.famrel}"></span></td>
+      <td class="lablevalue" style="width:20%"><span th:text="#{mb.addusers.travelerconfirm.gender}"></span></td>
+      <td class="lablevalue" style="width:20%"><span th:text="#{mb.addusers.travelerconfirm.famdob}"></span></td>
+       <td class="lablevalue" style="width:15%"><span th:text="#{mb.addusers.travelerconfirm.fammarst}"></span></td>
+       <td class="lablevalue" style="width:15%"><span th:text="#{mb.addusers.travelerconfirm.status}"></span></td>
+       <td class="lablevalue" style="width:15%"><span th:text="#{mb.addusers.travelerconfirm.hostelNRS}"></span></td>
+       <td class="lablevalue" style="width:15%"><span th:text="#{mb.addusers.travelerconfirm.hostelNAP}"></span></td>
+   </tr> 
+
+	<tr th:each="famdtls : ${traveller.familyDetails}">
+	      <td> <span th:text="${famdtls.firstName}+ ' ' +${famdtls.middleName}+ ' '+${famdtls.lastName}" ></span></td>
+	      <td> <span th:text="${famdtls.relation}"></span></td>
+	      <td> <span th:text="${famdtls.gender}"></span></td>
+	      <td> <span th:text="${famdtls.dateOfBirth}"></span></td> 
+	      <td> <span th:text="${famdtls.maritalStatus}"></span></td>      
+	      <td> <span th:text="${famdtls.status}"></span></td>     
+	      <td> <span th:text="${famdtls.childHostelNRS}"></span></td>
+	      <td> <span th:text="${famdtls.childHostelNAP}"></span></td>   
+	</tr>
+</tbody>
+      </table>
+</div>
+</div>
+</div>
+ 
+   
+   
+
+
+
+		</div>
+			</div>
+		</div>
+	</section>
+	<section>
+		<div class="blank"></div>
+	</section>
+	<section>
+		<div th:insert="~{fragments/login/footer}"></div>
+	</section>
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+
+<link rel="stylesheet" type="text/css" th:href="@{/css/common/popup/LightFace.css}">
+
+<script th:src="@{/js/common/popup/mootools.js}"></script>
+<script th:src="@{/js/common/popup/LightFace.IFrame.js}"></script>
+<script th:src="@{/js/common/popup/LightFace.js}"></script>
+<script th:src="@{/js/common/popup/LightFace.Request.js}"></script>
+<script th:src="@{/js/MB/Reports/RailTravelReport/railtravelreport.js(random=${session.jsToken})}"></script>
+<script type="text/javascript" th:src="@{/js/common/crypto.js}"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	
+    $('#bookingRecordTable').DataTable({
+searching: false,
+info: false,
+ordering:false
+    });
+});
+</script>
+<style>
+    #bookingRecordTable th,
+    #bookingRecordTable td {
+        text-align: center !important;
+    }
+</style>
+
+<body oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+
+	<div th:insert="~{fragments/header/mainHeader}"></div>
+	<section id="midpart" class="midpart">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-1"></div>
+				<div class="col-lg-10">
+					<form th:action="@{/reports/bookinhDetails}" method="post" name="bookingRptFilter"
+						id="bookingRptFilter">
+						<div id="program" class="programBlock">
+							<div class="welcomebox">
+								<div class="welcomeHead">
+									<p th:text="#{mb.report.rail.travel.report.bookingReports}">
+
+									</p>
+								</div>
+								<div class="welcomecont">
+
+									<table class="filtersearch">
+
+										<tbody class="all1">
+
+											<tr>
+												<td th:text="#{mb.report.rail.travel.report.bookingId}">
+												</td>
+												<td><input name="bookingId" type="text" id="bookingId"
+														th:value="${formModel.bookingId}" class="txtfldM" size="15"
+														maxlength="20" autocomplete="off" style="width:65%"></td>
+
+												<td th:text="#{mb.report.rail.travel.report.requestId}">
+												</td>
+												<td><input name="requestId"
+														th:value="${formModel.requestId}" type="text" id="requestId"
+														class="txtfldM" size="15" maxlength="20" autocomplete="off" style="width:65%">
+												</td>
+											
+												<td th:text="#{mb.report.rail.travel.report.PNRNumber}">
+												</td>
+												<td><input name="pnrNo" type="text" id="pnrNo"
+														th:value="${formModel.pnrNo}" class="txtfldM" size="15" autocomplete="off"
+														maxlength="20" style="width:65%">
+												</td>
+
+												<td th:text="#{mb.report.rail.travel.report.ticketNumber}">
+												</td>
+												<td><input name="ticketNo" type="text" id="ticketNo" class="txtfldM"
+														th:value="${formModel.ticketNo}" size="15" maxlength="20" style="width:65%" autocomplete="off"></td>
+											</tr>
+											<tr>
+
+												<td th:text="#{mb.report.rail.travel.report.fromBookingDate}">
+												</td>
+												<td><input name="fromDate" type="text" class="txtfldM"
+														th:value="${formModel.fromDate}" id="frmBookingDt" size="15"
+														readonly="readonly" style="width:65%">
+												</td>
+
+												<td th:text="#{mb.report.rail.travel.report.toBookingDate}">
+												</td>
+												<td><input name="toDate" type="text" class="txtfldM"
+														th:value="${formModel.toDate}" id="toBookingDt" size="15"
+														readonly="readonly" style="width:65%">
+													<div id="calendar3_container"></div>
+												</td>
+											
+												<td th:text="#{mb.report.rail.travel.report.fromJourneyDate}">
+												</td>
+												<td><input name="fromJourneyDate" type="text" class="txtfldM"
+														th:value="${formModel.fromJourneyDate}" id="frmJourneyDt"
+														size="15" readonly="readonly" style="width:65%">
+													<div id="calendar3_container"></div>
+												</td>
+
+												<td th:text="#{mb.report.rail.travel.report.toJourneyDate}">
+												</td>
+												<td><input name="toJourneyDate" type="text" class="txtfldM"
+														th:value="${formModel.toJourneyDate}" id="toJourneyDt" size="15"
+														readonly="readonly" style="width:65%">
+													<div id="calendar3_container"></div>
+												</td>
+											</tr>
+											<tr>
+												<td th:text="#{mb.report.rail.travel.report.codeHead}">
+												</td>
+												<td><select name="codeHead" onchange="hideExport();" class="comboM"
+														id="codeHead" style="width:75%">
+														<option value="">All</option>
+														<option th:each="code : ${codeHead}"
+															th:value="${code.railCodehead}"
+															th:text="${code.railCodehead}"
+															th:selected="${code.railCodehead}==${formModel.codeHead}">
+														</option>
+
+													</select></td>
+
+												<td th:text="#{mb.report.rail.travel.report.travelType}">
+												</td>
+												<td><select name="traveType" id="travelType" class="comboM" style="width:75%">
+														<option value="">All</option>
+														<option th:each="src : ${travelList}"
+															th:text="${src.travelName}" th:value="${src.travelTypeId}"
+															th:selected="${src.travelTypeId}==${formModel.traveType}">
+														</option>
+
+													</select></td>
+
+											
+												<td th:text="#{mb.report.rail.travel.report.bookingStatus}">
+												</td>
+												<td><select name="bookingStatus" onchange="hideExport();" class="comboM"
+														id="bookingStatus" style="width:75%">
+														<option value="">All</option>
+
+														<option value="3" th:selected="${formModel.bookingStatus}=='3'">
+															Booked</option>
+
+														<option value="2" th:selected="${formModel.bookingStatus}=='2'">
+															Booking
+															Requested</option>
+															
+														
+														<option value="15"
+															th:selected="${formModel.bookingStatus}=='15'">
+															Cancelled</option>	
+
+														<option value="10"
+															th:selected="${formModel.bookingStatus}=='10'">
+															Cancellation
+															Approved by CO</option>
+
+														<option value="9" th:selected="${formModel.bookingStatus}=='9'">
+															Cancellation
+															Pending for CO Approval</option>
+														
+														<option value="0" th:selected="${formModel.bookingStatus}=='0'">
+															Not Booked</option>	
+
+													</select></td>
+
+
+												<td th:text="#{mb.report.rail.travel.report.personalNumber}">
+												</td>
+												<td><input name="personalNo" type="text"
+														th:value="${formModel.personalNo}" class="txtfldM"
+														id="personalNo" size="20" autocomplete="off" style="width:65%"></td>
+											</tr>
+
+											<tr  id="accountOffices">
+												<td th:text="#{mb.report.rail.travel.report.tatkalFlag}">
+												</td>
+												<td><select name="tatkalFlag" class="comboM" id="tatkalFlag"
+														 style="width:75%">
+														<option value="">All</option>
+
+														<option value="0" th:selected="${formModel.tatkalFlag}=='0'">
+															Tatkal</option>
+
+														<option value="1" th:selected="${formModel.tatkalFlag}=='1'">
+															Non Tatkal</option>
+
+													</select></td>
+
+												<td th:text="#{mb.report.rail.travel.report.ticketType}">
+												</td>
+												<td><select name="ticketType" class="comboM" id="ticketType" style="width:75%">
+														<option value="">All</option>
+														<option value="0" th:selected="${formModel.ticketType}=='0'">
+															E-Ticket</option>
+														<option value="1" th:selected="${formModel.ticketType}=='1'">
+															I-Ticket</option>
+													</select></td>
+
+											
+												<td th:text="#{mb.report.rail.travel.report.accountOffice}">
+												</td>
+												<td colspan="3">
+													<select name="accountOffice" class="comboM"
+														id="accountOffice" style="width:25%">
+
+														<option value="">All</option>
+														<option th:each=" src : ${paoList}" th:text="${src.name}"
+															th:value="${src.groupId}"
+															th:selected="${src.groupId}==${formModel.accountOffice}">
+														</option>
+
+													</select>
+													</td>
+											</tr>
+
+											<tr>
+												<td colspan="10" id="downLoadFile" style="text-align:right">
+													<input type="button" value="Generate Report" class="butn"
+														th:attr="onclick='generateReport()'">
+												</td>
+											</tr>
+
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+
+					</form>
+
+					<div id="bookingDetailsTR">
+						<div class="welcomebox" th:unless="${bookingRepoList}==null">
+
+							<table id="bookingRecordTable" class="filtersearch">
+
+								<thead class="head">
+
+									<tr>
+										<th><span th:text="#{mb.report.rail.travel.report.sNo}"></span>
+										</th>
+										<th><span th:text="#{mb.report.rail.travel.report.bookingId}"></span>
+										</th>
+										<th><span th:text="#{mb.report.rail.travel.report.pNRNumber}"></span>
+										</th>
+										<th><span th:text="#{mb.report.rail.travel.report.name}"></span>
+										</th>
+										<th><span th:text="#{mb.report.rail.travel.report.personalNo}"></span>
+										</th>
+										<th><span th:text="#{mb.report.rail.travel.report.noOfPassenger}"></span>
+										</th>
+										<th><span th:text="#{mb.report.rail.travel.report.trainNo}"></span>
+										</th>
+										<th><span th:text="#{mb.report.rail.travel.report.from}"></span>
+										</th>
+										<th><span th:text="#{mb.report.rail.travel.report.to}"></span>
+										</th>
+										<th><span th:text="#{mb.report.rail.travel.report.bookingDate}"></span>
+										</th>
+										<th><span th:text="#{mb.report.rail.travel.report.journeyDate}"></span>
+										</th>
+										<th><span th:text="#{mb.report.rail.travel.report.Jrnyclass}"></span>
+										</th>									
+										<th><span th:text="#{mb.report.rail.travel.report.ticketType}"></span>
+										</th>										
+										<th><span th:text="#{mb.report.rail.travel.report.travelType}"></span>
+										</th>
+										<th><span th:text="#{mb.report.rail.travel.report.tatkalApprovalStatus}"></span>
+										</th>
+										<th><span th:text="#{mb.report.rail.travel.report.tatkalBooking}"></span>
+										</th>
+										<th><span th:text="#{mb.report.rail.travel.report.trRule}"></span>
+										</th>										
+										<th><span th:text="#{mb.report.rail.travel.report.totalFare}"></span>
+										</th>
+										<th><span th:text="#{mb.report.rail.travel.report.transactionId}"></span>
+										</th>
+										<th><span th:text="#{mb.report.rail.travel.report.accountOffice}"></span>
+										</th>
+
+									</tr>
+									</thead>
+									<tbody class="all1">
+									<tr th:each="src,stat:${bookingRepoList}">
+										 <td th:text="${stat.count}"></td>
+										<td><a href="#" class="links"
+												th:attr="onclick='viewBookingReports(\''+${src.bookingId}+'\')'">
+												<span th:text="${src.bookingId}"></span>
+											</a></td>
+
+										<td th:if="${src.canView}=='YES'"><a href="#" class="links"
+												th:attr="onclick='viewCancellationReports(\''+${src.bookingId}+'\')'">
+												<span th:text="${src.pnrNumber}"></span>
+											</a></td>
+										<td th:if="${src.canView}!='YES'">
+											<span th:text="${src.pnrNumber}"></span>
+										</td>
+										<td th:text="${src.name}"></td>
+										<td th:text="${src.personalNo}"></td>
+										<td th:text="${src.noOfPassenger}"></td>
+										<td th:text="${src.trainNo}"></td>
+										<td th:text="${src.fromStation}"></td>
+										<td th:text="${src.toStation}"></td>
+										<td th:text="${src.bookingDate}"></td>
+										<td th:text="${src.journeyDate}"></td>
+										<td th:text="${src.cabinClass}"></td>
+										<td th:text="${src.ticketType}"></td>
+										<td th:text="${src.travelTypeName}"></td>
+										<td th:text="${src.tatkalApprovalStatus}"></td>
+										<td th:text="${src.tatkalBooking}"></td>
+										<td th:text="${src.trRule}"></td>
+										<td th:text="${src.totalFare}"></td>
+										<td th:text="${src.transactionId}"></td>
+										<td style="white-space: nowrap;" th:text="${src.accountOffice}"></td>
+
+									</tr>
+
+								</tbody>
+							</table>
+
+						</div>
+					</div>
+
+
+					<!-- Error message -->
+					<div>
+
+						<p class="errors" style="margin-bottom:0" th:text="${errorMessage}"></p>
+
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+	</section>
+	
+<div class="p_anch">
+	<a href="javascript:void(0);" class="js__p_start">&#160;</a>
+</div>
+<div class="p_body js__p_body js__fadeout">&#160;</div>
+<div class="popup js__popup js__slide_top">
+	<div class="p_content" id="voucher_Ack_History_Id"></div>
+
+</div>
+<section>
+	<div class="blank"></div>
+	</section>
+	<section>
+    <div th:insert="~{fragments/login/footer}"></div>
+    </section>
+
+</body>
+</html>

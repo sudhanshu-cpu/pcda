@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+<script th:src="@{/js/MB/Reports/AirCancellationReport/airTktCancellationReport.js(random=${session.jsToken})}">
+</script>
+<script type="text/javascript" th:src="@{/js/common/crypto.js}"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	
+    $('#requestDetailsAirCancellation').DataTable({
+searching: false,
+info: false,
+ordering:false
+    });
+});
+</script>
+
+
+<body oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+
+	<div th:insert="~{fragments/header/mainHeader}">...</div>
+
+	<section id="midpart" class="midpart">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-1"></div>
+				<div class="col-lg-10">
+
+
+					<div id="program" class="programBlock">
+						<div class="welcomebox">
+							<div class="welcomeHead">
+								<p>
+									Air Cancellation Report
+								</p>
+							</div>
+							<div class="welcomecont">
+								<form th:action="@{/reports/airCancellationTktData}" method="post" name="requestRptFilter"
+									id="requestAirCancellationReport">
+
+									<table class="filtersearch" cellspacing="1" cellpadding="4" width="100%" border="0">
+										<tbody class="all1">
+
+											<tr align="left">
+												<td>
+													Personal No.
+												</td>
+												<td><input type="text" name="personalNo" id="personalNo" class="txtfldM"
+														size="15" autocomplete="off" maxlength="20" th:value="${requestData.personalNo}"/>
+												</td>
+												<td>
+													Booking Id.
+												</td>
+												<td><input type="text" name="bookingId" id="bookingId" class="txtfldM"
+														size="15" autocomplete="off" maxlength="20" th:value="${requestData.bookingId}"/>
+												</td>
+
+												<td>
+													FB Number.
+												</td>
+												<td><input type="text" name="fbNumber" id="fbNumber" class="txtfldM"
+														size="15" autocomplete="off" maxlength="20" th:value="${requestData.fbNumber} "/>
+														</td>
+													<td>
+													FC Number.
+													
+													</td>
+												<td><input type="text" name="fcNumber" id="fcNumber" class="txtfldM"
+														size="15"
+														autocomplete="off" th:value="${requestData.fcNumber}"/> 
+												</td>
+											
+												<td align="left">
+													Cancellation From Date
+												</td>
+												<td><input type="text" name="fromDate" id="frmBookingDt"
+														class="txtfldM" size="15"
+														readonly="true" autocomplete="off" th:value="${requestData.fromDate}"/></td>
+
+												<td>
+													Cancellation To Date
+												</td>
+												<td><input type="text" name="toDate" id="toBookingDt" class="txtfldM"
+														size="15" readonly="true"
+														autocomplete="off" th:value="${requestData.toDate}" /> </td>
+														
+										
+											</tr>
+											
+											<tr>
+											<td colspan="12"  style="text-align:right">
+											    <div style="display: inline-block;">
+											        <input class="butn" type="submit" onclick="doGenerate();" value="Generate Report" />
+											    </div>
+											</td>
+
+											</tr>
+											
+										</tbody>
+									</table>
+								</form>
+							</div>
+						</div>
+					</div>
+
+					<form>
+						<div class="welcomebox" th:unless="${#lists.isEmpty(cancelRptDataList)}">
+							<table class="filtersearch" id="requestDetailsAirCancellation">
+								<thead class="head">
+									<tr>
+										<th>Personal No</th>
+										<th>Booking Id</th>
+										<th>FB Number</th>
+										<th>FC Number</th>
+										<th>Cancellation Date</th>
+										<th>Refund Amount</th>
+										<th>Cancellation Amount</th>
+										<th>Cancellation Status</th>
+										
+										
+										
+										
+									</tr>
+									</thead>
+									<tbody class="all1">
+									<tr class="lablevaluebgalt" align="left" th:each="src:${cancelRptDataList}">
+										
+										<td th:text="${src.personalNo}"> </td>
+										<td th:text="${src.bookingId}"> </td>
+										<td th:text="${src.fbNumber}"> </td>
+										<td th:text="${src.fcNumber}"> </td>
+										<td th:text="${src.cancellationDate}"> </td> 										
+										<td th:text="${src.totalRefundAmt}"> </td>
+										<td th:text="${src.cancellationRefundAmt}"> </td>
+										<td th:text="${src.cancellationInvoiceStatus}"> </td>
+							
+						
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						
+						<div id="noRecords" th:if="${#lists.isEmpty(cancelRptDataList)}" >
+							<p class="errors" style="margin-bottom:0" th:text="${errorMsg}"></p>
+							</div>
+						
+					</form>
+					
+					
+						<div id="norequestDetailsTR">
+						<p class="errors" th:text="${validationMsg}"> </p>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+		</div>
+		</div>
+
+		</div>
+
+	</section>
+	<section>
+		<div class="blank"></div>
+	</section>
+	<section>
+		<div th:insert="~{fragments/login/footer}"></div>
+	</section>
+</body>
+
+</html>

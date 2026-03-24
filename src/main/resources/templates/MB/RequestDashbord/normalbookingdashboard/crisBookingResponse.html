@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<style>
+
+.innerwaitdiv1{
+  background-color: #fbfac8;
+  text-align: left;
+  vertical-align: top;
+  width: 50%;
+  height: 30% ;
+  left: 25%;
+  right: 25%;
+  top: 35%;
+  position: absolute;
+  background: #efefef;
+  border: 1px solid #b9c0f4;
+  filter: shadow(gray);
+}
+
+</style>
+ 
+ 
+<form name="crisBookingForm" id="crisBookingForm" th:action="@{|/mb/getFinalTrainDtls?cfdfgj='';JSESSIONID=${sessionId}|}"  th:method="post">
+<input type="hidden" name="data" th:value="${data}" />
+<input type="hidden" name="clientTxnId" th:value="${clientTxnId}" />
+</form>
+
+
+<body oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+                        
+	
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-1"></div>
+				<div class="col-lg-10">
+<div class="innerwaitdiv1" style="text-align:center">
+	<table border="0" cellpading="0" cellspacing="0" width="100%" class="filtersearch" height="180" >
+	<tbody class="all1">
+	<tr class="tdborder8">
+		<td style="width:10%"></td>
+		<td class="lablevalue">
+			Please wait
+			
+		</td>
+		
+	</tr>
+	<tr class="tdborder8">
+		<td style="width:10%"></td>
+		<td>
+			Ticket booking is under Process.
+		</td>
+		
+	</tr>
+	<tr class="tdborder8">
+		<td style="width:10%"></td>
+		<td>
+			This may take upto a minute. Please do not refresh or close this window.
+		</td>
+		
+	</tr>
+	</tbody>
+	</table>
+
+	
+</div>
+</div>
+</div>
+</div>
+
+
+	
+</body>
+
+<script type="text/javascript">
+    document.forms[0].submit();
+ </script>
+
+</html>

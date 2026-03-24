@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+
+
+<body oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+
+	<form>
+		<div id="program" class="programBlock">
+			<div class="welcomebox" style="margin-bottom:1rem;">
+				<div class="welcomeHead">
+					<p>Acknowledgement History</p>
+
+				</div>
+				<div class="welcomecont">
+					<table id="filtersearch" class="filtersearch">
+						<tbody class="all1">
+							<table style="width:100%">
+
+								
+										<tr style="padding-bottom:60px;" th:if="${#lists.isEmpty(ackHistoryList)}">
+											<td style="text-align:center;color:red;font-size: 15px;">Acknowledgement History
+												Not  Found.</td>
+										</tr>
+									
+										<tr style="padding-bottom:60px;" th:unless="${#lists.isEmpty(ackHistoryList)}">
+											<td>
+												<table style="width:100%" class="bgborder" cellspacing="5"
+													cellpadding="5">
+													<tr class="formtxt">
+														<th th:text="#{cgda.transactionsettlement.voucherack.sqn}"></th>
+														<th th:text="#{cgda.transactionsettlement.voucherack.acknum}"> </th>
+														<th th:text="#{cgda.transactionsettlement.voucherack.paidamt}"> </th>
+														<th th:text="#{cgda.transactionsettlement.voucherack.ackdatee}"> </th>
+														<th th:text="#{cgda.transactionsettlement.voucherack.file}"> </th>
+													</tr>
+												
+														<tr th:each = "src : ${ackHistoryList}">
+															<td th:text="${src.seqNo}"> </td>
+															<td th:text="${src.ackNo}"> </td>
+															<td th:text="${src.paidAmount}">1212 </td>
+															<td th:text="${src.paymentDate}"> </td>
+														<td><button type="submit" th:formaction="@{/com/downloadFile}" th:formmethod="get" th:value="${src.ackFilePath}" style="border: none;color:blue;text-decoration:underline;background-color:white;" name="dwnFilePath">Download</button></td>
+														</tr>
+															
+														
+												
+												</table>
+											</td>
+										</tr>
+									</otherwise>
+								</choose>
+							</table>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</form>
+</body>
+
+</html>

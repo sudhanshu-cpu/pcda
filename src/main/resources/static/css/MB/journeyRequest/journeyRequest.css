@@ -1,0 +1,110 @@
+.heading{
+	font: 14px arial;
+text-align: left;
+/* color: #003A70; */
+color:#fff;
+padding: 4px 0 5px 4px;
+background: linear-gradient(to right, #0d4f46, #2d6e4b, #618c44, #a4a43b, #f4b543);
+/* background-image:url("/pcda/images/head_st.gif"); */
+border-radius: 5px 5px 0px 0px;
+}
+.bgborder{
+	border:1px solid #B6E3FD;
+	border-radius: 5px 5px 0px 0px;
+}
+.datagrid {
+  font: normal 12px/150% Georgia, Times New Roman, Times, serif;
+  background: #fff;
+  overflow: hidden;
+  border: 1px solid #652299;
+  -webkit-border-radius: 9px;
+  -moz-border-radius: 9px;
+  border-radius: 9px;
+}
+
+.formtxt {
+  font: 12px arial;
+  text-align: left;
+}
+
+.formtxt tr {
+  background-color: #fff;
+}
+
+.formtxt tr td {
+  padding: 5px;
+  border-bottom: #B6E3FD 1px dotted;
+  border-right: #B6E3FD 1px dotted;
+}
+
+td.label {
+  background-color: #00ff80;
+  font-weight: bold;
+}
+
+.combo {
+  margin: 0;
+  padding: 5px;
+  border: #9ed9fe 1px solid;
+  border-radius: 5px;
+  background: #fff;
+  color: #363738;
+  font-family: arial;
+}
+
+.btn{
+  background: #0d395e;
+  border-radius: 5px;
+  font: arial 12px/12px;
+  color: #fff;
+  border: none;
+  line-height: 25px;
+  cursor: pointer;
+  padding: 2px 8px;
+}
+
+.butn{
+  background: #0d395e;
+  border-radius: 5px;
+  font: arial 12px/12px;
+  color: #fff;
+  border: none;
+  line-height: 25px;
+  cursor: pointer;
+  padding: 2px 8px;
+}
+
+input {
+  margin: 0;
+  padding: 0;
+  border: #9ed9fe 1px solid;
+  border-radius: 5px;
+  background: #fff;
+  padding: 5px;
+}
+
+.screen-freeze {
+  background-color: white;
+  display: none;
+  height: 100%;
+  left: 0;
+  opacity: 0.7;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 99999;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  padding-top: 100px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.4);
+}

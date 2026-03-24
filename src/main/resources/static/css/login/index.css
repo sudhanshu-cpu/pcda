@@ -1,0 +1,16 @@
+ .rainbow {
+  background-image: -webkit-gradient( linear, left top, right top, color-stop(0, rgb(0, 128, 128)), color-stop(0.15,rgb(0, 128, 128)), color-stop(0.3,rgb(0, 128, 128)), color-stop(0.45,rgb(0, 128, 128)), color-stop(0.6,rgb(0, 128, 128)),color-stop(0.75,rgb(0, 128, 128)), color-stop(0.9,rgb(0, 128, 128)), color-stop(1,rgb(0, 128, 128)) );
+  background-image: gradient( linear, left top, right top, color-stop(0,rgb(0,128, 128)), color-stop(0.15,rgb(0,128, 128)), color-stop(0.3,rgb(0, 128, 128)), color-stop(0.45,rgb(0, 128, 128)), color-stop(0.6,rgb(0, 128, 128)),color-stop(0.75,rgb(0, 128, 128)), color-stop(0.9,rgb(0, 128, 128)), color-stop(1,rgb(0, 128, 128)) );
+  color:transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: animatedBackground 5s linear infinite;
+    -moz-animation: animatedBackground 5s linear infinite;
+    -webkit-animation: animatedBackground 5s linear infinite;
+    -ms-animation: animatedBackground 5s linear infinite;
+    -o-animation: animatedBackground 5s linear infinite;
+    
+     font-size: 22px;
+     font-weight: bold;
+     font-family: sans-serif;
+}

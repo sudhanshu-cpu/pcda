@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{fragments/login/head}"></head>
+
+<script
+	th:src="@{/js/PAO/userVarification/fileUpload.js(random=${session.jsToken})}">
+</script>
+<body>
+	<div th:insert="~{fragments/header/mainHeader}"></div>
+	<section id="midpart" class="midpart">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-1"></div>
+				<div class="col-lg-10">
+<div id="program" class="programBlock">
+						<div class="welcomebox">
+							<div class="welcomeHead">
+								<p>
+									Verify File Upload
+								</p>
+							</div>
+								<div class="welcomecont">
+		<form th:action="@{/pao/fileRead}" method="post" name="userVerificationFileUploaad" id="userVerificationFileUploaad" enctype="multipart/form-data">
+<input type="hidden" name="personals" id="personals" value="${userVerifyDataInXML/personals}"/>
+<input type="hidden" name="event" id="event"/>
+		   <table class="filtersearch" cellspacing="1" cellpadding="4" width="100%" border="0" >
+			   	<tbody class="all1">
+				<tr align="left">
+				
+					<td align="left">CSV File Upload</td>
+					<td>
+					<input type="file" name="userVerificationFileToUpload" id="userVerificationFileToUpload" accept=".csv" />
+					<a href="#" style="text-align:right"><input class="butn" type="button" onclick="fileToUpload('fileToUpload');" value="Upload"/></a>
+					</td>
+				
+				</tr>
+				</tbody>
+		   </table>
+		   </form>
+		   </div>
+		   </div>
+		   </div>
+		   <div id="program" class="programBlock">
+						<div class="welcomebox">
+							<div class="welcomeHead">
+								<p>
+									Your verified user data
+								</p>
+							</div>
+								<div class="welcomecont">
+		   <form name="verifiedFile" id="verifiedFile"
+								th:action="@{/pao/verifiedFile}" method="post">
+				<table id="userVerificationDetailsTRResult" class="filtersearch" cellspacing="1" cellpadding="2" width="100%" border="0" th:if="${not #lists.isEmpty(fileData)}" >
+					<tr>
+					<td>
+				<table id="userVerificationDetailsTR" class="filtersearch" >
+				<tbody class="all1">
+					<tr class="lablevalue">
+						<td style='white-space:nowrap;'>Personal No.</td>
+						<td style='white-space:nowrap;'>Creation Date</td>
+						<td style='white-space:nowrap;'>Full Name</td>
+						<td style='white-space:nowrap;'>Unit Name</td>
+						<td style='white-space:nowrap;'>Service</td>
+						<td style='white-space:nowrap;'>Level Name</td>
+						<td style='white-space:nowrap;'>Category</td>
+						<td style='white-space:nowrap;'>Status</td>	
+					</tr>
+
+							<tr th:each="item:${fileData}">
+								<td style='white-space:nowrap;'><span th:text="${item.personalNo}"></span>
+								<input type="hidden" name="personalNo" th:value="${item.personalNo}"/>
+								</td>
+								<td style='white-space:nowrap;'><span th:text="${item.creationDate}"></span></td>
+								<td style='white-space:nowrap;'><span th:text="${item.fullName}"></span></td>
+								<td style='white-space:nowrap;'><span th:text="${item.unitName}"></span></td>
+								<td style='white-space:nowrap;'><span th:text="${item.service}"></span></td>
+								<td style='white-space:nowrap;'><span th:text="${item.levelName}"></span></td>
+								<td style='white-space:nowrap;'><span th:text="${item.category}"></span></td>
+								<td style='white-space:nowrap;'><span th:text="${item.status}"></span></td>
+							</tr>
+		 				</tbody>	
+				</table>
+				
+				<tr>
+					<td colspan="3" style="text-align:right">
+						<a href="#"><input class="butn" type="button" onclick="doBack();" value="Cancel"/></a>
+						<a href="#"><input class="butn" type="button" onclick="doSelectedAction()" value="Verify All"/></a>
+				</td>
+				</tr>
+				
+				</table>
+				<div>
+<p  class="errors" style="margin-bottom:0" th:text="${error}"></p>				
+			</div>
+				</form>
+ 	</div>
+ 	</div>
+ 	</div>
+</div>    		
+</div>
+</div>
+</section>
+	<section>
+<div class="blank"></div>
+</section>
+	<section>
+		<div th:insert="~{fragments/login/footer}"></div>
+	</section>		
+<script type="text/javascript">
+	//var userVerificationDetailsTR=document.getElementById("userVerificationDetailsTR");
+	//userVerificationDetailsTR.style.display='none';
+</script>
+
+</body>
+</html>

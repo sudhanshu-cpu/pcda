@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+
+
+<body oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+
+	<form>
+		<div id="program" class="programBlock">
+			<div class="welcomebox" style="margin-bottom:1rem;">
+				<div class="welcomeHead">
+					<p>Acknowledgement History 
+					   <a href="javascript:void(0);" class="p_close js__p_close" title="Close" style="margin:0 10px 0 0">
+							<img th:src="@{/images/close.png}" alt="Close" width="20" height="20" title="Close" onclick="closePopup();">
+						</a>
+					</p>
+				</div>
+				<div class="welcomecont">
+							<table style="width:100%">
+
+								
+										<tr style="padding-bottom:60px;" th:if="${#lists.isEmpty(ackHistoryList)}">
+											<td style="align:center;color:red;font-size: 15px;">Acknowledgement History
+												Not Found.</td>
+										</tr>
+									
+										<tr style="padding-bottom:60px;" th:unless="${#lists.isEmpty(ackHistoryList)}">
+											<td>
+												<table style="width:100%" class="bgborder" cellspacing="5"
+													cellpadding="5">
+													<tr class="formtxt">
+														<th th:text="#{pao.transactionsettlement.voucherack.sqn}"></th>
+														<th th:text="#{pao.transactionsettlement.voucherack.acknum}"> </th>
+														<th th:text="#{pao.transactionsettlement.voucherack.paidamt}"> </th>
+														<th th:text="#{pao.transactionsettlement.voucherack.ackdatee}"> </th>
+														<th th:text="#{pao.transactionsettlement.voucherack.file}"> </th>
+													</tr>
+												
+														<tr th:each = "src : ${ackHistoryList}">
+															<td th:text="${src.seqNo}"> </td>
+															<td th:text="${src.ackNo}"> </td>
+															<td th:text="${src.paidAmount}"> </td>
+															<td th:text="${src.paymentDate}"> </td>
+														<td><button type="submit" th:formaction="@{/com/downloadFile}" th:formmethod="get" th:value="${src.ackFilePath}" style="border: none;color:blue;text-decoration:underline;background-color:white;" name="dwnFilePath">Download</button></td>
+														</tr>
+															
+														
+												
+												</table>
+											</td>
+										</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</form>
+</body>
+
+</html>

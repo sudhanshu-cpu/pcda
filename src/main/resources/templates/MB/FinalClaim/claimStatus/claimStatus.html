@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+<script type="text/javascript" th:src="@{/js/common/crypto.js}"></script>
+
+<script type="text/javascript"> 
+
+ 
+ function viewClaimStatusDetails(claimId){
+  
+  if($('#Status_'+claimId).is(":visible")){
+     $('#Status_'+claimId).hide();
+  }else{
+     $('.claimStatusClass').hide();
+     $('#Status_'+claimId).show();
+  }
+ 
+ }
+ 
+function doSearch(event){
+ 
+	var prsnlNo = $("#personalNo").val().trim();
+	var claimId = $("#claimId").val().trim();
+
+ if(prsnlNo=='' && claimId==''){
+	alert("Please Enter Personal Number Or Claim ID");
+			event.preventDefault();
+ }else{
+	  if(prsnlNo !=''){
+	 var encryptPNo = CryptoJS.AES.encrypt(prsnlNo,"Hidden Pass");
+		$("#personalNo").val(encryptPNo);
+		}
+		$("#claimStatusForm").submit();
+ }
+ 
+}
+</script> 
+<body
+	oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+	<div th:insert="~{fragments/header/mainHeader}">...</div>
+	<section id="midpart" class="midpart">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-1"></div>
+				<div class="col-lg-10">
+					<form th:action= "@{/mb/getClaimStatusData}" th:method="post" id = "claimStatusForm" >
+
+					<input type="hidden" name="groupId" th:value="${groupId}">
+						<div id="program" class="programBlock">
+							<div class="welcomebox">
+								<div class="welcomeHead">
+									<p th:text="#{mb.claim.status.claim.status}"></p>
+								</div>
+								<div class="welcomecont">
+									<table class="filtersearch">
+										<tbody class="all1">
+											<tr>
+												<td th:text="#{mb.claim.status.personal.no}"></td>
+												<td><input type="text" name="personalNo" id="personalNo" class="txtfldM" size="15" maxlength="20" style="width:130px;" th:value="${personalNo}" autocomplete="Off"></td>
+												<td th:text="#{mb.claim.status.claim.id}"></td>
+												<td><input type="text" name="claimId" id="claimId"  class="txtfldM"  size="15" maxlength="20" th:value="${claimId}" autocomplete="Off"></td>
+											</tr>
+											<tr>
+												<td colspan="10" id="downLoadFile" style="text-align:right">
+					            <button type="button"  onclick="doSearch(this.form);"   class="butn" >Search</button>
+					            
+					          </td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								
+							</div>
+						</div>
+						<div id="program" class="programBlock">
+							<div class="welcomebox" th:unless="${#lists.isEmpty(claimStatusData)}">
+								
+									<table class="filtersearch">
+										<tbody class="all1">
+											<tr class="lablevalue">
+												<td style="width:12%;background-color:#B6E3FD;border-right:1px solid white;text-align:center" th:text="#{mb.claim.status.claim.id}"></td>
+												<td style="width:15%;background-color:#B6E3FD;border-right:1px solid white;text-align:center" th:text="#{mb.claim.status.claim.type}"></td>
+												<td style="width:13%;background-color:#B6E3FD;border-right:1px solid white;text-align:center" th:text="#{mb.claim.status.personal.no}"></td>
+												<td style="width:20%;background-color:#B6E3FD;border-right:1px solid white;text-align:center" th:text="#{mb.claim.status.travel.id}"></td>
+												<td style="width:15%;background-color:#B6E3FD;border-right:1px solid white;text-align:center" th:text="#{mb.claim.status.claim.received.on}"></td>
+												<td style="width:25%;background-color:#B6E3FD;border-right:1px solid white;text-align:center" th:text="#{mb.claim.status.status}"></td>
+											</tr>
+											</tbody>
+											<tbody class="all1" th:each="data:${claimStatusData}">
+											<tr>
+											<td style="text-align:center" th:unless="${data.status}=='Claim Settled.'">
+											<a href="javascript:void(0);" th:attr="onclick='viewClaimStatusDetails(\''+${data.tadaClaimId}+'\')'" th:text="${data.tadaClaimId}"></a></td>
+										<td style="text-align:center" th:if="${data.status}=='Claim Settled.'">
+											<span th:text="${data.tadaClaimId}"></span>
+											</td>
+											<td style="text-align:center" th:text="${data.claimType}"></td>
+											<td style="text-align:center" th:text="${data.personalNo}"></td>
+											<td style="text-align:center" th:text="${data.travelID}"></td>
+											<td style="text-align:center" th:text="${data.claimReceivedDate}"></td>
+											<td style="text-align:center" th:text="${data.status}"></td>
+											</tr>
+											
+								<tr th:id="@{|Status_${data.tadaClaimId}|}" style="display:none;" class="claimStatusClass">
+						     	  <td colspan="4" align="center">
+						 	          <table class="filtersearch" style="border:1px solid black;width:80%;margin-left:10%">
+						 	          <tbody class="all4">
+						 	        <tr class="lablevalue"> 
+							 	      <td style="width:20%" th:text="#{mb.claim.status.date}"></td>
+							 	      <td style="width:40%" th:text="#{mb.claim.status.status}"></td>
+							 	      <td style="width:40%" th:text="#{mb.claim.status.remark}"></td>
+						 	       </tr>
+						 	      <tr th:each="list:${data.tadaClaimStatus}"> 
+							 	      <td th:text="${list.actionDate}"></td>
+							 	      <td th:text="${list.claimStatus}"></td>
+							 	      <td th:text="${list.remarks}"></td>
+						 	      </tr>
+						 	      </tbody>
+						 	      </table>
+						 	      </td>
+						 	      </tr>
+						 	      </tbody>
+						 	      
+						 	     
+										
+						 	      </table>
+						 	      </div>
+						 	      
+									<table class="filtersearch">
+									<tr><td>
+									<p class="errors" th:text="${error}"></p>
+									</td></tr>
+									</table>
+									
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section>
+		<div class="blank"></div>
+	</section>
+	<section>
+		<div th:insert="~{fragments/login/footer}"></div>
+	</section>
+</body>
+</html>

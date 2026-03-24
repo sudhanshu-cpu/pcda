@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+<script type="text/javascript"
+	th:src="@{/js/PAO/transactionsettlementair/AirDemand/reqForAirDmnd.js(random=${session.jsToken})}"></script>
+
+<body oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+	<div th:insert="~{fragments/header/mainHeader}"></div>
+
+	<section id="midpart" class="midpart">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-1"></div>
+				<div class="col-lg-10">
+					
+					<form name="drGenerateForm" id="drGenerateForm" th:action="@{/pao/reqForDrAirDemandGenerate}" method="post" >
+						<input type="hidden" name="dwnRequestId" id="dwnRequestId_adj" />
+					</form>
+					
+					
+					<form name="airDemndDownloadReqForm" th:action="@{/pao/reqForAirDemandDwnl}" id="airDemndDownloadReqForm" method="post">
+						<input type="hidden" name="fromDate" id="form_date" value="" />
+						<input type="hidden" name="toDate" id="to_date" value="" />
+						<input type="hidden" name="serviceId" id="service_id" value=""/>
+						
+                     </form>
+						
+					<form name="airDemandMasterMissingForm" th:action="@{/pao/airDemandMasterMissingProcess}"
+						id="airDemandMasterMissingForm" method="post">
+						<input type="hidden" name="dwnAirReqIdMm" id="dwnRequestId_mm" value="" />
+						<input type="hidden" name="dwnAirReqStatusMm" id="dwn_RequestStatus_mm" value="" />
+					</form>
+					
+					<input type="hidden" name="isNavyPaoPresent" id="drop_down" th:value="${data.isNavyPao}">
+						
+						<div id="program" class="programBlock">
+							<div class="welcomebox" style="margin-bottom:1rem;">
+								<div class="welcomeHead">
+									<p>Request For Air Demand</p>
+								</div>
+								
+							<div class="welcomecont" id="placeReqDiv" th:if="${data.functionalityAllow} =='Yes'">
+								<table cellspacing="1" cellpadding="4" class="filtersearch">
+									<tbody class="all1">
+										<tr>
+											<td align="left" >
+											<b >
+												<span th:text="${data.recordsCount}" /> records pending for download till <span
+													th:text="${data.toDateDisplay}" />
+											</b>
+										</td>
+										<td th:if="${data.isNavyPao}=='Yes'" ><select name="serviceId" class="comboM" id="serviceId">
+
+														<option value="">Select</option>
+														<option th:each=" src : ${serviceMap}" th:text="${src.value}"
+															th:selected="${src.key} == ${serviceId}"
+															th:value="${src.key}">
+														</option>
+
+													</select></td>
+										</tr>
+										
+			<tr>     
+			    <td style="width:50%">
+			      Would you like to place download request up to <span th:text="${data.toDateDisplay}" /> ? 
+			    </td> 
+			    <td style="width:50%">
+			      <input type="radio" id="requestType_0" name="requestType" value="0" checked="checked" /> Yes   
+			      <input type="radio" id="requestType_1" name="requestType" value="1" /> No
+			    </td>
+			</tr>
+			                     <input type="hidden" th:value="${data.fromDate}" id="fromdate"/>
+			                     <input type="hidden" th:value="${data.toDate}" id="toDate"/>
+										
+										<tr style="display:none;" id="selected_period">
+											<td style="width: 0%;"><b> From Date:</b>
+											<span th:text="${data.fromDateDisplay}"> </span></td>
+											
+											<td style="width: 0%;"><b>To Date:</b>
+											<input name="reqToDt" type="text" id="reqToDt" value="" size="15" autocomplete="off"  class="txtfldM"></td>
+										</tr>
+										<tr id="hide_req_button">
+											<td colspan="8" id="downLoadFile" style="text-align:right">
+													<input class="butn" type="button" value="Place Request" onclick="saveAirDmndDownloadRequest();" />
+												
+											</td>
+										</tr>
+										
+									</tbody>
+								</table>
+							</div>
+							<div th:if="${data.functionalityAllow} =='No'">
+						<p class="errors"  id="msgForUser"
+									style="margin-bottom:0">This functionality is withdrawn for you !! </p> </div>
+							
+									
+					     	<p th:if="${data.message}!=null AND ${!#strings.isEmpty(data.message)}" class="errors" th:text="${data.message}"
+									style="margin-bottom:0"> </p>
+							</div>
+							</div>				
+										
+							<div id="program" class="programBlock" th:unless="${#lists.isEmpty(data.downloadRequest)}" >
+							<div class="welcomebox" style="margin-bottom:1rem;">
+							
+								<div class="welcomecont">
+									<table id="irlaReqRailResult" class="filtersearch"  width="100%" cellspacing="1" cellpadding="4" border="0" align="center">
+										<tbody class="all1">
+										<tr style="font-weight:bold">
+											<td style="width:10%; border-right: 1px solid #d1d1d1;">Request Id</td>
+											<td style="width:10%; border-right: 1px solid #d1d1d1;">Request Date</td>
+											<td style="width:10%; border-right: 1px solid #d1d1d1;">From Date</td>
+											<td style="width:10%; border-right: 1px solid #d1d1d1;">To Date</td>
+											<td style="width:10%; border-right: 1px solid #d1d1d1;">Count</td>
+											<td style="width:10%; border-right: 1px solid #d1d1d1;">Download</td>
+											<td style="width:10%; border-right: 1px solid #d1d1d1;">Service</td>
+											<td style="width:10%; border-right: 1px solid #d1d1d1;">Download Date</td>
+											<td style="width:10%; border-right: 1px solid #d1d1d1;">Master Missing</td>
+											<td style="width:10%; border-right: 1px solid #d1d1d1;">Generate Demand</td>
+											<td style="width:10%; border-right: 1px solid #d1d1d1;">Action</td>
+										</tr>
+										<tr th:each="item:${data.downloadRequest}">
+											<td style=" border-right: 1px solid #d1d1d1;" th:text="${item.downloadRequestId}"></td>
+											<td style=" border-right: 1px solid #d1d1d1;" th:text="${item.creationTime}"></td>
+											<td style=" border-right: 1px solid #d1d1d1;" th:text="${item.fromDate}"></td>
+											<td style=" border-right: 1px solid #d1d1d1;" th:text="${item.toDate}"></td>
+											<td style=" border-right: 1px solid #d1d1d1;" th:text="${item.count}"></td>
+											<td style=" border-right: 1px solid #d1d1d1;">
+												<span th:if="${item.requestStatus} > 1 AND ${item.fileDownloaded} == 0 "><a  th:href="@{/pao/downloadAirDmndReqData(dwnReqId=${item.downloadRequestId})}">
+												<img th:src="@{/images/download.png}" style="width:25px;height:25px" alt=""></a></span>
+												<span th:unless="${item.requestStatus} > 1 AND ${item.fileDownloaded} == 0 "> Under Process</span>
+											</td>
+											<td style=" border-right: 1px solid #d1d1d1;" th:text="${item.serviceId}"></td>
+											<td style=" border-right: 1px solid #d1d1d1;" th:text="${item.downloadDate}"></td>
+											<td th:if="(${item.requestStatus} == 2 or ${item.requestStatus} == 3) and ${item.fileDownloaded} == 0 and ${item.masterMissingProcess} == 1 and ${item.demandProcess} == 1"
+												style="border-right: 1px solid #d1d1d1;">
+												<input type="radio" th:id="|masterMissingAndAdj_${item.downloadRequestId}|" th:name="|masterMissingAndAdj_${item.downloadRequestId}|"
+													value="masterMissing" />
+												<span th:if="${item.requestStatus == 3}">&#160;Done</span>
+												
+											</td>
+											<td th:unless="(${item.requestStatus} == 2 or ${item.requestStatus} == 3) and ${item.fileDownloaded} == 0 and ${item.masterMissingProcess} == 1 and ${item.demandProcess} == 1"
+												style="border-right: 1px solid #d1d1d1;">
+												
+												<span th:if="${item.masterMissingProcess == 1}">---</span>
+												<span th:unless="${item.masterMissingProcess == 1}">Processed</span>
+											</td>
+											
+											<td>
+												<span
+													th:if="${item.requestStatus == 5 and item.fileDownloaded == 0 and item.masterMissingProcess == 0 and item.demandProcess == 1}">
+													<input type="radio" th:id="|masterMissingAndAdj_${item.downloadRequestId}|" th:name="|masterMissingAndAdj_${item.downloadRequestId}|"
+														value="demand" /> &#160;&#160;
+												</span>
+												<span
+													th:unless="${item.requestStatus == 5 and item.fileDownloaded == 0 and item.masterMissingProcess == 0 and item.demandProcess == 1}">
+													<span th:if="${item.requestStatus == 6 or item.requestStatus == 7 or item.requestStatus == 8}">Processed</span>
+													<span th:unless="${item.requestStatus == 6 or item.requestStatus == 7 or item.requestStatus == 8}">---</span>
+												</span>
+											</td>
+											
+											<td th:if="(${item.requestStatus} == 2 or ${item.requestStatus} == 3) and ${item.fileDownloaded} == 0 and ${item.masterMissingProcess} == 1 and ${item.demandProcess} == 1"
+												style="border-right: 1px solid #d1d1d1;">
+												<input type="button"
+													th:attr="onclick='submitMasterMissingProcess(\''+${item.downloadRequestId}+'\', \''+${item.requestStatus}+'\');'"
+													value="Submit" class="butn">
+											</td>
+											
+											<td
+												th:if="${item.requestStatus == 5 and item.fileDownloaded == 0 and item.masterMissingProcess == 0 and item.demandProcess == 1}">
+												<input type="button" th:attr="onclick='submitDemandProces(\''+${item.downloadRequestId}+'\');'" value="Submit"
+													class="butn">
+											</td>
+
+											
+										</tr>
+										</tbody> 
+									</table>
+				</div>
+										
+										
+
+				</tr>
+			</div>
+
+
+		</div>
+	</section>
+	<section>
+		<div class="blank"></di>
+	</section>
+	<section>
+		<div th:insert="~{fragments/login/footer}"></div>
+	</section>
+</body>
+</html>

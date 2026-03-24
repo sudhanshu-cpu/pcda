@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{fragments/login/head}"></head>
+
+<body>
+
+<form name="commentForm" method="post" id="commentForm">
+<input type="hidden" name="personalNo" id="personalNo" value="${personalNo}" />
+<input type="hidden" name="event" id="event" value="next" />
+<div id="program" class="programBlock">
+						<div class="welcomebox">
+							<div class="welcomeHead">
+								<p><output ref="personalNo"/>
+									Master Missing Comment History
+								</p>
+							</div>
+								<div class="welcomecont">
+ 		<div id="reqPoolDiv">
+ 		<table id="loginForm" class="filtersearch" cellpadding="5" cellspacing="1" width="100%" border="0">
+ 			<tbody class="all1">
+ 						<tr class="lablevalue">
+						 <td>SN#</td>
+						 <td>Comment</td>
+						 <td>Comment Date</td>
+						 <td>Comment By</td>
+						 </tr>
+		 					<tr> 
+		 						<td><output ref="SEQ_NO"/></td> 
+		 						<td><output ref="COMMENT"/></td> 
+		 						<td><output ref="COMMUNICATION_DATE"/></td> 
+		 						<td><output ref="COMMENT_BY"/></td> 
+		 					</tr>
+ 					<otherwise>
+ 						<tr><td class="errors" colspan="4"><output ref="CommentHistory/Error"/></td></tr>
+ 					</otherwise>
+ 				</choose>
+ 				</tbody>
+ 		</table>
+ 		<choose ref="showCommentInput">
+ 		<when value="YES">
+	 		<table id="loginForm" class="filtersearch" cellpadding="5" cellspacing="1" width="100%" border="0">
+	 		<tbody class="all1">
+	 		  <tr>
+				 <td>Enter Remarks</td>
+				 <td><input type="text" name="comments" id="comments" size="50" /></td>
+			   </tr>
+			   <tr>
+			   	 <td  colspan="2">
+			    	<input type="button" class="butn" value="Submit Remark" onclick="submitCommentForm();"/>
+				 </td>
+			  </tr>	
+			  </tbody>
+	 		</table>
+ 		</when>
+ 		</choose>
+ 		</div>
+ 		</div>
+ 		</div>
+ 		</div>
+ 		
+</form>
+
+
+</body>
+</html>

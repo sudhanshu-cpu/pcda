@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+	<section>
+		<div>
+
+			<div th:each="src:${userList}">
+				<div id="program" class="programBlock">
+					<div class="welcomebox" style="margin-bottom:1rem">
+						<div class="welcomeHead">
+							<p th:text="#{mb.report.rail.travel.report.details}"></p>
+						</div>
+						<div class="welcomecont">
+
+							<table class="filtersearch" id="ticketDetails">
+
+								<tbody class="all1">
+
+									<tr>
+										<td class="lablevalue"><span th:text="#{mb.report.rail.travel.report.requestId}"></span></td>
+										<td th:text="${src.requestId}"></td>
+										<td class="lablevalue"><span th:text="#{mb.report.rail.travel.report.bookingId}"></span></td>
+										<td th:text="${src.bookingId}"></td>
+									</tr>
+
+									<tr>
+										<td class="lablevalue"><span th:text="#{mb.report.rail.travel.report.unitOffice}"></span>
+										</td>
+										<td th:text="${src.unitOffice}"></td>
+
+										<td class="lablevalue"><span
+												th:text="#{mb.report.rail.travel.report.payAccountOffice}"></span></td>
+										<td th:text="${src.accountOffice}"></td>
+									</tr>
+
+									<tr>
+										<td class="lablevalue"><span th:text="#{mb.report.rail.travel.report.bookingStatus}"></span></td>
+										<td th:text="${src.bookingStatus}"></td>
+										<td class="lablevalue"><span th:text="#{mb.report.rail.travel.report.journeyClass}"></span></td>
+										<td th:text="${src.journeyClass}"></td>
+									</tr>
+
+									<tr>
+										<td class="lablevalue"><span th:text="#{mb.report.rail.travel.report.pNRNumber}"></span></td>
+										<td th:text="${src.pnrNo}"></td>
+										<td class="lablevalue"><span th:text="#{mb.report.rail.travel.report.ticketNumber}"></span></td>
+										<td th:text="${src.ticketNo}"></td>
+									</tr>
+
+									<tr>
+										<td class="lablevalue"><span th:text="#{mb.report.rail.travel.report.trainNumber}"></span></td>
+										<td th:text="${src.trainNo}"></td>
+										<td class="lablevalue"><span th:text="#{mb.report.rail.travel.report.trainName}"></span></td>
+										<td th:text="${src.trainName}"></td>
+									</tr>
+
+									<tr>
+										<td class="lablevalue"><span th:text="#{mb.report.rail.travel.report.source}"></span></td>
+										<td th:text="${src.from}"></td>
+										<td class="lablevalue"><span th:text="#{mb.report.rail.travel.report.destination}"></span></td>
+										<td th:text="${src.to}"></td>
+									</tr>
+
+									<tr>
+										<td class="lablevalue"><span th:text="#{mb.report.rail.travel.report.distance}"></span></td>
+										<td th:text="${src.distance}"></td>
+										<td class="lablevalue"><span th:text="#{mb.report.rail.travel.report.dateofBooking}"></span></td>
+										<td th:text="${src.bookingDate}"></td>
+									</tr>
+
+									<tr>
+										<td class="lablevalue"><span th:text="#{mb.report.rail.travel.report.dateofBoarding}"></span></td>
+										<td th:text="${src.journeyDate}"></td>
+										<td class="lablevalue"><span th:text="#{mb.report.rail.travel.report.scheduledDeparture}"></span></td>
+										<td th:text="${src.scheduleDep}"></td>
+									</tr>
+									<tr>
+										<td class="lablevalue"><span th:text="#{mb.report.rail.travel.report.IRCTCServiceCharges}"></span></td>
+										<td th:text="${src.irctcServiceCharges}"></td>
+										<td class="lablevalue"><span th:text="#{mb.report.rail.travel.report.totalFare}"></span></td>
+										<td th:text="${src.totalFare}"></td>
+									</tr>
+
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+
+				<div id="program" class="programBlock">
+					<div class="welcomebox">
+						<div class="welcomeHead">
+							<p th:text="#{mb.report.rail.travel.report.passengerDetails}"></p>
+						</div>
+						<div class="welcomecont">
+
+							<table class="filtersearch" id="pnrDetails">
+
+								<tbody class="all1">
+
+									<tr>
+										<td class="lablevalue" style="width:5%"><span th:text="#{mb.report.rail.travel.report.s#}"></span></td>
+										<td class="lablevalue" style="width:12%"><span th:text="#{mb.report.rail.travel.report.name}"></span></td>
+										<td class="lablevalue" style="width:6%"><span th:text="#{mb.report.rail.travel.report.age}"> </span></td>
+										<td class="lablevalue" style="width:8%"><span th:text="#{mb.report.rail.travel.report.sex}"></span></td>
+										<td class="lablevalue" style="width:8%"><span th:text="#{mb.report.rail.travel.report.coach}"></span></td>
+										<td class="lablevalue" style="width:8%"><span th:text="#{mb.report.rail.travel.report.seat}"></span></td>
+										<td class="lablevalue" style="width:8%"><span th:text="#{mb.report.rail.travel.report.berth}"></span></td>
+										<td class="lablevalue" style="width:10%"><span th:text="#{mb.report.rail.travel.report.baseFare}"></span></td>
+										<td class="lablevalue" style="width:10%"><span th:text="#{mb.report.rail.travel.report.superFastCharges}"></span></td>
+										<td class="lablevalue" style="width:10%"><span th:text="#{mb.report.rail.travel.report.otherCharges}"></span></td>
+										<td class="lablevalue" style="width:10%"><span th:text="#{mb.report.rail.travel.report.concessionAmount}"></span></td>
+										<td class="lablevalue" style="width:10%"><span> Misc Amount</span></td>
+									</tr>
+
+									<tr th:each="passengerDetails:${src.ticketPassangerDetails}">
+										<td th:text=" ${passengerDetailsStat.count}"></td>
+										<td th:text=" ${passengerDetails.name}"></td>
+										<td th:text=" ${passengerDetails.age}"></td>
+										<td th:text=" ${passengerDetails.gender}"></td>
+										<td th:text=" ${passengerDetails.coach}"></td>
+										<td th:text=" ${passengerDetails.seat}"></td>
+										<td th:text=" ${passengerDetails.berth}"></td>
+										<td th:text=" ${passengerDetails.basefare}"></td>
+										<td th:text=" ${passengerDetails.superFastCharge}"></td>
+										<td th:text=" ${passengerDetails.otherCharge}"></td>
+										<td th:text=" ${passengerDetails.concessionAmt}"></td>
+										<td th:text=" ${passengerDetails.diffAmount}"></td>
+
+									</tr>
+
+									
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+
+
+
+			</div>
+
+		</div>
+
+
+
+	</section>
+</body>
+
+</html>

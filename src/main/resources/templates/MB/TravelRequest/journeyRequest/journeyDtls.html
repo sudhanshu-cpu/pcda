@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+      <td colspan="4" th:if="${jrnyType} == 0">  
+	     <table border="0" cellpadding="4" cellspacing="1" width="100%" class="formtxt">
+	      <tr>
+	        <td>
+		      <div id="journeyModeDivId"  style="display:none">
+			  </div>   
+		    </td>
+		   </tr>
+		   <tr>
+		     <td>
+		      <div id="railRequestXform" th:insert="~{MB/TravelRequest/journeyRequest/railOnwardsRequestForm}">
+			  </div>
+			  <div id="airRequestXform" style="display:none" th:insert="~{MB/TravelRequest/journeyRequest/airOnwardsRequestForm}">
+			  </div>
+			  <div id="mixedRequestXform" style="display:none" th:insert="~{MB/TravelRequest/journeyRequest/mixedOnwardsRequestForm}">
+			  </div>
+			 </td>
+		   </tr>
+		   <tr>
+			<td>
+				<div id="advanceDA" class="datagrid" style="display:none">
+				<table border="0" cellpadding="4" cellspacing="1" width="100%" class="formtxt">
+					<tr align="left" bgcolor="#fbfac8">
+						<td width="100%" colspan="4">
+							<b>DA Advance Details</b>	
+						</td>
+	 				</tr>
+	 			</table>				
+				<table border="0" cellpadding="4" cellspacing="1" width="100%" class="formtxt">
+				    <tr align="left" bgcolor="#fbfac8">
+				       <td colspan="4">
+							<input type="checkbox" id="DA_Advanced_Confirm_One" value="true" /> No DA has been availed for this journey from any other source/Pay Accounts office.
+						</td>
+					</tr>
+<!-- 					<tr align="left" bgcolor="#fbfac8">	 -->
+<!-- 						<td colspan="2"><span th:text="#{traveller.profile.bank.account.number}"></span> <b class="bank_account_number"></b></td> -->
+<!-- 						<td colspan="2"><span th:text="#{traveller.profile.bank.ifsc.code}"></span> <b class="bank_ifsc_code"></b></td> -->
+<!-- 					</tr> -->
+					
+<!-- 					<tr align="left" bgcolor="#fbfac8">	 -->
+<!-- 						<td colspan="4"> -->
+<!-- 							<input type="checkbox" id="DA_Advanced_Confirm_Two" value="true" /> For DA Advance, details of the bank account shown   -->
+<!-- 							above are correct. -->
+<!-- 						</td> -->
+<!-- 					</tr> -->
+					
+					<tr align="left" bgcolor="#fbfac8">	
+				    	<td>DA Advanced Required<span class="mandatory">*</span></td>
+						<td>
+							<input type="radio" name="DAAdvanced" id="DAAdvanced" value="0" onclick="showDAPermissionQues(event)" />Yes
+						    <input type="radio" name="DAAdvanced" id="DAAdvanced1" value="1" checked="checked" onclick="showDAPermissionQues(event)" />No
+						</td>
+						<td id="da_permission" style="display: none;">
+						   <choose ref="serviceType">
+                               <when value="1">LRC Applicable?</when>
+                               <otherwise><message key="da_advance_question"/></otherwise>
+                            </choose> 
+                        </td>
+						<td id="da_permission_ans" style="display: none;">
+							<input id="lrc_check0"  name="lrc_check" value="0" type="radio" onclick="showTypesOfDa()" />Yes
+							<input id="lrc_check1"  name="lrc_check" value="1" type="radio" onclick="showTypesOfDa()"/>No
+						</td>
+					</tr>
+					<tr id="dest_Div" style="display: none;" align="left" bgcolor="#fbfac8">
+					       <td id="rtnDate_Div" style="display: none;">
+								DA required till Date<span class="mandatory">*</span></td>
+								<td id="rtnDate_ValueTD" style="display: none;"><input id="returnDate" type="text" class="txtfldM" name="returnDate" readonly="true"/>
+							 </td>
+				    	<td>Enter Destination City<span class="mandatory">*</span></td>
+						<td>
+						<div id="container">
+							<div>
+								<input type="text" name="destinationCity" autocomplete="off" class="txtfldM" id="destinationCity"    onblur="fillDAStrn('');" onkeyup="destStationList();"/>
+								<input type="hidden" name="destinationCityGrade"  id="destinationCityGrade"  value=""/>
+							</div>
+							<div class="suggestionsBox" id="suggestionsDestCity" style="display: none;"> 
+			       				<div class="suggestionList" id="autoSuggestionsListforDestCity"></div>
+			       			</div>
+			       		</div>
+			       		</td>
+			       	</tr>
+					<tr align="left" bgcolor="#fbfac8" id="optforHotelDa" style="display: none;">
+					   <td>Do you want to claim Hotel Advance ?<span class="mandatory">*</span></td>
+						<td> 
+							<input id="reqForHotelDAYes"  name="reqForHotelDA" value="0" type="radio" onclick="isHotelAllowForThisTR(event);" /> Yes
+						    <input id="reqForHotelDANo"  name="reqForHotelDA" value="1" type="radio" onclick="isHotelAllowForThisTR(event);" checked="checked"/> No
+						</td>
+						<td>Hotel Amount&#160;<span class="mandatory">#</span></td>
+						<td><input name="hotelAmount" id="hotelAmount" value="0" disabled="true" maxlength="6" onblur="checkMaxAdvanceAmt('createJourneyRequestForm','hotel');"/></td>
+					</tr>
+					<tr align="left" bgcolor="#fbfac8" id="optforConveyanceDa" style="display: none;">
+					   <td>Do you want to claim Conveyance Advance ?<span class="mandatory">*</span></td>
+						<td> 
+							<input id="reqForConveyanceDAYes"  name="reqForConveyanceDA" value="0" type="radio" onclick="isConveyanceAllowForThisTR(event);" /> Yes
+						    <input id="reqForConveyanceDANo"  name="reqForConveyanceDA" value="1" type="radio" onclick="isConveyanceAllowForThisTR(event);" checked="checked"/> No
+						</td>
+						<td>Conveyance Amount&#160;<span class="mandatory">#</span></td>
+						<td><input name="conveyanceAmount" id="conveyanceAmount" value="0" disabled="true" maxlength="6" onblur="checkMaxAdvanceAmt('createJourneyRequestForm','conveyance');"/></td>
+					</tr>
+					<tr align="left" bgcolor="#fbfac8" id="optforFoodDa" style="display: none;">
+					   <td>Do you want to claim Food Advance ?<span class="mandatory">*</span></td>
+						<td> 
+							<input id="reqForFoodDAYes"  name="reqForFoodDA" value="0" type="radio" onclick="isFoodAllowForThisTR(event);" /> Yes
+						    <input id="reqForFoodDANo"  name="reqForFoodDA" value="1" type="radio" onclick="isFoodAllowForThisTR(event);" checked="checked"/> No
+						</td>
+						<td>Food Amount&#160;<span class="mandatory">#</span></td>
+						<td><input name="foodAmount" id="foodAmount" value="0" disabled="true" maxlength="6" onblur="checkMaxAdvanceAmt('createJourneyRequestForm','food');"/></td>
+					</tr>
+				   
+					
+					<tr id="GPSGHouse" style="display: none;" align="left" bgcolor="#fbfac8">
+						<td>Staying in Government/Public Sector Guest House/Own arrangements<span class="mandatory">*</span></td>
+						<td><input id="govtAcc"  name="govtAcc" value="0" type="radio" /></td>
+						<td >Stay in Hotel/Other Establishments/lodging of Scheduled tariffs<span class="mandatory">*</span></td>
+						<td ><input id="govtAcc"  name="govtAcc" value="1" type="radio" /></td>
+					</tr>
+			       	<tr id="daAdvanceAmt_Div" style="display: none;" align="left" bgcolor="#fbfac8">
+						<td>Total DA Advance Amount<span class="mandatory">*</span></td>
+						<td><input type="text" name="advanceAmt" class="txtfldM" id="advanceAmt"  value="0" maxlength="10" readonly="true"/></td>
+						<td><a href="javascript:void(0);" onclick="viewDAAdvanceDetails();">DA Entitlement</a></td>
+						<td><span class="mandatory"># - For entire journey</span></td>
+					</tr>
+				
+			 		
+				</table>
+				</div>
+				
+				<div id="comTransfer" class="datagrid" style="display:none">
+				<table border="0" cellpadding="4" cellspacing="1" width="100%" class="formtxt">
+					<tr align="left" bgcolor="#fbfac8">
+				       <td colspan="4">
+							<input type="checkbox" id="PT_Advanced_Confirm_One" value="true" /> No Advance has been availed for this journey from any other source/Pay Accounts office.
+						</td>
+					</tr>
+<!-- 					<tr align="left" bgcolor="#fbfac8">	 -->
+<!-- 						<td colspan="2" th:text="#{traveller.profile.bank.account.number}">&#160;:&#160;<b class="bank_account_number"></b></td> -->
+<!-- 						<td colspan="2" th:text="#{traveller.profile.bank.ifsc.code}">&#160;:&#160;<b class="bank_ifsc_code"></b></td> -->
+<!-- 					</tr> -->
+					
+<!-- 					<tr align="left" bgcolor="#fbfac8">	 -->
+<!-- 						<td colspan="4"> -->
+<!-- 							<input type="checkbox" id="PT_Advanced_Confirm_Two" value="true" /> The Details of the Bank Salary Account shown above are correct and belongs to the officer. -->
+<!-- 			       		</td>	 -->
+<!-- 					</tr> -->
+					<tr align="left" bgcolor="#fbfac8">
+				    	<td>Composite Transfer Grant is required<span class="mandatory">*</span></td>
+						<td colspan="3"><input type="checkbox" name="transferReq" id="transferReq" value="0" onclick="showCompositeTransfer(event);"/></td>
+					</tr>
+					<tr align="left" bgcolor="#fbfac8">	
+						<td colspan="4">
+							<table border="0" cellpadding="4" cellspacing="1" width="100%" class="formtxt" id="composite_transfer_dtls">
+							</table>
+			       		</td>
+					</tr>
+				</table>
+				</div>
+				
+			 </td>
+		   </tr>
+		   <tr>
+		     <td>
+		       <div id="familyDetails" class="datagrid" style="display:none;"></div>
+		     </td>
+		   </tr>
+		   <tr>
+		     <td>
+		       <div id="attendedDetails" class="datagrid" style="display:none;"></div>
+		     </td>
+		   </tr>
+		   <tr>
+		     <td>
+		       <div id="partyDependentDetails" class="datagrid" style="display:none"></div>
+		     </td>
+		  </tr>	
+		
+		<input type="hidden" id="relation" name="relation" class="myRecord"/>   
+		<input type="hidden" id="familyName" name="familyName" class="myRecord"/>
+		<input type="hidden" id="gender" name="gender" class="myRecord" />
+		<input type="hidden" id="dob" name="dob" class="myRecord"/>
+		<input type="hidden" id="age" name="age" class="myRecord"/>
+		<input type="hidden" id="depSeqNo" name="depSeqNo" class="myRecord"/>
+		<input type="hidden" id="ersPrntNameVal" name="ersPrntNameVal" class="myRecord"/> 
+        <input type="hidden" id="otherRel" name="otherRel" class="myRecord"/>
+		
+		</table>
+	</td>	
+		
+  
+      <td colspan="4" th:if="${jrnyType} == 1">
+      <table border="0" cellpadding="4" cellspacing="1" width="100%" class="formtxt">
+	      <tr>
+	        <td>
+		      <div id="returnJourneyModeDivId"  style="display:none">
+			  </div>   
+		    </td>
+		   </tr>
+		   <tr>
+		     <td>
+			  <div id="railReturnRequestXform" th:insert="~{MB/TravelRequest/journeyRequest/railReturnRequestForm}">
+			  </div>
+			  <div id="airReturnRequestXform" style="display:none" th:insert="~{MB/TravelRequest/journeyRequest/airReturnRequestForm}">
+			  </div>
+			  <div id="mixedReturnRequestXform" style="display:none" th:insert="~{MB/TravelRequest/journeyRequest/mixedReturnRequestForm}">
+			  </div>
+	        </td>
+		   </tr>
+		   <tr>
+		     <td>
+		       <div id="returnFamilyDetails" class="datagrid" style="display:none;"></div>
+		     </td>
+		   </tr>
+		   <tr>
+		     <td>
+		       <div id="returnAttendedDetails" class="datagrid" style="display:none;"></div>
+		     </td>
+		   </tr>
+		   <tr>
+		     <td>
+		       <div id="returnPartyDependentDetails" class="datagrid" style="display:none"></div>
+		     </td>
+		  </tr>	
+		<input type="hidden" id="returnRelation" name="returnRelation" class="myRecord"/>   
+		<input type="hidden" id="returnFamilyName" name="returnFamilyName" class="myRecord"/>
+		<input type="hidden" id="returnGender" name="returnGender" class="myRecord" />
+		<input type="hidden" id="returnDOB" name="returnDOB" class="myRecord"/>
+		<input type="hidden" id="returnAge" name="returnAge" class="myRecord"/>
+		<input type="hidden" id="returnDepSeqNo" name="returnDepSeqNo" class="myRecord"/>
+		<input type="hidden" id="returnErsPrntNameVal" name="returnErsPrntNameVal" class="myRecord"/> 
+        <input type="hidden" id="returnOtherRel" name="returnOtherRel" class="myRecord"/>
+		</table>
+	</td>	
+ 
+ <script type="text/javascript">
+
+$( document ).ready(function() {
+
+initAirportList();
+
+$("#journeyDate").datetimepicker({
+		lang:'en',
+		timepicker:false,
+		format:'d/m/Y',
+		formatDate:'d/m/Y',
+			scrollMonth : false,
+    		scrollInput : false,
+    		viewDate : $('#travelStartDate').val(), 
+    		defaultDate : $('#travelStartDate').val(),
+		yearEnd: 2100,
+
+			onShow:function( input, inst ){
+				
+		         var minData=0;
+		       	 var maxData=0;
+		          if($('#return_JourneyDate').val()!="" && $('#return_JourneyDate').val()!= undefined){ 
+		             minData=$('#travelStartDate').val();
+		       	   	 maxData=$('#return_JourneyDate').val();
+		         }else{
+		             minData=$('#travelStartDate').val();
+		       	     maxData=$('#travelEndDate').val();
+		         }
+		         
+		   	    $("#journeyDate").datetimepicker("setOptions", {
+					minDate: minData});
+					
+					$("#journeyDate").datetimepicker("setOptions", {
+					maxDate: maxData});
+					 
+		  
+		   } 
+	   });
+	   
+	   $("#return_JourneyDate").datetimepicker({
+		lang:'en',
+		timepicker:false,
+		format:'d/m/Y',
+		formatDate:'d/m/Y',
+			scrollMonth : false,
+    		scrollInput : false,
+    		viewDate : $('#travelStartDate').val(), 
+    		defaultDate : $('#travelStartDate').val(),
+		yearEnd: 2100,
+
+			onShow:function( input, inst ){
+	       	   var minData=0;
+	       	   var maxData=0;
+	       	    if($('#journeyDate').val()!="" && $('#journeyDate').val()!= undefined){ 
+	       	   	 minData=$('#journeyDate').val();
+	       	   	 maxData=$('#travelEndDate').val();
+	       	   }else{
+	       	     minData=$('#travelStartDate').val();
+	       	     maxData=$('#travelEndDate').val();
+	       	   }
+	       	   
+	       	   $("#return_JourneyDate").datetimepicker("setOptions", {
+					minDate: minData});
+					
+					$("#return_JourneyDate").datetimepicker("setOptions", {
+					maxDate: maxData});
+	       	   
+	       	   
+	       	    
+		   } 
+	   });
+
+$("#onwordJourneyDate").datetimepicker({
+		lang:'en',
+		timepicker:false,
+		format:'d/m/Y',
+		formatDate:'d/m/Y',
+			scrollMonth : false,
+    		scrollInput : false,
+    		viewDate : $('#travelStartDate').val(), 
+    		defaultDate : $('#travelStartDate').val(),
+		yearEnd: 2100,
+
+			onShow:function( input, inst ){
+		         var minData=0;
+		       	 var maxData=0;
+		         if($('#returnOnwordJourneyDate').val()!="" && $('#returnOnwordJourneyDate').val()!= undefined){ 
+		             minData=$('#travelStartDate').val();
+		       	   	 maxData=$('#returnOnwordJourneyDate').val();
+		         }else{
+		             minData=$('#travelStartDate').val();
+		       	     maxData=$('#travelEndDate').val();
+		         }
+		         
+		         $("#onwordJourneyDate").datetimepicker("setOptions", {
+					minDate: minData});
+					
+					$("#onwordJourneyDate").datetimepicker("setOptions", {
+					maxDate: maxData});
+	       	   
+		   	    
+		   } 
+	  });    
+
+$("#returnOnwordJourneyDate").datetimepicker({
+		lang:'en',
+		timepicker:false,
+		format:'d/m/Y',
+		formatDate:'d/m/Y',
+			scrollMonth : false,
+    		scrollInput : false,
+    		viewDate : $('#travelStartDate').val(), 
+    		defaultDate : $('#travelStartDate').val(),
+		yearEnd: 2100,
+
+			onShow:function( input, inst ){
+	       	   var minData=0;
+	       	   var maxData=0;
+	       	    if($('#onwordJourneyDate').val()!="" && $('#onwordJourneyDate').val()!= undefined){ 
+	       	   	 minData=$('#onwordJourneyDate').val();
+	       	   	 maxData=$('#travelEndDate').val();
+	       	   }else{
+	       	     minData=$('#travelStartDate').val();
+	       	     maxData=$('#travelEndDate').val();
+	       	   }
+	       	   
+	       	    $("#returnOnwordJourneyDate").datetimepicker("setOptions", {
+					minDate: minData});
+					
+					$("#returnOnwordJourneyDate").datetimepicker("setOptions", {
+					maxDate: maxData});
+	       	   
+	       	    
+		   } 
+	   });
+	
+
+
+     $('#onwordJourneyDate').on("keypress keyup blur",function (event){
+     	 isDateChange('onwordJourneyDate');
+       });
+     $('#mixedJrnyJourneyDate1').on("keypress keyup blur",function (event){
+      	isDateChange('mixedJrnyJourneyDate1');
+       });
+     $('#mixedJrnyJourneyDate0').on("keypress keyup blur",function (event){
+      	isDateChange('mixedJrnyJourneyDate0');
+       });
+     
+      $("#advanceAmt,#hotelAmount,#conveyanceAmount,#foodAmount,#basicPay,#luggageAmt,#conveyance,#totalCtg,#distanceInKms,#approxLuggWeight")
+      .on("keypress keyup blur",function (event) {    
+           $(this).val($(this).val().replace(/[^\d].+/, ""));
+           if (event.which > 31 && (event.which < 48 || event.which > 57)) {
+                event.preventDefault();
+            }
+        });
+$("#FAA_AuthorityDate").datetimepicker({
+		lang:'en',
+		timepicker:false,
+		format:'d/m/Y',
+		formatDate:'d/m/Y',
+		scrollMonth : false,
+		scrollInput : false,
+		yearEnd: 2100,
+	 
+		maxDate:0 
+	  });	
+	  
+	   $('#returnFAA_AuthorityDate').datetimepicker({
+		lang:'en',
+		timepicker:false,
+		format:'d/m/Y',
+		formatDate:'d/m/Y',
+		scrollMonth : false,
+		scrollInput : false,
+		yearEnd: 2100,
+	 
+		maxDate:0 
+	  });
+	  
+	   $('#mixed_FAA_AuthorityDate').datetimepicker({
+		lang:'en',
+		timepicker:false,
+		format:'d/m/Y',
+		formatDate:'d/m/Y',
+		scrollMonth : false,
+		scrollInput : false,
+		yearEnd: 2100,
+	 
+		maxDate:0 
+	  });	
+	  
+	   $('#returnMixedFAA_AuthorityDate').datetimepicker({
+		lang:'en',
+		timepicker:false,
+		format:'d/m/Y',
+		formatDate:'d/m/Y',
+		scrollMonth : false,
+		scrollInput : false,
+		yearEnd: 2100,
+	 
+		maxDate:0 
+	  });
+	  $('#returnDate').datetimepicker({
+		lang:'en',
+		timepicker:false,
+		format:'d/m/Y',
+		formatDate:'d/m/Y',
+		scrollMonth : false,
+		scrollInput : false,
+		viewDate : $('#travelStartDate').val(), 
+    	defaultDate : $('#travelStartDate').val(),
+		yearEnd: 2100,
+	 	
+		onShow:function( input, inst ){
+			
+			minData=$('#travelStartDate').val();
+	       	     maxData=$('#travelEndDate').val();
+			 $("#returnOnwordJourneyDate").datetimepicker("setOptions", {
+					minDate: minData});
+					
+					$("#returnOnwordJourneyDate").datetimepicker("setOptions", {
+					maxDate: maxData});
+		
+		
+	        
+		   }            
+	  });
+	          
+});
+		   	
+</script>	
+
+ </html>
+ 

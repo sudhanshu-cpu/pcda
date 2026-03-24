@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+
+<div class="welcomeHead" style="margin-bottom:5px;">
+    <b><p style="text-align:center">
+       TRAVELLING ALLOWANCE CLAIM FOR MOVES ON PERMANENT TRANSFER
+    </p></b>
+</div>
+  
+            
+<div id="program" class="programBlock">
+                        <div class="welcomebox" style="margin-bottom:2px">
+                            <div class="welcomeHead">
+                                <b><p>
+                                 Details in respect of the Claimant
+                                </p></b>
+                            </div>
+                             <div class="welcomecont">
+<table class="filtersearch">
+  		<tbody class="all1">
+  		<tr>
+  		  <td class="lablevalue" style="width:12%">Name</td> 
+  		  <td style="width:13%"><span th:text="${claimView.personalInfo.name}"></span></td>
+  		  <td class="lablevalue" style="width:12%">Corps/Office</td> 
+  		  <td style="width:13%"><span  th:text="${claimView.personalInfo.unitName}"></span></td>
+  		  <td class="lablevalue" style="width:12%">Personal/Staff No</td> 
+  		  <td style="width:13%"><span th:text="${claimView.travelContent.personalNumber}"></span></td>
+  		  <td class="lablevalue" style="width:12%" th:if="${claimView.personalInfo.isArmedForce} == 1">DAD Account No</td> 
+		  <td class="lablevalue" style="width:12%" th:unless="${claimView.personalInfo.isArmedForce} == 1">PCDAO Pay Account No</td> 
+  		  <td style="width:13%"><input name="personalPayAccNo" id="personalPayAccNo" maxlength="20" autocomplete="off"/></td>
+  	  	</tr>
+
+  	  	<tr>
+  		  <td class="lablevalue" style="width:12%">Pay Level (<span style="color:red;font-weight:normal">Last Pay Drawn before Transfer</span>)</td> 
+  		  <td style="width:13%">
+  		    <select name="personalPayLevel" id="personalPayLevel" class="combo" style="width: 130px;">
+              <option value="">Select</option>
+              <option th:each="src : ${claimView.payLevel}" th:text="${src.levelName}" th:value="${src.levelId}"></option>
+            </select>
+          </td>
+
+			<td class="lablevalue" style="width:12%">Basic Pay (<span style="color:red;font-weight:normal">Last Pay Drawn before Transfer</span>)</td>
+
+            <td style="width:13%" th:if="${basicPay}>0">
+	            <span th:text="${claimView.travelContent.basicPay}"></span>
+	            <input type="hidden" name="personalBasicPay" id="personalBasicPay" th:value="${basicPay}">
+            </td>
+            <td style="width:13%" th:unless="${basicPay}>0">
+	           	<input name="personalBasicPay" id="personalBasicPay"  maxlength="10" onblur="resetCTGPersonalEffects();" onkeypress="isNumberKey(event)" autocomplete="off">
+           	</td>
+
+  		  <td class="lablevalue" style="width:12%">Transferred from</td> 
+  		  <td style="width:13%"><input name="transferredFrom" id="transferredFrom" maxlength="50" autocomplete="off"/></td>
+  		  <td class="lablevalue" style="width:12%">Transferred To</td> 
+  		  <td style="width:13%"><input name="transferredTo" id="transferredTo" maxlength="50" autocomplete="off"/></td>
+  	  	</tr>
+
+  	  	<tr>
+  		  <td class="lablevalue" style="width:12%">Departure Place</td> 
+  		  <td style="width:13%"><input type="text" name="jrnyStartedFrom" id="jrnyStartedFrom" maxlength="50" autocomplete="off"/></td>
+  		  <td class="lablevalue" style="width:12%">Departure Date</td> 
+  		  <td style="width:13%"><input type="text" name="jrnyStartDate" id="start_date_time" maxlength="20" readonly="true" autocomplete="off"/></td>
+  		  <td class="lablevalue" style="width:12%">Arrival Place</td> 
+  		  <td style="width:13%"><input type="text" name="jrnyStartedTo" id="jrnyStartedTo" maxlength="50" autocomplete="off"/></td>
+  		  <td class="lablevalue" style="width:12%">Arrival Date</td> 
+  		  <td style="width:13%"><input type="text" name="jrnyStartToDate" id="start_to_date" maxlength="20" readonly="true" autocomplete="off"/></td>
+  	  	</tr>
+
+	  	<tr>
+  	      <td class="lablevalue" style="width:12%">Rule in TR/SR</td> 
+  		  <td style="width:13%"><span th:text="${claimView.eachRecord.ruleName}"></span><input type="hidden" name="trRuleName" th:value="${claimView.eachRecord.ruleName}"/></td>
+  		  <td class="lablevalue" style="width:12%">Move Sanction No</td> 
+  		  <td style="width:13%"><input name="moveSanctionNo" id="moveSanctionNo" th:value="${claimView.eachRecord.reqAuthorityNumber}" maxlength="50" autocomplete="off"/></td>
+  		  <td class="lablevalue" style="width:12%">Move Sanction Date</td> 
+  		  <td style="width:13%"><input name="moveSanctionDate" id="move_Sanction_Date" th:value="${claimView.eachRecord.authorityDate}" maxlength="12" readonly="true" autocomplete="off"/></td>
+  		  <td class="lablevalue" style="width:12%">Move Issuing Authority</td> 
+  		  <td style="width:13%"><input name="moveAuthority" id="moveAuthority" maxlength="50" autocomplete="off"/></td> 
+  	</tr>
+  	</tbody>
+</table>
+</div>
+</div>
+</div>
+
+  
+<div id="program" class="programBlock">
+                        <div class="welcomebox" style="margin-bottom:2px">
+                            <div class="welcomeHead">
+                                <b><p>
+                                 DTS Journey Details
+                                </p></b>
+                            </div>
+                             <div class="welcomecont">
+
+
+<table class="filtersearch" th:each="jrny : ${claimView.eachRecord.journeyDetails}">
+<tbody class="all1">
+  		<tr>
+  			<td style="text-align:right" class="lablevalue" colspan="11" bgcolor="#AAAAAA">
+  		      Journey Type:
+  		      <span style="font-weight: normal;" th:text="${jrny.journeyType}"></span>
+  		       <input type="hidden" name="dtsPTJrnyTableIdlen" th:value="${jrnyStat.index}">
+  		    </td>
+  		</tr> 
+  		<tr>
+  		  <td class="lablevalue">Mode of Travel</td> 
+  		   <td th:text="${jrny.travelMode}"></td>
+  		  <td class="lablevalue">Departure Place</td> 
+  		  <td th:text="${jrny.fromStation}"></td>
+  		  <td class="lablevalue">Arrival Place</td> 
+  		  <td th:text="${jrny.toStation}"></td>
+  		  <td class="lablevalue">Class of Accommodation</td> 
+  		  <td th:text="${jrny.journeyClass}"></td>
+	  	</tr>
+	  	<tr>
+  		  <td class="lablevalue">Departure Time</td> 
+  		   <td><input th:id="|journey_date_${jrnyStat.index}|" name="dtsJourneyDate" th:value="${jrny.journeyDate}" maxlength="20" readonly="true" autocomplete="off"/></td>
+  		  <td class="lablevalue">Arrival Time</td> 
+  		  <td><input th:id="|journey_end_date_${jrnyStat.index}|" name="dtsJourneyEndDate" th:value="${jrny.journeyEndDate}" maxlength="20" readonly="true" autocomplete="off"/></td>
+  		  <td class="lablevalue">Sector</td> 
+  		  <td th:text="${jrny.journeyFamily.sector}"></td>
+  		  <td class="lablevalue">Bill/PNR/ Ticket No.</td> 
+  		  <td th:text="${jrny.bookingNo}"></td>
+	  	</tr>
+	  	<tr>
+  		  <td class="lablevalue">Distance(KM)</td> 
+  		  <td>NA</td>
+  		  <td class="lablevalue">Total Fare</td> 
+  		  <td th:text="${jrny.bookingAmount}"></td>
+  		  <td class="lablevalue">Total Refund</td> 
+  		  <td><span th:text="${jrny.refundAmount}"></span><input type="hidden" th:id="|jrnyRefundAmount${jrnyStat.index}|" th:value="${jrny.refundAmount}"></td>
+  		  <td class="lablevalue">Total Claimed Amount</td> 
+  		  <td><span th:text="${jrny.claimedAmount}"></span><input type="hidden" th:id="|jrnyClaimedAmount${jrnyStat.index}|" th:value="${jrny.claimedAmount}"></td>
+	  	</tr>
+
+		<tr>
+	  	  <td bgcolor="#003A70" align="left" colspan="11">
+	  	       <table class="filtersearch" cellspacing="1" cellpadding="4" width="100%" border="0">
+	  	       <tbody class="all1">
+		  		<tr class="lablevalue">
+		  		      <td>Traveler Name</td>
+			  		  <td>Relation</td>
+			  		  <td>Age</td>
+			  		  <td>Ticket No</td> 
+			  		  <td>Journey Performed?</td>
+			  		  <td>Booking Amount</td>
+			  		  <td>Refund Amount</td>
+			  		  <td>Claimed Amount</td>
+		</tr>
+			<tr th:each="dtls : ${jrny.journeyFamily.familyTravellerDeatils}">
+		  		      <td th:text="${dtls.travellerName}"></td>
+			  		  <td th:text="${dtls.relation.getDisplayValue}"></td>
+			  		  <td th:text="${dtls.age}"></td>
+			  		  <td th:text="${dtls.ticketNo}"></td> 
+			  		  <td>
+
+			  		     <select th:name="|dtsJourneyPerformed${jrnyStat.index}|" th:id="|dtsJourneyPerformed${jrnyStat.index}_${dtlsStat.index}|" class="combo"
+			  		     	th:attr="onchange='takePTCancellation(this.value,'+${jrnyStat.index}+','+${dtlsStat.index}+','+${dtls.currentStatus}+');'">
+			                <option value="">Select</option>
+			                <option th:if="${dtls.currentStatus} == '15'" th:value="1" th:text="No"></option>
+			                <option th:unless="${dtls.currentStatus} == '15'" th:value="0" th:text="Yes"></option>
+			                <option th:unless="${dtls.currentStatus} == '15'" th:value="1" th:text="No"></option>
+				         </select>
+
+			  		  </td>
+
+			  		  <td th:text="${dtls.passangerFare}"></td>
+			  		  <td th:text="${dtls.passRefundAmt}"></td>
+			  		  <td th:text="${dtls.passClaimedAmt}"></td>
+		    <input type="hidden" th:name="|dtsJrnyCanType${jrnyStat.index}|" th:id="|dtsJrnyCanType${jrnyStat.index}_${dtlsStat.index}|">
+  			<input type="hidden" th:name="|dtsJrnyCanSanNo${jrnyStat.index}|" th:id="|dtsJrnyCanSanNo${jrnyStat.index}_${dtlsStat.index}|">
+  			<input type="hidden" th:name="|dtsJrnyCanSanDate${jrnyStat.index}|" th:id="|dtsJrnyCanSanDate${jrnyStat.index}_${dtlsStat.index}|">
+  			<input type="hidden" th:name="|dtsJrnyPassengerData${jrnyStat.index}|"
+			th:value="|${dtls.travellerName}::${dtls.relation}::${dtls.age}::${dtls.ticketNo}::${dtls.passangerFare}::${dtls.passRefundAmt}::${dtls.passClaimedAmt}::${dtls.currentStatus}|">
+			</tr>
+			</tbody>
+	</table>	
+          </td>
+		</tr>
+<input type="hidden" name="dtsJrnyRequestData"
+th:value="|${jrny.bookingID}::${jrny.travelmodeInt}::${jrny.bookingNo}::${jrny.journeyClass}::${jrny.journeyTypeInt}::${jrny.fromStation}::${jrny.toStation}::${jrny.bookingAmount}::${jrny.refundAmount}::${jrny.requestId}::${jrny.journeyFamily.sector}::${jrny.claimedAmount}|">
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+ <div class="welcomebox" style="margin-bottom:2px">
+<table class="filtersearch">
+<tbody class="all1">
+	<tr class="tadaHeading">
+	 <td style="border-right:1px solid white;font-weight:bold">Non DTS Journey Details</td>
+	 <td colspan="11" style="text-align:right"><a onclick="createPTJrnyDetails()"
+	 style="color: rgb(255, 255, 255); border: medium none; cursor: pointer; padding: 2px 8px; background: rgb(13, 57, 94) none repeat scroll 0% 0%;">Add Segment</a></td>
+			</tr>
+			</tbody>
+</table>
+
+<table id="ptNonDtsJrnyTableGrid"  class="filtersearch">
+	<tbody class="all1"></tbody>
+	</table>	
+</div>
+
+ <div class="welcomebox" style="margin-bottom:2px">
+<table class="filtersearch">
+<tbody class="all1">
+<tr class="tadaHeading">
+	<td><b>CTG &amp; Personal Effects</b></td>
+</tr>
+</tbody>
+</table>
+
+<table class="filtersearch">
+<tbody class="all1">
+    <tr class="lablevalue">
+	  <td style="width:33%;"></td> 
+	  <td style="width:33%;">Transfer Type</td> 
+	  <td style="width:33%;">Claimed Amount</td> 
+	</tr>
+	<tr class="lablevalue">
+	  <td style="width:33%;">Composite Transfer and Packing Grant (CTG)</td> 
+	  <td style="width:33%;">
+
+<select name="CTGPercentage" id="CTGPercentage" class="combo" style="width:300px;" th:if="${claimView.travelContent.advanceAmount}>0">
+	<option th:if="${claimView.travelContent.transferType} == '1'" value="1" selected="selected">Transfer involving a change of station located at a distance of or more than 20 kms from each other.</option>
+	<option th:if="${claimView.travelContent.transferType} == '2'" value="2" selected="selected">Transfer to and from the Island territories of Andaman, Nicobar &amp; Lakshadweep.</option>
+	<option th:if="${claimView.travelContent.transferType} == '3'" value="3" selected="selected">Transfer to stations which are at a distance of less than 20 kms from the old station and of transfer within the same city, provided a change of residence is actually involved.</option>
+</select>
+
+<select name="CTGPercentage" id="CTGPercentage" class="comb" style="width:300px;" th:unless="${claimView.travelContent.advanceAmount}>0">
+	<option value="">Select</option>
+	<option value="1">Transfer involving a change of station located at a distance of or more than 20 kms from each other.</option>
+	<option value="2">Transfer to and from the Island territories of Andaman, Nicobar &amp; Lakshadweep.</option>
+	<option value="3">Transfer to stations which are at a distance of less than 20 kms from the old station and of transfer within the same city, provided a change of residence is actually involved.</option>
+</select>
+
+</td> 
+
+<td style="width:33%;"><input ref="ClaimGTCAmt" id="Claim_GTC_Amt" onkeypress="isNumberKey(event)"  onblur="validateCTGAmount();calculatePTFinalAmount();" maxlength="10" autocomplete="off"/>
+	  <br/><span style="color:red;font-weight:normal">Please fill the total amount spent (including the advances already taken)</span>
+</td>
+
+</tr>
+</tbody>
+</table>
+
+
+<table class="filtersearch" style="margin-top:2px;">
+<tbody class="all1">
+	<tr class="lablevalue">
+	  <td style="width:20%;background-color:#EBF4FA;border-right:2px solid white">Particulars</td> 
+	  <td style="width:20%;background-color:#EBF4FA;border-right:2px solid white">Weight (in Kg)</td> 
+	  <td style="width:20%;background-color:#EBF4FA;border-right:2px solid white">Mode of Conveyance</td> 
+	  <td style="width:20%;background-color:#EBF4FA;border-right:2px solid white">Distance (in Kms)</td> 
+	  <td style="width:20%;background-color:#EBF4FA">Claimed Amount</td> 
+	</tr>
+	<tr>
+	  <td class="lablevalue" style="width:20%;">Transportation of Personal Effects<input type="hidden" name="particularName_0" value="Transportation of Personal Effects"/></td> 
+	  <td style="width:20%;"><input name="particularWeight_0" id="particularWeight_0_1" onkeypress="isNumberKey(event)" maxlength="10" autocomplete="off"></td> 
+	  <td style="width:20%;">
+
+	    <select name="particularConveyance_0" class="combo" onchange="setCartageDetails(this.value);" style="width:50%">
+	        <option value="">Select</option>
+	        <option value="Truck">Truck</option>
+	        <option value="Train">Train</option>
+	        <option value="Steamer">Steamer</option>
+         </select>
+
+	  </td> 
+	  <td style="width:20%;"><input name="particularDistance_0" id="particularDistance_0_1" onkeypress="isNumberKey(event)" maxlength="10" autocomplete="off"/></td> 
+	  <td style="width:20%;"><input name="particularClaimAmt_0" id="particularClaimAmt_0_1" onkeypress="isNumberKey(event)" maxlength="10"  onblur="validateMaxLuggAmount('0_1');calculatePTFinalAmount();" autocomplete="off"/></td> 
+	</tr>
+
+	<tr id="CartageOldResToBkgOff">
+	</tr>
+
+	<tr id="CartageBkgOffToNewRes">	
+	 	</tr>
+	 	</tbody>
+	</table>
+
+<table class="filtersearch">
+<tbody class="all1">
+    <tr class="lablevalue">
+	  <td style="width:25%;">Is Conveyance part of Luggage?</td> 
+	  <td style="width:25%;">
+	      <select name="conveyancePartOfLuggage" id="conveyancePartOfLuggage" class="combo" onchange="setConveyanceLuggage(this.value);" style="width:25%">
+	        <option value="">Select</option>
+	        <option value="0">Yes</option>
+	        <option value="1">No</option>
+         </select>
+      </td>
+</tr>
+
+<tr class="lablevalue" id="transportationOfConveyance" style="display:none;">
+	 <td style="width:25%;">Transportation of Conveyance</td> 
+	  <td style="width:25%;">
+	      <select name="conveyanceType" id="conveyanceType" class="combo" style="width:25%">
+	        <option value="">Select</option>
+	        <option value="Two Wheeler">Two Wheeler</option>
+	        <option th:if="${claimView.expenseDetails.fourWheelerAllow} == 0" value="Four Wheeler">Four Wheeler</option>
+         </select>
+      </td> 
+</tr> 
+</tbody>
+</table>
+
+<table class="filtersearch" id="transportationOfConveyanceDtls">
+</table>
+</div>
+
+
+ <div class="welcomebox" style="margin-bottom:2px">
+<table class="filtersearch">
+<tbody class="all1">
+	<tr class="tadaHeading">
+		<td><b>Advances Drawn</b></td>
+	</tr>
+	</tbody>
+</table>
+
+<table class="filtersearch">
+<tbody class="all1">
+	 	<tr class="lablevalue">
+	  <td style="width:15%;">Advance Drawn From</td>
+	  <td style="width:15%;">Date of Advance</td>
+	  <td style="width:17%;">Luggage including Cartage if any</td>
+	  <td style="width:15%;">Conveyance</td>
+	  <td style="width:15%;">CTG</td>
+	  <td style="width:15%;">Total</td>
+		</tr>
+
+	<tr>
+	  <td class="lablevalue" style="width:15%;">DTS</td> 
+	  <td style="width:15%;"><span th:text="${claimView.travelContent.dtsDateOfAdv}"></span><input type="hidden" id="dtsDateOfAdvance" th:value="${claimView.travelContent.dtsDateOfAdv}"></td> 
+	  <td style="width:15%;"><span th:text="${claimView.travelContent.dtsLuggageAdvAmt}"></span><input type="hidden" id="dtsLuggAmt" th:value="${claimView.travelContent.dtsLuggageAdvAmt}"></td> 
+	  <td style="width:15%;"><span th:text="${claimView.travelContent.dtsCoveyanceAdvAmt}"></span><input type="hidden" id="dtsCoveyanceAmt" th:value="${claimView.travelContent.dtsCoveyanceAdvAmt}"></td> 
+	  <td style="width:15%;"><span th:text="${claimView.travelContent.dtsCTGAdvAmt}"></span><input type="hidden" id="dtsCTGAmt" th:value="${claimView.travelContent.dtsCTGAdvAmt}"></td> 
+	  <td style="width:15%;"><span th:text="${claimView.travelContent.advanceAmount}"></span></td>
+	</tr>
+
+	<tr> 	
+	  <td class="lablevalue" style="width:15%;">PAO</td> 
+	  <td style="width:15%;"><input name="advFromPAODate" id="Adv_From_PAO_Date" readonly="readonly" autocomplete="off"/></td> 
+	  <td style="width:15%;"><input name="advLuggageFromPAO" id="Adv_Luggage_PAO" onkeypress="isNumberKey(event)" value="0" maxlength="10" onblur="totalPTPAOAdvanceAmount();calculatePTFinalAmount();" autocomplete="off"/></td> 
+	  <td style="width:15%;"><input name="advCoveyanceFromPAO" id="Adv_Coveyance_PAO" onkeypress="isNumberKey(event)" value="0" maxlength="10" onblur="totalPTPAOAdvanceAmount();calculatePTFinalAmount();" autocomplete="off"/></td> 
+	  <td style="width:15%;"><input name="advCTGFromPAO" id="Adv_CTG_PAO" onkeypress="isNumberKey(event)" maxlength="10" value="0" onblur="totalPTPAOAdvanceAmount();calculatePTFinalAmount();" autocomplete="off"/></td> 
+	  <td style="width:15%;"><input name="advFromPAO" id="Adv_From_PAO" onkeypress="isNumberKey(event)" readonly="readonly" value="0" maxlength="10" autocomplete="off"/></td> 
+	</tr>
+	</tbody>
+</table>
+</div>
+
+ <div class="welcomebox" style="margin-bottom:2px">
+<table class="filtersearch">
+<tbody class="all1">
+	<tr class="tadaHeading">
+		<td><b>Advances Refunded</b></td>
+	</tr>
+	</tbody>
+</table>
+
+<table class="filtersearch">
+<tbody class="all1">
+	<tr class="lablevalue">
+	    <td>eMRO/MRO/Refund Amount</td>
+		<td>eMRO/MRO/Refund No</td>
+		<td>eMRO/MRO Submission Date/Refund  Date</td>
+</tr>
+
+<tr>
+	    <td><input name="mroRefund" id="Advance_MRO" onkeypress="isNumberKey(event)" maxlength="10" onblur="calculatePTFinalAmount()" autocomplete="off"/></td>
+		<td><input name="mroNumber" id="MRO_Number" maxlength="20" autocomplete="off"/></td>
+		<td><input name="mroDate" id="MRO_Date" maxlength="20" readonly="readonly" autocomplete="off"/></td>
+	</tr>
+	</tbody>
+</table>
+</div>
+
+ <div class="welcomebox" style="margin-bottom:2px" th:if="${claimView.recoverydeatils} != null">
+<table class="filtersearch">
+<tbody class="all1">
+    <tr class="tadaHeading">
+	  <td colspan="4">Details of Recovery against this Travel (if any)</td>
+    </tr>
+ 	<tr>
+ 	    <td class="lablevalue">IRLA Recovery Amount</td>
+ 	    <td><span th:text="${claimView.recoverydeatils.irlaRecoveryAmnt}"></span><input type="hidden" id="irlaRecoveryAmt" th:value="${claimView.recoverydeatils.irlaRecoveryAmnt}"/></td>
+ 	</tr>
+ 	</tbody>
+</table>
+</div>
+
+
+ <div class="welcomebox" style="margin-bottom:2px">
+<table class="filtersearch">
+<tbody class="all1">
+ 	<tr class="lablevalue">
+	 	<td>Total Amount of Claim(Submitted):&#160;&#160;<span id="total_spent_amount"> </span></td>
+ 	</tr>
+ 	<tr class="lablevalue">
+	 	<td>less: Advance Taken(User) including DTS Tickets:&#160;&#160;<span id="total_advance_amount"> </span></td>
+ 	</tr>
+ 	<tr class="lablevalue">
+	 	<td>add: e-MRO Refunds(User):&#160;&#160;<span id="total_refund_amount"> </span></td>
+ 	</tr>
+ 	<tr class="lablevalue">
+	 	<td>Payable/Recoverable Amount:&#160;&#160;<span id="total_claimed_amount"> </span><span class="mandatory">*</span></td>
+ 	</tr>
+ 	<tr class="lablevalue">
+	 	<td><span style="color:red;font-weight:normal">* Negative amount reflects recovery from the Officer</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+</html>

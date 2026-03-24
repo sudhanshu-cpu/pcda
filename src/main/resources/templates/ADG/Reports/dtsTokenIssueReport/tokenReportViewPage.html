@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+
+
+<body>
+<section>
+  <div id="program" class="programBlock">
+    <div class="welcomebox" style="margin-bottom: 2rem;">
+      <div class="welcomeHead">
+        <p> Token Report Details</p>
+      </div>
+      <div class="welcomecont">
+        <table class="filtersearch" cellspacing="2" cellpadding="5" width="100%" border="0">
+          <thead class="all2">
+          <tr align="left">
+            <td class="lablevalue">Unit Name</td>
+            <td class="lablevalue">MB</td>
+            <td class="lablevalue">CO</td>
+          </tr>
+          </thead>
+
+          <tbody class="all2">
+          <tr th:each="outerEntry : ${tokenReportDetailMap}">
+            <td th:text="${outerEntry.key}">Unit Name</td>
+            <td>
+                  <span th:each="item, iterStat : ${outerEntry.value['10004']}">
+                    <span th:text="${item}"></span>
+                    <br th:if="${!iterStat.last}" />
+                  </span>
+            </td>
+            <td>
+                  <span th:each="item01, iterStat01 : ${outerEntry.value['10005']}">
+                    <span th:text="${item01}"></span>
+                    <br th:if="${!iterStat01.last}" />
+                  </span>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div>
+    <p class="errors" th:text="${error}" style="margin-bottom:0"></p>
+  </div>
+</section>
+</body>
+
+</html>

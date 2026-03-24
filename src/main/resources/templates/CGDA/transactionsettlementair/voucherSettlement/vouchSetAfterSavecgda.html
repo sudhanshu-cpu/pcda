@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+
+<body oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+	<div th:insert="~{fragments/header/mainHeader}"></div>
+
+	<section id="midpart" class="midpart">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-1"></div>
+				<div class="col-lg-10">
+					<form>
+						<div id="program" class="programBlock">
+							<div class="welcomebox" style="margin-bottom:1rem;">
+								<div class="welcomecont">
+									<table class="filtersearch">
+										<tbody class="all1">
+											<tr>
+												<td th:text="#{cgda.transactionsettlement.vouchersettlement.msg}">
+												</td>
+												<td th:text="${saveData.message}">
+												</td>
+												<td th:text="#{cgda.transactionsettlement.vouchersettlement.settlementDone}"> 
+												</td>
+												<td th:text="${saveData.settlementDone}">
+												</td>
+											</tr>
+											<tr>
+												<td th:text="#{cgda.transactionsettlement.vouchersettlement.vno}"> 
+												</td>
+												<td th:text="${saveData.voucherNo}">
+												</td>
+												<td th:text="#{cgda.transactionsettlement.vouchersettlement.status}">
+												</td>
+												<td th:text="${saveData.status}">
+												</td>
+											</tr>
+											<tr>
+												<td th:text="#{cgda.transactionsettlement.vouchersettlement.amtpaid}"> 
+												</td>
+												<td th:text="${saveData.amountPaid}">
+												</td>
+												<td th:text="#{cgda.transactionsettlement.vouchersettlement.paydate}"> 
+												</td>
+												<td th:text="${saveData.paymentDate}">
+												</td>
+
+											</tr>
+											<tr>
+												<td th:text="#{cgda.transactionsettlement.vouchersettlement.ackStatus}"> 
+												</td>
+												<td th:text="${saveData.ackStatus}">
+												</td>
+												<td th:text="#{cgda.transactionsettlement.vouchersettlement.premark}"> 
+												</td>
+												<td th:text="${saveData.paymentRemark}">
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+						<div id="program" class="programBlock">
+							<div class="welcomebox" style="margin-bottom:1rem;">
+								<div class="welcomecont">
+									<table class="filtersearch">
+										<tbody class="all1">
+											<tr>
+
+
+												<td th:text="#{cgda.transactionsettlement.vouchersettlement.txnId}">
+												</td>
+
+												<td th:text="#{cgda.transactionsettlement.vouchersettlement.txnDate}">
+												</td>
+
+
+												<td th:text="#{cgda.transactionsettlement.vouchersettlement.txnAmount}">
+												</td>
+
+												<td th:text="#{cgda.transactionsettlement.vouchersettlement.personalNo}">
+												</td>
+
+
+												<td th:text="#{cgda.transactionsettlement.vouchersettlement.unitOfficeName}">
+												</td>
+
+												<td th:text="#{cgda.transactionsettlement.vouchersettlement.accountOfficeName}">
+												</td>
+
+
+												<td th:text="#{cgda.transactionsettlement.vouchersettlement.bookingId}">
+												</td>
+
+												<td th:text="#{cgda.transactionsettlement.vouchersettlement.txnStatus}">
+												</td>
+
+											</tr>
+										</tbody>
+
+										<tbody class="all1" th:each="src : ${saveData.voucherPayment}">
+											<tr>
+												<td th:text="${src.txnId}">
+												</td>
+												<td th:text="${src.txnDate}">
+												</td>
+												<td th:text="${src.txnAmount}">
+												</td>
+												<td th:text="${src.personalNo}">
+												</td>
+												<td th:text="${src.unitOfficeName}">
+												</td>
+												<td th:text="${src.accountOfficeName}">
+												</td>
+												<td th:text="${src.bookingId}">
+												</td>
+												<td th:text="${src.txnStatus}">
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</section>
+		<section>
+		<div class="blank"></div>
+	</section>
+	<section>
+		<div th:insert="~{fragments/login/footer}"></div>
+	</section>
+</body>
+
+</html>

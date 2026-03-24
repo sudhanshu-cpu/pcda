@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+
+
+<body
+	oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+
+	<form>
+		<div id="program" class="programBlock">
+			<div class="welcomebox">
+				<div class="welcomeHead">
+					<p>Acknowledgement History
+					<a href="javascript:void(0);" class="p_close js__p_close" title="Close" style="margin:0 10px 0 0">
+							<img th:src="@{/images/close.png}" alt="Close" width="20" height="20" title="Close" onclick="closePopup();">
+						</a>
+					</p>
+
+				</div>
+				<div class="welcomecont" style="margin:0">
+					<table id="filtersearch" class="filtersearch">
+						<tbody class="allp">
+						<tr>
+						<td>
+							<table class="filtersearch">
+							<tbody class="allp">
+								<tr th:if="${#lists.isEmpty(ackHistoryList)}">
+									<td class="errors" style="padding:6px;">Acknowledgement
+										History Not Found.</td>
+								</tr>
+
+								<tr th:unless="${#lists.isEmpty(ackHistoryList)}">
+											<td>
+										<table class="filtersearch">
+											<tbody class="allp">
+											<tr>
+												<td class="lablevalue" th:text="#{pao.transactionsettlement.voucherack.sqn}"></td>
+												<td class="lablevalue" th:text="#{pao.transactionsettlement.voucherack.acknum}">
+												</td>
+												<td class="lablevalue"
+													th:text="#{pao.transactionsettlement.voucherack.paidamt}">
+												</td>
+												<td class="lablevalue"
+													th:text="#{pao.transactionsettlement.voucherack.ackdatee}">
+												</td>
+												<td class="lablevalue" th:text="#{pao.transactionsettlement.voucherack.file}">
+												</td>
+													</tr>
+
+											<tr th:each="src : ${ackHistoryList}">
+												<td th:text="${src.seqNo}"></td>
+												<td th:text="${src.ackNo}"></td>
+												<td th:text="${src.paidAmount}"></td>
+												<td th:text="${src.paymentDate}"></td>
+												<td><button type="submit"
+														th:formaction="@{/com/downloadFile}" th:formmethod="get"
+														th:value="${src.ackFilePath}"
+														style="border: none; color: blue; text-decoration: underline; background-color: white;"
+														name="dwnFilePath">Download</button></td>
+														</tr>
+											</tbody>
+												</table>
+											</td>
+										</tr>
+								</tbody>
+							</table>
+							</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</form>
+</body>
+
+</html>

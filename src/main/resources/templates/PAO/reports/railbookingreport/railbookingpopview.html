@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+
+		<div id="program" class="programBlock">
+			<div class="welcomebox" style="margin-bottom:1rem">
+				<div class="welcomeHead">
+
+					<p th:text="#{pao.report.rail.travel.report.details}">
+
+					</p>
+				</div>
+				<div class="welcomecont">
+
+
+					<table class="filtersearch" id="ticketDetails" width="100%" cellspacing="1" cellpadding="4"
+						border="0" align="center">
+
+						<tbody class="all1">
+
+
+
+
+							<tr align="left">
+								<td class="lablevalue"><span th:text="#{pao.report.rail.travel.report.requestId}"> </span></td>
+								<td th:text="${BkdDtlsModel.requestId}"> </td>
+								<td class="lablevalue"><span th:text="#{pao.report.rail.travel.report.bookingId}"> </span></td>
+								<td th:text="${BkdDtlsModel.bookingId}"> </td>
+							</tr>
+
+							<tr align="left">
+								<td class="lablevalue" style="white-space: nowrap;"><span th:text="#{pao.report.rail.travel.report.unitOffice}"> </span>
+								</td>
+								<td th:text="${BkdDtlsModel.unitOffice}"> </td>
+
+								<td class="lablevalue" style="white-space: nowrap;"><span th:text="#{pao.report.rail.travel.report.payAccountOffice}">
+									</span></td>
+								<td th:text="${BkdDtlsModel.accountOffice}"> </td>
+							</tr>
+
+							<tr align="left">
+								<td class="lablevalue"><span th:text="#{pao.report.rail.travel.report.bookingStatus}"></span></td>
+								<td th:text="${BkdDtlsModel.bookingStatus}"> </td>
+								<td class="lablevalue"><span th:text="#{pao.report.rail.travel.report.journeyClass}"></span></td>
+								<td th:text="${BkdDtlsModel.journeyClass}"> </td>
+							</tr>
+
+							<tr align="left">
+								<td class="lablevalue"><span th:text="#{pao.report.rail.travel.report.pNRNumber}"></span></td>
+								<td th:text="${BkdDtlsModel.pnrNo}"> </td>
+								<td class="lablevalue"><span th:text="#{pao.report.rail.travel.report.ticketNumber}"></span></td>
+								<td th:text="${BkdDtlsModel.ticketNo}"> </td>
+							</tr>
+
+							<tr align="left">
+								<td class="lablevalue"><span th:text="#{pao.report.rail.travel.report.trainNumber}"></span></td>
+								<td th:text="${BkdDtlsModel.trainNo}"> </td>
+								<td class="lablevalue"><span th:text="#{pao.report.rail.travel.report.trainName}"></span></td>
+								<td th:text="${BkdDtlsModel.trainName}"></td>
+							</tr>
+
+							<tr align="left">
+								<td class="lablevalue"><span th:text="#{pao.report.rail.travel.report.source}"></span></td>
+								<td th:text="${BkdDtlsModel.from}"></td>
+								<td class="lablevalue"><span th:text="#{pao.report.rail.travel.report.destination}"></span></td>
+								<td th:text="${BkdDtlsModel.to}"></td>
+							</tr>
+
+							<tr align="left">
+								<td class="lablevalue"><span th:text="#{pao.report.rail.travel.report.distance}"></span></td>
+								<td th:text="${BkdDtlsModel.distance}"></td>
+								<td class="lablevalue"><span th:text="#{pao.report.rail.travel.report.dateofBooking}"></span></td>
+								<td th:text="${BkdDtlsModel.bookingDate}"></td>
+							</tr>
+
+							<tr align="left">
+								<td class="lablevalue"><span th:text="#{pao.report.rail.travel.report.dateofBoarding}"></span></td>
+								<td th:text="${BkdDtlsModel.journeyDate}"></td>
+								<td class="lablevalue"><span th:text="#{pao.report.rail.travel.report.scheduledDeparture}"></span></td>
+								<td th:text="${BkdDtlsModel.scheduleDep}"></td>
+							</tr>
+							<tr align="left">
+								<td class="lablevalue"><span th:text="#{pao.report.rail.travel.report.IRCTCServiceCharges}"></span></td>
+								<td th:text="${BkdDtlsModel.irctcServiceCharges}"></td>
+								<td class="lablevalue"><span th:text="#{pao.report.rail.travel.report.totalFare}"></span></td>
+								<td th:text="${BkdDtlsModel.totalFare}"></td>
+							</tr>
+
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+
+		<div id="program" class="programBlock">
+			<div class="welcomebox">
+				<div class="welcomeHead">
+
+					<p th:text="#{pao.report.rail.travel.report.passengerDetails}">
+
+					</p>
+				</div>
+				<div class="welcomecont">
+
+						<table class="filtersearch" id="pnrDetails" width="100%" cellspacing="1" cellpadding="4"
+							border="0" align="center">
+
+							<tbody class="all1">
+								
+
+								<tr align="center">
+									<td class="lablevalue"><span th:text="#{pao.report.rail.travel.report.s#}"> </span></td>
+									<td class="lablevalue"><span th:text="#{pao.report.rail.travel.report.name}"> </span></td>
+									<td class="lablevalue"><span th:text="#{pao.report.rail.travel.report.age}"> </span> </td>
+									<td class="lablevalue"><span th:text="#{pao.report.rail.travel.report.sex}"> </span></td>
+									<td class="lablevalue"><span th:text="#{pao.report.rail.travel.report.coach}"> </span></td>
+									<td class="lablevalue"><span th:text="#{pao.report.rail.travel.report.seat}"> </span></td>
+									<td class="lablevalue"><span th:text="#{pao.report.rail.travel.report.berth}"> </span>
+									</td>
+									<td class="lablevalue"><span th:text="#{pao.report.rail.travel.report.baseFare}"> </span></td>
+									<td class="lablevalue"><span th:text="#{pao.report.rail.travel.report.superFastCharges}">
+											</span></td>
+									<td class="lablevalue"><span th:text="#{pao.report.rail.travel.report.otherCharges}"> </span>
+									</td>
+									<td class="lablevalue"><span th:text="#{pao.report.rail.travel.report.concessionAmount}">
+											</span></td>
+								</tr>
+
+								<tr align="center" th:each="src,stat : ${BkdDtlsModel.ticketPassangerDetails}">
+									<td> <span th:text=" ${stat.index+1}"> </span> </td>
+									<td> <span th:text=" ${src.name}"> </span> </td>
+									<td> <span th:text=" ${src.age}"> </span> </td>
+									<td> <span th:text=" ${src.gender}"> </span></td>
+									<td> <span th:text=" ${src.coach}"> </span></td>
+									<td> <span th:text=" ${src.seat}"> </span></td>
+									<td> <span th:text=" ${src.berth}"> </span></td>
+									<td> <span th:text=" ${src.basefare}"> </span></td>
+									<td> <span th:text=" ${src.superFastCharge}"> </span></td>
+									<td> <span th:text=" ${src.otherCharge}"> </span></td>
+									<td> <span th:text=" ${src.concessionAmt}"> </span></td>
+
+								</tr>
+
+							</tbody>
+						</table>
+				</div>
+			</div>
+		</div>
+
+
+
+	
+
+
+
+</body>
+
+</html>

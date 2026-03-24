@@ -1,0 +1,119 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+<link rel="stylesheet" type="text/css" th:href="@{/css/common/popup/LightFace.css}">
+<script th:src="@{/js/common/popup/mootools.js}"></script>
+<script th:src="@{/js/common/popup/LightFace.IFrame.js}"></script>
+<script th:src="@{/js/common/popup/LightFace.js}"></script>
+<script th:src="@{/js/common/popup/LightFace.Request.js}"></script>
+
+
+<script th:src="@{/js/MB/Reports/AirCancellationReport/airCancellationReport.js(random=${session.jsToken})}"></script>
+<script type="text/javascript" th:src="@{/js/common/crypto.js}"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	
+    $('#myTable').DataTable({
+searching: false,
+info: false,
+ordering:false
+    });
+});
+</script>
+<body>
+	<div th:insert="~{fragments/header/mainHeader}"></div>
+	<section id="midpart" class="midpart">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-1"></div>
+				<div class="col-lg-10">
+					<form th:action="@{/reports/getCancellationList}" method="post" name="bookedTicket">
+						<div id="program" class="programBlock">
+							<div class="welcomebox" style="margin-bottom:1rem">
+								<div class="welcomeHead">
+									<p th:text="#{mb.reports.airticketcancellationreport.searchAirTicket}">
+									</p>
+								</div>
+								<div class="welcomecont">
+									<table class="filtersearch">
+										<tbody class="all1">
+											<tr>
+												<td>Enter Personal Number:</td>
+												<td><input name="personalNo" id="personalNumber" type="text" th:value="${personalNo}" autocomplete="off"></td>
+												<td>
+													<input name="Search" type="submit" value="Search" onclick="encryptPNo();" class="butn">
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+
+						<div id="program" class="programBlock">
+							<div class="welcomebox" th:if="${not #lists.isEmpty(aircancellationList)}">
+								<div class="welcomeHead">
+									<p th:text="#{mb.reports.airticketcancellationreport.ticketBkgDtls}">
+									</p>
+								</div>
+								<div class="welcomecont">
+									<table class="filtersearch" id="myTable">
+
+										<thead class="head">
+
+											<tr>
+												<th><span th:text="#{mb.reports.airticketcancellationreport.bookingId}"></span>
+												</th>
+												<th><span th:text="#{mb.reports.airticketcancellationreport.opTxnId}"></span>
+												</th>
+												<th><span th:text="#{mb.reports.airticketcancellationreport.origin}"></span>
+												</th>
+												<th><span th:text="#{mb.reports.airticketcancellationreport.dstn}"></span>
+												</th>
+												<th><span th:text="#{mb.reports.airticketcancellationreport.traveldate}"></span>
+												</th>
+											</tr>
+										</thead>
+										<tbody class="all1">
+											<tr  th:each=" aircnlList : ${aircancellationList}">
+												<td>
+													<a href="#" class="links" th:text="${aircnlList.bookingId}"
+														th:attr="onclick='showAirTicketDetails(\''+${aircnlList.bookingId}+'\')'">
+													</a>
+												</td>
+												<td><span th:text="${aircnlList.operatorTxnId}"></span></td>
+												<td><span th:text="${aircnlList.origin}"></span> </td>
+												<td><span th:text="${aircnlList.destination}"></span></td>
+												<td><span th:text="${aircnlList.journeyDateStr}"></span></td>
+											</tr>
+
+
+										</tbody>
+									</table>
+								</div>
+							</div>
+							
+							<div>
+							<p class="errors" style="margin-bottom:0" th:text="${noData}"></p>
+							</div>
+							
+							
+						</div>
+
+					</form>
+
+				</div>
+			</div>
+		</div>
+	</section>
+	<section>
+		<div class="blank"></div>
+	</section>
+	<section>
+		<div th:insert="~{fragments/login/footer}"></div>
+	</section>
+
+
+</body>
+
+</html>

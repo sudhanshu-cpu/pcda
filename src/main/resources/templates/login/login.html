@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title th:text="#{title}"></title>
+<link rel="stylesheet" type="text/css" th:href="@{/css/lib/bootstrap.min.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/common/style.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/common/main.css}">
+<script type="text/javascript" th:src="@{/js/bootstrap/bootstrap.min.js}"></script>
+
+</head>
+
+<script type="text/javascript">
+
+		var url="/pcda/loginPage";
+		
+		var window_dimensions = "toolbars=no,menubar=no,fullscreen=yes,location=no,addressbar=no,scrollbars=yes,resizable=yes,status=yes"  ;
+		 window.opener=self;
+		oWin=window.open(url,"topwindow",window_dimensions); 
+		
+		if (oWin==null || typeof(oWin)=="undefined") 
+		{
+			alert("Popup window is blocked by your browser.Please unblock it");
+			
+		}
+		  
+
+</script>
+
+<body>
+    <div th:insert="~{fragments/login/header}"></div>
+    <div id="block" class="container-fluid"></div>
+    
+    <section class="midpart"></section>
+	
+	<section>
+	<div class="blank"></div>
+	</section>
+	 <section>
+	<div th:insert="~{fragments/login/footer}"></div>
+    </section>
+
+</body>

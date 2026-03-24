@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+<script th:src="@{/js/MB/RequestDashBoard/MasterMissingDashBoard/masterMissDasboardEditPao.js(random=${session.jsToken})}"></script>
+
+<body oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+
+	<div th:insert="~{fragments/header/mainHeader}"></div>
+	<section id="midpart" class="midpart">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-1"></div>
+				<input type="hidden" th:value="${officesList}" id="officesList">
+				<input type="hidden" id="userServiceId" th:value="${userServiceId}">
+
+				<input type="hidden" id="categoryId" th:value="${categoryId}">
+				<div class="col-lg-10">
+					<form th:action="@{/mb/updatePaoAfterEditMasterMiss}" method="post" name="profileApproval"
+						id="profileApproval">
+						<div id="program" class="programBlock">
+							<div class="welcomebox">
+								<div class="welcomeHead">
+									<p th:text="#{mb.reports.mastermissdash.profileDetails}"></p>
+								</div>
+								<div class="welcomecont">
+									<input name="personalNo" type="hidden" th:value="${userData.userAlias}"
+										id="personalNo">
+									<input name="userAlias" type="hidden" th:value="${userData.userAlias}">
+
+									<table id="loginForm" class="bgborder" width="100%" cellspacing="0" cellpadding="0"
+										border="0">
+										<tbody th:each="srcUsrDtls:${userData}">
+											<tr th:each="src:${srcUsrDtls.familyDetails}">
+												<td>
+													<input name="seqNumber" type="hidden" th:value="${src.seqNumber }">
+													<input name="modifiedBy" type="hidden"
+														th:value="${src.modifiedBy }">
+													<input name="commisioningDate" type="hidden"
+														th:value="${srcUsrDtls.commisioningDate }">
+												</td>
+
+											</tr>
+											<tr>
+												<td>
+													<table class="filtersearch" width="100%" cellspacing="1"
+														cellpadding="4" border="0">
+
+														<tbody class="all1">
+
+															<tr align="left">
+																<td class="lablevalue"
+																	th:text="#{mb.reports.mastermissdash.unitService}">
+																</td>
+																<td><span th:text="${srcUsrDtls.unitService}"></span></td>
+																<td class="lablevalue"
+																	th:text="#{mb.reports.mastermissdash.travelerService}">
+																</td>
+																<td><span
+																		th:text="${srcUsrDtls.userService}"></span></td>
+															</tr>
+															<tr align="left">
+																<td class="lablevalue"
+																	th:text="#{mb.reports.mastermissdash.categoryName}">
+																</td>
+																<td><span th:text="${srcUsrDtls.categoryName}"></span></td>
+																<td class="lablevalue"
+																	th:text="#{mb.reports.mastermissdash.levelName}">
+																	Level Name</td>
+																<td><span th:text="${srcUsrDtls.levelName}"></span></td>
+															</tr>
+															<tr align="left">
+																<td class="lablevalue"
+																	th:text="#{mb.reports.mastermissdash.gradePay/Rank}">
+																</td>
+																<td><span th:text="${srcUsrDtls.rankName}"></span></td>
+																<td class="lablevalue"
+																	th:text="#{mb.reports.mastermissdash.personalNumber}">
+																</td>
+																<td> <span th:text="${srcUsrDtls.userAlias}"></span></td>
+															</tr>
+
+															<tr align="left">
+																<td class="lablevalue"
+																	th:text="#{mb.reports.mastermissdash.railAccountingOffice}">
+																</td>
+																<td><select name="payAccOff" id="payAccOff"
+																		class="combo">
+																		<option value="-1">Select</option>
+																		<option th:each="rail : ${railOffices}"
+																			th:text="${rail.name}"
+																			th:value="${rail.acuntoficeId}"></option>
+																	</select></td>
+																<td class="lablevalue"
+																	th:text="#{mb.reports.mastermissdash.airAccountingOffice}">
+																</td>
+																<td><select name="airAccOff" id="airAccOff"
+																		class="combo">
+																		<option value="-1">select</option>
+																		<option th:each="air : ${airOffices}"
+																			th:text="${air.name}"
+																			th:value="${air.acuntoficeId}"></option>
+																	</select></td>
+															</tr>
+														</tbody>
+													</table>
+												</td>
+											</tr>
+											<tr>
+												<td style="text-align:right">
+													<button type="submit" class="butn">Save Profile</button>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+
+					</form>
+				</div>
+			</div>
+			</div>
+	</section>
+	<section>
+		<div class="blank"></div>
+	</section>
+	<section>
+		<div th:insert="~{fragments/login/footer}"></div>
+	</section>
+
+</body>
+
+</html>

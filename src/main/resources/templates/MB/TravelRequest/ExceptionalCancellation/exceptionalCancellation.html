@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+<script type="text/javascript"
+	th:src="@{/js/common/crypto.js}"></script>
+<script>
+function doGenerate(event){
+	 var personalNumber=$("#personalNumber").val().trim();
+
+	 
+	 if(personalNumber==''){
+		alert("Please Enter Personal Number"); 
+		event.preventDefault();
+	 }else{
+	 var encryptPno = $("#personalNumber").val(CryptoJS.AES.encrypt($("#personalNumber").val(),"Hidden Pass"));
+		 $("#exceptionalCanReqForm").submit();
+	 }
+}
+</script>
+
+<body oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+	
+		<div th:insert="~{fragments/header/mainHeader}">...</div>
+
+
+		<section id="midpart" class="midpart">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-lg-1"></div>
+					<div class="col-lg-10">
+						<form name="exceptionalCanReqForm" id="exceptionalCanReqForm">
+
+							<div class="welcomebox" style="margin-bottom:1rem">
+								<div class="welcomeHead">
+									<p>
+										Tickets Cancellation Details
+									</p>
+								</div>
+								<div class="welcomecont">
+									<table class="filtersearch" cellspacing="1" cellpadding="4" width="100%" border="0">
+										<tbody class="all1">
+										<tr>
+											<td colspan="2" align="left">Personal Number<Span class="text-danger">*</Span>
+											</td>
+											<td colspan="2" align="left">
+												<input type="text" name="personalNumber" id="personalNumber" autocomplete="off"  th:value="${personalNumber}"/>
+											</td>
+											<td colspan="5" align="left">
+												<button type="button" class="butn" onclick="doGenerate(this);">Search</button>
+
+											</td>
+										</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+
+
+							
+
+						</form>
+						
+						<div>
+							<p th:text="${noData}" class="errors" style="margin-bottom:0"> </p>
+							
+							</div>
+						<div class="welcomebox" style="margin-bottom:1rem" th:unless="${#lists.isEmpty(getModel)}">
+							<div class="welcomecont">
+								<table class="filtersearch">
+									<tbody class="all1">
+										<tr>
+											<td>
+												S.No
+											</td>
+											<td>
+												PNR Number
+											</td>
+											<td>
+												Ticket Number
+											</td>
+											<td>Request ID</td>
+											<td>Travel Type</td>
+											<td>
+												Train Number
+											</td>
+											<td>
+												Total Amt.
+											</td>
+											<td>
+												Status
+											</td>
+											<td>Cancellation Approval State</td>
+										</tr>
+										<tr th:each="src,stat:${getModel}">
+											<td th:text="${stat.index +1}"></td>
+											<td th:text="${src.pnrNo}"></td>
+											<td>
+											<form th:action="@{/mb/expCancelData}" method="post">
+											
+											<button th:text="${src.ticketNo}" th:value="${src.bookingId}" name ="bookingId" type="submit" style="border: none ;color: mediumblue;background-color:white;text-decoration: underline;" >
+											</button>
+											</form></td>
+											<td th:text="${src.requestId}"></td>
+											<td th:text="${src.travelTypeName}"></td>
+											<td th:text="${src.trainNo}"></td>
+											<td th:text="${src.totalAmount}"></td>
+											<td th:text="${src.bookingStatus}"></td>
+											<td th:text="${src.isApproved}"></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+
+
+
+					</div>
+				</div>
+			</div>
+
+
+		</section>
+		<section>
+		<div class="blank"></div>
+	</section>
+	<section>
+		<div th:insert="~{fragments/login/footer}"></div>
+		</section>
+</body>
+
+</html>

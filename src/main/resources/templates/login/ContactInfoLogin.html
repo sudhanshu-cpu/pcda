@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{fragments/login/head}"></head>
+
+<script type="text/javascript">
+
+
+
+
+function validateRequestForm(){
+
+var email= document.getElementById("emailId").value;
+var contactNumber= document.getElementById("contactNumber").value;
+
+if(email.trim() == ""){
+alert("Please Enter Your Email Id");
+return false;
+}
+
+if(email.endsWith("gov.in") || email.endsWith("GOV.IN") || email.endsWith("nic.in") || email.endsWith("NIC.IN")){
+	
+}
+else{
+  alert("Please enter email id registered with 'NIC' or 'GOV' domain only.");
+  return false;
+}
+
+if(contactNumber.trim() == ""){
+alert("Please Enter Your Contact Number");
+return false;
+}
+
+if(contactNumber.trim().length != 10){
+  alert("Contact Number Should Be 10 Digit");
+  return false;
+}
+
+var mob = /^[1-9]{1}[0-9]{9}$/;
+	
+if (mob.test(contactNumber.trim()) == false) {
+	alert("Please enter valid contact number.");
+    return false;
+}
+return true;
+}
+
+function doGenerate(){
+	var result= validateRequestForm();
+	if(result){
+		 document.getElementById('requestType').value="update";
+		 document.getElementById('updateContactInfoForm').submit();
+	}
+}
+
+function cancelForm() {
+    document.getElementById('requestType').value="skip";
+    document.getElementById('updateContactInfoForm').submit();
+}
+ 
+</script>
+<script type="text/javascript" th:src="@{/js/lib/jquery-3.6.0.min.js}"></script>
+<body>
+<section class="topbar">
+        <div class="container-fluid">
+            <div class="tophead">
+                <div class="logout">
+                    <span class="signout">
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div id="block" class="container-fluid">
+            <div class="headnav">
+            </div>
+            </div>
+	 </section>
+<section class="midpart">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-1"></div>
+				<div class="col-lg-10">
+<form name="updateContactInfoForm" th:method="post" th:action="@{/updateOrSkipInfo}" id="updateContactInfoForm">
+<input type="hidden" name="requestType" id="requestType" value=""/>
+<input type="hidden" name ="userId" th:value="${userInfo.userId}">
+
+
+			<div id="program" class="programBlock">
+                        <div class="welcomebox">
+                            <div class="welcomeHead">
+								<p th:text="#{contact.info.update.header}"></p>
+                            </div>
+                             <div class="welcomecont">
+		<table class="filtersearch">
+<tbody class="all">
+			<tr>
+				<td style="width:30%"><span th:text="#{contact.info.update.email}"> </span></td>
+				<td style="width:70%"><input type="text" name="email" id="emailId" autocomplete="off" th:value="${userInfo.email}" size="30" maxlength="50"/></td>
+			</tr> 
+			<tr>
+				<td style="width:30%"><span th:text="#{contact.info.update.contactNumber}"> </span></td>
+				<td style="width:70%"><input type="text" name="contactNumber" id="contactNumber" autocomplete="off" th:value="${userInfo.mobileNo}" size="30" maxlength="10"/></td>
+			</tr> 
+			<tr>
+			<td colspan="2">
+			<table class="filtersearch">
+				<tbody class="all">
+			  <tr>
+			    <td style="text-align:left">
+			       <input type="button" class="butn" value="skip" onclick="cancelForm();"/>
+			     </td>
+			     <td style="text-align:right"> 
+			       <input type="button" class="butn" value="Update" onclick="doGenerate();"/>
+			    </td>
+			   </tr> 
+			   </tbody>
+			 </table>   
+			 </td>
+			</tr>
+</tbody>
+		</table>
+		</div>
+		</div>
+		</div>
+	 
+</form>
+				</div>
+				<div class="col-lg-12">
+
+<table class="filtersearch">
+<tbody class="all">
+	<tr>
+		<td style="width:100%" class="lablevalue"><span th:text="#{contact.info.update.policy1}"> </span></td></tr>
+	<tr>
+		<td style="width:100%"><span th:text="#{contact.info.update.policy2}"> </span></td></tr>	
+	<tr>
+		<td style="width:100%"><span th:text="#{contact.info.update.policy3}"> </span></td></tr>
+	<tr>
+		<td style="width:100%"><span th:text="#{contact.info.update.policy4}"> </span></td></tr>	
+</tbody>
+</table>
+				</div>
+			</div>
+		</div>
+</section>
+<section>
+	<div class="blank"></div>
+	</section>
+	<section>
+    <div th:insert="~{fragments/login/footer}"></div>
+    </section>
+
+</body>
+</html>

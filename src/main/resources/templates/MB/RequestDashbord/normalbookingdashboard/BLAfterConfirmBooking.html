@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+
+<body>
+<div th:insert="~{fragments/header/mainHeader}"></div>
+	<section id="midpart" class="midpart">
+		
+
+		<div oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+
+<div id="ticketContainer" class="container-fluid">
+				<div class="row" style="width:100%">
+					<div class="col-lg-1"></div>
+					<div class="col-lg-10">
+						<div class="welcomebox">
+	<div id="title"  class="welcomeHead">
+		Air E-Ticket
+	</div>
+	
+
+		
+	<div id="common-info"  class="welcomecont"> 
+		<table style="width:100%;" class="filtersearch">
+			<tbody class="all1">
+			<tr>
+				<td style="width:40%;text-align:left;">
+					<span class="column-header lablevalue">Booking Id: </span> <span th:text="${blBookInfo.bookingId}"> </span>
+				</td>
+				<td style="width:40%;text-align:left;">
+					<span class="column-header lablevalue">Booking Date: </span> <span th:text="${blBookInfo.bookingDate}"> </span> 
+				</td>
+				<td style="width:20%;text-align:left;">
+					<span class="column-header lablevalue">Status: </span>
+					<span th:if="${blBookInfo.bookingStatus}=='Booked'">Confirmed</span>
+					<span th:if="${blBookInfo.bookingStatus}!='Booked'" th:text="${blBookInfo.bookingStatus}"> </span>
+					
+				</td>
+							</tr>
+			
+							<tr>
+				<td style="width:40%;text-align:left;">
+					<span class="column-header lablevalue">BL Reference Id: </span><span th:text="${blBookInfo.operatorTxnId}"> </span>
+				</td>
+				<td style="width:40%;text-align:left;">
+					<span class="column-header lablevalue">Agent Name:</span><span> Balmer Lawrie</span>
+				</td>
+				<td style="width:20%;text-align:left;">
+					<span class="column-header lablevalue">IATA Code: </span><span th:text="${blBookInfo.airIATANo}"> </span>						
+				</td>
+			</tr>
+
+			<tr>
+				<td>
+					<span class="column-header lablevalue">Trip Type: </span>
+					<span th:if="${blBookInfo.journyType}=='Return'">Special Round Trip </span>
+					<span th:if="${blBookInfo.journyType}!='Return'">Onward trip </span>
+					
+				</td>
+				<td colspan="2" th:if="${blBookInfo.journyType}=='Return'" >
+					<span class="column-header lablevalue">Booking Sector: </span>
+						
+							   <span th:text="${blBookInfo.sourceSectorCity}"> </span>
+								(<span th:text="${blBookInfo.sourceSectorCode}"> </span>)
+								<span th:text="${blBookInfo.destinationSectorCity}"> </span>
+								(<span th:text="${blBookInfo.destinationSectorCode}"> </span>)
+								 <span th:text="${blBookInfo.sourceSectorCity}"> </span>
+								(<span th:text="${blBookInfo.sourceSectorCode}"> </span>)
+						
+						
+				 </td>
+				 <td colspan="2" th:if="${blBookInfo.journyType}!='Return'">
+				 <span class="column-header lablevalue">Booking Sector: </span>
+				         <span th:text="${blBookInfo.sourceSectorCity}"> </span>
+								(<span th:text="${blBookInfo.sourceSectorCode}"> </span>)
+								<span th:text="${blBookInfo.destinationSectorCity}"> </span>
+								(<span th:text="${blBookInfo.destinationSectorCode}"> </span>)
+				 </td>
+							</tr>
+						</tbody></table>			
+	</div>
+
+<div id="flight-info">
+		<div th:if="${#lists.isEmpty(flightInfoList)}"> </div>		    
+		 <div th:unless="${#lists.isEmpty(flightInfoList)}" >
+			    <div class="section-header welcomeHead">Flight Information (Onward)  Stops : <span> <span th:text="${flightInfoList[0].stop}"> </span> </div> 
+			    	<div id="onward" class="welcomecont">
+				    	<table style="width:100%">
+				    		<tbody class="all1">
+							<tr>				
+				    			<td class="table-title"> </td>
+				    			<td class="table-title lablevalue"> Carrier</td>
+				    			<td class="table-title lablevalue"> Departure</td>
+				    			<td class="table-title lablevalue"> Arrival</td>
+				    			<td colspan="2" class="table-title lablevalue"> Other Info</td>
+							</tr>
+				    		
+							
+									<tr th:each="src : ${flightInfoList}">
+									<td>
+									        <span class="airindiaicon" th:if="${src.airline}=='AI'"> </span>								            	
+								            <span class="jetairicon" th:if="${src.airline}=='9W'">  </span>
+								            <span class="indigoicon" th:if="${src.airline}=='6E'"> </span>
+							            	<span class="vistraicon" th:if="${src.airline}=='UK'"> </span>
+								            <span class="spicejeticon" th:if="${src.airline}=='SG'"> </span>
+								            <span class="goairicon" th:if="${src.airline}=='G8'"> </span>
+								            <span class="airindiaicon" th:if="${src.airline}=='9I'"> </span>
+								            <span class="airindiaicon" th:if="${src.airline}==''"> </span>
+										
+									</td>	
+									<td style="white-space: nowrap;">
+										<span class="column-header lablevalue" th:text="${src.operatingAirline}"> </span>
+										<br />
+								        <span class="sub-title" th:text="${src.airline}" > </span> - <span class="sub-title" th:text="${src.flightNo}" > </span>
+								        
+									</td>
+									<td>
+									   <span class="column-header lablevalue" th:text="${src.source}"> </span>( <span class="column-header lablevalue" th:text="${src.sourceCode}"></span>)
+										<br />
+								        <span class="sub-title"  th:text="${src.segmentOriginAirport}"> </span>
+								        <br />
+								         <span class="sub-title" th:text="${src.scheduledDepartureDate}+' '"> </span><span class="sub-title" th:text="${src.scheduledDeparture}"> </span>
+								         <br />
+								         <span class="sub-title">Terminal :</span> <span class="sub-title" th:text="${src.departTerminal}"> </span>
+									</td>
+									
+									<td>
+										<span class="column-header lablevalue" th:text="${src.destination}"> </span>( <span class="column-header lablevalue" th:text="${src.destinationCode}"></span>)
+										<br />
+								         <span class="sub-title"  th:text="${src.segmentDestinationAirport}"> </span>
+								        <br />
+								         <span class="sub-title" th:text="${src.scheduledArrivalDate}+' '"> </span><span class="sub-title" th:text="${src.scheduledArrival}"> </span>
+								         <br />
+								         <span class="sub-title">Terminal :</span> <span class="sub-title" th:text="${src.arrivTerminal}"> </span>
+									</td>	
+									
+									<td style="white-space: nowrap;">
+										
+								        <span class="sub-title">Check-in : </span> <span class="sub-title" th:text="${src.baggageAllowance}"> </span>
+								        <br />
+								         <span class="sub-title"> Cabin : 7Kg</span>
+								        
+									</td>	
+									
+									<td>
+										<span class="sub-title"> Journey Duration : </span> <span class="sub-title" th:text="${src.sectorDuration}"> </span>
+										<br />
+								        <span class="sub-title" style="white-space: nowrap;">Cabin Class : </span> <span class="sub-title" th:text="${src.cabinClass}"> </span>
+								        <br />
+								        <span class="sub-title">Booking Class : </span> <span class="sub-title" th:text="${src.bookingClass}"> </span>
+									</td>	
+														
+								</tr>
+							</tbody>
+						</table>			
+					</div>
+					</div>
+			  
+			
+		
+	</div>
+
+	
+	<div id="paxs-contact">
+		<div class="section-header welcomeHead">Passenger Contact Details</div>
+	        <div th:if="${#lists.isEmpty(passInfoList)}" > </div>		    
+		   <div id="paxsContact" class="welcomecont" th:unless="${#lists.isEmpty(passInfoList)}">
+			    	<table style="width:100%" class="filtersearch">
+			    		<tbody class="all1">
+			    			<tr>
+			    				<td class="table-title lablevalue">Passenger Name</td>			    				
+			    				<td class="table-title lablevalue">Mobile Number</td>
+			    				<td class="table-title lablevalue">E-mail</td>
+			    				<td class="table-title lablevalue">Endorsements</td>			    				
+							</tr>
+			    		</tbody>
+			    		
+			    			<tbody class="all1" th:each="item : ${passInfoList}">
+						    				<tr th:if="${item.leadPassanger}==0">
+						    					<td>
+						    						<span  th:text="${item.title}"> </span>
+						    						<span th:text="${item.firstName}+' '"> </span>
+						    						<span th:text="${item.middleName}+' '"> </span>
+						    						<span  th:text="${item.lastName}"> </span>
+						    					
+						    					</td>
+						    					<td>
+						    					<span  th:text="${item.mobileNo}"> </span>
+						    					</td>
+						    					<td>
+						    					<span th:text="${item.emailId}"> </span>
+						    					</td>
+						    					<td>
+						    					
+						    						<span class="column-header"> 
+						    							-
+						    						</span>
+						    					</td>			    					
+						    				</tr>
+						    				<tr th:if="${item.leadPassanger}!=0"> </tr>
+						    				</tbody>					    				
+									    		
+			    	</table>
+				</div>
+		   
+	</div>
+
+	
+		<div id="paxs-list">
+		<div class="section-header welcomeHead">Passenger Details</div>
+	     
+	    <div th:if="${#lists.isEmpty(passInfoList)}"> </div>		
+		
+		  	<div id="paxs" class="welcomecont" th:unless="${#lists.isEmpty(passInfoList)}">
+			    	<table style="width:100%" class="filtersearch">
+			    		<tbody class="all1">
+			    			<tr>
+			    				<td class="table-title lablevalue">Name</td>
+			    				<td class="table-title lablevalue">Type</td>
+			    				<td class="table-title lablevalue">Ticket Number</td>
+			    				<td class="table-title lablevalue">Airline PNR</td>
+			    				<td class="table-title lablevalue">GDS PNR</td>
+							</tr>
+			    		</tbody>
+			    		<tbody class="all1" th:each=" sr,stat: ${passInfoList}">
+			    		
+			    		
+			    				<tr>
+			    					<td>
+			    					<span  th:text="${sr.title}"> </span>
+						    	    <span  th:text="${sr.firstName}"> </span>
+						    		<span  th:text="${sr.middleName}"> </span>
+						    	    <span th:text="${sr.lastName}"> </span>
+						    	</td>
+			    					<td>
+			    						<span th:text="${sr.passCategory}"> </span>
+			    					</td>
+			    				
+			    					<td>
+			    						<span th:text="${sr.ticketNumber}"> </span>
+			    					</td>
+			    					<td >
+			    						<span th:text="${flightInfoList[0].airlinePnr}"> </span>
+			    					</td>
+			    					<td >
+			    						<span  th:text="${flightInfoList[0].gdsPnr}"> </span>
+			    					</td>
+			    				</tr>
+			    				
+			    		</tbody>			    		
+			    	</table>
+				</div>
+		   
+	</div>
+	<div class="line"> </div>
+		<div id="invoice-details">
+		<div class="section-header welcomeHead">Billing Details</div>
+		  <div th:if="${blBookInfo.invoiceInfoModel}==null"> </div>				    
+		   
+		   		<div id="invoice" class="welcomecont" th:if="${blBookInfo.invoiceInfoModel}!=null">
+		   			<table style="width:100%" class="filtersearch">
+		   				<tbody class="all1">		   					
+	   						<tr>
+		   						<td style="width:50%;text-align:left;"> <span class="sub-title">Base Fare :</span></td>
+		   						<td style="width:50%;text-align:left;"> <span class="sub-title" th:text="${blBookInfo.invoiceInfoModel.baseFare}"> </span></td>
+	   						</tr>
+	   						 <tr>
+		   						<td style="width:50%;text-align:left;"><span class="sub-title">Fuel Charges :</span></td>
+		   						<td style="width:50%;text-align:left;"> <span class="sub-title" th:text="${blBookInfo.invoiceInfoModel.fuleCharge}"> </span></td>
+	   						</tr>  
+   						     <tr>
+	   						   <td style="width:50%;text-align:left;"><span class="sub-title">GST :</span></td>
+	   						   <td style="width:50%;text-align:left;"><span class="sub-title" th:text="${blBookInfo.invoiceInfoModel.gstTax}"> </span></td>
+   						    </tr>
+   						    <tr>
+		   						<td style="width:50%;text-align:left;"><span class="sub-title">Other Tax :</span></td>
+		   						<td style="width:50%;text-align:left;"> <span class="sub-title" th:text="${blBookInfo.invoiceInfoModel.otherTax}"> </span></td>
+	   						</tr>
+	   						 <tr>
+		   						<td style="width:50%;text-align:left;"><span class="sub-title"> Tax :</span></td>
+		   						<td style="width:50%;text-align:left;"> <span class="sub-title" th:text="${blBookInfo.invoiceInfoModel.tax}"> </span></td>
+	   						</tr>
+	   						
+	   						<tr>
+		   						<td style="width:50%;text-align:left;color:red;font-weight:bold;"><span class="sub-title">Grand Total :</span></td>
+		   						<td style="width:50%;text-align:left;color:red;font-weight:bold;"><span class="sub-title" th:text="${blBookInfo.invoiceInfoModel.totalInvoice}"> </span></td>
+	   						</tr>       							   					
+	   						
+	   						<tr>
+	   						    
+							<td colspan="2" style="width:100%">
+							  <table style="width:100%" class="filtersaerch">
+								 <tbody>
+									 <tr>
+									    <td style="text-align:left;width:8%"><span class="sub-title">GST No. :</span></td>
+				   						<td style="width:32%;text-align:left;font-weight:bold;"> <span class="sub-title" th:text="${blBookInfo.airGSTNo}"> </span></td>
+				   						<td style="width:20%;text-align:left;"><span class="sub-title">Fare Type :</span></td>
+				   						<td style="width:20%;text-align:left;color:red;font-weight:bold;"> <span class="sub-title" th:text="${blBookInfo.flightInfo[0].refundable}"> </span></td>
+									 </tr>
+						         </tbody>
+						      </table>
+							</td>
+	   						</tr>       							   					
+		   				</tbody>
+						</table>			
+		     </div>	
+			
+		   		
+	</div>
+	
+	
+	<div> 
+	<form name="pdfForm" th:action="@{/mb/airPrintTicketPdf}" th:method="post">
+	<input type="hidden" name="serviceProvider" value=0>
+	<input type="hidden" name="optTxnId" th:value="${blBookInfo.operatorTxnId}">
+	 <button type="submit" class="butn"> Print PDF</button>
+	</form>
+	</div>
+
+	<div id="rules-list">
+		<div class="section-header welcomeHead">Important Instructions for Users:</div>
+		<div id="rules" class="welcomecont">
+			<span class="sub-title">01.	DTS Air Helpline number 011-26700300 is available from 9:30 to 6:00 (Mon – Sat). You may also email your concern at air.helpdesk@hub.nic.in</span>
+			<br />
+			<span class="sub-title">02.	LTC Fares for a sector are highlighted with a Green Background. Flights booked in LTC Fares have Zero (0) cancellation charges.</span>
+			<br />
+			<span class="sub-title">03.	E-Ticket is a non-transferable document. Passenger name cannot be changed.</span>
+		<br/> 
+			<span class="sub-title">04.	Report at the designated Airport terminal as per the recommended reporting time of the Airline. Airline check-in counters closing time varies from airline to airline. Certain Airports have enhanced reporting time due to high security checks.</span>
+<br />
+            <span class="sub-title">05.	Flight Timings are subject to change without prior notice. Please re-check with the Airline prior to departure.</span>
+		<br />
+            <span class="sub-title">06.	For queries such as Departure/Arrival status of Flights, Flight Delays, Terminal Information, Baggage Information, Cancellation Status etc, users may call the respective service provider Customer Care or the Airline’s helpline/counter keeping in view the information printed on the ticket. Users may provide the Ticket Number &amp; Airline/GDS PNR for identification.</span>
+<br />
+            <span class="sub-title">07.	Users should cancel tickets Online through DTS unless it is not feasible to do so. Online cancellation updates the required information in DTS immediately for any further action such as rebooking/refunds.However if the status is not updated within 10 minutes you may kindly call the helpline number to get it updated. Ticket for the same day and sector can only be booked after the status is updated as cancelled.</span>
+<br />
+           	<span class="sub-title">08.	In case sufficient time is not remaining for online cancellation of Air Ticket, user may call the Customer Care of Service Provider. Tickets can be cancelled by contacting the Customer Care of Service Providers and not through the Airline Website. Service Provider numbers are as follows:</span>
+			   <br />
+			<span class="sub-title">&#160;&#160;&#160;&#160;&#160; Balmer Lawrie &amp; Co. Ltd.:   0124-4603500/ 0124-6282500</span>
+			   <br /> 
+			<span class="sub-title">&#160;&#160;&#160;&#160;&#160; Ashok Travels and Tours:  022 48946701/9372818685/8169668269</span>
+			   <br />     
+			<span class="sub-title">09.	In case user is not able to contact service provider he may cancel the ticket directly through airlines also on the following airlinenumbers:</span>
+               <br />
+            <span class="sub-title">&#160;&#160;&#160;&#160;&#160; A.	Air India : 011-69329333</span>
+           		<br />
+		   	<span class="sub-title">&#160;&#160;&#160;&#160;&#160; B.	Akasa : 09606112131</span>
+           		<br />
+		    <span class="sub-title">&#160;&#160;&#160;&#160;&#160; C.	Indigo    : 0124-6173838 / 0124-4973838</span>
+           		<br />
+            <span class="sub-title">&#160;&#160;&#160;&#160;&#160; D.	Star Air : 022-50799555</span>
+           		<br />
+            <span class="sub-title">&#160;&#160;&#160;&#160;&#160; E.	Spice Jet : 0124-4983410 </span>
+           		<br />
+            <span class="sub-title">&#160;&#160;&#160;&#160;&#160; F.	Alliance Air : 044 4255 4255/044 3511 3511 </span>
+            <br />
+            <span class="sub-title">&#160;&#160;&#160;&#160;&#160; G.	Air India Exp : 080 4666 2222 </span>
+           		<br /> 
+           	<span class="sub-title">&#160;&#160;&#160;&#160;&#160; *Users may also confirm the above numbers from respective websites of Airlines.</span>
+           		<br />   	  
+			<span class="sub-title">10.	In case of Offline cancellation DTS Air helpline may be intimated via e-mail to update the status of the cancelled Ticket in DTS for processing of refunds and records kept your end for future references.</span>
+			   <br />
+			<span class="sub-title">11.	Different Cancellation Timings/Policies are applicable based on the Booking Class (S, T, H, etc) of the Ticket. Users may contact the Airlines or the Service Providers for information regarding cancellation policies. Information regarding Booking Class is available on the final Booking Page and the DTS Air Ticket Printouts.</span>
+			   <br />
+			<span class="sub-title">12.	If a passenger fails to cancel the travel booking and do not report for travel on time, the Airline will consider such passenger as No Show and refund of fare is not applicable in such cases. The cost is to be borne by the passenger.</span>
+			   <br />
+			<span class="sub-title">13.	All refunds will be automatically made to Defence Travel System upon cancellation of Air Ticket. Refunds will be processed as per the cancellation policies of the airlines. </span>
+			   <br />
+			<span class="sub-title">14.	Seat/Meal requests may/may not be realized depending on the participating airline.</span>
+		</div>
+	</div>
+	
+
+	<div class="section-header">	
+		<span class="sub-title welcomecont">Mandatory: All travelers are to ensure that they carry a copy of this e-ticket accompanied with a photo identification (ID) card as per requirement of security at the airport. ID Cards may include Driving License, Passport, PAN Card, Voter ID Card, Aadhaar Card or any other ID issued by Government of India. Birth Certificate is a mandatory proof for infant traveler.  </span>
+	</div>
+	
+
+	<div class="section-header">	
+		<span class="welcomecont" style="width:80%;text-align:left;color:red;font-weight:bold;">All travelers who have booked their ticket through Defence Travel System must submit their final settlement claim to their respective PAO Offices within 30 days of Return Journey w.r.t. Air Travel.</span>
+	</div>
+</div></div></div></div></div>
+		</div>
+	</section>
+	<section>
+	<div class="blank"></div>
+	</section>
+	<section>
+    <div th:insert="~{fragments/login/footer}"></div>
+    </section>
+	</body>
+   </html>
+
+

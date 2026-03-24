@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+<script th:src="@{/js/MB/RequestDashBoard/aircancellationdashboard/aircandash.js(random=${session.jsToken})}"> </script>
+<style>
+	
+	
+ .screen-freeze {
+	background-color: white;
+	display: none;
+	height: 100%;
+	left: 0;
+	opacity: 0.7;
+	position: absolute;
+	right: 0;
+	top: 0;
+	z-index: 99999;
+  }
+</style>
+<body oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+	<div th:insert="~{fragments/header/mainHeader}"></div>
+
+
+	<section id="midpart" class="midpart">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-1"></div>
+				<div class="col-lg-10">
+				<form th:action="@{/mb/sendAirDashTktCancel}" name="airCanDashBkgIdPage" id="airCanDashBkgIdPage" method="post">
+				    <input type="hidden" name="serviceProvider" id="serviceProvider" th:value="${ModelData.serviceProvider}">  
+					<input type="hidden" name="bookingId" id="bookingId" th:value="${ModelData.bookingId}">  
+					<input type="hidden" name="intendedCanFlag" id="intendedCanFlag" th:value="${ModelData.passangerDetail[0].intendedCan}">  
+					<input type="hidden" name="isCanAllowed" id="isCanAllowed" th:value="${ModelData.flightDetail[0].cancellationAllowed}" />
+                   
+					  
+					<div class="panel" id="panel">
+						<div id="program" class="programBlock">
+							<div class="welcomebox" style="margin-bottom:1rem">
+								<div class="welcomeHead">
+									<p th:text="#{dod.form.label.ticketInfoLabel}">
+									</p>
+								</div>
+								<div class="welcomecont">
+
+	
+									<table id='pnrDetails' class="filtersearch">
+										<tbody class="all1">
+											<tr>
+												<td >Booking Transaction Id</td>
+												<td><span th:text="${ModelData.operatorTxnId}"> </span>
+												
+												</td>
+												<td >Booking Id</td>
+												<td ><span th:text="${ModelData.bookingId}"> </span></td>
+											</tr>
+
+											<tr>
+												<td >Request Id</td>
+												<td><span th:text="${ModelData.requestId}"> </span> </td>
+												<td >Ticket Type</td>
+												<td><span th:text="${ModelData.ticketType}"></span> </td>
+											</tr>
+
+											<tr align="left">
+												<td>Booking Date</td>
+												<td ><span th:text="${ModelData.bookingDate}">  </span></td>
+												<td>Journey Date</td>
+												<td ><span th:text="${ModelData.journeyDate}"> </span></td>
+											</tr>
+
+											<tr>
+												<td >Origin</td>
+												<td><span th:text="${ModelData.originName}"> </span>
+											    </td>
+												<td >Destination</td>
+												<td><span th:text="${ModelData.destinationName}"> </span>
+												</td>
+											</tr>
+
+											<tr>
+												<td>Base Fare</td>
+												<td><span th:text="${ModelData.totalBaseFare}"> </span>
+												</td>
+												<td>Total Fare</td>
+												<td><span th:text="${ModelData.totalInvoice}"> </span></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+
+
+						<div id="program" class="programBlock">
+							<div class="welcomebox" style="margin-bottom:1rem">
+								<div class="welcomeHead">
+									<p th:text="#{dod.form.label.flightdetails}">
+									</p>
+								</div>
+								<div class="welcomecont">
+									<table id='flightDetails' class="filtersearch" cellpadding="4" cellspacing="1"
+										width="100%" border="0">
+										<tbody class="all1">
+
+											 
+												<tr th:each=" src: ${ModelData.flightDetail}">
+													<td style="white-space: nowrap;">
+														<span th:text="${src.operatingAirline}"> </span>
+														<span th:text="${src.airline}"> </span>-<span th:text="${src.flightNo}"> </span>
+													</td>
+													<td>
+														<span th:text="${src.segementOrigin}+'  '">&#160;</span><span th:text="${src.departureTime}"> </span>
+													</td>
+													<td>
+														<span th:text="${src.segementDestination}+'  '">&#160;</span><span th:text="${src.arrivalTime}"> </span>
+													</td>
+												</tr>
+											
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+
+
+						<div id="program" class="programBlock">
+							<div class="welcomebox" style="margin-bottom:1rem">
+								<div class="welcomeHead">
+									<p>Cancellation Passenger Details
+									</p>
+								</div>
+								<div class="welcomecont">
+									<table class="filtersearch" id="userDetails">
+
+										<tbody class="all1">
+
+											<tr class="lablevalue">
+												<td>Seq No.</td>
+												<td>Traveler Name</td>
+												<td>Age</td>
+												<td>Gender</td>
+												<td>Airline PNR</td>
+												<td>Cancellation Segment</td>
+												<td>Onward On Official Ground</td>
+												<td>Return On Official Ground</td>
+											</tr>
+	
+												<tr th:each=" item,stat : ${ModelData.passangerDetail}" th:if="${item.onwardCancelInt}==10"> 
+												    <td><span th:text="${stat.index+1}"></span></td>
+													<td>
+													  <span th:text="${item.title}"> </span>.<span th:text="${item.firstName}+' '"> </span>
+													  <span th:text="${item.middleName}">
+													  </span><span th:text="${item.lastName}"> </span>
+													 </td>
+													<td><span th:text="${item.age}"> </span></td>
+													<td><span th:text="${item.gender}"> </span></td>
+													<td><span th:text="${ModelData.flightDetail[0].airlinePNRNo}"> </span></td>
+													<td><span>Only Onward </span></td>
+													<td><span th:text="${item.onwardIsOfficial}"> </span></td>
+													<td><span th:text="${item.returnIsOfficial}"> </span></td>
+												</tr>
+										
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+
+
+						<div id="program" class="programBlock">
+							<div class="welcomebox" style="margin-bottom:1rem">
+								<div class="welcomeHead">
+									<p th:text="#{dod.irctc.cancel.ticket.reason}">
+									</p>
+								</div>
+								<div class="welcomecont">
+									<table class="filtersearch">
+										<tbody class="all1">
+											<tr>
+												<td style="width:20%" class="lablevalue">
+													<span th:text="#{dod.irctc.cancel.treason}"> </span>
+												</td>
+												<td style="width:80%"><span th:text="${ModelData.cancellationReason}"> </span></td>
+											</tr>
+											<tr>
+												<td colspan="2" style="text-align:right">
+													<input type="button" value="Proceed For Cancellation" class="butn"
+														id="Proceed" name="cancelBtn"
+														th:attr="onclick='preProceedCancel(\''+${ModelData.serviceProvider}+'\');'" />
+													<input type="button" value="Abort Cancellation" class="butn"
+														onclick="abortCancellation();" />
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<!-- abort div -->
+					<div id="abortCancelDiv">
+						<div id="program" class="programBlock">
+							<div class="welcomebox" style="margin-bottom:1rem">
+								<div class="welcomeHead">
+									<p>Abort Cancel Reason
+									</p>
+								</div>
+								<div class="welcomecont">
+									<input type="hidden" name="bookingIdAbort" th:value="${ModelData.bookingId}" />
+									
+									<table id="loginForm" class="filtersearch"  style="width:100%">
+										<tbody class="all1">
+										<tr>
+										<td style="text-align: left;">
+										<input type="text" style="border:1px solid #ccc; width:70%; height:100px;" id="abortReason"name="abortReason" />
+										</td>
+										</tr>
+										<tr>
+											<td style="text-align: right;"><input type="button" class="butn" value="submit"
+													onclick=" submitAirAbortCancel();" /></td>
+										</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<!-- Reason for booking flight within less than 24 hours of intended travel (start from here) -->
+					<div id="popDiv" style="display:none">
+						<table class="lablevalue" id="popup" style="position: fixed; background-color: #f7f7f7;">
+							<tr>
+								<td style="text-align: center;padding: 8px;" class="lablevalue">
+										<font size="2">Reason for cancellation of flight within less than 24 hours
+											before intended travel:</font>
+									</td>
+							</tr>
+
+							<tr>
+								<td style="text-align: center;padding-block: 16px;" colspan="3">
+									<textarea class="combo" name="intendedCanMsg" id="intended" rows="2" cols="70" maxlength="150"> </textarea>
+									<br /><br /><br />
+									<input type="button" value="Proceed For Cancellation" class="butn" id="Proceed"
+										name="cancelBtn"
+										th:attr="onclick='proceedCancellation(\''+${ModelData.serviceProvider}+'\');'" />
+									<input type="button" value="Cancel" class="butn" name="Back"
+									th:attr="onClick='hide(\''+'popDiv'+'\')'" />
+
+								</td>
+							</tr>
+						</table>
+					</div>
+				</form>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section>
+		<div class="blank"></div>
+	</section>
+	<section>
+		<div th:insert="~{fragments/login/footer}"></div>
+	</section>
+
+<div class="screen-freeze" id="screen-freeze" >
+	<div style="margin:15% 0% 0% 45%">
+		<img src="/images/spinning_wheel_96x96px.gif" alt=""/>
+	</div>
+	</div>
+	</body>
+</html>

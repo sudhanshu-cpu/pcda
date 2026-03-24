@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+<link rel="stylesheet" type="text/css" th:href="@{/css/lib/fontawesome_all.min.css}">
+
+<script th:src="@{/js/MB/RequestDashBoard/normalbookingdashboard/railPreConfirmation.js(random=${session.jsToken})}"> </script>
+
+<body oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+
+		<div th:insert="~{fragments/header/mainHeader}"></div>
+<section id="midpart" class="midpart">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-lg-1"></div>
+					<div class="col-lg-10">
+<form name="preConfirmationPage" id="bookingConfrmForm" th:action="@{/mb/confirmIRRail}" th:method="post">
+
+ <input type="hidden" name="trainName" th:value="${preConfirmData.itinaryReq.trainName}" />
+ <input type="hidden" name="trainNo" th:value="${preConfirmData.itinaryReq.trainNo}" />
+ <input type="hidden" name="originStnName" id="originStnNameId" th:value="${preConfirmData.itinaryReq.srcStnName}" />
+ <input type="hidden" name="originStnCode" id="originStnCodeId" th:value="${preConfirmData.itinaryReq.srcStnCode}" />
+ <input type="hidden" name="destStnName" th:value="${preConfirmData.itinaryReq.desStnName}" />
+ <input type="hidden" name="destStnCode" th:value="${preConfirmData.itinaryReq.desStnCode}" />
+ <input type="hidden" name="jrnyClass" th:value="${preConfirmData.itinaryReq.journeyClass}"/>
+ <input type="hidden" name="jrnyQuota" id="jrnyQuotaId" th:value="${preConfirmData.itinaryReq.quota}"/>
+ <input type="hidden" name="jrnyDate" th:value="${preConfirmData.itinaryReq.journeyDate}" /> 
+ <input type="hidden" name="adult" th:value="${preConfirmData.itinaryReq.nAdult}" />
+ <input type="hidden" name="child" th:value="${preConfirmData.itinaryReq.nChild}" />
+ <input type="hidden" name="senior" th:value="${preConfirmData.itinaryReq.nSenior}" />  
+ <input type="hidden" name="wsenior" th:value="${preConfirmData.itinaryReq.nWSenior}" /> 
+ <input type="hidden" name="infant" th:value="${preConfirmData.itinaryReq.nInfant}" />  
+ <input type="hidden" name="reqId" th:value="${preConfirmData.itinaryReq.reqId}" />
+ <input type="hidden" id="totalNoOfPxn" name="totalNoOfPxn" th:value="${preConfirmData.itinaryReq.totalNoOfpxn}"  />
+ <input type="hidden" name="groupId" th:value="${preConfirmData.itinaryReq.groupId}"  />
+ <input type="hidden" name="userId" th:value="${preConfirmData.itinaryReq.userId}"  />
+ <input type="hidden" name="bookingSeqNo" th:value="${preConfirmData.itinaryReq.bookingSeqNo}"  />
+ <input type="hidden" name="isReBookingFlag" th:value="${preConfirmData.itinaryReq.reBookingFlag}"  />
+ <input type="hidden" name="isCancelWaitListTicket" th:value="${preConfirmData.itinaryReq.isCancelWaitListTicket}"  />
+ <input type="hidden" name="travelTypeId" th:value="${preConfirmData.itinaryReq.travelTypeId}"  />
+ <input type="hidden" name="trainTypeVal" th:value="${preConfirmData.itinaryReq.trainTypeVal}"  />
+ 
+ <input type="hidden" name="isLadiesQuota" value="${serchReqDtls/isLadiesQuota}"  th:value="${preConfirmData.searchReqDtls.isLadiesQuota}"/>
+ 
+ <input type="hidden" name="reservationUptoStnCode" id="reservationUptoStnCode" th:value="${preConfirmData.itinaryReq.desStnCode}" />
+ <input type="hidden" name="trainCategory"  th:value="${preConfirmData.itinaryReq.trainCategory}"/>
+ 
+ 
+ 
+ <input type="hidden" name="foodChoiceFlag" th:value="${preConfirmData.bookingConfig.foodchoiceenabled}" /> 
+ <input type="hidden" name="bedRollFlagEnabled" th:value="${preConfirmData.bookingConfig.bedrollflagenabled}" />
+ <input type="hidden" name="idRequired" th:value="${preConfirmData.bookingConfig.idrequired}" />
+ <input type="hidden" name="lowerBerthApplicable" th:value="${preConfirmData.bookingConfig.lowerberthapplicable}" />
+ <input type="hidden" name="seniorCitizenApplicable" th:value="${preConfirmData.bookingConfig.seniorcitizenapplicable}" />
+ <input type="hidden" name="maxIdCardLength" id="maxIdCardLength" th:value="${preConfirmData.bookingConfig.maxidcardlength}"/>
+ <input type="hidden" name="minIdCardLength" id="minIdCardLength" th:value="${preConfirmData.bookingConfig.minidcardlength}"/>
+ 
+ <input type="hidden" id="availabilityStatus" name="availabilityStatus" th:value="${preConfirmData.itinaryReq.availabilityStatus}" />  
+ <input type="hidden" id="clusterFlag" name="clusterFlag" th:value="${preConfirmData.itinaryReq.clusterFlag}" /> 
+ <input type="hidden" id="clusterMainLeg" name="clusterMainLeg" th:value="${preConfirmData.itinaryReq.clusterMainLeg}" /> 
+ <input type="hidden" id="clusterSrcStn" name="clusterSrcStn" th:value="${preConfirmData.itinaryReq.clusterSrcStn}"/> 
+ <input type="hidden" id="clusterDestStn" name="clusterDestStn" th:value="${preConfirmData.itinaryReq.clusterDestStn}" />  
+ <input type="hidden" id="clusterPnrNo" name="clusterPnrNo" th:value="${preConfirmData.itinaryReq.clusterPnrNo}" /> 
+ <input type="hidden" id="clusterReservationId" name="clusterReservationId" th:value="${preConfirmData.itinaryReq.clusterReservationId}" />  
+
+
+
+
+<div class="mainHeaderBroad" >
+<div id="outmostT">
+
+
+<div th:if="${preConfirmData} !=null">
+
+	<table border='0' width="100%" cellpadding='0' cellspacing='0' align='center' class="bgborder" >
+		<tr><td id="trainRouteDetails"> </td></tr>
+	</table>
+<div id="program" class="programBlock">
+							<div class="welcomebox" style="margin-bottom:1rem">
+								<div class="welcomeHead">
+									<span th:text="#{dod.form.label.trnInfoLabel}"> </span>
+								</div>
+								<div class="welcomecont">
+	<table border='0' width="100%" cellpadding='4' cellspacing='1' align='center' class="filtersearch" id='pnrDetails'>
+		<tbody class="all1">
+		
+		
+		
+		<tr>
+	<td style="width:25%" class="lablevalue"><span th:text="#{dod.form.label.trnNo}"> </span></td>
+	<td style="width:25%"><span th:text="${preConfirmData.itinaryReq.trainNo}"> </span></td>	
+	<td style="width:25%" class="lablevalue"><span th:text="#{dod.form.label.trnName}"> </span></td>
+	<td style="width:25%"><span th:text="${preConfirmData.itinaryReq.trainName}"> </span> </td>
+</tr>
+           
+<tr>
+	<td class="lablevalue"><span th:text="#{dod.form.label.srcStation}"> </span></td> 
+	<td id="originStnNameCode"><span th:text="${preConfirmData.itinaryReq.srcStnName}"> </span>(<span th:text="${preConfirmData.itinaryReq.srcStnCode}"> </span>)</td>	
+	<td class="lablevalue"><span th:text="#{dod.form.label.destStation}"> </span></td>
+	<td id="desStnNameCode"><span th:text="${preConfirmData.itinaryReq.desStnName}"> </span>(<span th:text="${preConfirmData.itinaryReq.desStnCode}"> </span>)</td>
+</tr> 
+            
+<tr>
+	<td class="lablevalue"><span th:text="#{dod.form.label.date}"> </span></td>
+	<td><span th:text="${preConfirmData.itinaryReq.journeyDate}"> </span></td>
+	<td class="lablevalue"><span th:text="#{dod.form.label.class}"> </span></td>
+	<td>
+	<span th:text="${preConfirmData.itinaryReq.jrnyClass}"> </span>
+	</td>
+</tr> 
+           
+<tr>
+	<td class="lablevalue"><span th:text="#{dod.form.label.boardingPt}"> </span></td>
+	<td> 
+	 <select name="boardingPointStnCode" class="comboauto" id="boardingPointStnCode" style="width:60%">
+      <option th:each="item :${preConfirmData.itinaryReq.boardingStationMap}" th:value="${item.key}" th:text="${item.value}"> </option>
+      </select>
+      </td>
+	
+	<td class="lablevalue"><span th:text="#{dod.form.label.reservUpto}"> </span></td>
+	<td id="reservUpto"><span th:text="${preConfirmData.itinaryReq.desStnName}"> </span>(<span th:text="${preConfirmData.itinaryReq.desStnCode}"> </span>)</td>
+</tr>
+            
+<tr>
+	<td class="lablevalue"><span th:text="#{dod.form.label.depTime}"> </span></td>
+	<td><span th:text="${preConfirmData.itinaryReq.depTimeSrc}"> </span></td>
+	
+	<td class="lablevalue"><span th:text="#{dod.form.label.arrTime}"> </span></td>
+	<td><span th:text="${preConfirmData.itinaryReq.arrTimeDest}"> </span></td>
+</tr> 
+
+<tr>
+<td class="lablevalue">Request ID</td>
+<td><span th:text="${preConfirmData.itinaryReq.reqId}"> </span></td>
+<td class="lablevalue">Journey Quota</td>
+<td id="jrnyQuotaVal"><span th:text="${preConfirmData.itinaryReq.quota}"> </span></td>
+</tr>
+		
+		
+		
+	</tbody>	
+		
+		
+			
+    </table>
+</div>
+</div>
+</div>
+     
+<div id="program" class="programBlock">
+							<div class="welcomebox" style="margin-bottom:1rem">
+								<div class="welcomeHead" th:if="${preConfirmData.itinaryReq.quota}=='on'">
+									<span th:text="#{dod.form.label.psngerDetailsLabel}"> </span>
+								</div>
+								<div class="welcomeHead" th:if="${preConfirmData.itinaryReq.quota} !='on'">
+									<span th:text="#{dod.form.label.psngerDetailsLabel}"> </span>
+								</div>
+								<div class="welcomecont">
+	<table border='0' width="100%" cellpadding='4' cellspacing='1' align='center' class="filtersearch">
+	<tbody class="all1">
+		
+	<tr class="lablevalue">
+		<td>Name</td>
+		<td>Age</td>
+		<td>Gender</td>
+		<td>Type</td>
+		<td>Senior Citizen</td>
+		<td>Berth Preference</td>
+		
+		<td th:if="${preConfirmData.bookingConfig.foodchoiceenabled}=='true'" id="foodPrefLable"><span style="margin-right: 20px;">Food preference </span>
+			<input type="checkbox" name="foodChoiceName" id="foodChoiceId" /> <span class="ml-2">No, I don’t want food</span>
+			<span class="info-icon">
+				<i class="fa fa-info-circle"></i>
+				<span class="tooltip-text">
+					As per IRCTC's new rule, if multiple passengers are on the same ticket, food must be selected for everyone
+					or for no one. Partial selection is not allowed.
+				</span>
+			</span>
+		</td>
+		<td th:if="${preConfirmData.bookingConfig.idrequired}=='true'">Identity Card Type</td>
+		<td th:if="${preConfirmData.bookingConfig.idrequired}=='true'">Identity Card Number</td>
+		<td th:if="${preConfirmData.itinaryReq.isChildHalfFareApplicable}=='YES' and ${preConfirmData.itinaryReq.nChild} !=0">Child Berth Opted</td>
+	</tr>
+	
+				
+		<tr th:each=" src : ${preConfirmData.searchReqDtls.confirmPaxBeans}">	   
+	   			 
+	   			 <td align='left'><span th:text="${src.reqPxnName}"> </span></td>
+		     	 <input type="hidden" th:name="@{|name_${src.reqPxnNo}|}" th:value="${src.reqPxnName}" />
+		     	 
+		     	 <td><span th:text="${src.reqPxnAge}"> </span></td>
+		     	 <input type="hidden" th:name="@{|age_${src.reqPxnNo}|}" th:value="${src.reqPxnAge}" />
+		     	 
+		     	 <td>
+			     	<span th:if="${src.pxnGender}=='0'"> Male<input type="hidden" th:name="@{|gender_${src.reqPxnNo}|}" value="0" /> </span>
+					<span th:if="${src.pxnGender}=='1'">Female<input type="hidden" th:name="@{|gender_${src.reqPxnNo}|}" value="1" /></span>
+			     	
+		     	 </td>
+		     	 <td>
+				  
+					 <span th:if="${src.pxnType}=='0'">Child<input type="hidden"  th:name="@{|pxnType_${src.reqPxnNo}|}" value="Child" /></span>
+					 <span th:if="${src.pxnType}=='1'">Adult<input type="hidden"  th:name="@{|pxnType_${src.reqPxnNo}|}" value="Adult" /></span>
+					 <span th:if="${src.pxnType}=='2'">Senior<input type="hidden" th:name="@{|pxnType_${src.reqPxnNo}|}" value="Senior" /></span>
+					 <span th:if="${src.pxnType}=='3'">Infant<input type="hidden" th:name="@{|pxnType_${src.reqPxnNo}|}" value="Infant" /></span>
+				     
+		    	 </td>
+			     <td>
+				    
+					  <span th:if="${src.pxnType}=='0'"><input type="checkbox" disabled="true"/></span>
+					  <span th:if="${src.pxnType}=='1'"><input type="checkbox" disabled="true"/></span>
+					  <span th:if="${src.pxnType}=='2'"><input type="checkbox" th:name="@{|concType_${src.reqPxnNo}|}" checked="true"  disabled="true"/></span>
+				     
+			     </td>
+		     	 <td>
+		           <select  th:name="@{|berthPrefence_${src.reqPxnNo}|}"  th:id="@{|berthPrefence_${src.reqPxnNo}|}" class="combo berth-preference" > 
+		                    <option value="">Select</option>
+      					 	<option th:each="item : ${preConfirmData.bookingConfig.applicableberthtypes}" th:if="${item}=='LB'"  value="LB">LOWER</option>
+      					 	<option th:each="item : ${preConfirmData.bookingConfig.applicableberthtypes}" th:if="${item}=='MB'" value="MB">MIDDLE</option>
+      					 	<option th:each="item : ${preConfirmData.bookingConfig.applicableberthtypes}" th:if="${item}=='UB'" value="UB">UPPER</option>
+      					 	<option th:each="item : ${preConfirmData.bookingConfig.applicableberthtypes}" th:if="${item}=='SL'" value="SL">SIDE LOWER</option>
+      					 	<option th:each="item : ${preConfirmData.bookingConfig.applicableberthtypes}" th:if="${item}=='SU'" value="SU">SIDE UPPER</option>
+      					 	<option th:each="item : ${preConfirmData.bookingConfig.applicableberthtypes}" th:if="${item}=='WS'" value="WS">WINDOW SIDE</option>
+      					 	<option th:each="item : ${preConfirmData.bookingConfig.applicableberthtypes}" th:if="${item}=='CB'" value="CB">CABIN</option>
+      					 	<option th:each="item : ${preConfirmData.bookingConfig.applicableberthtypes}" th:if="${item}=='CP'" value="CP">COUPE</option>
+      					 	<option th:each="item : ${preConfirmData.bookingConfig.applicableberthtypes}" th:if="${item}=='SM'" value="SM">SIDE MIDDLE</option>
+      					      
+    			  	
+			     	</select>
+		     	</td>
+		    
+		     
+			     	<td  th:id="@{|foodPrefType_${src.reqPxnNo}|}" th:if="${preConfirmData.bookingConfig.foodchoiceenabled}=='true'">
+			     		<select th:name="@{|foodPref_${src.reqPxnNo}|}"  th:id="@{|foodPref_${src.reqPxnNo}|}" class="foodPref combo">
+			     			<option th:each="details : ${preConfirmData.bookingConfig.foodDetails}" value="V" th:if="${details}=='V'">Veg</option>
+			     			<option th:each="details : ${preConfirmData.bookingConfig.foodDetails}" value="N" th:if="${details}=='N'">Non_Veg</option>
+			     			<option th:each="details : ${preConfirmData.bookingConfig.foodDetails}" value="E" th:if="${details}=='E'">Evening Snacks</option>			     			
+			     			<option th:each="details : ${preConfirmData.bookingConfig.foodDetails}" value="J" th:if="${details}=='J'">Jain Food</option>
+			     			<option th:each="details : ${preConfirmData.bookingConfig.foodDetails}" value="F" th:if="${details}=='F'">Veg(Diabetic)</option>
+			     			<option th:each="details : ${preConfirmData.bookingConfig.foodDetails}" value="G" th:if="${details}=='G'">Non Veg(Diabetic)</option>
+			     			<option th:each="details : ${preConfirmData.bookingConfig.foodDetails}" value="T" th:if="${details}=='T'">Tea/Coffee</option>
+			     			
+			     		</select>		     
+			     	</td>
+		     	
+		     
+		     	
+    	     	<td th:if="${preConfirmData.itinaryReq.quota} =='on'">
+					
+				<select th:name="@{|idCardType_${src.reqPxnNo}|}" th:id="@{|idCardType_${src.reqPxnNo}|}" class="combo" th:if="${src.isMasterPass} =='Yes'">
+		 						
+                  <option th:each="item: ${preConfirmData.bookingConfig.valididcardtypes}" th:if="${item}=='NULL_IDCARD'" value="${item}">No Card Selection</option>
+			      <option th:each="item: ${preConfirmData.bookingConfig.valididcardtypes}" th:if="${item}=='DRIVING_LICENSE'" value="${item}">Driving License</option>
+			      <option th:each="item: ${preConfirmData.bookingConfig.valididcardtypes}" th:if="${item}=='PASSPORT'" value="${item}">Passport</option>
+			      <option th:each="item: ${preConfirmData.bookingConfig.valididcardtypes}" th:if="${item}=='PANCARD'" value="${item}">PAN Card</option>
+			      <option th:each="item: ${preConfirmData.bookingConfig.valididcardtypes}" th:if="${item}=='GOVT_ICARD'" value="${item}">Central or State Government Issued ID Card</option>
+			      <option th:each="item: ${preConfirmData.bookingConfig.valididcardtypes}" th:if="${item}=='STUDENT_ICARD'" value="${item}">Student Identity Card</option>
+			      <option th:each="item: ${preConfirmData.bookingConfig.valididcardtypes}" th:if="${item}=='BANK_PASSBOOK'" value="${item}">Nationalized Bank Passbook</option>
+			      <option th:each="item: ${preConfirmData.bookingConfig.valididcardtypes}" th:if="${item}=='CREDIT_CARD'" value="${item}">Credit Cards Issued By Banks.</option>
+			      <option th:each="item: ${preConfirmData.bookingConfig.valididcardtypes}" th:if="${item}=='VOTER_ICARD'" value="${item}">Voter Identity Card</option>
+			      <option th:each="item: ${preConfirmData.bookingConfig.valididcardtypes}" th:if="${item}=='UNIQUE_ICARD'" value="${item}">Aadhar Unique Identity Card</option>
+			      					   
+				 </select>
+				 
+				<select th:name="@{|idCardType_${src.reqPxnNo}|}" th:id="@{|idCardType_${src.reqPxnNo}|}" class="combo" th:if="${src.isMasterPass} =='No'">	 
+				 <option> </option>	
+				</select>
+		 			 
+	 		 	</td>
+	 		 	
+	 		 	<td th:if="${preConfirmData.itinaryReq.quota} =='on'">
+		 		<input type="text" th:name="@{|idCardNumber_${src.reqPxnNo}|}" th:id="@{|idCardNumber_${src.reqPxnNo}|}" maxlength="20" size="20" class="combo" th:if="${src.isMasterPass} =='Yes'"/>
+		 		</td>
+		 		
+	 		
+		<td th:if="${preConfirmData.itinaryReq.isChildHalfFareApplicable} =='YES' and ${preConfirmData.itinaryReq.nChild} !=0">
+		<input th:if=" ${src.reqPxnAge} >= 5 and  11 >= ${src.reqPxnAge}" type="checkbox" th:name="@{|childBerthFlag_${src.reqPxnNo}|}" checked="true" value="true" />
+		</td>
+				
+				
+		   </tr> 
+	     
+	 
+			</tbody>
+	       	            
+	</table>
+	
+</div>
+</div>
+</div>
+	  
+
+
+<!-- Child Passenger Full and Half Fare Information Message Block-->
+
+	 <br/>
+	 <div th:if="${preConfirmData.itinaryReq.isChildHalfFareApplicable} =='YES' and ${preConfirmData.itinaryReq.nChild} !=0">
+	 <p class="lablevalue" style="color:red;font-size:13px;">
+	  If 'Child Berth Opted' check box is selected then full adult fare will be charged for child passenger. If check box is not selected then berth will not be alloted to child passenger and child fare will be charged.
+	 </p>
+	 </div>
+	
+
+<!-- Child Passenger Full and Half Fare Information Message Block-->
+
+<!-- Tatkal Ticket Information Block -->
+
+ 	<div id="program" class="programBlock">
+							<div class="welcomebox" style="margin-bottom:1rem">
+								<div class="welcomeHead">
+									<p> Information Required For Tatkal Tickets Fields</p>
+								</div>
+								<div class="welcomecont">
+			<table border='0' width="100%" cellpadding='4' cellspacing='1' align='center' class="filtersearch">
+ 				<tbody class="all1">
+				<tr>
+					<td nowrap="nowrap">
+					 Identity Card Number Input Validation<br/> 
+					 1.Valid characters allowed 0-9,A-Z,a-z<br/>
+					 2.One non zero digit must be the part of last 10 characters.<br/>
+					 3.Blank space are not allowed
+					</td> 
+				</tr>
+				</tbody>
+			</table>
+		</div>
+		</div>
+		</div>
+
+
+<div id="program" class="programBlock">
+							<div class="welcomebox" style="margin-bottom:1rem">
+								<div class="welcomeHead">
+									<p>Ticket Choice</p>
+								</div>
+								<div class="welcomecont">
+<table border='0' width="100%" cellpadding='0' cellspacing='0' align='left' class="filtersearch">
+	<tbody class="all1">
+	
+	
+	 	<tr th:if="${preConfirmData.itinaryReq.clusterFlag}==0">
+			  <td colspan="2" class="d-flex" style="column-gap:0.2rem">
+				<input type="radio" name="ticketChoice" value="U" checked="checked" />I-Ticket 
+		      </td>
+		</tr>
+ 	 
+ 	    <tr th:if="${preConfirmData.itinaryReq.clusterFlag} !=0 and ${preConfirmData.itinaryReq.isAvailabilityStatus}=='YES'">
+				<td colspan="2" class="d-flex" style="column-gap:0.2rem">
+				   <input type="radio" name="ticketChoice" value="E" checked="checked" />E-Ticket 
+				</td>
+			</tr>
+	 	 
+	 	    <tr th:if="${preConfirmData.itinaryReq.clusterFlag} !=0 and ${preConfirmData.itinaryReq.isAvailabilityStatus}!='YES'">
+	 	    
+	 	    <td colspan="2"><span style="color:green">Please Choose Your Correct Ticket Type</span></td>
+	 	    
+	 	    </tr>
+	 	  	<tr th:if="${preConfirmData.itinaryReq.clusterFlag} !=0 and ${preConfirmData.itinaryReq.isAvailabilityStatus}!='YES'">
+	 	  		
+				<td class="d-flex" style="column-gap:0.2rem">
+				   <input type="radio" name="ticketChoice" value="E" />E-Ticket 
+				</td>
+				
+		  		<td class="d-flex" style="column-gap:0.2rem">
+					<input type="radio" id="ticketIticket" name="ticketChoice" value="U" onclick="iticketMsg();" />I-Ticket 
+				</td>
+			</tr>
+	 	  
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+<!--   Other Information Choice    -->
+
+<div id="program" class="programBlock">
+							<div class="welcomebox" style="margin-bottom:1rem">
+								<div class="welcomeHead">
+									<p>Other Choice</p>
+								</div>
+								<div class="welcomecont">	
+	<table border='0' width="100%" cellpadding='2' cellspacing='2' align='left' class="filtersearch">
+	<tbody class="all1">
+	<tr>  
+	  <td>
+		  	Class Upgrade  <input type="checkbox" name="isClassUpgrade" />
+	  </td>
+	  <td>
+			Only Confirm Berths  <input type="checkbox" name="onlyConfirmBerths"/>
+	  </td>
+	  <td>
+			Ticket Choice In Same Coach  <input type="checkbox" name="isTicketChoiceSameCoach"/>
+	  </td>
+	  
+	  <td id="isLadiesQuotaId">
+			Ladies Quota  <input type="checkbox" name="isLadiesQuotaVal" id="ladiesQuotaValBox" />
+	  </td>
+	</tr>
+
+	<tr>  
+	  <td>
+		  	Reservation Choice
+	  </td>
+	  <td colspan="3">
+			<select name="resChoice" class="combo">
+				<option value="99">No choice</option>
+				<option value="1">Book, only if all berths are allotted in same coach.</option>
+				<option value="2">Book, only if at least 1 lower berth is allotted.</option>
+				<option value="3">Book, only if 2 lower berths are allotted.</option>
+				<option value="4">Only Confirm.</option>
+				<option value="5">Only Confirm and In same coach.</option>
+				<option value="6">Only Confirm and 1 LB.</option>
+				<option value="7">Only Confirm and 2 LB.</option>
+			</select>
+	  </td>
+	</tr>
+	
+	<tr>  
+	  <td>
+		Coach Choice Opted  <input type="checkbox" name="isCoachChoiceOpted" id="isCoachChoiceOpted" onclick="enableCoachId(this);" />
+	  </td>
+	  <td colspan="3">
+			Coach Id <input type="text" name="coachId" id="coachId" readonly="readonly" value="" />
+	  </td>
+	</tr>
+	
+	</tbody>
+</table>
+</div>
+</div>
+</div>
+
+<table border='0' width="100%" cellpadding='0' cellspacing='0' align='left' class="filtersearch">
+	<tr>
+		<td style="text-align:right">
+			<input type="button" value="Proceed For Booking" class="butn" onclick="confirmBooking('preConfirmationPage');" />
+		</td>	                      
+	</tr>
+</table>
+
+</div>
+
+
+
+	    
+</div>  
+
+
+<div class="innerwaitdiv" id="innerwait" style="text-align:center">
+	<table border="0" cellpading="0" cellspacing="0" width="100%" class="filtersearch" height="180" >
+	<tbody class="all1">
+	<tr class="tdborder8">
+		<td style="width:10%"></td>
+		<td class="lablevalue">
+			Please wait
+			
+		</td>
+		
+	</tr>
+	<tr class="tdborder8">
+		<td style="width:10%"></td>
+		<td>
+			We are searching for the best available options.
+		</td>
+		
+	</tr>
+	<tr class="tdborder8">
+		<td style="width:10%"></td>
+		<td>
+			This may take upto a minute. Please do not refresh or close this window.
+		</td>
+		
+	</tr>
+	</tbody>
+	</table>
+
+	
+</div>
+</div> 
+
+
+</form>
+</div>
+</div>
+</div>
+</section>
+<section>
+	<div class="blank"></div>
+	</section>
+	<section>
+    <div th:insert="~{fragments/login/footer}"></div>
+    </section>
+</body>
+</html>

@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+<script th:src="@{/js/ADG/Reports/bookingReport/adgMovReport.js(random=${session.jsToken})}"></script>
+
+
+
+
+
+
+
+<body oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+
+	<div th:insert="~{fragments/header/mainHeader}"></div>
+	<section id="midpart" class="midpart">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-1">
+					<div id="navigation"></div>
+				</div>
+
+
+				<div class="col-lg-10">
+
+					<form th:action="@{/adg/bookingRepoDtls}" method="post" name="adgmovReportForm" id="generateReport">
+
+                       
+                       <input type="hidden" id="monthSel" name="month1" th:value="${fromModel.month}">
+                       <input type="hidden" id="yearSel" name="year1" th:value="${fromModel.year}">
+						<div id="program" class="programBlock">
+							<div class="welcomebox" style="margin-bottom: 1rem;">
+								<div class="welcomeHead">
+									<p th:text="#{adg.reports.booking.report.adgMovReport}"></p>
+								</div>
+								<div class="welcomecont">
+									<table class="filtersearch">
+										<tbody class="all1">
+											<tr>
+												<td colspan="4">
+
+													<table class="filtersearch">
+														<tbody class="all1">
+															<tr>
+																<td style="width:50%" 
+																	th:text="#{adg.reports.booking.report.reportType}">
+																</td>
+																<td style="width:50%"><select name="reportType"
+																		class="comboM" id="reportType"
+																		onchange="hideToDate();">
+																		<option value="">Select</option>
+																		<option value="1" th:selected="${fromModel.reportType}=='1'">Daily Report</option>
+																		<option value="2" th:selected="${fromModel.reportType}=='2'">Monthly Report</option>
+																		<option value="3" th:selected="${fromModel.reportType}=='3'">Summary Report</option>
+																		<option value="4" th:selected="${fromModel.reportType}=='4'">Budget Report</option>
+																	</select></td>
+
+
+															</tr>
+														</tbody>
+													</table>
+
+											
+
+												</td>
+											</tr>
+											<tr>
+												<td colspan="4" id="mnthYrId" style="display: none;">
+
+													<table id="showMnthID" class="filtersearch">
+														<tbody class="all1">
+															<tr>
+																<td style="width:50%">Select Month/Year</td>
+																<td id="monthID" style="width:50%"></td>
+															</tr>
+														</tbody>
+													</table>
+
+												</td>
+											</tr>
+											<tr>
+												<td colspan="4" id="frmDateId" style="display: none;">
+
+													<table class="filtersearch">
+														<tbody class="all1">
+															<tr>
+																<td style="width:50%">Select Date</td>
+																<td style="width:50%"><input name="frmBookingDt"
+																		type="text" id="frmBookingDt" class="txtfldM"
+																		size="15" readonly="readonly" th:value ="${fromModel.frmBookingDt}"></td>
+															</tr>
+														</tbody>
+													</table>
+
+												</td>
+											</tr>
+											<tr>
+												<td colspan="4" class="lablevalue" id="toDateId" style="display: none;">
+
+													<table class="filtersearch">
+														<tbody class="all1">
+															<tr>
+																<td style="width:50%">To Date</td>
+																<td style="width:50%"><input name="toBookingDt"
+																		type="text" id="toBookingDt" class="txtfldM"
+																		size="15" readonly="readonly" th:value ="${fromModel.toBookingDt}"></td>
+															</tr>
+														</tbody>
+													</table>
+												</td>
+											</tr>
+
+											<tr>
+												<td colspan="4" class="lablevalue">
+													<table class="filtersearch" >
+														<tbody class="all1">
+															<tr>
+																<td style="width:50%"
+																	th:text="#{adg.reports.booking.report.unitName}">
+																</td>
+																<td style="width:50%"><select
+																		name="accountOffice" class="comboM"
+																		id="accountOffice">
+
+																		<option value="ALL">All</option>
+																		<option th:each=" src : ${paoList}"
+																			th:text="${src.name}"
+																			th:selected="${src.groupId} == ${fromModel.accountOffice}"	
+																			th:value="${src.groupId}"></option>
+
+																	</select></td>
+															</tr>
+														</tbody>
+													</table>
+
+												</td>
+
+											</tr>
+											<tr>
+												<td colspan="4" class="lablevalue" style="text-align: right">
+
+													<button type="button" class="butn"
+														onclick="generateReport()">
+														Generate Report</button>
+
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+
+						<!-- it is used for display data on same page  -->
+						<div id="program" class="programBlock">
+							<div class="welcomebox" style="margin: 1px" th:unless="${reportList}==null">
+								<div class="welcomeHead">
+									<p th:text="#{adg.reports.booking.report.reportDetails}"></p>
+								</div>
+								<div class="welcomecont">
+									<div th:each="src : ${reportList}">
+										<table class="filtersearch">
+											<tbody class="all1">
+											<tr>
+												<td style="width:100%" colspan="17"><strong><span
+															th:text="#{adg.reports.booking.report.noOfTickets}"></span>
+													</strong></td>
+											</tr>
+											<tr>
+												<td colspan="5"><strong>
+														<span style="color:red">
+															<span
+																th:text="#{adg.reports.booking.report.confirmed}"></span>
+														</span>
+													</strong></td>
+												<td colspan="4"><strong>
+														<span style="color:red"><span
+																th:text="#{adg.reports.booking.report.waitlisted}"></span>
+														</span>
+													</strong></td>
+												<td colspan="4"><strong>
+														<span style="color:red"><span
+																th:text="#{adg.reports.booking.report.cancelled}"></span>
+														</span>
+													</strong></td>
+												<td colspan="4"><strong>
+														<span style="color:red"><span
+																th:text="#{adg.reports.booking.report.totalTransaction}"></span>
+														</span>
+													</strong></td>
+											</tr>
+
+
+											<tr>
+												<td class="lablevalue"><span th:text="#{adg.reports.booking.report.unit}"></span>
+												</td>
+												<td class="lablevalue"><span th:text="#{adg.reports.booking.report.wR}"></span></td>
+												<td class="lablevalue"><span th:text="#{adg.reports.booking.report.cV}"></span></td>
+												<td class="lablevalue"><span th:text="#{adg.reports.booking.report.formD}"></span>
+												</td>
+												<td class="lablevalue"><span th:text="#{adg.reports.booking.report.totalq}"></span>
+												</td>
+
+												<td class="lablevalue"><span th:text="#{adg.reports.booking.report.wR}"></span></td>
+												<td class="lablevalue"><span th:text="#{adg.reports.booking.report.cV}"></span>C
+												</td>
+												<td class="lablevalue"><span th:text="#{adg.reports.booking.report.formD}"></span>
+												</td>
+												<td class="lablevalue"><span th:text="#{adg.reports.booking.report.totalq}"></span>
+												</td>
+
+												<td class="lablevalue"><span th:text="#{adg.reports.booking.report.wR}"></span></td>
+												<td class="lablevalue"><span th:text="#{adg.reports.booking.report.cV}"></span></td>
+												<td class="lablevalue"><span th:text="#{adg.reports.booking.report.formD}"></span>
+												</td>
+												<td class="lablevalue"><span th:text="#{adg.reports.booking.report.totalq}"></span>
+												</td>
+
+												<td class="lablevalue"><span th:text="#{adg.reports.booking.report.wR}"></span></td>
+												<td class="lablevalue"><span th:text="#{adg.reports.booking.report.cV}"></span></td>
+												<td class="lablevalue"><span th:text="#{adg.reports.booking.report.formD}"></span>
+												</td>
+												<td class="lablevalue"><span th:text="#{adg.reports.booking.report.totalq}"></span>
+												</td>
+
+											</tr>
+
+
+
+
+											<tr th:each="scr1:${src.adgMovSummaryRptBean}">
+												<td th:text="${scr1.name}"></td>
+												<td th:text="${scr1.confirmedWarrantCount}"></td>
+												<td th:text="${scr1.confirmedCvCount}"></td>
+												<td th:text="${scr1.confirmedFormdCount}"></td>
+												<td th:text="${scr1.confirmedTotalCount}"></td>
+
+												<td th:text="${scr1.wlWarrantCount}"></td>
+												<td th:text="${scr1.wlCvCount}"></td>
+												<td th:text="${scr1.wlFormdCount}"></td>
+												<td th:text="${scr1.wlTotalCount}"></td>
+
+												<td th:text="${scr1.cancelledWarrantCount}"></td>
+												<td th:text="${scr1.cancelledCvCount}"></td>
+												<td th:text="${scr1.cancelledFormdCount}"></td>
+												<td th:text="${scr1.cancelledTotalCount}"></td>
+
+												<td th:text="${scr1.totalTransWarrantCount}"></td>
+												<td th:text="${scr1.totalTransCvCount}"></td>
+												<td th:text="${scr1.totalTransFormdCount}"></td>
+												<td th:text="${scr1.totalTransCount}"></td>
+
+											</tr>
+
+
+
+											<tr>
+												<td>Total</td>
+												<td th:text="${src.totalConWrCount}"></td>
+												<td th:text="${src.totalConCvCount}"></td>
+												<td th:text="${src.totalcanFdCount}"></td>
+												<td th:text="${src.totalcanToCount}"></td>
+
+												<td th:text="${src.totalwlWrCount}"></td>
+												<td th:text="${src.totalwlCvCount}"></td>
+												<td th:text="${src.totalwlFdCount}"></td>
+												<td th:text="${src.totalwlToCount}"></td>
+
+												<td th:text="${src.totalcanWrCount}"></td>
+												<td th:text="${src.totalcanCvCount}"></td>
+												<td th:text="${src.totalcanFdCount}"></td>
+												<td th:text="${src.totalcanToCount}"></td>
+
+												<td th:text="${src.totaltoWrCount}"></td>
+												<td th:text="${src.totaltoCvCount}"></td>
+												<td th:text="${src.totaltoFdCount}"></td>
+												<td th:text="${src.totaltoToCount}"></td>
+
+											</tr>
+											</tbody>
+
+										</table>
+
+										<table class="filtersearch">
+											<tbody class="all1">
+											<tr>
+												<td colspan="4" class="lablevalue">
+													<span style="color:red"><span
+																th:text="#{adg.reports.booking.report.totTransbyallaboveUnitonthisdate}"></span>
+													</span>
+												</td>
+											</tr>
+											<tr>
+												<td class="lablevalue"><span th:text="#{adg.reports.booking.report.warrant}"></span>
+												</td>
+												<td class="lablevalue"><span th:text="#{adg.reports.booking.report.cV}"></span></td>
+												<td class="lablevalue"><span th:text="#{adg.reports.booking.report.formD}"></span>
+												</td>
+												<td class="lablevalue"><span th:text="#{adg.reports.booking.report.totalq}"></span>
+												</td>
+											</tr>
+
+											<tr>
+												<td class="lablevalue"><span th:text="${src.totalWarantAllUnitCount}"></span></td>
+												<td class="lablevalue"><span th:text="${src.totalCvAllUnitCount}"></span></td>
+												<td class="lablevalue"><span th:text="${src.totalFdAllUnitCount}"></span></td>
+												<td class="lablevalue"><span th:text="${src.totalTransAllUnitCount}"></span></td>
+											</tr>
+											<tr>
+
+											</tr>
+											</tbody>
+											
+										</table>
+
+										<table class="filtersearch">
+											<tbody class="all1">
+											<tr>
+												<td colspan="3" class="lablevalue">
+													<span style="color:red"><span
+																th:text="#{adg.reports.booking.report.totaltransbyallaboveunittildate}"></span>
+													</span>
+												</td>
+												<td id="aTillDate"></td>
+											</tr>
+
+											<tr>
+												<td class="lablevalue"> <span
+															th:text="#{adg.reports.booking.report.warrant}"></span>
+												</td>
+												<td class="lablevalue"> <span th:text="#{adg.reports.booking.report.cV}"></span>
+												</td>
+												<td class="lablevalue"> <span th:text="#{adg.reports.booking.report.formD}"></span>
+												</td>
+												<td class="lablevalue"> <span th:text="#{adg.reports.booking.report.totalq}"></span>
+												</td>
+											</tr>
+
+											<tr th:each="src : ${reportList}">
+												<td class="lablevalue"><span th:text="${src.totalWarnttranstilldateCount}"></span>
+												</td>
+												<td class="lablevalue"><span th:text="${src.totalCvtranstilldateCount}"></span></td>
+												<td class="lablevalue"><span th:text="${src.totalFdtranstilldateCount}"></span></td>
+												<td class="lablevalue"><span th:text="${src.totalTranstilldateCount}"></span></td>
+											</tr>
+
+											<tr>
+												<td colspan="4" class="lablevalue" style="text-align:right">
+													<button type="submit" class="butn" th:formaction="@{/adg/bookingRepoExcel}"
+														name="Export Excel" th:formmethod="post">Export to
+														Excel</button>
+												</td>
+
+											</tr>
+											</tbody>
+										
+										</table>
+
+									</div>
+
+								</div>
+							</div>
+							
+							<div>
+							<p class="errors" th:text="${error}" style="margin-bottom:0"></p>
+							</div>
+							
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section>
+	<div class="blank"></div>
+	</section>
+	<section>
+    <div th:insert="~{fragments/login/footer}"></div>
+    </section>
+</body>
+
+</html>

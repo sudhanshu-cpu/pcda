@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+<link rel="stylesheet" type="text/css" th:href="@{/css/common/popup/LightFace.css}">
+
+<script th:src="@{/js/common/popup/mootools.js}"></script>
+<script th:src="@{/js/common/popup/LightFace.IFrame.js}"></script>
+<script th:src="@{/js/common/popup/LightFace.js}"></script>
+<script th:src="@{/js/common/popup/LightFace.Request.js}"></script>
+
+<script type="text/javascript">
+	function viewUserReports(personalNo) {
+
+		/*
+		  document.getElementById("personalNo").value="";
+		  document.getElementById("personalNo").value=personalNo;
+		  document.getElementById("fromTravlerDashboard").value="yes";
+		   
+		  var urlToSet="/pcda/af/pcda/reports/viewUserDetails.do";
+		  document.travelerApproval.method="post";
+		  var actionOriginal=document.travelerApproval.action;
+		  document.travelerApproval.action=actionOriginal.replace('/page', "");
+		  document.travelerApproval.action=urlToSet;			
+		  document.travelerApproval.submit();	
+		  
+		 */
+
+		var urlToSet = "/co/viewUserDetails";
+		ajaxUserFace = new LightFace.Request({
+			width: 1000,
+		    height: 400,
+			url :$("#context_path").val()+ "co/viewUserDetails",
+			buttons : [ {
+				title : 'Close',
+				event : function() {
+					this.close();
+				}
+			} ],
+			request : {
+				data : {
+					"personalNo" : personalNo
+				},
+				method : 'POST'
+			},
+			title : 'User View'
+		});
+		ajaxUserFace.open();
+
+	}
+
+	function submitRequestForm(userId, event) {
+		$("#approvalType").val(event);
+		$("#userId").val(userId);
+
+		if (event == "2") {
+			$("#approveReqDiv").hide();
+			$("#disApproveDiv").show();
+			return true;
+		} else if (event == "1") {
+			$("#approveTravellerForm").submit();
+		}
+	}
+
+	function submitDisapprove(formAction, event) {
+		var submitForm = document.createElement("form");
+		var disapproveDetail = document.getElementById("disapproveDetail").value;
+		var disapproveUserAlias = document
+				.getElementById("disApprovedUserAlias").value;
+
+		document.body.appendChild(submitForm);
+		submitForm.method = "POST";
+
+		var hiddenElement = document.createElement('input');
+		hiddenElement.name = "userAlias";
+		hiddenElement.id = "userAlias";
+		hiddenElement.type = "hidden";
+		hiddenElement.value = disapproveUserAlias;
+
+		submitForm.appendChild(hiddenElement);
+
+		var hiddenEeven = document.createElement('input');
+		hiddenEeven.name = "event";
+		hiddenEeven.id = "event";
+		hiddenEeven.type = "hidden";
+		hiddenEeven.value = event;
+		submitForm.appendChild(hiddenEeven);
+
+		var hiddenReason = document.createElement('input');
+		hiddenReason.name = "disapproveDetail";
+		hiddenReason.id = "disapproveDetail";
+		hiddenReason.type = "hidden";
+		hiddenReason.value = disapproveDetail;
+		submitForm.appendChild(hiddenReason);
+
+		submitForm.action = formAction.replace('/page', "");
+		submitForm.submit();
+	}
+
+	function submitDis() {
+		if ($("#disapproveDetail").val() == null || $("#disapproveDetail").val() == "") {
+			alert("Please Enter Reason");
+		} else {
+			$("#approveTravellerForm").submit();
+		}
+	}
+
+</script>
+
+<body>
+
+	<div th:insert="~{fragments/header/mainHeader}"></div>
+<section id="midpart" class="midpart">
+			<div class="container-fluid">
+				<div class="row">
+
+				<div class="col-lg-1"></div>
+				<div class="col-lg-10">
+				
+	<form id="approveTravellerForm" method="post" th:action="@{/co/approveTraveller}">
+
+		<input type="hidden" name="approvalType" id="approvalType">
+		<input type="hidden" name="userId" id="userId">
+
+		<div id="disApproveDiv" style="display:none">
+		<div id="program" class="programBlock">
+							<div class="welcomebox">
+								<div class="welcomeHead">
+				<p>New Travelers
+						Disapprove Reason</p>
+						</div>
+						<div class="welcomecont">
+			<table id="loginForm" class="filtersearch">
+			<tbody class="all1">
+				<tr>
+					<td class="lablevalue" style="width:30%">Reason For Disapprove</td>
+					<td style="width:70%">
+					<input style="width: 70%; height: 80px;"
+						type="text" id="disapproveDetail" name="remarks"
+						size="80" maxlength="100" autocomplete="off"></td>
+				</tr>
+				<tr>
+					<td colspan="2">
+						<input type="button" value="Submit" class="butn" onclick="submitDis()">
+					</td>
+				</tr>
+				</tbody>
+			</table>
+		</div>
+			</div>
+			</div>	
+		</div>
+	</form>
+
+
+
+	 <div id="approveReqDiv">
+	 <div id="program" class="programBlock">
+							<div class="welcomebox">
+								<div class="welcomeHead">
+				<p>New Travelers Requested</p>
+						</div>
+						<div class="welcomecont">
+		<table th:unless="${isError}" class="filtersearch">
+			<tbody class="all1">
+				<tr class="lablevalue">
+								<td style="width:20%">Personal No</td>
+								<td style="width:35%">Name</td>
+								<td style="width:20%">Approval Status</td>
+								<td style="width:25%">Action</td>
+				</tr>
+
+				<tr th:each="user : ${userList}">
+					<td><a href="javascript:void(0);" th:attr="onclick='viewUserReports(\''+${user.userAlias}+'\')'"><span th:text="${user.userAlias}"></span></a></td>
+					<td><span th:text="${user.name}"></span></td>
+					<td><span th:text="${user.approvalState}"></span></td>
+					<td>
+						<input type="button" value="Approve" class="butn" th:attr="onclick='submitRequestForm(\''+${user.userId}+'\',\'1\')'">
+						<input type="button" value="Reject" class="butn" th:attr="onclick='submitRequestForm(\''+${user.userId}+'\',\'2\')'">
+					</td>
+				</tr>
+				<tr><td colspan="5"><input type="button" class="butn" value=" Print this page " onclick="window.print()" /></td></tr>
+			</tbody>
+		</table>
+		
+		
+
+		<div th:if="${isError}"><p th:text="${error}" class="errors" style="margin-bottom:0"></p></div>
+
+	</div>
+	</div>
+	</div>
+		</div>
+	</div>
+	</div>
+	</div>
+	</section>
+<section>
+		<div class="blank"></div>
+	</section>
+	<section>
+		<div th:insert="~{fragments/login/footer}"></div>
+		</section>
+</body>
+</html>

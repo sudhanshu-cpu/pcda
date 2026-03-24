@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+
+<link rel="stylesheet" type="text/css" th:href="@{/css/common/popup/LightFace.css}">
+<script th:src="@{/js/common/popup/mootools.js}"></script>
+<script th:src="@{/js/common/popup/LightFace.IFrame.js}"></script>
+<script th:src="@{/js/common/popup/LightFace.js}"></script>
+<script th:src="@{/js/common/popup/LightFace.Request.js}"></script>
+
+<body>
+	<div th:insert="~{fragments/header/mainHeader}"></div>
+	<section id="midpart" class="midpart">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-1"></div>
+				<div class="col-lg-10">
+					<div id="program" class="programBlock">
+						<div class="welcomebox" style="margin-bottom:1rem">
+							<div class="welcomeHead">
+								<b>
+									<p>Rail Demand Report</p>
+								</b>
+							</div>
+						
+						
+				<div class="welcomecont">
+						<div th:unless="${#lists.isEmpty(railDmdStReportResp)}">
+							<table class="filtersearch" width="100%" cellspacing="4" cellpadding="1">
+								<thead class="head">
+									<tr>
+										<th>Total Demand</th>
+										<th>Total Amount</th>
+										<th>Downloaded Demand</th>
+										<th>Downloaded Amount</th>
+										<th>Pending Download</th>
+										<th>Pending Amount</th>
+										<th>Acknowledged Demand</th>
+										<th>Acknowledge Amount</th>
+										<th>Pending Acknowledge</th>
+										<th>Pending Ack Amount</th>
+										<th>Download Pending Date</th>
+										<th>Ack Pending Date</th>
+									</tr>
+								</thead>
+								<tbody class="all1" th:each="item : ${railDmdStReportResp}">
+									<tr class="labelvaluegalt">
+										<td th:text="${item.totalDemand}"></td>
+										<td th:text="${#numbers.formatDecimal(item.totalAmount, 0, 1)}"></td>
+										<td th:text="${item.demandDownload}"></td>
+										<td th:text="${#numbers.formatDecimal(item.totaldemandAmount, 0, 1)}"></td>
+										<td th:text="${item.downloadPending}"></td>
+										<td th:text="${#numbers.formatDecimal(item.totalPendingAmount, 0, 1)}"></td>
+										<td th:text="${item.demandSettle}"></td>
+										<td th:text="${#numbers.formatDecimal(item.totalSettleAmount, 0, 1)}"></td>
+										<td th:text="${item.settlePending}"></td>
+										<td th:text="${#numbers.formatDecimal(item.totalSettlePendingAmount, 0, 1)}"></td>
+										<td th:text="${item.downloadPendingDate}"></td>
+										<td th:text="${item.settlePendingDate}"></td>
+									</tr>
+								</tbody>
+							</table>
+							</div>
+							 <!-- Show error message if no data -->
+                            <div id="errorRecord" th:if="${#lists.isEmpty(airDmdStReportResp)}">
+                                <p class="errors" th:text="${message}"></p>
+                            </div>
+                            </div>
+						</div> <!-- th:unless end -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section>
+		<div class="blank"></div>
+	</section>
+	<section>
+		<div th:insert="~{fragments/login/footer}"></div>
+	</section>
+</body>
+</html>

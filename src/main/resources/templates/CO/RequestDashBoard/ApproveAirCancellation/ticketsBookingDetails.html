@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+
+<script
+	th:src="@{/js/CO/RequestDashBoard/airCancellationApproved/appDisAppAirCancellation.js(random=${session.jsToken})}"></script>
+
+<body>
+
+	<div th:insert="~{fragments/header/mainHeader}"></div>
+<section id="midpart" class="midpart">
+		<div class="container-fluid">
+<div class="row">
+
+					<div class="col-lg-1"></div>
+					<div class="col-lg-10">
+
+<span th:text="${message}" style="color: red;"></span>   
+
+	<form th:action="@{/co/airTicketCancellationDtls}" th:method="post"
+		name="airTicketCanDetail" id="airTicketCanDetail">
+		<input name="bookingId" type="hidden" id="bookingId">
+		 <input name="event" type="hidden" value="next" id="event"> 
+		<input	name="isExpCan" type="hidden" id="isExpCan">
+
+      
+		<div class="panel">
+			<div class="container" th:if="${#lists.isEmpty(ticketsDtls)}">
+				<div class="row user-detail-row">
+					<div class="col-12 user-detail">
+						<p class="errors">No Request Found..</p>
+
+					</div>
+				</div>
+
+			</div>
+		</div>
+		
+		
+		<div th:unless="${#lists.isEmpty(ticketsDtls)}">
+			<table width="100%" cellspacing="0" cellpadding="0" border="0">
+
+
+				<tbody>
+					<tr>
+						<td id="showBookingDetailsTD">
+						<div id="program" class="programBlock">
+                        <div class="welcomebox" style="margin-bottom:1rem">
+                            <div class="welcomeHead">
+                                <p th:text="#{co.air.cancellation.approval.request.ticketsBookingDtls}">
+                                </p>
+                            </div>
+                            <div class="welcomecont">
+
+											<table class="filtersearch" width="100%" cellspacing="1"
+												cellpadding="4" border="0">
+
+												<tbody class="all1">
+													
+													<tr class="lablevalue">
+														<td th:text="#{co.air.cancellation.approval.request.sNO}"></td>
+														<td
+															th:text="#{co.air.cancellation.approval.request.bookinTXNId}"></td>
+														<td
+															th:text="#{co.air.cancellation.approval.request.bookindId}"></td>
+														<td
+															th:text="#{co.air.cancellation.approval.request.reqId}"></td>
+
+
+														<td
+															th:text="#{co.air.cancellation.approval.request.origin}"></td>
+														<td
+															th:text="#{co.air.cancellation.approval.request.destination}"></td>
+														<td
+															th:text="#{co.air.cancellation.approval.request.janryDate}"></td>
+														<td
+															th:text="#{co.air.cancellation.approval.request.totalAmt}"></td>
+														<td
+															th:text="#{co.air.cancellation.approval.request.bookingStatus}"></td>
+														<td
+															th:text="#{co.air.cancellation.approval.request.canApproveStatus}"></td>
+													</tr>
+												<tbody class="all1" th:each="src , stat: ${ticketsDtls}">
+													<tr >
+														<td th:text="${stat.count}">1</td>
+														<td><a href="javascript:void(0);"
+															th:attr="onclick='showAirTicketDetails( \''+${src.bookingId}+'\')'"><span
+																th:text="${src.operatorTxnId}"></span> </a></td>
+														<td th:text="${src.bookingId}"></td>
+														<td th:text="${src.requestId}"></td>
+
+														<td th:text="${src.origin}"></td>
+														<td th:text="${src.destination}"></td>
+														<td th:text="${src.journeyDate}"></td>
+														<td th:text="${src.totalInvoice}"></td>
+														<td th:text="${src.currentBookingStatus}"></td>
+														<td th:text="${src.canApproved}"></td>
+													</tr>
+												</tbody>
+
+
+												</tbody>
+											</table>
+											</div>
+											</div>
+											</div>
+
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						
+		</div>
+
+	</form>
+</div>
+</div>
+</div>
+</section>
+<section>
+<div class="blank"></div>
+</section>
+	<section>
+		<div th:insert="~{fragments/login/footer}"></div>
+	</section>
+
+
+</body>
+</html>

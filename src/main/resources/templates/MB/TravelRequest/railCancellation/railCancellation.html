@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+
+
+<head th:insert="~{fragments/login/head}"></head>
+<link rel="stylesheet" th:href="@{/css/common/style.css}">
+<link rel="stylesheet" th:href="@{/css/common/autoSuggest.css}">
+<script th:src="@{/js/lib/portal.js}"></script>
+<script
+	th:src="@{/js/MB/travelRequest/railCancellation/railCancellation.js(random=${session.jsToken})}"></script>
+<script type="text/javascript" th:src="@{/js/common/crypto.js}"></script>
+<body
+	oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+	
+	<div th:insert="~{fragments/header/mainHeader}">...</div>
+	<section id="midpart" class="midpart">
+		<form th:action="@{/mb/getBookingDtls}" method="post"  name="bookingDetails" id="bookingDetails">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-lg-1"></div>
+					<div class="col-lg-10">
+						<div id="program" class="programBlock">
+							<div class="welcomebox" style="margin-bottom: 1rem">
+
+								<div class="welcomeHead">
+									<p th:text="#{mb.travel.railCancellation.fltr}"></p>
+								</div>
+
+
+								<div class="welcomecont">
+
+									
+									<table class="filtersearch">
+										<tbody class="all1">
+
+											<tr>
+												<td>PNR Number</td>
+												<td><input name="pnrNo" type="text" 
+													class="txtfldM" id="personalNum" autocomplete="off" th:value="${pnrNo}" maxlength="20"></td>
+
+												<td>Personal No</td>
+												<td><input name="personalNo" type="text" 
+													class="txtfldM" id="personalNumber" autocomplete="off" th:value="${personalNo}" maxlength="20"></td>
+											</tr>
+											<tr>
+
+												<td colspan="4" style="text-align: right">
+													<button type="submit" value="Search" class="butn" onclick="decryptPNo()">Search</button>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+
+							<div style="text-align: center;">
+							<span th:text="${error}" class="errors" > </span>
+							</div>
+
+
+						
+							
+							<div id="program" class="programBlock" th:unless="${#lists.isEmpty(railCancellation)}">
+								<div class="welcomebox" style="margin-bottom: 1rem">
+
+									<div class="welcomeHead">
+										<p th:text="#{mb.travel.railCancellation.tktbkgdtls}"></p>
+									</div>
+
+
+									<div class="welcomecont">
+
+										<table class="filtersearch ">
+											<tbody class="all1">
+
+												<tr>
+													<td th:text="#{mb.travel.railCancellation.sr}"></td>
+													<td th:text="#{mb.travel.railCancellation.pnr}"></td>
+													<td class="usr_name" th:text="#{mb.travel.railCancellation.tkt}"></td>
+													<td th:text="#{mb.travel.railCancellation.tkttype}"></td>
+													<td th:text="#{mb.travel.railCancellation.reqid}"></td>
+													<td th:text="#{mb.travel.railCancellation.ttype}"></td>
+													<td th:text="#{mb.travel.railCancellation.tno}"></td>
+													<td th:text="#{mb.travel.railCancellation.tamt}"></td>
+													<td th:text="#{mb.travel.railCancellation.status}"></td>
+													<td th:text="#{mb.travel.railCancellation.canaprstat}"></td>
+
+												</tr>
+
+												<tr th:each="src,stat : ${railCancellation}">
+													<td th:text="${stat.index+1}"></td>
+													<td th:text="${src.pnrNo}"></td>
+
+														<td>
+															<button th:text="${src.ticketNo}"
+																th:value="${src.bookingId}" name="bookingId"
+																th:formaction="@{/mb/railTicketCancellation}"
+																type="submit"
+																style="border: none; color: mediumblue; background-color: white; text-decoration: underline;">
+															</button>
+														</td>
+											
+													<td th:text="${src.irctcTktType}"></td>
+													<td th:text="${src.requestId}"></td>
+													<td th:text="${src.travelTypeName}"></td>
+													<td th:text="${src.trainNo}"></td>
+													<td th:text="${src.totalAmount}"></td>
+													<td th:text="${src.bookingStatus}"></td>
+													<td th:text="${src.isApproved}"></td>
+
+												</tr>
+											</tbody>
+										</table>
+
+
+
+
+											
+									</div>
+								</div>
+							</div>
+							 
+						
+						
+					</div>
+				</div>
+				</div>
+				</form>
+	</section>
+
+	<section>
+		<div class="blank"></div>
+	</section>
+	<section>
+		<div th:insert="~{fragments/login/footer}"></div>
+		</section>
+
+</body>
+
+</html>

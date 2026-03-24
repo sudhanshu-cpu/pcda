@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{fragments/login/head}"></head>
+
+<body oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+	<div>
+		
+
+		<div th:insert="~{fragments/header/mainHeader}">...</div>
+		<section class="midpart">
+		<div class="container-fluid">
+		<div class="row" style="width:100%">
+		<div class="col-lg-1"></div>
+		
+		<div class="col-lg-10">
+			<div style="width: auto; padding: 5px; filter: shadow(colorgray)">
+				<div
+					style="width: 100%; text-align: left; padding: 5px; background-color: #F4F4F4; border: 1px solid black;">
+					<Strong SIZE="6" style="color:#CC0033">Dear User</Strong>
+					<hr />
+					<BR /> <span style="color: red;">Sorry  This Functionality Is Available For Unit Belongs To Navy Service.</span>
+						 <br>
+					 <Strong SIZE="3"> <span style="color: red;"
+						th:each="error:${errors}" th:text="${error}"> <span
+							th:text="${error}"></span>
+
+					</span>
+					</Strong> <br />
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-1"></div>
+		</div>
+		</div>
+
+		</section>
+
+	</div>
+		<section>
+			<div class="blank"></div>
+		</section>
+	<section>
+		<div th:insert="~{fragments/login/footer}"></div>
+	</section>
+
+</body>
+
+</html>

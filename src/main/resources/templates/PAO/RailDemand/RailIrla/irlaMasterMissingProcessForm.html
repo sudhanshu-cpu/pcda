@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+
+<script type="text/javascript"
+	th:src="@{/js/PAO/RAILDemand/RailIrla/irlaMasterMissingProcessForm.js(random=${session.jsToken})}"></script>
+   
+<body oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+<style>
+	.bgcolor {
+    background-color:lightgreen;  
+}
+</style>
+	<div th:insert="~{fragments/header/mainHeader}"></div>
+   <section id="midpart" class="midpart">
+	<!-- Back to RAIL IRLA -->
+	<form id="railIRLAReqPageForm" th:action="@{/pao/reqForRailIrla}" method="post">
+		<input type="hidden" name="event" value="back" />
+	</form>
+
+<!-- form for sending MM Request-->
+    <form name="sentReqForMMForm" id="sentReqForMMForm" th:action="@{/pao/sentReqForIrlaMM}" method="post"> 		
+	</form>
+
+<!-- form for sending No MM Request-->
+<form name="sentNoReqForMMForm" id="sentNoReqForMMForm" th:action="@{/pao/sentNoReqForIrlaMM}" method="post" >
+	<input type="hidden" th:value="${dwnIrlaReqIdMm}" id="dwnIrlaReqIdMm" name="dwnIrlaReqIdMm">
+</form>
+
+<input type="hidden" th:value="${dwnIrlaReqIdMm}" id="dwnIrlaReqIdMm" name="dwnIrlaReqIdMm">
+
+
+	
+    <div id="program" class="programBlock" style="padding-left: 7.5%; width:90%">
+		
+			<div class="welcomeHead" >
+				<p>Records For Master Missing</p>
+			</div>
+			 
+			<!-- No Records Found -->
+            <div th:if="${#lists.isEmpty(personalNoInfo)}">
+                <p colspan="2" align="center" class="errors">No records found.</p>
+            </div>
+
+        
+       <div class="programBlock" th:unless="${#lists.isEmpty(personalNoInfo)}">
+    <div class="welcomebox" style="margin-bottom:1rem;">
+        <div class="welcomecont">
+			
+            <table id="mm_data_info_list" class="filtersearch" width="100%" cellspacing="1" cellpadding="4" border="0" align="center">
+                <thead>
+                    <tr>
+                        <th style="text-align: center;">S.No</th>
+                        <th style="text-align: center;">Select</th>
+                        <th style="text-align: center;">Personal No</th>
+                        <th style="text-align: center;">CR Count</th>
+                        <th style="text-align: center;">DR Count</th>
+                        <th style="text-align: center;">Total DR/CR</th>
+                        <th style="text-align: center;">Comments</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="info, iterStat : ${personalNoInfo}">
+                        <td th:text="${iterStat.index + 1}" style="text-align: center;"  th:classappend="${info.masterMiss.ordinal == 0} ? 'bgcolor' : ''"></td>
+                        <td th:classappend="${info.masterMiss.ordinal == 0} ? 'bgcolor' : ''">
+							<input type="hidden" th:value="|${info.userId}##${info.masterMiss.ordinal}|" >
+                        </td>
+						<td  style="text-align: center;" th:classappend="${info.masterMiss.ordinal == 0} ? 'bgcolor' : ''">
+							<span th:text="${info.personalNo}"></span>
+							<input type="hidden" th:id="|personalNoMM${info.userId}|" th:value="${info.personalNo}" />
+						</td>
+
+                        <td th:text="${info.crCount}" style="text-align: center;" th:classappend="${info.masterMiss.ordinal == 0} ? 'bgcolor' : ''"></td>
+                        <td th:text="${info.drCount}" style="text-align: center;" th:classappend="${info.masterMiss.ordinal == 0} ? 'bgcolor' : ''"></td>
+                        <td  th:text="${info.irlaCount}" style="text-align: center;" th:classappend="${info.masterMiss.ordinal == 0} ? 'bgcolor' : ''"></td>
+                        <td th:classappend="${info.masterMiss.ordinal == 0} ? 'bgcolor' : ''">
+                            <textarea th:id="|comments_${info.userId}|" disabled="disabled" style="resize:none;width:90%;" maxlength="200" rows="1" th:text="${info.comments}" th:classappend="${info.masterMiss.ordinal == 0} ? 'bgcolor' : ''"></textarea>
+                        </td>
+                    </tr>
+                </tbody>     
+            </table>
+        </div>
+    </div>
+</div>   
+            <div>
+				<table style="width: 100%;">
+                   <tr>
+			
+						<td style="text-align: left;" th:if="${dwnRequestStatus}!=3">
+							<input class="butn" type="button" value="There Is No Master Missing" onclick="submitNoReqForMM();" />
+    </td>
+    
+        
+						<td style="text-align: right;">
+							<input class="butn" type="button" value="Submit Master Missing" onclick="submitReqForMM();"
+								id="btn_master_missing" />
+							<input class="butn" type="button" value="Abort" onclick="backToReqPage();" />
+    </td>
+  </tr>
+                </table>
+            </div>
+
+		</div>
+</section>
+	<!-- Footer Section -->
+	<section>
+		<div th:insert="~{fragments/login/footer}"></div>
+	</section>
+</body>
+</html>

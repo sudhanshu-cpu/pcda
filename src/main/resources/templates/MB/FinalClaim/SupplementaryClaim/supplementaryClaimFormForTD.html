@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<div id="program" class="programBlock">
+                        <div class="welcomebox" style="margin-bottom:2px">
+                            <div class="welcomeHead">
+                                <b><p style="text-align: center;">
+                               SUPPLEMENTARY CLAIM FOR MOVE ON TEMPORARY DUTY (TOUR)
+                                </p></b>
+                            </div>
+                            <div class="welcomecont">
+<table class="filtersearch">
+  		<tbody class="all1">
+  		<tr>
+	  		  <td><span class="lablevalue">Personal No: </span><span th:text="${claimView.travelContent.personalNumber}"></span></td> 
+	  		  <td><span class="lablevalue">CDAO A/c No:</span><span th:text="${claimView.personalInfo.cDAOAC}"></span></td>  
+	  		  <td><span class="lablevalue">Name: </span><span th:text="${claimView.personalInfo.name}"></span></td>
+	  	</tr>
+	  	</tbody>
+</table>
+
+
+<table class="filtersearch">
+<tbody class="all1">
+   <tr>
+     <td colspan="11" style="text-align: center;">
+     <b>This is supplementary claim for claim id 
+        <a href="javascript:void(0);" th:attr="onclick='viewMainClaimDetails('+${claimView.suppClaimId}+');'">
+        	<span th:text="${claimView.suppClaimId}"></span>
+        </a>
+      </b>
+     </td>
+  </tr> 
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+<div id="program" class="programBlock">
+                        <div class="welcomebox" style="margin-bottom:2px">
+                            <div class="welcomeHead">
+                                <p>
+                               A. Traveler Details
+                                </p>
+                            </div>
+                            <div class="welcomecont">
+<table class="filtersearch">
+  		<tbody class="all1">
+  		<tr class="lablevalue">
+	  		  <td>Travel Type</td> 
+	  		  <td>Level</td>
+	  		  <td>TR Rule</td>
+	  		  <td>Move Sanction No</td>
+	  		  <td>Move Sanction Date</td>
+	  		  <td>Travel ID</td>
+	  		  <td>Travel ID Start Date</td>
+	  		  <td>Travel ID End Date</td>
+	  		  <td>Journey Commenced From</td>
+	  		  <td>Journey Commenced Date</td>
+	  	</tr>
+ 
+  	    <tr>
+   		  <td th:text="${claimView.travelContent.travelTypeName}"></td>
+  		  <td th:text="${claimView.personalInfo.levelName}"></td>
+  		  <td><span th:text="${claimView.eachRecord.ruleName}"></span><input type="hidden" name="trRuleName" th:value="${claimView.eachRecord.ruleName}"></td>
+  		  <td><input type="text" name="moveSanctionNo" id="moveSanctionNo" class="txtfldM" th:value="${claimView.eachRecord.reqAuthorityNumber}" style="width:80%;" maxlength="50" autocomplete="off"></td>
+  		  <td><input type="text" name="moveSanctionDate" class="txtfldM" id="move_Sanction_Date" th:value="${claimView.eachRecord.authorityDate}" style="width:80%;" maxlength="12" readonly="readonly" autocomplete="off"></td>
+  		  <td th:text="${claimView.travelContent.travelId}"></td>
+  		  <td th:text="${claimView.travelContent.travelStartDate}"></td>
+  		  <td th:text="${claimView.travelContent.travelEndDate}"></td>
+  		  <td><input type="text" name="jrnyStartedFrom" class="txtfldM" id="jrnyStartedFrom" style="width:80%;" maxlength="50" autocomplete="off"/> </td>
+  		  <td><input type="text" name="jrnyStartDate" class="txtfldM" id="start_date_time" style="width:80%;" maxlength="20" readonly="readonly" autocomplete="off"/> </td>
+ 		</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+
+<table class="filtersearch" style="margin-bottom:2px">
+<tbody class="all1">
+<tr class="tadaHeading">
+	 <td align="left"><font color="#fff"> <b>Expense Details </b></font></td>
+</tr>
+</tbody>
+</table>
+
+<div class="welcomebox" style="margin-bottom:2px">
+<table class="filtersearch">
+<tbody class="all1">
+<tr class="tadaHeading">
+	<td style="border-right:1px solid white">B. Leave during TD Period</td>
+	<td  colspan="6" style="text-align:right" id="leave_period_td"><a id="add_row"  onclick="myCreateFunction('leavePeriodAddmore')" style="color: rgb(255, 255, 255); border: medium none; cursor: pointer; padding: 2px 8px; background: rgb(13, 57, 94) none repeat scroll 0% 0%;"  >Add More</a></td>
+</tr>
+</tbody>
+</table>
+
+<table id="leavePeriodTableGrid" class="filtersearch">
+<tbody class="allp">
+<tr>
+    <td></td>
+	<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="welcomebox" style="margin-bottom:2px">
+<table class="filtersearch">
+<tbody class="all1">
+<tr class="tadaHeading">
+	<td style="border-right:1px solid white">C. Non DTS Journey Details (Other than Local Travel in Tab G) </td>
+	<td  colspan="6" style="text-align:right"><a id="add_row"  onclick="myCreateFunction('taAddmore')" style="color: rgb(255, 255, 255); border: medium none; cursor: pointer; padding: 2px 8px; background: rgb(13, 57, 94) none repeat scroll 0% 0%;"  >Add More</a></td>
+</tr>
+</tbody>
+</table>
+
+<table id="taTableGrid" class="filtersearch">
+<tbody class="allp">
+<tr>
+    <td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="welcomebox" style="margin-bottom:2px">
+<table class="filtersearch">
+<tbody class="all1">
+<tr class="tadaHeading">
+	<td style="border-right:1px solid white">D. Hotel Bill Details </td>
+	<td  colspan="4" style="text-align:right"><a id="add_row"  onclick="myCreateFunction('hotelAddmore')" style="color: rgb(255, 255, 255); border: medium none; cursor: pointer; padding: 2px 8px; background: rgb(13, 57, 94) none repeat scroll 0% 0%;"  >Add More</a></td>  
+</tr>
+</tbody>
+</table>
+
+<table id="hotelTableGrid" class="filtersearch">
+<tbody class="allp">
+<tr>
+    <td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="welcomebox" style="margin-bottom:2px">
+<table class="filtersearch">
+<tbody class="all1">
+<tr class="tadaHeading">
+	<td style="border-right:1px solid white">E. Food Bill Details </td>
+	<td  colspan="4" style="text-align:right"><a id="add_row"  onclick="myCreateFunction('foodAddmore')" style="color: rgb(255, 255, 255); border: medium none; cursor: pointer; padding: 2px 8px; background: rgb(13, 57, 94) none repeat scroll 0% 0%;"  >Add More</a></td>
+</tr>
+</tbody>
+</table>
+
+
+<table id="foodTableGrid"  class="filtersearch">
+<tbody class="allp">
+<tr>
+    <td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="welcomebox" style="margin-bottom:2px">
+<table class="filtersearch">
+<tbody class="all1">
+<tr class="tadaHeading">
+	<td style="border-right:1px solid white">F. Taxi Charges within TD City </td>
+	<td  colspan="4" style="text-align:right"><a id="add_row"  onclick="myCreateFunction('tourAddmore')" style="color: rgb(255, 255, 255); border: medium none; cursor: pointer; padding: 2px 8px; background: rgb(13, 57, 94) none repeat scroll 0% 0%;"  >Add More</a></td>
+</tr>
+</tbody>
+</table>
+
+
+<table id="tourTableGrid"  class="filtersearch">
+<tbody class="allp">
+<tr>
+    <td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="welcomebox" style="margin-bottom:2px">
+<table class="filtersearch">
+<tbody class="all1">
+<tr class="tadaHeading">
+	<td>G. Advances Drawn </td>
+</tr>
+</tbody>
+</table>
+
+<table class="filtersearch">
+<tbody class="allp">
+<tr class="lablevalue">
+	<td style="width:12%">Advance Drawn from PAO</td>
+	<td style="width:16%">Date of Advance Drawn from PAO</td>
+	<td style="width:17%">Advance Drawn from Other Sources</td>
+	<td style="width:19%">Voucher No for Advance Drawn from Other Sources</td>
+	<td style="width:18%">Date of Advance Drawn from Other Sources</td>
+</tr>
+<tr>
+	<td><input name="advFromPAO" id="Adv_From_PAO" onkeypress="isNumberKey(event)" maxlength="10" onblur="calculateFinalAmount();" autocomplete="off"/></td>
+	<td><input name="advFromPAODate" id="Adv_From_PAO_Date" readonly="readonly" autocomplete="off"/></td>
+	<td><input name="advFromOther" id="Adv_From_Other" onkeypress="isNumberKey(event)" maxlength="10" onblur="calculateFinalAmount();" autocomplete="off"/></td>
+	<td><input name="advFromOtherVoucherNo" id="Adv_From_Other_VNo" autocomplete="off"/></td>
+	<td><input name="advFromOtherDate" id="Adv_From_Other_Date" readonly="readonly" autocomplete="off"/></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="welcomebox" style="margin-bottom:2px">
+<table class="filtersearch">
+<tbody class="all1">
+<tr class="tadaHeading">
+	<td>H. Advances Refunded </td>
+</tr>
+</tbody>
+</table>
+
+<table class="filtersearch">
+<tbody class="allp">
+<tr class="lablevalue">
+    <td>eMRO/MRO/Refund Amount</td>
+	<td>eMRO/MRO/Refund No</td>
+	<td>eMRO/MRO Submission Date/Refund  Date</td>
+</tr>
+
+<tr>
+    <td><input name="mroRefund" id="Advance_MRO" onkeypress="isNumberKey(event)" maxlength="10" onblur="calculateFinalAmount();" autocomplete="off"/></td>
+	<td><input name="mroNumber" id="MRO_Number" maxlength="20" autocomplete="off"/></td>
+	<td><input name="mroDate" id="MRO_Date" maxlength="20" readonly="true" autocomplete="off"/></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+<div class="welcomebox" style="margin-bottom:2px">
+	<table class="filtersearch">
+	<tbody class="all1">
+	 	<tr class="lablevalue">
+	 	<td>Total Amount of Claim(Submitted):&#160;&#160;<span id="total_spent_amount"> </span></td>
+	 	</tr>
+ 	<tr class="lablevalue">
+	 	<td>less: Advance Taken(User) including DTS Tickets:&#160;&#160;<span id="total_advance_amount"> </span></td>
+	 	</tr>
+	 	<tr class="lablevalue">
+	 	<td>add: e-MRO Refunds(User):&#160;&#160;<span id="total_refund_amount"> </span></td>
+	 	</tr>
+ 	<tr class="lablevalue">
+	 	<td>Payable/Recoverable Amount:&#160;&#160;<span id="total_claimed_amount"> </span><span class="mandatory">*</span></td>
+ 	</tr>
+ 	<tr>
+	 	<td><span style="color:red">* Negative amount reflects recovery from the Officer</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+</body>
+</html>

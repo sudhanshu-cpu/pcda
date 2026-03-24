@@ -1,0 +1,89 @@
+ <!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+ <ul class="list">
+	 <li class="list-items">
+	    <div class="dropdown">
+	        <a class="nav-link dropdown-toggle" href="javascript:void(0)"
+	            role="button" data-bs-toggle="dropdown">Home</a>
+	        <div class="dropdown-content">
+	            <ul class="navigation">
+	                <li>
+	                    <a th:href="@{/adg/home}">Home</a>
+	                </li>
+	                <li>
+	                    <a href="javascript:void(0)">Travel Rules<span style="margin-left:5px">&rsaquo;</span></a>
+	                    <div class="sub-menu">
+	                        <ul class="submenu-list">
+	                            <li class="submenu-listitems">
+	                                <a th:href="@{/adg/trArmedForcesHome}">
+	                                    For Armed Forces
+	                                </a>
+	                            </li>
+	                            <li class="submenu-listitems">
+    	                            <a th:href="@{/adg/trCivHome}">
+	                                    For Civilians
+	                                </a>
+	                            </li>
+	                        </ul>
+	                    </div>
+	                </li>
+	                <li>
+	                    <a th:href="@{/adg/downloadsHome}">Downloads</a>
+	                </li>
+	                <li>
+	                    <a th:href="@{/adg/instructionsHome}">Gov't Order & Instructions</a>
+	                </li>
+<!-- 	                <li> -->
+<!-- 	                    <a th:href="@{/adg/feedBackSuggestion}">Feedback & Suggestions</a> -->
+<!-- 	                </li> -->
+	                <li>
+	                    <a th:href="@{/adg/usefulLink}">Useful Links</a>
+	                </li>
+	                <li>
+	                    <a th:href="@{/adg/contactHome}">Contact Us</a>
+	                </li>
+	                <li>
+	                    <a th:href="@{/adg/faqs}">FAQ</a>
+	                </li>
+	                <li>
+	                    <a th:href="@{/adg/eTutorial}">e-Tutorials</a>
+	                </li>
+	            </ul>
+	        </div>
+	    </div>
+	</li>
+	<li class="list-items">
+	    <div class="dropdown">
+	        <a class="nav-link dropdown-toggle"
+	            href="javascript:void(0)" role="button" data-bs-toggle="dropdown">Reports</a>
+	        <div class="dropdown-content">
+	            <ul class="navigation">
+	                <li>
+	                    <a th:href="@{/adg/bookingDetailsReport}">Booking Report</a>
+	                </li>
+	                <li>
+	                    <a th:href="@{/adg/passengerAddresReports}">Passenger Address Report</a>
+	                </li>
+	                <li>
+	                    <a th:href="@{/adg/airAndRailBkgCountReportForm}">Air and Rail Tickets Booked Report</a>
+	                </li>
+
+                         <li>
+	                    <a th:href="@{/adg/claimStatusReport}">Claim Status Report</a>
+	                 </li>
+
+
+                         <li>
+         		    <a th:href="@{/adg/dtsTokenIssuedReport}">DTS Token Issue Report</a>
+			  </li>
+
+                          <li>
+				<a th:href="@{/adg/unitsAndEstablishmentsReportForm}"> Units And Establishments Report </a>
+			 </li>
+	                
+	            </ul>
+	        </div>
+	    </div>
+	</li>
+ </ul>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html  lang="en" xmlns:th="http://www.thymeleaf.org">
+<head  th:insert="~{fragments/login/head}"></head>
+<script
+	th:src="@{/js/MB/Reports/RailIrlaReport/railIrlaReport.js(random=${session.jsToken})}">
+	
+</script>
+<script type="text/javascript" th:src="@{/js/common/crypto.js}"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	
+    $('#irlaRecordTab').DataTable({
+searching: false,
+info: false,
+ordering:false
+    });
+});
+</script>
+<body>
+	<div th:insert="~{fragments/header/mainHeader}"></div>
+
+	<section id="midpart" class="midpart">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-1"></div>
+				<div class="col-lg-10">
+					<form method="post" name="irlaReport" id="irlaReport"
+						th:action="@{/reports/getTravelData}">
+						<input name="useraction" type="hidden" id="useraction" size="15"
+							maxlength="20">
+
+						<div id="program" class="programBlock">
+							<div class="welcomebox" style="margin-bottom: 1rem;">
+								<div class="welcomeHead">
+									<p th:text="#{mb.reports.railirlareport.railirlareport}"></p>
+								</div>
+
+								<div class="welcomecont">
+									<table class="filtersearch">
+										<tbody class="all1">
+											<tr>
+												<td><span
+													th:text="#{mb.reports.railirlareport.personalNo}"></span></td>
+												<td><input name="personalNo" type="text" th:value="${railReportModel.personalNo}"
+													id="personalNumber" size="15" maxlength="20" autocomplete="off"></td>
+												<td><span
+													th:text="#{mb.reports.railirlareport.pnrNumber}"></span></td>
+												<td><input name="pnrNo" type="text" id="pnrNo" th:value="${railReportModel.pnrNo}"
+													size="15" maxlength="20" autocomplete="off"></td>
+                                 </tr>
+                                 <tr>
+												<td colspan="4" id="downLoadFile" style="text-align:right"><a
+													href="javascript:void(0);"><input
+														type="button" value="Generate Report" class="butn"
+														th:attr="onclick='doGenerate(this.value)'"></a></td>
+                                 </tr>
+                              </tbody>
+                              </table>
+								</div>
+							</div>
+						</div>
+						<div th:if="${not #lists.isEmpty(railReportList)}">
+						<div class="welcomebox">
+							<table class="filtersearch" id="irlaRecordTab">
+							<thead class="head">
+								<tr>
+									<th class="lablevalue" style="width:6%"><span
+											th:text="#{mb.reports.railirlareport.irlaId}"></span>
+									</th>
+									<th class="lablevalue" style="width:8.2%"><span
+											th:text="#{mb.reports.railirlareport.personalNo}"></span>
+									</th>
+									<th class="lablevalue" style="width:8.6%"><span
+											th:text="#{mb.reports.railirlareport.pnrNumber}"></span>
+									</th>
+									<th class="lablevalue" style="width:9%"><span
+											th:text="#{mb.reports.railirlareport.pao}"></span>
+									</th>
+									<th class="lablevalue" style="width:9%"><span
+											th:text="#{mb.reports.railirlareport.creationDate}"></span>
+									</th>
+									<th class="lablevalue" style="width:11%"><span
+											th:text="#{mb.reports.railirlareport.transcationType}"></span>
+									</th>
+									<th class="lablevalue" style="width:6%"><span
+											th:text="#{mb.reports.railirlareport.amount}"></span>
+									</th>
+									<th class="lablevalue" style="width:11%"><span
+											th:text="#{mb.reports.railirlareport.downloadStatus}"></span>
+									</th>
+									<th class="lablevalue" style="width:10%"><span
+											th:text="#{mb.reports.railirlareport.currentStatus}"></span></th>
+									<th class="lablevalue" style="width:10%"><span
+											th:text="#{mb.reports.railirlareport.downloadDate}"></span></th>
+									<th class="lablevalue"><span
+											th:text="#{mb.reports.railirlareport.adjustmentYear}"></span></th>
+                                          </tr>
+                                          </thead>
+                                          <tbody class="all1">
+								<tr th:each="data : ${railReportList}">
+                                                      <td th:text="${data.irlaId}"></td>
+                                                      <td th:text="${data.personalNo}"></td>
+                                                      <td  th:text="${data.pnrNo}"></td>
+                                                      <td th:text="${data.accountOfiice}"></td>
+                                                      <td th:text="${data.bookingDate}"></td>
+                                                      <td th:text="${data.transactionType}"></td>
+									<td th:text="${data.craditAmount}"></td>
+                                                      <td th:text="${data.downlodStatus}"></td>
+                                                      <td th:text="${data.irlaReconStatus}"></td>
+                                                      <td th:text="${data.downLoadDate}"></td>
+                                                      <td th:text="${data.adjustmentYear}"></td>
+
+                                                   </tr>
+                                       </tbody>
+                                       </table>
+                                      </div>
+						</div>
+
+                                      <div>
+							<table class="filtersearch">
+                                          <tr>
+
+									<td class="errors" colspan="5"><p style="margin:0"
+										th:text="${errorMessage}"></p></td>
+                                 </tr>
+                              </table>
+                               </div>
+					</form>
+				</div>
+         </div>
+      </div>
+	</section>
+	<section>
+		<div class="blank"></div>
+	</section>
+	<section>
+		<div th:insert="~{fragments/login/footer}"></div>
+   </section>
+</body>
+</html>

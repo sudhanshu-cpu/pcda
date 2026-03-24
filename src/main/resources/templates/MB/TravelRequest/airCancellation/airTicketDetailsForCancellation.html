@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{fragments/login/head}"></head>
+<script
+	th:src="@{/js/MB/travelRequest/aircancellation/airTicketCanRequest.js(random=${session.jsToken})}"></script>
+<body oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+	<div th:insert="~{fragments/header/mainHeader}"></div>
+	<section class="midpart">
+		<div class="container-fluid">
+			<div class="row" style="width: 100%">
+				<div class="col-lg-1"></div>
+				<div class="col-lg-10">
+				<form th:action="@{saveAirCancellationTicket}" method="post" id="saveAirTicketCans" >
+                 <input type="hidden" name="bookingId" id="bookingId" th:value="${ticketDetails.bookingId}" />  
+                 <input type="hidden" name="totalPassanger" id="totalPessnager" th:value="${ticketDetails.totalPaxCount}" />  
+                 <input type="hidden" name="previousCanReason" id="previousCanReason" th:value="${ticketDetails.cancellationReason}" />
+                 <input type="hidden" name="isRoundTrip" id="isRoundTrip" th:value="${ticketDetails.roundTrip}" />
+
+					<div id="program" class="programBlock">
+						<div class="welcomebox" style="margin-bottom:1rem">
+							<div class="welcomeHead">
+								<p th:text="#{mb.travel.request.air.cancellation.tic.info}"></p>
+								<span th:text="${Errormessage}"></span>
+							</div>
+							<div class="welcomecont">
+								<table class="filtersearch">
+									<tbody class="all">
+										<tr>
+											<td style="width: 25%"><span
+												th:text="#{mb.travel.request.air.cancellation.bo.tra.id}"></span></td>
+											<td style="width: 25%"><span
+												th:text="${ticketDetails.operatorTxnId}"></span></td>
+											<td style="width: 25%"><span
+												th:text="#{mb.travel.request.air.cancellation.booking.id}"></span></td>
+											<td style="width: 25%"><span
+												th:text="${ticketDetails.bookingId}"></span></td>
+										</tr>
+										<tr>
+											<td style="width: 25%"><span
+												th:text="#{mb.travel.request.air.cancellation.reg.id}"></span></td>
+											<TD STYLE="WIDTH: 25%"><SPAN
+												th:text="${ticketDetails.requestId}"></SPAN></TD>
+											<td style="width: 25%"><span
+												th:text="#{mb.travel.request.air.cancellation.jour.type}"></span></td>
+											<td style="width: 25%"><span
+												th:text="${ticketDetails.journeyType}"></span></td>
+										</tr>
+										<tr>
+											<td style="width: 25%"><span
+												th:text="#{mb.travel.request.air.cancellation.bo.date}"></span></td>
+											<td style="width: 25%"><span
+												th:text="${ticketDetails.bookingDate}"></span></td>
+											<td style="width: 25%"><span
+												th:text="#{mb.travel.request.air.cancellation.jur.date}"></span></td>
+											<td style="width: 25%"><span
+												th:text="${ticketDetails.journeyDate}"></span></td>
+										</tr>
+										<tr>
+											<td style="width: 25%"><span
+												th:text="#{mb.travel.request.air.cancellation.org}"></span></td>
+											<td style="width: 25%"><span
+												th:text="${ticketDetails.originName}"></span></td>
+											<td style="width: 25%"><span
+												th:text="#{mb.travel.request.air.cancellation.dest}"></span></td>
+											<td style="width: 25%"><span
+												th:text="${ticketDetails.destinationName}"></span></td>
+										</tr>
+										<tr>
+											<td style="width: 25%"><span
+												th:text="#{mb.travel.request.air.cancellation.bs.fare}"></span></td>
+											<td style="width: 25%"><span
+												th:text="${ticketDetails.totalBaseFare}"></span></td>
+											<td style="width: 25%"><span
+												th:text="#{mb.travel.request.air.cancellation.to.fare}"></span></td>
+											<td style="width: 25%"><span
+												th:text="${ticketDetails.totalInvoice}"></span></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					<div id="program" class="programBlock">
+						<div class="welcomebox" style="margin-bottom:1rem">
+							<div class="welcomeHead">
+								<p th:text="#{mb.travel.request.air.cancellation.passenger.det}">Passenger Details</p>
+							</div>
+							<div class="welcomecont">
+								<table class="filtersearch">
+									<tbody class="all">
+										
+										<tr th:if="${ticketDetails.roundTrip}=='NO'">
+											<!-- 										<tr> -->
+											<td>Onward</td>
+											<td>S.No.</td>
+											<td>Name</td>
+											<td>Age</td>
+											<td>Gender</td>
+											<td>Invoice No</td>
+											<td>Onward Id</td>
+											<td>Status</td>
+											<td>On Official Ground</td>
+										</tr>
+										<tbody class="all" th:each="src,stat:${ticketDetails.passangerDetail}">
+										<tr th:if="${ticketDetails.roundTrip}=='NO'" > 
+										<td  th:if="${src.onwardCancelInt}==3">
+								<input th:if="${src} != null" type="checkBox" class="peace" name="onwardCheckList"	th:id="@{|onwardCheck${stat.index+1}|}" th:value="${src.passangerNo}+':'+${src.invoiceNo}+':'+${src.onwardPaxId}" />
+												<input type="hidden" name="onwardPassType"	th:value="${src.passangerType}" />
+											</td>
+											      <td  th:if="${src.onwardCancelInt}!=3"></td>
+										<td th:text="${stat.index+1}"></td>
+											<td th:text="${src.firstName+' '+src.middleName+' '+src.lastName}"></td>
+											<td th:text="${src.age}"></td>
+											<td th:text="${src.gender}"></td>
+											<td th:text="${src.invoiceNo}"></td>
+											<td th:text="${src.onwardPaxId}"></td>
+											<td th:text="${src.onwardCancel}"></td>
+											
+		    	<td th:if="${src.onwardIsOfficial}==''">
+					<input type="radio" class="peace" th:name="@{|onwardIsOfficial${src.passangerNo}:${src.invoiceNo}:${src.onwardPaxId}|}"    th:id="@{|onwardIsOfficial${stat.index+1}|}"   value="0" checked="true"/>Yes  
+					<input type="radio" class="peace" th:name="@{|onwardIsOfficial${src.passangerNo}:${src.invoiceNo}:${src.onwardPaxId}|}"    th:id="@{|onwardIsOfficial${stat.index+1}|}"    value="1"/>No
+			 	</td>
+				
+					<td th:if="${src.onwardIsOfficial}!='' and ${ticketDetails.canApproved} =='Rejected'" >
+		  			  <input type="radio" class="peace" th:name="@{|onwardIsOfficial${src.passangerNo}:${src.invoiceNo}:${src.onwardPaxId}|}"    th:id="@{|onwardIsOfficial${stat.index+1}|}"   value="0" checked="true"/>Yes  
+		  			  <input type="radio" class="peace" th:name="@{|onwardIsOfficial${src.passangerNo}:${src.invoiceNo}:${src.onwardPaxId}|}"    th:id="@{|onwardIsOfficial${stat.index+1}|}"    value="1"/>No
+		   		   </td>
+                   <td th:if="${src.onwardIsOfficial}!='' and ${ticketDetails.canApproved} !='Rejected' and  ${src.onwardIsOfficialInt}==0">  
+                   
+                   <input type="radio" class="peace" th:name="@{|onwardIsOfficial${src.passangerNo}:${src.invoiceNo}:${src.onwardPaxId}|}"    th:id="@{|onwardIsOfficial${stat.index+1}|}"   value="0" checked="true"/>Yes  
+					<input type="radio" class="peace" th:name="@{|onwardIsOfficial${src.passangerNo}:${src.invoiceNo}:${src.onwardPaxId}|}"    th:id="@{|onwardIsOfficial${stat.index+1}|}"    value="1"/>No
+                   
+                   </td>
+                   
+                   <td th:if="${src.onwardIsOfficial}!='' and ${ticketDetails.canApproved} !='Rejected' and  ${src.onwardIsOfficialInt}==1">  
+                   
+                   <input type="radio" class="peace" th:name="@{|onwardIsOfficial${src.passangerNo}:${src.invoiceNo}:${src.onwardPaxId}|}"    th:id="@{|onwardIsOfficial${stat.index+1}|}"   value="0" />Yes  
+					<input type="radio" class="peace" th:name="@{|onwardIsOfficial${src.passangerNo}:${src.invoiceNo}:${src.onwardPaxId}|}"    th:id="@{|onwardIsOfficial${stat.index+1}|}"    value="1" checked="true"/>No
+                   
+                   </td>
+                   
+                   <td th:if="${src.onwardIsOfficial}!='' and ${ticketDetails.canApproved} !='Rejected' and  ${src.onwardIsOfficialInt}==null">
+                   <input th:value="${src.onwardIsOfficial}" style="border: none;" readonly="readonly">
+                     </td>
+										</tr>
+										</tbody>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					<div id="program" class="programBlock">
+						<div class="welcomebox" style="margin-bottom:1rem">
+							<div class="welcomeHead">
+								<p>Cancellation Reason</p>
+							</div>
+							<div class="welcomecont">
+								<table class="filtersearch" >
+								
+					
+		<tbody class="all">
+	   		<tr align="left">
+                            
+			    <td width="20%">Reason for Cancellation</td>
+			    <td class="lablevalue" width="50%">
+			    <textarea name="cancelReason" id="cancelReason" rows="2" cols="50"> </textarea><font color="red">Special Characters are not allowed</font></td>
+	  		    
+	  		</tr>  
+	  		<tr>
+				<td colspan="2" style="text-align:right">
+					<input type="button" class="butn" value="Send Request To CO For Approval"  onclick="proceedToCancel('MB');">
+				</td>
+	  		</tr>  
+			</tbody>		
+								</table>
+							</div>
+						</div>
+					</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section>
+		<div class="blank"></div>
+	</section>
+	<section>
+		<div th:insert="~{fragments/login/footer}"></div>
+		</section>
+</body>
+</html>

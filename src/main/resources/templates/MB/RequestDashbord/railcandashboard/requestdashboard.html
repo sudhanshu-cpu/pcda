@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{fragments/login/head}"></head>
+<script type="text/javascript" th:src="@{/js/common/crypto.js}"></script>
+<script>
+
+	function decryptPNo(){
+	var prsnlNo=$("#personalNo").val();
+
+	if(prsnlNo!=''){
+		var encryptPNo = CryptoJS.AES.encrypt(prsnlNo,"Hidden Pass");
+		$("#personalNo").val(encryptPNo);
+}
+}
+	
+</script>
+<body oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+		<div th:insert="~{fragments/header/mainHeader}"></div>
+
+		
+<section id="midpart" class="midpart">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-lg-1"></div>
+					<div class="col-lg-10">
+
+			<form th:action="@{/mb/getRailCanDashData}" method="post" id="railCanDash">
+				<div id="program" class="programBlock">
+							<div class="welcomebox">
+								<div class="welcomeHead">
+									<p>
+										Filter Search
+									</p>
+								</div>
+								<div class="welcomecont" >
+
+										<table class="filtersearch">
+											<tbody class="all1">
+												
+											
+												
+												 <tr>
+			<td>Booking Id</td>
+			<td><input type="text" name="bookingId" id="bookingId" class="txtfldM" size="15" maxlength="20" th:value="${formModel.bookingId}" autocomplete="off"/>	 </td>
+		
+			<td>Request Id</td>
+			<td> <input type="text" name="requestId" id="requestId" class="txtfldM"  size="15" maxlength="20" th:value="${formModel.requestId}" autocomplete="off" />	 </td>
+		
+			 <td>PNR Number</td>
+			 <td><input type="text" name="pnrNo" id="pnrNo" class="txtfldM"  size="15" maxlength="20"  th:value="${formModel.pnrNo}" autocomplete="off"/></td>
+			
+			<td>Personal No</td>
+			<td><input type="text" name="personalNo" id="personalNo" class="txtfldM"  size="15" maxlength="20"   th:value="${formModel.personalNo}" autocomplete="off"/></td>
+		</tr>
+												<tr>
+													<td colspan="8" style="text-align:right"><button type="submit" class="butn" value="Generate Report" onclick="decryptPNo();">Search</button></td>
+												</tr>
+											</tbody>
+										</table>
+								</div>
+							</div>
+				</div>
+
+						<div class="welcomebox" th:unless="${#lists.isEmpty(modelList)}">
+						<div class="welcomeHead">
+									<p>
+										Tickets Booking Details
+									</p>
+								</div>
+								<div class="welcomecont" >
+							<table class="filtersearch">
+								<tbody class="all1">
+									
+													
+													<tr>
+													    <td>S.No.</td>
+														<td >PNR Number</td>
+														<td >Ticket Number</td>
+														<td >Request ID</td>
+														<td >Travel Type</td>
+														<td >Train Number</td>
+														<td >Total Amt.</td>
+														<td > Status</td>
+														<td >Cancellation Approval State</td>
+													</tr>
+
+													<tr th:each="src,stat : ${modelList}" th:if="${src.isApproved}=='Approved'">
+														
+
+														<td th:text="${stat.index+1}"></td>
+													  <td>
+											         <button th:text="${src.pnrNo}" th:value="${src.bookingId}" name ="bkgId" type="submit" 
+											         style="border: none ;color: mediumblue;background-color:white;text-decoration: underline;"
+											         th:formaction="@{/mb/getRailBkgIdData}" formmethod="post">
+											          </button></td>														
+														
+														<td th:text="${src.ticketNo}"></td>
+														<td th:text="${src.requestId}"></td>
+														<td th:text="${src.travelTypeName}"></td>
+														<td th:text="${src.trainNo}"></td>
+														<td th:text="${src.totalAmount}"></td>
+														<td th:text="${src.bookingStatus}"></td>
+														<td th:text="${src.isApproved}"></td>
+
+													</tr>
+
+												</tbody>
+											</table>
+									
+						</div>
+						</div>
+						<div>
+							<p class="errors" style="margin-bottom:0" th:text="${noData}"> </p>
+						</div>
+</form>
+		</div>
+					
+				</div>
+			
+			</div>
+				
+</section>
+		<section>
+	<div class="blank"></div>
+	</section>
+	<section>
+    <div th:insert="~{fragments/login/footer}"></div>
+    </section>	
+
+</body>
+<div class="p_anch">
+	<a href="javascript:void(0);" class="js__p_start"></a>
+</div>
+<div class="p_body js__p_body js__fadeout"></div>
+<div class="popup js__popup js__slide_top">
+	<div class="p_content" id="voucher_Ack_History_Id"></div>
+
+</div>
+</html>

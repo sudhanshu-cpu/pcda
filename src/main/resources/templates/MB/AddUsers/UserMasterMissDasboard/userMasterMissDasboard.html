@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{fragments/login/head}"></head>
+
+<link rel="stylesheet" type="text/css" th:href="@{/css/common/popup/jquery.popup.css}">
+<script	th:src="@{/js/MB/AddUsers/UserMasterMissDasboard/userMasterMissDasboard.js(random=${session.jsToken})}"></script>
+<script	th:src="@{/js/MB/AddUsers/UserMasterMissDasboard/userMasterMissDasboardEditPao.js(random=${session.jsToken})}"></script>
+<script	th:src="@{/js/common/popup/jquery.popup.js}"></script>
+	
+<script type="text/javascript"> 
+   
+</script>
+
+<body>
+<body>
+	<div th:insert="~{fragments/header/mainHeader}"></div>
+	<section id="midpart" class="midpart">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-1"></div>
+				<div class="col-lg-10">
+					
+			<form th:action="@{/mb/masterMissingCommnentHistory}" method="post"
+				id="mmstatus">
+				<input type="hidden" name="personalNo" id="pn1" > 
+				<input
+					type="hidden" name="showCommentInput" id="commnt1">
+
+			</form>
+			
+ 			
+ 			<form th:action="@{/mb/settleMasterMissUser}" method="post"
+									id="settleCommentRemarks">
+				<input type="hidden" name="personalNo" id="prnRemrks" >  
+					<input type="hidden" name="eventVal" id="evnt12"> 
+			</form> 
+			
+			<form th:action="@{/mb/profileApproval}" method="post"
+				id="saveEditPao"> 
+				<input type="hidden" name="personalNo"  id="prnPao" >  
+			</form> 
+			
+			
+			
+					<div id="reqPoolDiv">
+					<div id="program" class="programBlock">
+                        <div class="welcomebox" style="margin-bottom:1rem">
+                            <div class="welcomeHead">
+                                <p th:text="#{mb.addUser.usermastermissdasboard.profile}">
+                                </p>
+                            </div>
+                            <div class="welcomecont">
+											<table id="loginForm" class="filtersearch" >
+							<tbody class="all1" >
+								
+								<tr class="lablevalue">
+									<td th:text="#{mb.addUser.usermastermissdasboard.prnlNo}"></td>
+									<td style="width:10%" th:text="#{mb.addUser.usermastermissdasboard.name}"></td>
+									<td th:text="#{mb.addUser.usermastermissdasboard.pao}"></td>
+									<td th:text="#{mb.addUser.usermastermissdasboard.service}"></td>
+									<td th:text="#{mb.addUser.usermastermissdasboard.catge}"></td>
+									<td th:text="#{mb.addUser.usermastermissdasboard.lName}"></td>
+									<td th:text="#{mb.addUser.usermastermissdasboard.mmStatus}"></td>
+									<td th:text="#{mb.addUser.usermastermissdasboard.comntHis}"></td>
+									<td style="width:15%" th:text="#{mb.addUser.usermastermissdasboard.action}"></td>
+								</tr>
+							
+								<tr th:each="projtdtls : ${profileData}">
+									<td>
+									<form th:action ="@{/mb/viewUserDetails}" method="post">
+											<input type="submit" th:value="${projtdtls.personalNo}"
+												name="personalNo"
+												style="border: none; text-decoration: underline; color: #0000ff;">
+										</form>
+										</td>
+									<td th:text="${projtdtls.name}">
+											
+									</td>
+									<td th:text="${projtdtls.accountOfficeName}"></td>
+									<td th:text="${projtdtls.serviceName}"></td>
+									<td th:text="${projtdtls.categoryName}"></td>
+									<td th:text="${projtdtls.levelName}"></td>
+									<td th:text="${projtdtls.paoVerificationStatus}"></td>
+
+									<td><a href="javascript:void(0);"
+										th:attr="onclick='takeMasterMissingComment(\''+${projtdtls.personalNo}+'\')'">
+											Click Here</a></td>
+									<td><input type="button" class="butn"
+										value="Settle"
+										th:attr="onclick='submitRequestFormRemarks(\''+${projtdtls.personalNo}+'\')'" />
+										<input type="button" class="butn" value="Change PAO"
+										th:attr="onclick=|doAction('${projtdtls.personalNo}','view')|" />
+									</td>
+								<tr>
+							</tbody>
+
+						
+						</table>
+					
+                                         <div><p class="errors" style="margin-bottom:0" th:text="${errorMessage}" ></p></div>
+                               </div>
+					
+					</div>
+				</div>
+			</div>
+	
+					</div>
+		</div>
+			</div>
+
+	</section>
+
+
+	
+<div class="p_anch">
+	<a href="javascript:void(0);" class="js__p_start">&#160;</a>
+</div>
+<div class="p_body js__p_body js__fadeout">&#160;</div>
+<div class="popup js__popup js__slide_top">
+	<a href="javascript:void(0);" class="js__p_close" title="Close">
+		<img th:src="@{/images/close.png}" alt="Close" width="20" height="20" title="Close" align="right" />
+	</a>
+	<div class="p_content" id="voucher_Ack_History_Id"></div>
+
+</div>
+
+<section>
+		<div class="blank"></div>
+	</section>
+	<section>
+		<div th:insert="~{fragments/login/footer}"></div>
+	</section>
+
+</body>
+</html>

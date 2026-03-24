@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<ul class="list">
+ <li class="list-items">
+    <div class="dropdown">
+        <a class="nav-link dropdown-toggle" href="javascript:void(0)"
+            role="button" data-bs-toggle="dropdown">Home</a>
+        <div class="dropdown-content">
+            <ul class="navigation">
+                <li>
+                    <a th:href="@{/mb/home}">Home</a>
+                </li>
+                <li>
+                    <a href="javascript:void(0)">Travel Rules<span style="margin-left:5px">&rsaquo;</span></a>
+                    <div class="sub-menu">
+                        <ul class="submenu-list">
+                            <li class="submenu-listitems">
+                                <a th:href="@{/mb/trArmedForcesHome}">
+                                    For Armed Forces
+                                </a>
+                            </li>
+                            <li class="submenu-listitems">
+                                <a th:href="@{/mb/trCivHome}">
+                                    For Civilians
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li>
+                    <a th:href="@{/mb/downloadsHome}">Downloads</a>
+                </li>
+                <li>
+                    <a th:href="@{/mb/instructionsHome}">Gov't Order & Instructions</a>
+                </li>
+<!--                 <li> -->
+<!--                     <a th:href="@{/mb/feedBackSuggestion}">Feedback & Suggestions</a> -->
+<!--                 </li> -->
+                <li>
+                    <a th:href="@{/mb/usefulLink}">Useful Links</a>
+                </li>
+                <li>
+                    <a th:href="@{/mb/contactHome}">Contact Us</a>
+                </li>
+                <li>
+                    <a th:href="@{/mb/faqs}">FAQ</a>
+                </li>
+                <li>
+                    <a th:href="@{/mb/eTutorial}">e-Tutorials</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</li>
+<li class="list-items">
+    <div class="dropdown">
+        <a class="nav-link dropdown-toggle"
+            href="javascript:void(0)" role="button" data-bs-toggle="dropdown">Profiles</a>
+        <div class="dropdown-content">
+            <ul class="navigation">
+                <li>
+                    <a th:href="@{/mb/addTravelerProfile}">Create Profile</a>
+                </li>
+                <li>
+                    <a th:href="@{/mb/searchTraveler}">Edit Profile</a>
+                </li>
+                <li>
+                    <a th:href="@{/mb/transferOutMB}">Transfer Out </a>
+                </li>
+				
+				
+                <li>
+					<a href="javascript:void(0)">Transfer In<span style="margin-left:5px">&rsaquo;</span></a>
+					<div class="sub-menu2">
+						<ul class="submenu2-list">
+							<li class="submenu2-listitems">
+								<a th:href="@{/mb/transferIn}">Individual Transfer In</a>
+							</li>
+							<li class="submenu2-listitems">
+								<a th:href="@{/mb/bulkTransferIn}">Bulk Transfer In</a>
+							</li>
+						</ul>
+					</div>
+                </li>
+				
+				
+                <li>
+                    <a th:href="@{/mb/disapprovedProfile}">Profiles Disapproved</a>
+                </li>
+                <li>
+                    <a th:href="@{/mb/changePersonalNo}">Change Personal No</a>
+                </li>
+                <li>
+                    <a th:href="@{/mb/changeService}">Change Service</a>
+                </li>
+                <li>
+                    <a th:href="@{/mb/userMasterMissDasboard}">User Master Miss Dashboard</a>
+                </li>
+                <li>
+					
+					<a href="javascript:void(0)">Transfer In & Re-employment<span style="margin-left:5px">&rsaquo;</span></a>
+					<div class="sub-menu-transfer">
+						<ul class="submenu-list-transfer">
+							<li class="submenu-listitems-transfer">
+								<a th:href="@{/mb/transferInReemployment}">Individual Transfer In & Re-employment</a>
+							</li>
+							<li class="submenu-listitems-transfer">
+								<a th:href="@{/mb/bulkTransferInReemployment}">Bulk Transfer In & Re-employment</a>
+							</li>
+						</ul>
+					</div>
+                </li>
+                <li>
+                    <a th:href="@{/mb/unitMovement}">Unit Movement</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</li>
+<li class="list-items">
+    <div class="dropdown">
+        <a class="nav-link dropdown-toggle"
+            href="javascript:void(0);" role="button" data-bs-toggle="dropdown">Travel Request</a>
+        <div class="dropdown-content">
+            <ul class="navigation">
+                <li>
+                    <a th:href="@{/mb/createJourneyRequest}">Journey Request</a>
+                </li>
+                <li>
+                    <a th:href="@{/mb/createBulkBkgRequest}">Air Bulk Booking Request </a>
+                </li>
+                <li>
+                    <a th:href="@{/mb/railCancellation}">Rail Cancellation </a>
+                </li>
+                <li>
+                    <a th:href="@{/mb/expCancelCreate}">Exceptional Cancellation </a>
+                </li>
+                <li>
+                    <a th:href="@{/mb/airCancellation}">Air Cancellation </a>
+                </li>          
+            </ul>
+        </div>
+    </div>
+</li>
+<li class="list-items">
+    <div class="dropdown">
+        <a class="nav-link dropdown-toggle"
+            href="javascript:void(0)" role="button" data-bs-toggle="dropdown">Booking Dashboard</a>
+        <div class="dropdown-content">
+            <ul class="navigation">
+                <li>
+                    <a th:href="@{/mb/getNormalBkgDash}">Normal Booking DashBoard </a>
+                </li>
+                <li>
+                    <a th:href="@{/mb/getExceptionalBkgPage}">Exceptional Booking DashBoard  </a>
+                </li>
+                <li>
+                    <a th:href="@{/mb/masterMissingDashboard}">Master Missing DashBoard </a>
+                </li>
+                <li>
+                    <a th:href="@{/mb/createTdr}">T.D.R</a>
+                </li>
+                <li>
+                    <a th:href="@{/mb/pnrStatus}">PNR Status </a>
+                </li>
+                <li>
+                    <a th:href="@{/mb/changeBoardingStationReq}">Change Boarding Station </a>
+                </li>
+                <li>
+                    <a th:href="@{/mb/getRailCanDashBoard}">Rail Cancellation DashBoard </a>
+                </li>
+                <li>
+                    <a th:href="@{/mb/offlineCancelDashboard}">Offline Cancellation DashBoard </a>
+                </li>
+                <li>
+                    <a th:href="@{/mb/viaRequestLegReBooking}">Via Request Leg ReBooking </a>
+                </li>
+                <li>
+                    <a th:href="@{/mb/getAirCanDashPage}" >Air Cancellation DashBoard</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</li>
+<li class="list-items">
+    <div class="dropdown">
+        <a class="nav-link dropdown-toggle"
+            href="javascript:void(0)" role="button" data-bs-toggle="dropdown">Final Claim</a>
+        <div class="dropdown-content">
+            <ul class="navigation">
+                <li>
+                    <a th:href="@{/mb/finalclaimrequest}">Final Claim Request</a>
+                </li>
+                <li>
+                    <a th:href="@{/mb/rejectedClaimReq}">Rejected Claim </a>
+                </li>
+                <li>
+                    <a th:href="@{/mb/settledClaim}">Settled Claims</a>
+                </li>
+                <li>
+                    <a th:href="@{/mb/tadaClaimDraftReq}">Draft Claim </a>
+                </li>
+                <li>
+                    <a th:href="@{/mb/claimStatus}">Claim Status</a>
+                </li>
+                <li>
+                    <a th:href="@{/mb/supplementaryClaimReq}">Supplementary Claim</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</li>
+ <li class="list-items">
+    <div class="dropdown">
+        <a class="nav-link dropdown-toggle"
+            href="javascript:void(0)" role="button" data-bs-toggle="dropdown">HelpDesk</a>
+        <div class="dropdown-content">
+            <ul class="navigation">
+                <li>
+                    <a th:href="@{/mb/complaintRedressal}">Register Query</a>
+                </li>
+<!--                <li>-->
+<!--                    <a th:href="@{/mb/complaintStatus}">Complaint Status</a>-->
+<!--                </li>-->
+                <li>
+                    <a th:href="@{/mb/complaintHistory}">Track Query</a>
+                </li>
+                <li>
+				    <a th:href="@{/mb/extraInformation}">
+				        Additional Information
+				        <span id="extraInfoCountBadge" style="background:red; 
+														   color:white; 
+														   border-radius:50%; 
+														   padding:2px 6px; 
+														   margin-left:80px; 
+														   position: relative; 
+														   top:-2px; 
+														   display:none;">
+				            <!-- Count will be inserted here -->
+				        </span>
+				    </a>
+				</li>
+
+
+            </ul>
+        </div>
+    </div>
+</li>
+<li class="list-items">
+    <div class="dropdown">
+        <a class="nav-link dropdown-toggle"
+            href="javascript:void(0)" role="button" data-bs-toggle="dropdown">Reports</a>
+        <div class="dropdown-content">
+            <ul class="navigation">
+                <li>
+	            		 <a th:href="@{/reports/unitUserReport}">User Report</a>
+	            	</li>
+	            	<li>
+						
+	            		 <a href="javascript:void(0)">Rail Report<span style="margin-left:5px">&rsaquo;</span></a>
+	            		 <div class="sub-menu">
+                        <ul class="submenu-list">
+                            <li class="submenu-listitems">
+                    <a th:href="@{/reports/getRailReqReport}">Rail Request Report </a>
+                </li>
+                            <li class="submenu-listitems">
+                    <a th:href="@{/reports/bookingReports}">Rail Booking Report </a>
+                </li>
+                             <li class="submenu-listitems">
+                               <a th:href="@{/reports/railIrlaReport}">Rail Irla Report</a>
+                </li>
+                             <li class="submenu-listitems">
+                    <a th:href="@{/reports/tdrReport}">TDR Report </a>
+                </li>
+
+                <li class="submenu-listitems">
+                    <a th:href="@{/reports/railCancellationReport}">Rail Cancellation Report </a>
+                </li>
+
+
+
+                        </ul>
+                    </div>
+                </li>
+                <li>
+	            		 <a href="javascript:void(0)">Air Report<span style="margin-left:5px">&rsaquo;</span></a>
+	            		  <div class="sub-menu1">
+                        <ul class="submenu1-list">
+                            <li class="submenu1-listitems">
+                    <a th:href="@{/reports/getAirReqReport}">Air Request Report </a>
+                </li>
+                            <li class="submenu1-listitems">
+                    <a th:href="@{/reports/airTravelReport}">Air Booking Report</a>
+                </li>
+                             <li class="submenu1-listitems">
+                               <a th:href="@{/reports/airCancellationReport}">Air Ticket Cancellation Status</a>
+                            </li>
+                            
+                            <li class="submenu1-listitems">
+                               <a th:href="@{/reports/airTktCancellationRptForm}">Air Cancellation Report</a>
+                            </li>
+                        </ul>
+                    </div>
+	            	</li>
+                <li>
+					<a href="javascript:void(0)">Exceptional Booking Report<span style="margin-left:5px">&rsaquo;</span></a>
+					<div class="sub-menu2">
+						<ul class="submenu2-list">
+							<li class="submenu2-listitems">
+								<a th:href="@{/reports/exceptionalBkgReport}">Exceptional Bookings by the Unit</a>
+							</li>
+							<li class="submenu2-listitems">
+								<a th:href="@{/reports/unitPersnalExpBkgReport}">Exceptional Bookings of Unit personnel</a>
+							</li>
+						</ul>
+					</div>
+				</li>
+                <li>
+	            		 <a th:href="@{/reports/advanceReport}">DA Advance Reports</a>
+                </li>
+                <li>
+                    <a th:href="@{/reports/claimReport}">Claim Reports</a>
+                </li>
+                
+                <li>
+                    <a th:href="@{/reports/browseProfileStatus}">Current Profile Status</a>
+                </li>
+                
+                <li>
+                    <a th:href="@{/mb/emailticket}">Print/Email Ticket </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+  
+
+</li>
+</ul>

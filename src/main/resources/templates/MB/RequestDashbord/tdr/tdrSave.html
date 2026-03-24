@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+
+<body oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+
+	<div th:insert="~{fragments/header/mainHeader}">...</div>
+
+	<section id="midpart" class="midpart">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-1"></div>
+				<div class="col-lg-10">
+					<form th:action="@{/mb/saveTdr}" id="tdrEditForm" name= "tdrBkgForm" method="post">
+						<div id="program" class="programBlock">
+							<div class="welcomebox">
+								<div class="welcomeHead">
+								
+									<p>
+										Ticket Details For TDR.
+									</p>
+								</div>
+								
+																<div class="welcomecont">
+									<table id='pnrDetails' class="filtersearch">
+										<tbody class="all1">
+											<tr class="lablevalue">
+												
+												<td>S.No</td>
+												<td>Name</td>
+												<td>Gender</td>
+												<td>Age</td>
+												<td>Coach</td>
+												<td>Seat</td>
+												<td>Berth</td>
+											</tr>
+
+										</tbody>
+										
+
+										<tbody class="all1"	th:each="src : ${viewData}">
+											
+											<tr>
+												<td class="lablevalue"><span th:text="${src.passangerSno}"></span> </td>
+												<td class="lablevalue"><span th:text="${src.passangerName}"> </span>
+												</td>
+											    <td class="lablevalue"><span th:text="${src.passangerGender}"> </span></td>
+												<td class="lablevalue"><span th:text="${src.passangerAge}"> </span></td>
+												<td class="lablevalue"><span th:text="${src.trnCoach}"> </span></td>
+												<td class="lablevalue"><span th:text="${src.trnSeat}"> </span></td>
+												<td class="lablevalue"><span th:text="${src.trnBerth}"> </span></td>
+											
+											</tr>
+										</tbody>
+
+
+
+									</table>
+								</div>
+							</div>
+						</div>
+
+				
+
+
+					
+
+
+								<div id="program" class="programBlock">
+									<div class="welcomebox">
+										
+										<div class="welcomecont">
+
+											<table id='pnrDetails' class="filtersearch">
+												<tbody class="all1">
+											
+
+													<tr>
+	  <td style="text-align:right"><a th:href="@{/mb/createTdr}">
+	   <input type="button" value="Back" class="butn"></a>
+  		<input type="button" class="butn" value=" Print this page " onclick="window.print();">
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+
+					</form>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section>
+<div class="blank"></div>
+</section>
+    <section>
+			<div th:insert="~{fragments/login/footer}"></div>
+		</section>
+</body>
+
+</html>

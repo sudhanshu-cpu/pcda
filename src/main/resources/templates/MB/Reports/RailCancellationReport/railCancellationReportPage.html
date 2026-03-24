@@ -1,0 +1,171 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+<link rel="stylesheet" type="text/css" th:href="@{/css/common/popup/LightFace.css}">
+<script th:src="@{/js/common/popup/mootools.js}"></script>
+<script th:src="@{/js/common/popup/LightFace.IFrame.js}"></script>
+<script th:src="@{/js/common/popup/LightFace.js}"></script>
+<script th:src="@{/js/common/popup/LightFace.Request.js}"></script>
+
+
+<script th:src="@{/js/MB/Reports/RailCancellationReport/railCancellationReport.js(random=${session.jsToken})}"></script>
+<script type="text/javascript" th:src="@{/js/common/crypto.js}"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+
+        $('#myTable').DataTable({
+    searching: false,
+    info: false,
+    ordering:false
+        });
+    });
+</script>
+<body>
+<div th:insert="~{fragments/header/mainHeader}"></div>
+<section id="midpart" class="midpart">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-1"></div>
+            <div class="col-lg-10">
+                <form th:action="@{/reports/getRailCancellationReport}" method="post" name="railCancellation" id="railCancellationFormId">
+                    <input type="hidden" name="groupId" th:value="${groupId}">
+                    <div id="program" class="programBlock">
+                        <div class="welcomebox" style="margin-bottom:1rem">
+                            <div class="welcomeHead">
+                                <p th:text="#{mb.reports.railcancellationreport.report}">
+                                </p>
+                            </div>
+                            <div class="welcomecont">
+                                <table class="filtersearch">
+                                    <tbody class="all1">
+                                    <tr>
+
+
+                                        <td>Personal Number:</td>
+                                        <td><input name="personalNumber" id="personalNumber"
+                                                   type="text" autocomplete="off" th:value="${railCanInputModel.personalNumber}"></td>
+
+                                        <td>PNR:</td>
+                                        <td><input name="pnr" id="pnr" type="text" autocomplete="off"
+                                                   th:value="${railCanInputModel.pnr}"></td>
+
+                                        <td>
+                                            Booking Id:
+                                        </td>
+                                        <td><input type="text" name="bookingId" id="bookingId" class="txtfldM"
+                                                   size="15" autocomplete="off" maxlength="20" th:value="${railCanInputModel.bookingId}"   ></td>
+
+
+                                        <td>
+                                            Cancellation From Date:
+                                        </td>
+                                        <td><input type="text" name="cancellationFromDate" id="cancellationFromDate"
+                                                   class="txtfldM"
+                                                   size="15" autocomplete="off" maxlength="20" th:value="${railCanInputModel.cancellationFromDate}"  ></td>
+
+
+                                        <td>
+                                            Cancellation To Date:
+                                        </td>
+                                        <td><input type="text" name="cancellationToDate" id="cancellationToDate"
+                                                   class="txtfldM"
+                                                   size="15" autocomplete="off" maxlength="20" th:value="${railCanInputModel.cancellationToDate}" ></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td colspan="10" id="downLoadFile" style="text-align:right">
+                                            <a href="#"><input class="butn" type="button"
+                                                               onclick="doGenerate();" value="Generate Report" /></a>
+                                        </td>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="program" class="programBlock">
+                        <div class="welcomebox" th:if="${not #lists.isEmpty(railCancellationRefundList)}">
+                            <div class="welcomeHead">
+                                <p th:text="#{mb.reports.airticketcancellationreport.refundReport}">
+                                </p>
+                            </div>
+                            <div class="welcomecont">
+                                <table class="filtersearch" id="myTable">
+
+                                    <thead class="head">
+
+                                    <tr>
+                                        <th><span th:text="#{mb.reports.railcancellationreport.report.bookingId}"></span>
+                                        </th>
+
+                                        <th><span th:text="#{mb.reports.railcancellationreport.report.pnr}"></span>
+                                        </th>
+
+                                        <th><span th:text="#{mb.reports.railcancellationreport.report.personalNumber}"></span>
+                                        </th>
+
+                                        <th><span th:text="#{mb.reports.railcancellationreport.report.refundId}"></span>
+                                        </th>
+                                        <th><span th:text="#{mb.reports.railcancellationreport.report.refundDate}"></span>
+                                        </th>
+                                        <th><span th:text="#{mb.reports.railcancellationreport.report.totalFare}"></span>
+                                        </th>
+
+                                        <th><span th:text="#{mb.reports.railcancellationreport.report.cancellationAmount}"></span>
+                                        </th>
+
+                                        <th><span th:text="#{mb.reports.railcancellationreport.report.refundAmount}"></span>
+                                        </th>
+
+                                        <!--th><span th:text="#{mb.reports.railcancellationreport.report.currentBookingStatus}"></span>
+                                        </th-->
+
+
+                                    </tr>
+                                    </thead>
+
+                                    <tbody class="all1">
+                                    <tr  th:each=" railRefundList : ${railCancellationRefundList}">
+                                        <td><a href="#" class="links"
+                                               th:attr="onclick='viewCancellationReports(\''+${railRefundList.bookingId}+'\')'"
+                                               th:text="${railRefundList.bookingId}"></a> </td>
+                                        <td><span th:text="${railRefundList.pnr}"></span> </td>
+                                        <td><span th:text="${railRefundList.personalNumber}"></span></td>
+                                        <td><span th:text="${railRefundList.refundId}"></span></td>
+                                        <td><span th:text="${railRefundList.refundDate}"></span></td>
+                                        <td><span th:text="${railRefundList.totalFare}"></span></td>
+                                        <td><span th:text="${railRefundList.cancellationAmount}"></span></td>
+                                        <td><span th:text="${railRefundList.refundAmount}"></span></td>
+
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    <div>
+                        <p class="errors" style="margin-bottom:0" th:text="${noData}"></p>
+                    </div>
+
+
+            </div>
+
+            </form>
+
+        </div>
+    </div>
+    </div>
+</section>
+<section>
+    <div class="blank"></div>
+</section>
+<section>
+    <div th:insert="~{fragments/login/footer}"></div>
+</section>
+
+
+</body>
+
+</html>

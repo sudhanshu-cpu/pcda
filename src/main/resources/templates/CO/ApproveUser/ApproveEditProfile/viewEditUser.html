@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+<body>
+<div th:insert="~{fragments/header/mainHeader}"></div>
+<section id="midpart" class="midpart">
+		<div class="container-fluid">
+<div class="row">
+
+					<div class="col-lg-1"></div>
+					<div class="col-lg-10">
+<div id="program" class="programBlock">
+                        <div class="welcomebox" style="margin-bottom:1rem">
+                            <div class="welcomeHead">
+                                <p>Modified User details
+                                </p>
+                            </div>
+                            <div class="welcomecont">
+ <table id="loginForm" class="filtersearch" cellspacing="1" cellpadding="4" width="100%" border="0">
+	<tbody class="all1">
+
+<!-- <tr th:if="${ProfileAuditDetails != null and !ProfileAuditDetails.isEmpty()}"><td colspan="3" class="heading">Modified Traveler details</td></tr> -->
+
+
+
+ 		<tr th:if="${ProfileAuditDetails != null and !ProfileAuditDetails.isEmpty()}" th:each="src : ${ProfileAuditDetails}">
+		 <td class="lablevalue" th:unless="${src.profileChangeValue == 'null'}"><span th:text="${src.profileChangeAttribute}"></span></td>
+		 <td th:unless="${src.profileChangeValue == 'null'}"><span th:text="${src.profileChangeValue}"></span></td>
+ 		</tr>
+
+
+
+
+<tr th:if="${ProfileAuditDetailsEdit != null and !ProfileAuditDetailsEdit.isEmpty()}"><td colspan="3" class="heading">Modified Family details</td></tr>	
+<tr th:if="${ProfileAuditDetailsEdit != null and !ProfileAuditDetailsEdit.isEmpty()}" th:each="src : ${ProfileAuditDetailsEdit}" >
+		 <td class="lablevalue" th:unless="${src.profileChangeValue == 'null'}"><span th:text="${src.profileChangeAttribute}"></span></td>
+		 <td th:unless="${src.profileChangeValue == 'null'}"><span th:text="${src.profileChangeValue}"></span></td>
+ </tr>
+
+
+
+
+<tr th:if="${ProfileAuditDetailsAdd != null and !ProfileAuditDetailsAdd.isEmpty()}"><td colspan="12" class="heading">Inserted Family details</td></tr>
+
+ <tr th:if="${ProfileAuditDetailsAdd != null and !ProfileAuditDetailsAdd.isEmpty()}" >
+ 
+ <table class="filtersearch">
+ <tr>
+ <td class="lablevalue"> Name </td>
+  <td class="lablevalue"> Middle Name </td>
+  <td class="lablevalue"> Last Name </td>
+  <td class="lablevalue"> Gender </td>
+  <td class="lablevalue"> Relation </td>
+  <td class="lablevalue"> Marital Status </td>
+  <td class="lablevalue"> DOB </td>
+   <td class="lablevalue" th:if="${UserServiceId.equals('100003')}"> GX Date </td>
+   <td class="lablevalue" th:if="${UserServiceId.equals('100004')}"> POR Date </td>
+   <td class="labelvalue" th:if="${!UserServiceId.equals('100004') and !UserServiceId.equals('100003')}"> <b> DOII Date</b> </td>
+   <td class="lablevalue" th:if="${UserServiceId.equals('100003')}"> GX No </td>
+   <td class="lablevalue" th:if="${UserServiceId.equals('100004')}"> POR No </td>
+   <td class="labelvalue" th:if="${!UserServiceId.equals('100004') and !UserServiceId.equals('100003')}"> <b> DOII Part No </b></td>
+  <td class="lablevalue"> Reason </td>
+  <td class="lablevalue"> Ers Print Name </td>
+  <td class="lablevalue">Hostel NRS </td>
+  <td class="lablevalue"> Hostel NAP </td>
+ </tr>
+ <tr th:each="src : ${ProfileAuditDetailsAdd}">
+ <td  th:text="${src.name}"></td>
+ <td  th:text="${src.middleName}"></td>
+ <td  th:text="${src.lastName}"></td>
+ <td  th:text="${src.gender}"></td>
+ <td   th:text="${src.relation}"></td>
+ <td   th:text="${src.maritalStatus}"></td>
+ <td   th:text="${src.dOB}"></td>
+ <td   th:text="${src.dOIIDate}"></td>
+ <td   th:text="${src.dOIIpartNo}"></td>
+ <td   th:text="${src.reason}"></td>
+ <td   th:text="${src.ersPrintName}"></td>
+ <td   th:text="${src.hostelNrs}"></td>
+ <td   th:text="${src.hostelNap}"></td>
+ </tr>
+ </table>
+		
+ </tr>
+
+
+
+
+  <tr th:if="${ProfileAuditDetailsDelete != null and !ProfileAuditDetailsDelete.isEmpty()}"><td colspan="9" class="heading">Deleted Family details</td></tr>
+
+ <tr th:if="${ProfileAuditDetailsDelete != null and !ProfileAuditDetailsDelete.isEmpty()}" th:each="src : ${ProfileAuditDetailsDelete}">
+		 <td class="lablevalue" th:unless="${src.profileChangeValue == 'null'}"><span th:text="${src.profileChangeAttribute}"></span></td>
+		 <td th:unless="${src.profileChangeValue == 'null'}"><span th:text="${src.profileChangeValue}"></span></td>
+ </tr>
+
+
+
+
+  <tr th:if="${ProfileAuditDetailsOnline != null and !ProfileAuditDetailsOnline.isEmpty()}"><td colspan="9" class="heading">Online Family details</td></tr>
+ 
+ <tr th:if="${ProfileAuditDetailsOnline != null and !ProfileAuditDetailsOnline.isEmpty()}" th:each="src : ${ProfileAuditDetailsOnline}">
+		 <td class="lablevalue" th:unless="${src.profileChangeValue == 'null'}"><span th:text="${src.profileChangeAttribute}"></span></td>
+		 <td th:unless="${src.profileChangeValue == 'null'}"><span th:text="${src.profileChangeValue}"></span></td>
+ </tr>
+ </tbody>
+ </table>
+</div>
+</div>
+</div>
+
+<form name="viewEditedProfileForm" id="viewEditedProfileForm" th:action="@{/co/editProfileApprReq}" method="get">
+	<div style="text-align:right">
+		<input type="submit" value="Back" class="butn">
+		<input type="button" class="butn" value="Print this page" onclick="window.print();">
+	</div>
+</form>
+</div>
+</div>
+</div>
+</section>
+<section>
+<div class="blank"></div>
+</section>
+	<section>
+		<div th:insert="~{fragments/login/footer}"></div>
+	</section>
+
+</body>
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div  th:if="${requestData.message} == ''">
+ <div id="program" class="programBlock">
+                        <div class="welcomebox">
+   		<div class="welcomeHead">
+   		<p>Request Details</p>
+   		 </div>
+                            <div class="welcomecont">
+         			<table class="filtersearch" cellspacing="1" cellpadding="4" width="100%" border="0">
+	       				<tbody class="all1">
+	        			
+       		<tr>
+	          					<td class="lablevalue">Request Id.</td>
+	          					<td  th:text="${requestData.requestId}"></td>
+	           					<td class="lablevalue">Personal No.</td>
+	          					<td th:text="${requestData.personalNo}"></td>
+	           					<td class="lablevalue">Travel Type</td>
+	          					<td th:text="${requestData.travelType}"></td>
+	   						</tr>
+	   						<tr>
+		  						<td class="lablevalue">Code Head</td>
+	          					<td th:text="${requestData.codeHead}"></td>
+	          					<td class="lablevalue">Account Office.</td>
+	          					<td th:text="${requestData.accountOffice}"></td>
+	           					<td class="lablevalue">Request Date</td>
+	          					<td th:text="${requestData.requestDate}"></td>
+	   						</tr>
+	   						<tr>
+	           					<td class="lablevalue">Approval Status</td>
+	          					<td th:text="${requestData.approvalStatus}"></td>
+	          					<td class="lablevalue">Booking Type</td>
+	          					<td th:text="${requestData.bookingType}"></td>
+	          					<td class="lablevalue">TR Rule No</td>
+	          					<td th:text="${requestData.trRuleNo}"></td>
+	   						</tr>
+	   	         		</tbody>
+	       			</table>
+	  			</div>
+	  			</div>
+	  			</div>
+
+	  	 <div id="program" class="programBlock">
+                        <div class="welcomebox">
+   		<div class="welcomeHead">
+   		<p>Journey Details</p>
+   		 </div>
+                            <div class="welcomecont">
+         			<table class="filtersearch" cellspacing="1" cellpadding="4" width="100%" border="0">
+	       			<tbody class="all1">
+	         		<tr class="lablevalue">
+	 					<td style="width:4%">SNo.</td>
+					 	<td style="width:15%">Traveler Name</td>
+					 	<td style="width:18%">Origin Airport</td>
+					 	<td style="width:19%">Destination Airport</td>
+					 	<td style="width:10%">Journey Date</td>
+					 	<td style="width:8%">Relation</td>
+					 	<td style="width:10%">Class</td>
+					 	<td style="width:6%">Status</td>
+	  		</tr>
+	        		
+	         		<tr>
+		          			<td th:text="${requestData.count}"></td>
+		           			<td th:text="${requestData.travellerName}"></td>
+		            		<td th:text="${requestData.origin}"></td>
+			             	<td th:text="${requestData.destination}"></td>
+							<td th:text="${requestData.journeyDate}"></td>
+							<td th:text="${requestData.relation}"></td>
+							<td th:text="${requestData.cabinClass}"></td>
+		          			<td th:text="${requestData.status}"></td>
+	   	        		</tr>
+	   	        		</tbody>
+	       		</table>
+	  		</div>
+	  		</div>
+	  		</div>
+
+	  <div id="program" class="programBlock">
+                        <div class="welcomebox">
+   		<div class="welcomeHead">
+   		<p>Passenger Details</p>
+   		 </div>
+                            <div class="welcomecont">
+         		<table class="filtersearch" cellspacing="1" cellpadding="4" width="100%" border="0">
+	       		<tbody class="all1">
+	         	<tr class="lablevalue">
+	 				<td>SNo.</td>
+					<td>Name</td>
+					<td>Age</td>
+					<td>Gender</td>
+					<td>Relation</td>
+					<td>Passenger Type</td>
+					<td>Passport No</td>
+					<td>Passport Expiry Date</td>
+				</tr>
+	        	
+		         	<tr th:each="pass : ${requestData.passData}" >
+		          		<td th:text="${passStat.count}"></td>
+		           		<td th:text="${pass.name}"></td>
+		            	<td th:text="${pass.age}"></td>
+		             	<td th:text="${pass.gender}"></td>
+		              	<td th:text="${pass.relation}"></td>
+		               	<td th:text="${pass.passangerType}"></td>
+		               	<td th:text="${pass.passportNo}"></td>
+		               	<td th:text="${pass.passportExpDate}"></td>
+		   	        </tr>
+	   	     	     </tbody>
+	       	</table>
+	  	</div>
+	  	</div>
+	  	</div>
+	   	     	     
+	
+	<div id="program" class="programBlock">
+                        <div class="welcomebox">
+   		<div class="welcomeHead">
+   		<p>Question Details</p>
+   		 </div>
+                            <div class="welcomecont">
+         		<table class="filtersearch" cellspacing="1" cellpadding="4" width="100%" border="0">
+	       		<tbody class="all1">
+	         	<tr class="lablevalue">
+	 				<td>SNo.</td>
+					<td>Question</td>
+					<td>Ans</td>
+				</tr>
+		         	<tr th:each="quest : ${requestData.questionData}">
+		          		<td th:text="${quest.seqNo}"></td>
+		           		<td th:text="${quest.question}"></td>
+		            	<td th:text="${quest.answer}"></td>
+		   	        </tr>
+		   	        </tbody>
+	       	</table>
+  </div>
+	  	</div>
+	  	</div>
+	</div>
+</body>
+</html>

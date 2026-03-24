@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{fragments/login/head}"></head>
+<script type="text/javascript" th:src="@{/js/common/crypto.js}"></script>
+<script type="text/javascript" th:src="@{/js/login/changePassCaptcha.js}"></script>
+<script type="text/javascript" th:src="@{/js/lib/jquery-3.6.0.min.js}"></script>
+
+<body
+	oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+	<div th:insert="~{fragments/header/mainHeader}"></div>
+ 
+<section class="midpart">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-1"></div>
+				
+
+
+<div class="col-lg-10">
+<form  th:action="@{/saveChangePasswordLogin}" name="loginForm" th:method="post" id="passwrdChangeForm">   
+
+
+			<div id="program" class="programBlock">
+                        <div class="welcomebox">
+                            <div class="welcomeHead">
+								<p>Change Password</p>
+                            </div>
+                             <div class="welcomecont">
+
+<table class="filtersearch" id="loginForm">
+<tbody class="all">
+	<tr style="text-align:left">
+		<td style="width:40%">Sign-In Id</td>
+		<td style="width:60%"><input type="text" th:value="${userAlias}" class="txtfldM" id="visitorName" name="visitorName" readonly="readonly" />
+		          <input type="hidden" th:value="${userId}" class="txtfldM" id="userId" name="userId" readonly="readonly" /></td>
+	</tr>
+	<tr style="text-align:left">
+		<td >Enter Old Password</td>
+		<td ><input type="password"  id="oldPwd" autocomplete="off" class="txtfldM" name="oldPassword"/></td>
+	</tr>
+	<tr style="text-align:left">
+		<td>Enter New Password</td>
+		<td><input type="password" id="newPwd" class="txtfldM" name="newPassword" autocomplete="off" minlength=8 maxlength=20 /></td>
+	</tr>
+	<tr style="text-align:left">                    
+		<td>Confirm Password</td>
+		<td><input type="password" id="conformNewPwd" class="txtfldM" name="conformNewPassword" autocomplete="off" minlength=8 maxlength=20/></td>
+	</tr>
+		<tr style="text-align:left">
+		<td>CAPTCHA TEXT</td>
+		 <td style="width:60%">
+         <div ><img src="" id="captchaImage"></div><br>
+        <input type="text" placeholder="Enter Captcha Code" name="captchaText" id="cpatchaTextBox" autocomplete="off" style= " width:170px; height: 30px; border-color: skyblue;"/>
+        <a href="#" id="refreshLink"><img th:src="@{/images/refresh-icon-hd-png-download.jpg}" style="width:15px;height:15px; display: inline-block;" alt=""></a>
+        </td>
+        </tr> 
+        
+        <tr style="text-align:left">
+        <td style="width:40%;border: none"></td>                
+        <td style="width:60% ;border: none"><span class="note" style="color:red">[Note:Captcha Code is Case Sensitive]</span> </td>
+       </tr>
+	<tr style="text-align:left">
+		<td colspan="2" style="text-align:center"><button type="button" class="butn" onclick="doGenerate();">Login</button></td>
+	</tr>
+</tbody>
+</table>
+                             </div>
+                        </div>
+			</div>
+
+</form>
+</div>
+
+<div class="col-lg-12">
+<table border='0' width="100%" cellpadding='4' cellspacing='1' align='center' class="filtersearch" id="loginForm">
+<tbody class="all">
+	<tr style="text-align:left">
+		<td class="lablevalue" style="width:100%"> <span th:text="#{message.pc.login.password.policy}"> </span></td></tr>
+	<tr style="text-align:left">
+		<td style="width:100%"><span th:text="#{message.pc.login.policy1}"> </span></td></tr>
+	<tr style="text-align:left">
+		<td style="width:100%"> <span th:text="#{message.pc.login.policy2}"> </span></td></tr>	
+	<tr style="text-align:left">
+		<td style="width:100%"> <span th:text="#{message.pc.login.policy3}"> </span></td></tr>
+</tbody>
+</table>
+</div>
+
+
+				
+			</div>
+		</div>
+</section>
+<section>
+	<div class="blank"></div>
+	</section>
+	<section>
+    <div th:insert="~{fragments/login/footer}"></div>
+    </section>
+</body>
+</html>

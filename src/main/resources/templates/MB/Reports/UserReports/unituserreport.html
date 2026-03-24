@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+
+<link rel="stylesheet" type="text/css" th:href="@{/css/common/popup/LightFace.css}">
+
+<script th:src="@{/js/common/popup/mootools.js}"></script>
+<script th:src="@{/js/common/popup/LightFace.IFrame.js}"></script>
+<script th:src="@{/js/common/popup/LightFace.js}"></script>
+<script th:src="@{/js/common/popup/LightFace.Request.js}"></script>
+
+<script th:src="@{/js/MB/Reports/UserReport/userreport.js(random=${session.jsToken})}"></script>
+<script type="text/javascript" th:src="@{/js/common/crypto.js}"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+	
+    $('#myTable').DataTable({
+searching: false,
+info: false,
+ordering:false
+    });
+    
+    
+    
+    $("#userServiceId").on('change', function() {
+		let serviceId = $(this).val();
+	
+        $('#categoryId').find('option').not(':first').remove();
+        
+		$.ajax({
+			type: "get",
+			url: $("#context_path").val()+"reports/getCategorybasedOnService",
+			data: "serviceId=" + serviceId,
+			datatype: "application/json", 
+			success: function(data) {
+				
+				$.each(data, function(key,value) {
+				   $('#categoryId').append(new Option(value, key));
+				}); 
+
+			}
+		});
+});
+
+});
+    
+</script>
+
+
+
+<body oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+	
+		<div th:insert="~{fragments/header/mainHeader}"></div>
+
+
+		<section id="midpart" class="midpart">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-lg-1"></div>
+					<div class="col-lg-10">
+
+						<form>
+							<div id="program" class="programBlock">
+								<div class="welcomebox" style="margin-bottom:1rem">
+									<div class="welcomeHead">
+										<p th:text="#{mb.report.user.report.unitUserReport}">
+
+										</p>
+									</div>
+
+									<input name="groupId" type="hidden" th:value="${groupId}">
+									<div class="welcomecont">
+										<table class="filtersearch">
+											<tbody class="all1">
+												<tr>
+
+													<td style="width:9%" th:text="#{mb.report.user.report.personalNo}" ></td>
+													
+													<td style="width:15%"><input name="personalNo" type="text"
+															id="personalNo" th:value ="${fromModel.personalNo}" autocomplete="off"></td>
+													
+													
+													
+													<td style="width:9%">User Service</td>	
+												    <td style="width:15%"> 
+													<select	name="userServiceId" id="userServiceId" class="comboM">
+														<option value="">Select</option>
+														<option th:each="src : ${userServiceList}"
+															th:value="${src.serviceId}" th:text="${src.serviceName}"
+															th:selected="${fromModel.userServiceId} == ${src.serviceId}"
+															></option>
+													</select>
+													</td>
+											
+													
+													
+													
+													   <td style="width:6.5%">Category</td>	
+														<td style="width:15%"> 
+														<select name="categoryId" id="categoryId" class="comboM">
+														<option value="">Select</option>
+														<option th:each = "categoryMap : ${categoryByUserServiceMap}" 
+														th:text="${categoryMap.value}" 
+														th:value="${categoryMap.key}"
+														th:selected="${fromModel.categoryId} == ${categoryMap.key}"></option>
+													   </select>
+													   </td>
+											
+													
+															
+													<td style="width:10%" th:text="#{mb.report.user.report.userType}"></td>													
+													<td style="width:15%">
+													<select name="userType" id="userType" class="comboM">
+													        
+													        <option value="3"  th:selected ="${fromModel.userType}=='3' ">Traveler</option>
+															<option value="1" th:selected ="${fromModel.userType}=='1' ">Commanding Officer</option>
+															<option value="2"  th:selected ="${fromModel.userType}=='2' ">Master Booker</option>
+															<option value="0"  th:selected ="${fromModel.userType}=='0' " >All</option>
+													</select></td>
+
+												
+													<td style="width:10%" th:text="#{mb.report.user.report.approveStatus}"></td>
+													<td style="width:20%"><select name="approvalStatus" id="approvalStatus"
+															class="comboM">
+															<option value="2">All</option>
+															<option value="0" th:selected ="${fromModel.approvalStatus}=='0' ">Approved</option>
+															<option value="1" th:selected ="${fromModel.approvalStatus}=='1' ">DisApproved</option>
+															<option value="3" th:selected ="${fromModel.approvalStatus}=='3' ">Requested</option>
+															
+													</select></td>
+
+												</tr>
+												<tr>
+													<td colspan="10" style="text-align: right;"><button type="submit" class="butn"
+															th:formaction="@{/reports/userReportDetails}"
+															th:formmethod="post" value="Generate Report" onclick="encryptPNo();" >Generate
+															Report</button></td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+
+
+							<div class="welcomebox" th:unless="${userList}==null">
+								<table class="filtersearch" id="myTable">
+									<thead class="head">
+
+										<tr>
+											<th th:text="#{mb.report.user.report.personalNo}">
+											</th>
+											<th th:text="#{mb.report.user.report.name}">
+											</th>
+											<th th:text="#{mb.report.user.report.UserService}">
+											</th>
+											<th th:text="#{mb.report.user.report.Category}">
+											</th>
+											<th th:text="#{mb.report.user.report.status}">
+											
+											</th>
+										</tr>
+										</thead>
+									<tbody class="all1">
+										<tr th:each="src:${userList}">
+											<td><a href="#" class="links"
+													th:attr="onclick='viewUserReports(\''+${src.userAlias}+'\',\''+${groupId}+'\')'"><span
+														th:text="${src.userAlias}"></span>
+												</a></td>
+
+											
+											<td th:text="${src.name}"></td>
+											<td th:value="${src.serviceId}" th:text="${src.serviceName}"></td>
+											<td th:value="${src.categoryId}" th:text="${src.categoryName}"></td>
+											<td th:text="${src.approvalState}"></td>
+
+										</tr>
+
+									</tbody>
+								</table>
+
+							</div>
+							<div>
+								<p class="errors" th:text="${errorMessage}" style="margin-bottom:0"></p>
+							</div>
+
+						</form>
+					</div>
+				</div>
+			</div>
+
+		</section>
+	
+
+<div class="p_anch">
+	<a href="javascript:void(0);" class="js__p_start">&#160;</a>
+</div>
+<div class="p_body js__p_body js__fadeout">&#160;</div>
+<div class="popup js__popup js__slide_top">
+	<div class="p_content" id="voucher_Ack_History_Id"></div>
+
+</div>
+	<section>
+	<div class="blank"></div>
+	</section>
+	<section>
+    <div th:insert="~{fragments/login/footer}"></div>
+    </section>
+</body>
+</html>

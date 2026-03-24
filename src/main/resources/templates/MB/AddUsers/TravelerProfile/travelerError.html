@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+
+<body>
+
+<div class="container-fluid">
+
+   <div th:insert="~{fragments/header/mainHeader}"></div>
+
+	<section id="midpart" class="midpart">
+		<div class="container-fluid">
+			<div class="row">
+<div class="col-lg-1"></div>
+		<div class="col-lg-10">
+
+<table class="filtersearch">
+<tr>
+	<td>
+		<table class="filtersearch">
+		<tr>
+			<td class="tdborder1" >		
+				<div style="width:auto;padding:5px;">
+					<div style="width:auto;text-align:left;padding:5px;background-color:#F4F4F4;border:1px solid black;">
+						<FONT SIZE="6" COLOR="#CC0033">Dear User</FONT>
+						<hr/>
+						<BR/>
+						<FONT SIZE="4" COLOR="#484B91">
+							There has been an error encountered due to which we will not be able to proceed further. 
+						</FONT>	
+						<FONT SIZE="4" COLOR="#484B91">
+							<span th:text="${errors}" class="errors"></span>
+					
+						</FONT>
+						<br/>					
+					</div>
+				</div>
+			</td>
+		</tr>
+		</table>
+</td>
+</tr>
+</table>
+
+		</div>
+		
+			</div>
+		</div>
+	</section>
+
+	<section>
+		<div th:insert="~{fragments/login/footer}"></div>
+	</section>
+
+</div>
+
+</body>
+
+</html>

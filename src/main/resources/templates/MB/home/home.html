@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+<script type="text/javascript">
+
+function showHideAlertUpdate(one,two)
+{
+	
+	document.getElementById(one).style.display='none';
+	document.getElementById(two).style.display='';
+	
+}
+</script>
+<body>
+
+<div th:insert="~{fragments/header/mainHeader}"></div>
+
+    <marquee style="margin:-20px 0px 0px 0px;" onmouseout="start()" onmouseover="stop()" scrollamount="3">
+		<font color="red"> 
+			<b>NEW:</b>
+		</font>
+		<font color="green"> 
+			Now i-Ticket can be booked upto 04 HRS before departure of train or upto chart preparation.
+		</font>
+		<font color="black">
+			1) All travelers who have booked their ticket through Defence Travel System must submit their final settlement claim to their respective PAO Offices within 30 days of Return Journey w.r.t. Air Travel
+			2) Air Travel facility has been extended for LTC-HT and LTC-AI for Armed Forced Personnels.
+			3)To download procedure and receipt format for collecting of I-Ticket (total 2 pages).
+		</font>
+	</marquee>
+
+	<section class="midpart" style="padding-top:0.5rem">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-9">
+
+					<div id="program" class="programBlock">
+						<div class="welcomebox">
+							<div class="welcomeHead">
+								<p th:text="${contentData.get('heading')}"></p>
+							</div>
+								<div th:utext="${contentData.get('selectedContentName')}"></div>
+							</div>
+						</div>
+
+					<div class="updates">
+						<div class="updateHead">
+							<table style="width: 100%">
+								<tbody>
+									<tr>
+										<td class="news">Latest News</td>
+										<td class="play"><a title="Play" href="javascript:showHideAlertUpdate('fixUpdate','marqueeUpdate');"> <img
+												class="img4" alt="Play" th:src="@{/images/play.png}" width="12"
+												height="12">
+										</a> <a href="javascript:showHideAlertUpdate('marqueeUpdate','fixUpdate');"> <img class="img5" title="Pause" alt="Stop"
+												th:src="@{/images/pause.png}" width="12" height="12">
+										</a></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div id="fixUpdate" style="overflow:scroll; overflow-x:hidden; height:150px; display:none;">
+		         <div th:utext="${contentData.get('LATEST_NEWS')}"></div>
+	   		 	</div>
+						<div class="marqueeUpdate" id="marqueeUpdate">
+							<marquee direction="up" scrollamount="2" onmouseover="stop()"
+								onmouseout="start()" style="margin-top: 0px;" height="150px">
+								<div th:utext="${contentData.get('LATEST_NEWS')}"></div>
+							</marquee>
+					</div>
+				</div>
+
+			</div>
+				<!--	Form here	-->
+				<div class="col-lg-3">
+
+					<div class="missionbox">
+						<div class="helplineHeading">
+							<p>DTS Helpline</p>
+						</div>
+						<div class="dts" th:utext="${contentData.get('DTS_HELPLINE')}"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="lastpart">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-3">
+					<div class="Lbox">
+						<div class="Boxhead">
+							<p>Mission Statement</p>
+						</div>
+						<div class="dts" th:utext="${contentData.get('MISSION_STATEMENT')}"></div>
+					</div>
+				</div>
+				<div class="col-lg-3">
+					<div class="Rbox">
+						<div class="Boxhead">
+							<p>Quality Policy</p>
+						</div>
+						<div class="dts" th:utext="${contentData.get('QUALITY_POLICY')}"></div>
+					</div>
+				</div>
+				<div class="col-lg-3">
+					<div class="Cbox">
+						<div class="Boxhead">
+							<p>Disclaimer</p>
+						</div>
+						<div class="dts" th:utext="${contentData.get('DISCLAIMER')}"></div>
+					</div>
+				</div>
+				<div class="col-lg-3">
+					<div class="Lbox">
+						<div class="Boxhead">
+								<table style="width: 100%">
+								<tr>
+							<p>Archive</p>
+										
+										</tr>
+						</table>
+						</div>
+						<div id="archiveFixUpdate" style="overflow:scroll; overflow-x:hidden; height:150px; display:none;">
+		         <div th:utext="${contentData.get('ARCHIEVE')}"></div>
+	   		 	</div>
+	   		 	<div class="marqueeArchiveUpdate" id="marqueeArchiveUpdate">
+							<marquee direction="up" scrollamount="2" onmouseover="stop()"
+								onmouseout="start()" style="margin-top: 0px;" height="150px">
+								<div th:utext="${contentData.get('ARCHIEVE')}"></div>
+							</marquee>
+					</div>
+				</div>
+			</div>
+	
+		</div>
+	</section>
+	<section>
+	<div class="blank"></div>
+	</section>
+	<section>
+    <div th:insert="~{fragments/login/footer}"></div>
+    </section>
+
+</body>
+
+</html>

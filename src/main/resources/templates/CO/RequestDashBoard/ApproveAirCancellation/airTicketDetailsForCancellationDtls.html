@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{fragments/login/head}"></head>
+<script
+	th:src="@{/js/CO/RequestDashBoard/airCancellationApproved/appDisAppAirCancellation.js(random=${session.jsToken})}"></script>
+<body
+	oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+	<div th:insert="~{fragments/header/mainHeader}"></div>
+	<section class="midpart">
+		<div class="container-fluid">
+			<div class="row" style="width: 100%">
+				<div class="col-lg-1">
+				</div>
+				<div class="col-lg-10">
+				
+					<form th:action="@{/co/approveAirCancellation}" method="post" name="airCanApprove" id="airCanApprove">
+						
+						<input name="operationMode" type ="hidden" id="apDiss">
+                          <input name="bookingId" type="hidden" th:value="${bookingId}" id="bookingId">
+                         <input name="totalPassanger" th:value="${ticketDetails.totalPaxCount}" 	type="hidden"  id="totalPessnager"> 
+							<input name="isRoundTrip" type="hidden" th:value="${ticketDetails.roundTrip}" id="isRoundTrip"> 
+                         <input name="onwardCheckLength" type="hidden" value="" id="onwardCheckLength"> 
+                        <input name="returnCheckLength" type="hidden" value="" id="returnCheckLength">  
+							<input	name="event" type="hidden" value="" id="event">
+
+						<div class="panel" id="mainFormBody">
+						<div id="program" class="programBlock">
+                        <div class="welcomebox" style="margin-bottom:1rem">
+                        <span th:text="${message}" style="color: red;"></span>
+							<div class="welcomeHead">
+								<p th:text="#{mb.travel.request.air.cancellation.tic.info}"></p>
+								
+							</div>
+							  <div class="welcomecont">
+											<table id="pnrDetails" class="filtersearch" width="100%"
+												cellspacing="1" cellpadding="4" border="0">
+												<tbody class="all">
+													
+													<tr align="left">
+														<td th:text="#{co.air.cancellation.approval.request.bookinTXNId}"></td>
+														<td><span
+															th:text="${ticketDetails.operatorTxnId}"></span></td>
+														<td th:text="#{co.air.cancellation.approval.request.bookindId}"></td>
+														<td ><span
+															th:text="${ticketDetails.bookingId}"></span></td>
+													</tr>
+
+													<tr align="left">
+														<td th:text="#{co.air.cancellation.approval.request.reqId}"></td>
+														<td><span
+															th:text="${ticketDetails.requestId}"></span></td>
+														<td th:text="#{co.air.cancellation.approval.request.ticketType}"></td>
+														<td><span
+															th:text="${ticketDetails.ticketType}"></span></td>
+													</tr>
+
+													<tr align="left">
+														<td th:text="#{co.air.cancellation.approval.request.bookingDAte}"></td>
+														<td><span
+															th:text="${ticketDetails.bookingDate}"></span></td>
+														<td th:text="#{co.air.cancellation.approval.request.janryDate}"></td>
+														<td><span
+															th:text="${ticketDetails.journeyDate}"></span></td>
+													</tr>
+
+													<tr align="left">
+														<td th:text="#{co.air.cancellation.approval.request.origin}"></td>
+														<td><span
+															th:text="${ticketDetails.originName}"></span></td>
+														<td th:text="#{co.air.cancellation.approval.request.destination}"></td>
+														<td><span
+															th:text="${ticketDetails.destinationName}"></span></td>
+													</tr>
+
+													<tr align="left">
+														<td th:text="#{co.air.cancellation.approval.request.baseFare}"></td>
+														<td><span
+															th:text="${ticketDetails.totalBaseFare}"></span></td>
+														<td th:text="#{co.air.cancellation.approval.request.totalFare}"></td>
+														<td><span
+															th:text="${ticketDetails.totalInvoice}"></span></td>
+													</tr>
+												</tbody>
+											</table>
+											</div>
+											</div>
+											</div>
+											
+									
+
+
+
+ 	<div id="program" class="programBlock">
+                        <div class="welcomebox" style="margin-bottom:1rem">
+ 	<div class="welcomeHead">
+								<p th:text="#{co.air.cancellation.approval.request.passngerDtls}"></p>
+							</div>
+  	 <div class="welcomecont">
+    <table id='pnrDetails' class="filtersearch" cellpadding="4" cellspacing="1" width="100%" border="0">
+  	<tbody class="all">
+  	<tr>
+  		<tr th:if="${ticketDetails.roundTrip}=='YES'">
+	  		<td th:text="#{co.air.cancellation.approval.request.onward}"></td>
+			<td th:text="#{co.air.cancellation.approval.request.return}"></td>
+			<td th:text="#{co.air.cancellation.approval.request.sNO}"></td>
+			<td th:text="#{co.air.cancellation.approval.request.name}"></td>
+			<td th:text="#{co.air.cancellation.approval.request.age}"></td>
+			<td th:text="#{co.air.cancellation.approval.request.gender}"></td>
+			<td th:text="#{co.air.cancellation.approval.request.invoiceNo}"></td>
+	  		<td th:text="#{co.air.cancellation.approval.request.onwardId}"></td>
+			<td th:text="#{co.air.cancellation.approval.request.returnId}"></td>
+  	  		<td th:text="#{co.air.cancellation.approval.request.mbOnwardGround}"></td>
+			<td th:text="#{co.air.cancellation.approval.request.mbReturnGround}"></td>
+			<td th:text="#{co.air.cancellation.approval.request.onwardOnOfficialGround}"></td>
+			<td th:text="#{co.air.cancellation.approval.request.returnOnOfficialGround}"></td>
+  		</tr>
+  		
+  		<tr th:if="${ticketDetails.roundTrip}=='NO'">
+  			<td th:text="#{co.air.cancellation.approval.request.onward}"></td>
+			<td th:text="#{co.air.cancellation.approval.request.sNO}"></td>
+			<td th:text="#{co.air.cancellation.approval.request.name}"></td>
+			<td th:text="#{co.air.cancellation.approval.request.age}"></td>
+			<td th:text="#{co.air.cancellation.approval.request.gender}"></td>
+			<td th:text="#{co.air.cancellation.approval.request.invoiceNo}"></td>
+	  		<td th:text="#{co.air.cancellation.approval.request.onwardId}"></td>
+  	  		<td th:text="#{co.air.cancellation.approval.request.mbGround}"></td>
+			<td th:text="#{co.air.cancellation.approval.request.onOfficialGround}"></td>
+		</tr>
+
+</tbody>
+	<tbody class="all" th:each="src,stat:${ticketDetails.passangerDetail}">
+	
+	
+	
+										<tr th:if="${ticketDetails.roundTrip}=='NO'" > 
+										
+										<td  th:if="${src.onwardCancelInt}==9">
+									<input type="checkBox" class="checkbox" name="onwardCheck" checked="true" disabled="true" th:id="@{|onwardCheck${stat.index}|}" th:value="${src.passangerNo}+':'+${src.invoiceNo}+':'+${src.onwardPaxId}" >
+								<input type="hidden"  th:name="@{|passDetails${stat.index}|}"  th:id="@{|passDetails${stat.index}|}" th:value="${src.passangerNo}+':'+${src.invoiceNo}+':'+${src.onwardPaxId}" >
+
+											</td>
+											      <td  th:if="${src.onwardCancelInt}!=9"></td>
+										<td th:text="${stat.index+1}"></td>
+											<td th:text="${src.firstName+' '+src.middleName+' '+src.lastName}"></td>
+											<td th:text="${src.age}"></td>
+											<td th:text="${src.gender}"></td>
+											<td th:text="${src.invoiceNo}"></td>
+											<td th:text="${src.onwardPaxId}"></td>
+											
+											<td th:if="${src.onwardIsOfficial}=='YES'">Official </td>
+											<td th:if="${src.onwardIsOfficial}=='NO'">Personal </td>
+											<td th:if="${src.onwardIsOfficial}=='' or ${src.onwardIsOfficial}== null">-</td>
+											
+											
+		    	     <td th:if="${src.onwardCancelInt} == 9">
+					<input type="radio" class="peace" th:name="@{|onwardIsOfficial${src.passangerNo}:${src.invoiceNo}:${src.onwardPaxId}|}" th:id="@{|onwardIsOfficial${stat.index}|}" value="0" th:checked="${src.onwardIsOfficialInt}==0"/>Yes  
+					<input type="radio" class="peace1" th:name="@{|onwardIsOfficial${src.passangerNo}:${src.invoiceNo}:${src.onwardPaxId}|}"  th:id="@{|onwardIsOfficial${stat.index}|}"  value="1" th:checked="${src.onwardIsOfficialInt}==1"/>No
+			 	</td>
+				
+                   <td th:if="${src.onwardCancelInt} != 9" >
+               <!--    <span th:if="${src.onwardIsOfficial}!=null" th:text="${src.onwardIsOfficial}"></span>-->
+                    <!--  <span th:if="${src.onwardIsOfficial}==null">-</span>-->
+                    <span>-</span>
+                   </td>
+										</tr>
+                   
+                   
+										</tbody>
+										<input type="hidden" name="totalPass" th:value="${toalPass}" id="totalPass">
+	</table>  
+	</div>
+	</div>
+	</div>
+
+							
+
+
+ 	<div id="program" class="programBlock" th:if="${ticketDetails.currentBookingStatusInt}==3 and ${ticketDetails.canApproved}=='Requested'" >
+                        <div class="welcomebox" style="margin-bottom:1rem">
+ 	<div class="welcomeHead">
+								<p th:text="#{co.air.cancellation.approval.request.cancellationReason}"></p>
+							</div>
+  	 <div class="welcomecont">
+
+	  	<table class="filtersearch" width="100%" cellspacing="1" cellpadding="4" border="0">  
+   		<tbody class="all">
+   		<tr align="left">
+		    <td  style="width:30%" th:text="#{co.air.cancellation.approval.request.reasonforCancellation}"></td>
+		    <td  style="width:70%"> <span th:text="${ticketDetails.cancellationReason}"></span></td>
+  		</tr>  
+  		<tr>
+			<td colspan="2" style="text-align:right">
+				<input type="button" value="Approve" class="butn" th:attr="onclick='proceedToApprove(\''+CO+'\',\''+approve+'\')'">
+			    <input type="button" class="butn" value="DisApprove" th:attr="onclick='proceedToApprove(\''+CO+'\',\''+disapprove+'\')'"> 
+			</td>
+  		</tr>  
+		</tbody></table>
+		</div>
+		</div>
+		</div>
+		<div th:if="${ticketDetails.currentBookingStatusInt}==3 and ${ticketDetails.canApproved}!='Requested'">
+		</div>
+		<div th:if="${ticketDetails.currentBookingStatusInt}!=3">
+		</div>
+		</div>
+			 
+							 <div id="disApproveDiv" style="display: none;">
+	 	<div id="program" class="programBlock">
+				<div class="welcomebox" style="margin-bottom:1rem">
+					<div class="welcomeHead">
+						<p>
+							Disapprove Request Reason
+						</p>
+					</div>
+					<div class="welcomecont">
+	 
+	 		<table id="loginForm" class="filtersearch" cellpadding="4" cellspacing="1" width="100%" border="0">
+	 			<tbody class="all1">
+	 			<tr>
+	 				<td align="left"><textarea rows="4" cols="40" id="disaproveReason" name="reasonForDisapprove"> </textarea></td> 
+	 			</tr>
+				<tr>
+				 	<td>
+				 	<input type="button" value="Submit" class="butn" onclick="submitDisapprove();"/>
+				 	</td>
+				</tr>
+				</tbody>
+	 		</table>
+	 		</div>
+	 		</div>
+	 		</div>
+	 		
+	       </div>
+
+
+
+</form>
+						</div>
+					
+			</div>
+		</div>
+		
+	</section>
+	<section>
+<div class="blank"></div>
+</section>
+	<section>
+		<div th:insert="~{fragments/login/footer}"></div>
+	</section>
+</body>
+</html>

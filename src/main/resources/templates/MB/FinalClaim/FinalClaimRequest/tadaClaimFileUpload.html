@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<body>
+<div id="program" class="programBlock">
+                        <div class="welcomebox">
+                            <div class="welcomeHead" th:if="${claimView.travelContent.travelTypeId} == '100001'">
+                                <b><p style="text-align:center" th:text="#{mb.finalclaim.finalclaimrequest.travelling}"></p></b>
+                            </div>
+                            <div class="welcomeHead" th:if="${claimView.travelContent.travelTypeId} == '100002'">
+                                <b><p style="text-align:center" th:text="#{mb.finalclaim.finalclaimrequest.claimtour}"></p></b>
+                            </div>
+                            <div class="welcomeHead" th:if="${claimView.travelContent.travelTypeId} == '100005'">
+                                <b><p style="text-align:center" th:text="#{mb.finalclaim.finalclaimrequest.claimltcf}"></p></b>
+                            </div>
+                            <div class="welcomeHead" th:if="${claimView.travelContent.travelTypeId} == '100006'">
+                                <b><p style="text-align:center" th:text="#{mb.finalclaim.finalclaimrequest.claimltcs}"></p></b>
+                            </div>
+                            <div class="welcomeHead" th:if="${claimView.travelContent.travelTypeId} == '100007'">
+                                <b><p style="text-align:center" th:text="#{mb.finalclaim.finalclaimrequest.claimltct}"></p></b>
+                            </div>
+                            <div class="welcomeHead" th:if="${claimView.travelContent.travelTypeId} == '100008'">
+                                <b><p style="text-align:center" th:text="#{mb.finalclaim.finalclaimrequest.claimltcfo}"></p></b>
+                            </div>
+
+<div class="welcomecont">
+<table class="filtersearch">
+<tbody class="all1">
+  		<tr>
+	  		  <td><span class="lablevalue" th:text="#{mb.finalclaim.finalclaimrequest.pnou}"></span><span th:text="${claimView.travelContent.personalNumber}"></span></td> 
+	  		  <td><span class="lablevalue" th:text="#{mb.finalclaim.finalclaimrequest.cdao}"></span><span th:text="${claimView.personalInfo.cDAOAC}"></span></td>  
+	  		  <td><span class="lablevalue" th:text="#{mb.finalclaim.finalclaimrequest.name}"></span><span th:text="${claimView.personalInfo.name}"></span></td>
+	  	</tr>
+	  	</tbody>
+</table>
+</div>
+</div>
+</div>
+
+<div id="program" class="programBlock">
+                        <div class="welcomebox" style="margin-bottom:1rem">
+                            <div class="welcomeHead">
+                               <b> <p th:text="#{mb.finalclaim.finalclaimrequest.kindly}"> </p></b>
+                            </div>
+<div class="welcomecont">
+		<table class="filtersearch">
+<tbody class="all1">
+			<tr th:each="src : ${claimView.claimDocument}">
+				<td style="font-weight: bold;" th:id="'innerDocName_'+${src.docId}">
+					<span th:text="${srcStat.count}"></span>. <span th:text="${src.docName}"></span>
+				</td>
+				<td><input th:id="${src.docId}" type="file"/></td>
+				<td><button th:id="'upload_' + ${src.docId}" class="butn" th:attr="onclick='return ajaxUploadFile(\''+${src.docId}+'\')'" type="button">UPLOAD</button></td>
+				<td><a href="javascript:void(0);" th:id="${src.docId}+'View'"></a>
+				 <input type="hidden" name="fileTypeName" th:value="${src.docId}">
+				 <input type="hidden" name="fileTypePath" th:id="|${src.docId}File|">
+				</td>
+			</tr>
+</tbody>
+		</table>
+</div>
+</div>
+</div>
+
+</body>
+</html>

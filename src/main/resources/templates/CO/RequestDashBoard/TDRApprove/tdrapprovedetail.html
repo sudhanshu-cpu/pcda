@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+
+<body oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+	<div th:insert="~{fragments/header/mainHeader}">...</div>
+	<section id="midpart" class="midpart">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-1"></div>
+				<div class="col-lg-10">
+				<form name="irtdrreqpage" id="irtdrreqpage">
+					<div id="program" class="programBlock">
+							<div class="welcomebox">
+								<div class="welcomeHead">
+									<p>Booking Details for TDR File Approval</p>
+								</div>
+								<div class="welcomecont" th:unless="${#lists.isEmpty(dataList)}">
+									<table border='0' width="100%" cellpadding='4' cellspacing='1' align='center'
+										class="filtersearch">
+										<tbody class="all1">
+
+											<tr class="lablevalue">
+												<td>S.No</td>
+												<td>Ticket Number</td>
+												<td>Request ID</td>
+												<td>Booking ID</td>
+												<td>PNR Number</td>
+												<td>Booking Status</td>
+												<td>Journey Date</td>
+											</tr>
+
+											<tr th:each="src,stat : ${dataList}">
+												<td th:text="${stat.index+1}"> </td>
+
+												<td>
+												
+												<button th:text="${src.ticketNo}" th:value="${src.bookingId}"  type="submit" style="border: none;background-color: white ;color: mediumblue;text-decoration: underline;"
+										      name="bookingId" th:formaction="@{/co/getAppDataFrmBkgId}" th:formmethod="post" > </button>
+										
+												</td>
+												<td th:text="${src.requestId}"> </td>
+												<td th:text="${src.bookingId}"> </td>
+													<td th:text="${src.pnrNo}"> </td>
+												<td th:text="${src.currbookingStatus}"> </td>
+												<td><span
+												th:text="${#dates.format(src.boardingDate, 'dd-MM-yyyy')}"></span></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<div>
+									<p class="errors" style="margin-bottom:0" th:text="${noRecord}"> </p>
+										
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section>
+	<div class="blank"></div>
+	</section>
+	<section>
+    <div th:insert="~{fragments/login/footer}"></div>
+    </section>
+</body>
+
+</html>

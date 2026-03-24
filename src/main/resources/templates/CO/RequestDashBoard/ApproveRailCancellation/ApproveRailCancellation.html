@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+
+<body oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+		<div th:insert="~{fragments/header/mainHeader}">...</div>
+
+
+		<section id="midpart" class="midpart">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-lg-1"></div>
+					<div class="col-lg-10">
+					<div>
+					<span th:text="${success}" style="color: red;"> </span>
+					</div>
+						
+						
+						<div class="welcomebox" style="border-top:0" th:unless="${#lists.isEmpty(approvalDataList)}">
+							<div class="welcomeHead">
+								<p>Tickets Booking Details</p>
+							</div>
+							<div class="welcomecont">
+								<table class="filtersearch">
+									<tbody class="all1" >
+										<tr>
+											<td>
+												S.No
+											</td>
+											<td>
+												PNR Number
+											</td>
+											<td>
+												Ticket Number
+											</td>
+											<td>Date of Booking</td>
+											<td>Ticket  Type</td>
+											<td>
+												Train Number
+											</td>
+											<td>
+												Total Amt.
+											</td>
+											<td>
+												Journey Date
+											</td>
+											<td>Request Id</td>
+											<td>Status</td>
+										</tr>
+										<tr th:each="src,stat:${approvalDataList}">
+											<td th:text="${stat.index +1}"></td>
+											<td th:text="${src.pnrNo}"></td>
+											<form th:action="@{/co/railCancelApprovalData}" method="post">
+											<td>
+											<button th:text="${src.ticketNo}" th:value="${src.bookingId}" name ="bookingId" type="submit" style="border: none ;color: mediumblue;background-color:white;text-decoration: underline;" >
+											</button></td>
+											</form>
+											<td th:text="${src.bookingDateStr}"></td>
+											<td th:text="${src.irctcTktType}"></td>
+											<td th:text="${src.trainNo}"></td>
+											<td th:text="${src.totalAmount}"></td>
+											<td th:text="${src.journeyDateStr}"></td>
+											<td th:text="${src.requestId}"></td> 
+											<td th:text="${src.currbookingStatus}"></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						
+						<div  th:if="${#lists.isEmpty(approvalDataList)}">
+                      <p class="errors" style="margin-bottom:0"> NO REQUEST FOR CANCELLATION  </p>
+						</div>
+
+
+
+					</div>
+				</div>
+			</div>
+
+
+		</section>
+<section>
+<div class="blank"></div>
+</section>
+	<section>
+		<div th:insert="~{fragments/login/footer}"></div>
+	</section>
+</body>
+
+</html>

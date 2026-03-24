@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div id="program" class="programBlock">
+                        <div class="welcomebox" style="margin-bottom:2px">
+                            <div class="welcomeHead">
+                                <b><p style="text-align:center" th:text=#{mb.finalclaim.finalclaimrequest.claimfor}></p></b>
+                            </div>
+                            <div class="welcomecont">
+<table class="filtersearch">
+  		 <tbody class="all1">
+  		<tr>
+	  		  <td style="width:33.3%"><span class="lablevalue" th:text="#{mb.finalclaim.finalclaimrequest.pnou}"></span><span th:text="${claimView.travelContent.personalNumber}"></span></td> 
+	  		  <td style="width:33.3%"><span class="lablevalue" th:text="#{mb.finalclaim.finalclaimrequest.cdao}"></span><span th:text="${claimView.personalInfo.cDAOAC}"></span></td>  
+	  		  <td style="width:33.3%"><span class="lablevalue" th:text="#{mb.finalclaim.finalclaimrequest.name}"></span><span th:text="${claimView.personalInfo.name}"></span></td>
+	  	</tr>
+	  	</tbody>
+</table>
+</div>
+</div>
+</div>
+
+<div id="program" class="programBlock">
+                        <div class="welcomebox" style="margin-bottom:2px">
+                            <div class="welcomeHead">
+                                <p th:text="#{mb.finalclaim.finalclaimrequest.tdetails}"></p>
+                            </div>
+                            <div class="welcomecont">
+<table class="filtersearch" cellspacing="1" cellpadding="4" width="100%" border="0">
+  		<tbody class="all1">
+  		<tr>
+	  		  <td class="lablevalue" th:text="#{mb.finalclaim.finalclaimrequest.traveltype}"></td> 
+	  		  <td class="lablevalue" th:text="#{mb.finalclaim.finalclaimrequest.level}"></td>
+	  		  <td class="lablevalue" th:text="#{mb.finalclaim.finalclaimrequest.trrule}"></td>
+	  		  <td class="lablevalue" th:text="#{mb.finalclaim.finalclaimrequest.msancno}"></td>
+	  		  <td class="lablevalue" th:text="#{mb.finalclaim.finalclaimrequest.msancdate}"></td>
+	  		  <td class="lablevalue" th:text="#{mb.finalclaim.finalclaimrequest.travelid}"> </td>
+	  		  <td class="lablevalue" th:text="#{mb.finalclaim.finalclaimrequest.tidstart}"></td>
+	  		  <td class="lablevalue" th:text="#{mb.finalclaim.finalclaimrequest.tidend}"></td>
+	  		  <td class="lablevalue" th:text="#{mb.finalclaim.finalclaimrequest.jcfrom}"></td>
+	  		  <td class="lablevalue" th:text="#{mb.finalclaim.finalclaimrequest.jcdate}"></td>
+	  	</tr>
+
+  	    <tr>
+  		  <td th:text="${claimView.travelContent.travelTypeName}"></td>
+  		  <td th:text="${claimView.personalInfo.levelName}"></td>
+  		  <td><span th:text="${claimView.eachRecord.ruleName}"></span><input type="hidden" name="trRuleName" th:value="${claimView.eachRecord.ruleName}"></td>
+  		  <td><input type="text" name="moveSanctionNo" id="moveSanctionNo" class="txtfldM" th:value="${claimView.eachRecord.reqAuthorityNumber}" style="width:100px;" maxlength="50" autocomplete="off"></td>
+  		  <td><input type="text" name="moveSanctionDate" class="txtfldM" id="move_Sanction_Date" th:value="${claimView.eachRecord.authorityDate}" style="width:80%" maxlength="12" readonly="true" autocomplete="off"></td>
+  		  <td th:text="${claimView.travelContent.travelId}"></td>
+  		  <td th:text="${claimView.travelContent.travelStartDate}"> </td>
+  		  <td th:text="${claimView.travelContent.travelEndDate}"></td>
+  		  <td><input type="text" name="jrnyStartedFrom" class="txtfldM" id="jrnyStartedFrom" style="width:80%;" maxlength="50" autocomplete="off"/> </td>
+  		  <td><input type="text" name="jrnyStartDate" class="txtfldM" id="start_date_time" style="width:80%;" maxlength="20" readonly="true" autocomplete="off"/> </td>
+  		</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+<div id="program" class="programBlock">
+                        <div class="welcomebox" style="margin-bottom:2px">
+                            <div class="welcomeHead">
+                                <p th:text="#{mb.finalclaim.finalclaimrequest.dtsjourney}">
+                                </p>
+                            </div>
+                            <div class="welcomecont">
+<table class="filtersearch" cellspacing="1" cellpadding="4" width="100%" border="0">
+  		<tbody class="allp" th:if="${claimView.eachRecord.journeyDetails} != null and ${not #lists.isEmpty(claimView.eachRecord.journeyDetails)}">
+  		<tr>
+  		      <td class="lablevalue" th:text="#{mb.finalclaim.finalclaimrequest.from}" style="width:18%"></td>
+	  		  <td class="lablevalue" th:text="#{mb.finalclaim.finalclaimrequest.to}" style="width:18%"></td>
+	  		  <td class="lablevalue" th:text="#{mb.finalclaim.finalclaimrequest.travelmode}" style="width:3%"> </td>
+	  		  <td class="lablevalue" th:text="#{mb.finalclaim.finalclaimrequest.travelclass}" style="width:9%"></td>  
+	  		  <td class="lablevalue" th:text="#{mb.finalclaim.finalclaimrequest.depdate}" style="width:14%"></td>  
+	  		  <td class="lablevalue" th:text="#{mb.finalclaim.finalclaimrequest.arrdate}" style="width:14%"></td>
+	  		  <td class="lablevalue" th:text="#{mb.finalclaim.finalclaimrequest.bill}" style="width:11%"></td>
+	  		  <td class="lablevalue" th:text="#{mb.finalclaim.finalclaimrequest.jouperformed}" style="width:7%"></td>
+	  		  <td class="lablevalue" th:text="#{mb.finalclaim.finalclaimrequest.bookamt}" style="width:8%"></td>
+	  		  <td class="lablevalue" th:text="#{mb.finalclaim.finalclaimrequest.refamt}"></td>
+  		</tr>
+
+  	    <tr th:each="src : ${claimView.eachRecord.journeyDetails}">
+  	      <td th:text="${src.fromStation}"></td>
+  		  <td th:text="${src.toStation}"></td>
+          <td><span th:text="${src.travelMode}"></span></td>
+
+  		  <td><span th:text="${src.journeyClass}"></span> (<span th:text="${src.journeyType}"></span>)</td>
+  		  <td><input th:id="|journey_date_${srcStat.index}|" name="dtsJourneyDate" th:value="${src.journeyDate}" maxlength="20" style="width:80%;"  autocomplete="off"/></td>
+  		  <td><input th:id="|journey_end_date_${srcStat.index}|" name="dtsJourneyEndDate" th:value="${src.journeyEndDate}" maxlength="20" style="width:80%;"  autocomplete="off"/></td>
+  		  <td><span th:text="${src.bookingNo}"></span> (<span th:text="${src.bookingStatus}"></span>)</td>
+          <td>
+  		     <select name="dtsJourneyPerformed" th:id="|dtsJourneyPerformed${srcStat.index}|" class="combo" th:attr="onchange='takeCancellation(this.value,' + ${srcStat.index}+','+${src.currBookingStatus}+');'">
+                <option value="">Select</option>
+                <option th:if="${src.currBookingStatus} == '15'" th:value="1" th:text="No"></option>
+			    <option th:unless="${src.currBookingStatus} == '15'" th:value="0" th:text="Yes"></option>
+			    <option th:unless="${src.currBookingStatus} == '15'" th:value="1" th:text="No"></option>
+	         </select>
+          </td>
+          <td><span th:text="${src.bookingAmount}"></span><input type="hidden" th:id="|dtsJourneyBKGAmount${srcStat.index}|" th:value="${src.bookingAmount}"></td>
+  		  <td><span th:text="${src.refundAmount}"></span><input type="hidden" th:id="|dtsJourneyRefAmount${srcStat.index}|" th:value="${src.refundAmount}"></td>
+  	     <input type="hidden" name="dtsJrnyCanType" th:id="|dtsJrnyCanType${srcStat.index}|">
+  	     <input type="hidden" name="dtsJrnyCanSanNo" th:id="|dtsJrnyCanSanNo${srcStat.index}|">
+  	     <input type="hidden" name="dtsJrnyCanSanDate" th:id="|dtsJrnyCanSanDate${srcStat.index}|">
+  		 <input type="hidden" name="dtsJrnyRequestData" th:value="|${src.bookingID}::${src.travelmodeInt}::${src.bookingNo}::${src.journeyClass}::${src.journeyTypeInt}::${src.fromStation}::${src.toStation}::${src.bookingAmount}::${src.refundAmount}::${src.requestId}|">
+  	   </tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+
+
+
+<table class="filtersearch" style="margin-bottom:2px">
+<tbody class="all1">
+<tr class="tadaHeading">
+	 <td style="color:white" th:text="#{mb.finalclaim.finalclaimrequest.expdetails}" class="lablevalue"></td>
+</tr>
+</tbody>
+</table>
+
+<div class="welcomebox" style="margin-bottom:2px">
+<table class="filtersearch">
+<tbody class="all1">
+<tr class="tadaHeading">
+	<td style="border-right:1px solid white" th:text="#{mb.finalclaim.finalclaimrequest.leave}"></td>
+	<td colspan="6" style="text-align:right" id="leave_period_td"><a id="add_row" onclick="myCreateFunction('leavePeriodAddmore')" style="color: rgb(255, 255, 255); border: medium none; cursor: pointer; padding: 2px 8px; background: rgb(13, 57, 94) none repeat scroll 0% 0%;"  >Add More</a></td>
+</tr>
+</tbody>
+</table>
+
+<table id="leavePeriodTableGrid" class="filtersearch">
+<tbody class="allp">
+<tr>
+    <td></td>
+	<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="welcomebox" style="margin-bottom:2px">
+<table class="filtersearch">
+<tbody class="all1">
+<tr class="tadaHeading">
+	<td style="border-right:1px solid white" th:text="#{mb.finalclaim.finalclaimrequest.nondts}"></td>
+	<td  colspan="6"  style="text-align:right"><a id="add_row"  onclick="myCreateFunction('taAddmore')" style="color: rgb(255, 255, 255); border: medium none; cursor: pointer; padding: 2px 8px; background: rgb(13, 57, 94) none repeat scroll 0% 0%;"  >Add More</a></td>
+</tr>
+</tbody>
+</table>
+
+<table id="taTableGrid" class="filtersearch">
+<tbody class="allp">
+<tr>
+    <td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="welcomebox" style="margin-bottom:2px">
+<table class="filtersearch">
+<tbody class="all1">
+<tr class="tadaHeading">
+	<td style="border-right:1px solid white" th:text="#{mb.finalclaim.finalclaimrequest.hotel}"></td>
+	<td  colspan="4" style="text-align:right"><a id="add_row"  onclick="myCreateFunction('hotelAddmore')" style="color: rgb(255, 255, 255); border: medium none; cursor: pointer; padding: 2px 8px; background: rgb(13, 57, 94) none repeat scroll 0% 0%;"  >Add More</a></td>  
+</tr>
+</tbody>
+</table>
+
+<table id="hotelTableGrid" class="filtersearch">
+<tbody class="allp">
+<tr>
+    <td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="welcomebox" style="margin-bottom:2px">
+<table class="filtersearch">
+<tbody class="all1">
+<tr class="tadaHeading">
+	<td style="border-right:1px solid white" th:text="#{mb.finalclaim.finalclaimrequest.food}"></td>
+	<td  colspan="4" style="text-align:right"><a id="add_row"  onclick="myCreateFunction('foodAddmore')" style="color: rgb(255, 255, 255); border: medium none; cursor: pointer; padding: 2px 8px; background: rgb(13, 57, 94) none repeat scroll 0% 0%;"  >Add More</a></td>
+</tr>
+</tbody>
+</table>
+
+
+<table id="foodTableGrid" class="filtersearch">
+<tbody class="allp">
+<tr>
+    <td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="welcomebox" style="margin-bottom:2px">
+<table class="filtersearch">
+<tbody class="all1">
+<tr class="tadaHeading">
+	<td style="border-right:1px solid white" th:text="#{mb.finalclaim.finalclaimrequest.taxi}"></td>
+	<td  colspan="4" style="text-align:right"><a id="add_row"  onclick="myCreateFunction('tourAddmore')" style="color: rgb(255, 255, 255); border: medium none; cursor: pointer; padding: 2px 8px; background: rgb(13, 57, 94) none repeat scroll 0% 0%;"  >Add More</a></td>
+</tr>
+</tbody>
+</table>
+
+
+<table id="tourTableGrid" class="filtersearch">
+<tbody class="allp">
+<tr>
+    <td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="welcomebox" style="margin-bottom:2px">
+<table class="filtersearch">
+<tbody class="all1">
+<tr class="tadaHeading">
+	<td th:text="#{mb.finalclaim.finalclaimrequest.advances}"></td>
+</tr>
+</tbody>
+</table>
+
+<table class="filtersearch">
+<tbody class="allp">
+	 	<tr class="lablevalue">
+    <td th:text="#{mb.finalclaim.finalclaimrequest.daadvance}" style="width:12%"></td>
+	<td th:text="#{mb.finalclaim.finalclaimrequest.advancedrawn}" style="width:16%"></td>
+	<td th:text="#{mb.finalclaim.finalclaimrequest.dateofadvance}" style="width:17%"></td>
+	<td th:text="#{mb.finalclaim.finalclaimrequest.advancefrom}" style="width:19%"></td>
+	<td th:text="#{mb.finalclaim.finalclaimrequest.voucherno}" style="width:18%"></td>
+	<td th:text="#{mb.finalclaim.finalclaimrequest.dofadvancedrawn}"></td>
+	 	</tr>
+<tr>
+    <td class="lablevalue" th:text="${claimView.travelContent.advanceAmount}"></td>
+	<td><input name="advFromPAO" id="Adv_From_PAO" onkeypress="isNumberKey(event)" maxlength="10" onblur="calculateFinalAmount();" autocomplete="off"/></td>
+	<td><input name="advFromPAODate" id="Adv_From_PAO_Date" readonly="true" autocomplete="off"/></td>
+	<td><input name="advFromOther" id="Adv_From_Other" onkeypress="isNumberKey(event)" maxlength="10" onblur="calculateFinalAmount();" autocomplete="off"/></td>
+	<td><input name="advFromOtherVoucherNo" id="Adv_From_Other_VNo" autocomplete="off"/></td>
+	<td><input name="advFromOtherDate" id="Adv_From_Other_Date" readonly="true" autocomplete="off"/></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="welcomebox" style="margin-bottom:2px">
+<table class="filtersearch">
+<tbody class="all1">
+<tr class="tadaHeading">
+	<td th:text="#{mb.finalclaim.finalclaimrequest.advancerefund}"></td>
+</tr>
+</tbody>
+</table>
+
+<table class="filtersearch">
+<tbody class="allp">
+<tr class="lablevalue">
+    <td th:text="#{mb.finalclaim.finalclaimrequest.emroamt}"></td>
+	<td th:text="#{mb.finalclaim.finalclaimrequest.emrono}"></td>
+	<td th:text="#{mb.finalclaim.finalclaimrequest.emrorefunddate}"></td>
+</tr>
+
+<tr>
+    <td><input name="mroRefund" id="Advance_MRO" onkeypress="isNumberKey(event)" maxlength="10" onblur="calculateFinalAmount();" autocomplete="off"/></td>
+	<td><input name="mroNumber" id="MRO_Number" maxlength="20" autocomplete="off"/></td>
+	<td><input name="mroDate" id="MRO_Date" maxlength="20" readonly="readonly" autocomplete="off"/></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="welcomebox" style="margin-bottom:2px" th:if="${claimView.recoverydeatils} != null">
+<table class="filtersearch" width="100%" border="0" align="center" >
+<tbody class="all1">
+    <tr class="tadaHeading">
+	  <td colspan="4" th:text="#{mb.finalclaim.finalclaimrequest.detailsrecovery}"></td>
+ 	</tr>
+ 	<tr class="lablevalue">
+ 	    <td th:text="#{mb.finalclaim.finalclaimrequest.irlarecovery}"></td>
+ 	    <td><span th:text="${claimView.recoverydeatils.irlaRecoveryAmnt}"></span><input type="hidden" id="irlaRecoveryAmt" th:value="${claimView.recoverydeatils.irlaRecoveryAmnt}"/></td>
+ 	</tr>
+ 	</tbody>
+</table>
+</div>
+
+
+<div class="welcomebox" style="margin-bottom:2px">
+	<table class="filtersearch" align="center" width="100%" border="0">
+	<tbody class="all1">
+	 	<tr class="lablevalue">
+	 	<td>Total Amount of Claim(Submitted):&#160;&#160;<span id="total_spent_amount"> </span></td>
+	 	</tr>
+ 	<tr class="lablevalue">
+	 	<td>less: Advance Taken(User) including DTS Tickets:&#160;&#160;<span id="total_advance_amount"> </span></td>
+	 	</tr>
+	 	<tr class="lablevalue">
+	 	<td>add: e-MRO Refunds(User):&#160;&#160;<span id="total_refund_amount"> </span></td>
+	 	</tr>
+ 	<tr class="lablevalue">
+	 	<td>Payable/Recoverable Amount:&#160;&#160;<span id="total_claimed_amount"> </span><span class="mandatory">*</span></td>
+ 	</tr>
+ 	<tr class="lablevalue">
+	 	<td><span style="color:red;font-weight:normal">* Negative amount reflects recovery from the Officer</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+</body>
+</html>

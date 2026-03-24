@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+
+<script type="text/javascript" th:src="@{/js/common/crypto.js}"></script>
+<script th:src="@{/js/common/jquery.tablesorter.js}"> </script>
+<script th:src="@{/js/MB/Grievance/complaintRedressal/grievance.js(random=${session.jsToken})}"></script>
+
+<body>
+	
+	<div th:insert="~{fragments/header/mainHeader}"></div>
+
+	<section id="midpart" class="midpart">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-1"></div>
+				<div class="col-lg-10">
+					
+				
+					<span th:text="${message}" style="color: red;"> </span>
+					<div class="welcomebox" style="margin-top:1rem">
+			
+						<div class="welcomeHead">
+							<span>Additional Information Dashboard</span>
+						</div>
+						<span th:text="${error}" style="color: red;"> </span>
+						<div class="welcomecont" th:unless="${browseList}==null">
+							<table id="myTable" class="filtersearch">
+								<thead class="head">
+									<tr>
+										<th>Query No</th>
+										<th>Category</th>
+										<th>Filed On</th>
+										<th>Remarks</th>
+
+									</tr>
+								</thead>
+								<tbody class="all1">
+									<tr th:each="status :${browseList}">
+										<td>
+											<form th:action="@{/mb/editComplaintRedressal}" method="post">
+												<input type="hidden" name="grievanceId"
+													th:value="${status.grievanceId}" />
+											
+												<button type="submit"
+													style="background:none;border:none;color:blue;cursor:pointer;padding:0;"
+													th:text="${status.grievanceId}">
+												</button>
+											</form>
+										</td>
+
+										<td th:text="${status.grievanceCategory}"></td>
+										
+										<td th:text="${#dates.format(status.creationTime,'dd-MM-yyyy HH:mm') + ' Hrs'}">
+										</td>
+										<td th:text="${status.remark}"
+											style="max-width: 200px;">
+										</td>
+
+
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+
+				</div>
+
+
+			</div>
+		</div>
+
+	</section>
+
+	<section>
+		<div class="blank"></div>
+	</section>
+</body>
+
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+<table border="0" width="100%" cellpadding="4" cellspacing="1" align="center" class="filtersearch">
+<tbody class="all1">
+	<tr style="background-color:#00ff80;">
+	     <td class="lablevalue" colspan="4">Return</td>
+	</tr>
+	</tbody>
+</table>
+
+<div id="mainouterline" th:unless="${list.reqStatus}">
+	<table border="0" width="100%" cellpadding="4" cellspacing="1" align="center" class="filtersearch">
+	<tbody class="lablevalue">
+		<tr>
+			<td>		
+       			Return request not created due to following reasons :<br/>
+				<br/>
+		 			<span class="lablevalue" th:text="${list.errorMessage}"></span>
+			</td>
+		</tr>
+		</tbody>
+	</table>
+</div>
+
+<table border="0" cellpadding="4" cellspacing="1" width="100%" class="filtersearch" th:if="${list.reqStatus}">
+<tbody class="all1">
+	<tr><td class="lablevalue" colspan="4">
+	
+		Flight Travel Request has been saved successfully and Bulk Booking ID generated for Travel Type
+		<span th:text="${list.travelType}"></span> is <span th:text="${list.bulkBkgId}"></span>
+	
+	</td></tr>
+	<tr>
+		<td class="lablevalue" colspan="4">
+	  			Request Information
+	 	</td>
+	</tr>
+	<tr>
+	  <td>Request Type</td>
+	  <td th:text="${list.bookingType}"></td>
+	  <td>Travel Request Type</td>
+	  <td th:text="${list.travelType}"></td>
+	</tr>
+
+	<tr>
+		   <td>Traveler Name</td>
+		   <td th:text="${list.name}"></td>
+		    <td>TR Rule</td>
+		   <td th:text="${list.travelRule}"></td>
+	</tr>
+
+	
+
+	<tr>
+		 <td  colspan="4">
+			<table border="0" cellpadding="4" cellspacing="1" width="100%" class="filtersearch">
+				<tr><td class="lablevalue" colspan="6">Request Ticket Information</td></tr>
+				<tr>
+					<td>Ticket No</td>
+					<td>Journey Mode</td>
+					<td>Class</td>
+					<td>From</td>
+					<td>To</td>
+					<td>Journey Date</td>
+				</tr>
+				<tr th:each="railRoute : ${list.combinedBean}">
+					<td th:text="${railRouteStat.count}"></td>
+					<td th:text="${railRoute.journeyMode}"></td>
+					<td th:text="${railRoute.entitledClass}"></td>
+					<td th:text="${railRoute.frmStation}"></td>
+					<td th:text="${railRoute.toStation}"></td>
+					<td th:text="${railRoute.journeyDate}"></td>
+				</tr>
+				
+			</table> 
+		 </td>
+	</tr>
+
+	<tr>
+		 <td  colspan="4">
+			<table border="0" cellpadding="4" cellspacing="1" width="100%" class="filtersearch">
+				<tbody th:if="${list.requestPassengers} != null">
+				<tr><td class="lablevalue" colspan="5">Request Passenger Information</td></tr>
+				<tr>
+					<td>S.No</td>
+					<td>Name</td>
+					<td>Relation</td>
+					<td>Gender</td>
+					<td>Age</td>
+					<td>Personal No</td>
+				</tr>
+				<tr th:each="pas : ${list.requestPassengers}">
+					<td th:text="${pasStat.count}"></td>
+					<td th:text="${pas.name}"></td>
+					<td th:text="${pas.relation}"></td>
+					<td th:text="${pas.gender}"></td>
+					<td th:text="${pas.age}"></td>
+					<td th:text="${pas.personalNo}"></td>
+				</tr>
+				</tbody>
+			</table> 
+		 </td>
+	</tr>
+</tbody>
+</table>
+</body>
+</html>

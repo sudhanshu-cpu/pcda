@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+<link rel="stylesheet" type="text/css" th:href="@{/css/common/popup/jquery.popup.css}">
+<script type="text/javascript"
+	th:src="@{/js/CDA/transactionsettlementair/outstandingvouchergeneration/outstandingvouchergenerationcda.js(random=${session.jsToken})}"></script>
+
+<script th:src="@{/js/common/popup/jquery.popup.js}"></script>
+
+<script type="text/javascript"
+	th:src="@{/js/CDA/transactionsettlementair/outstandingvouchergeneration/outvouchergenpopupcda.js(random=${session.jsToken})}"></script>
+
+
+
+
+<body oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+	<div th:insert="~{fragments/header/mainHeader}"></div>
+
+	<section id="midpart" class="midpart">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-1"></div>
+				<div class="col-lg-10">
+					<form name="outstandingRprtFilter" th:action="@{/cda/getVoucherDataCda}" id="outstandingRprtFilter"
+						method="post">
+					<div style="color:#A52A2A;font-size:18px;">
+							Kindly settle vouchers from the <b>Voucher Settlement</b> menu as soon as you receive the
+							UTR
+						No. All vouchers will remain outstanding against a PAO until they are settled.
+					</div>
+					<div id="program" class="programBlock">
+						<div class="welcomebox" style="margin-bottom:1rem;">
+							<div class="welcomeHead">
+								<p>Filter For Generating Outstanding Report</p>
+
+							</div>
+							
+								
+								<div class="welcomecont" >
+									<table id="filtersearch" class="filtersearch">
+										<tbody class="all1">
+											<tr>
+												<td>Invoice No.</td>
+												<td><input name="txnId" type="text" id="txnId" class="txtfldM" size="15"
+														th:value="${formModelData.txnId}" maxlength="20"
+														autocomplete="off"></td>
+
+												<td>FB Number</td>
+												<td><input name="bookingId" type="text" id="bookingId" class="txtfldM"
+														th:value="${formModelData.bookingId}" size="15" maxlength="20"
+														autocomplete="off">
+												</td>
+											
+												<td>From Date</td>
+												<td><input name="fromBookingDate" type="text" id="frmBookingDt"
+														th:value="${formModelData.fromBookingDate}" class="txtfldM"
+														size="15" readonly="readonly" autocomplete="off"></td>
+
+												<td>To Date</td>
+												<td><input name="toBookingDate" type="text" id="toBookingDt"
+														th:value="${formModelData.toBookingDate}" class="txtfldM"
+														size="15" readonly="readonly" autocomplete="off"> </td>
+											</tr>
+											<tr>
+												<td>Personal No.</td>
+												<td><input name="personalNo" type="text" id="personalNo" class="txtfldM"
+														th:value="${formModelData.personalNo}" size="15" maxlength="20"
+														style="width:130px;" autocomplete="off"></td>
+
+												<td>Travel Type</td>
+												<td> <select name="travelType" class="comboM" id="travelType"
+														style="width: 84%;">
+														<option value="">All</option>
+														<option th:each="src : ${travelTypeList}"
+															th:text="${src.travelName}" th:value="${src.travelTypeId}"
+															th:selected="${src.travelTypeId} == ${formModelData.travelType}">
+														</option>
+
+
+													</select>
+												</td>
+											
+												<td>Service Name</td>
+												<td>
+													<select name="serviceType" class="comboM" id="serviceType"
+														style="width: 84%;">
+														<option value="">All</option>
+														<option th:each="src : ${serviceList}"
+															th:text="${src.serviceName}" th:value="${src.serviceId}"
+															th:selected="${src.serviceId} == ${formModelData.serviceType} ">
+														</option>
+													</select>
+												</td>
+
+												<td>Account Office <span class="mandatory">*</span></td>
+												<td>
+																				
+																				
+													<select name="accountOffice" class="comboM" id="accountOffice"
+														style="width: 84%;">
+														<option value="">Select</option>
+														<option th:each="src : ${accountMap}" th:text="${src.value}"
+															th:value="${src.key}"
+															th:selected="${src.key} == ${formModelData.accountOffice}">
+														</option>
+													</select>	
+																			
+
+												</td>
+											</tr>
+											<tr>
+												<td>Voucher Status</td>
+												<td>
+													<select name="statusType" class="comboM" id="statusType"
+														style="width: 84%;">
+														<option value="ALL">All</option>
+														<option value="NG"
+															th:selected="${formModelData.statusType} == 'NG'">Voucher
+															Not Generated</option>
+														<option value="VG"
+															th:selected="${formModelData.statusType} == 'VG'">Voucher
+															Generated</option>
+
+
+
+													</select>
+												</td>
+
+												<td>Units</td>
+												<td>
+													<select name="unitOffice" class="comboM" id="unitOffice"
+														style="width: 84%;">
+														<option value="">All</option>
+														<option th:each="src : ${unitList}" th:text="${src.name}"
+															th:value="${src.groupId}"
+															th:selected="${src.groupId} == ${formModelData.unitOffice} ">
+														</option>
+													</select>
+												</td>
+											
+												<td>Service Provider</td>
+												<td colspan="3">
+													<select name="serviceProvider" class="comboM"
+														id="serviceProviderType" style="width: 27%;">
+														<option value=-1>Select</option>
+
+														<option value=0
+															th:selected="${formModelData.serviceProvider} == 0">BL
+														</option>
+
+														<option value=1
+															th:selected="${formModelData.serviceProvider} == 1">ATT
+														</option>
+
+													</select>
+												</td>
+											</tr>
+											<tr>
+												<td colspan="8" id="downLoadFile" style="text-align:right">
+													<input type="button"
+															onclick="doGenerate(this);" value="Generate Report"
+															class="butn">
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+
+						
+						</div>
+					</div>
+                        <div>
+									<p class="errors" th:text="${noData}" style="margin-bottom:0"> </p>
+								</div>
+</form>
+                            <!--					LIST OF DATA DIV					-->
+					
+					<div id="program" class="programBlock" th:unless="${#lists.isEmpty(dataList)}">
+						<div class="welcomebox" style="margin-bottom:1rem;">
+							
+							<div class="welcomecont">
+													<table id="outstandingDetailsTRResult" class="filtersearch">
+														
+														<tr>
+															<td style=background-color:#0AEFFE>
+
+												<span style="float:right">Select All <input type="checkbox"
+														id="select_all" onchange="selectORDeselect(this)" /></span>
+												<input type="hidden" th:value="${listSize}" id="dataListSize">
+															</td>
+														</tr>
+
+														<tr>
+															<td>
+															<form name="outstandingRprtData" id="outstandingRprtData">
+												<table id="outstandingDetailsTR" class="filtersearch"
+													th:each="src,stat : ${dataList}">
+																	
+																	<tr>
+														<td colspan="8" id="records" class="normalbgback"
+															style="height:12px;">
+																			<div id="currRecords" class="showalert">
+																			</div>
+																		</td>
+																	</tr>
+
+																	<tr>
+																		<td style="padding-left:0;padding-right:0">
+
+																			<table class="filtersearch">
+																				<tbody class="all1">
+																				<tr 
+																					style="font-size: 15px;background-color:#B6E3FD">
+																					<td>
+																						Transaction Id :
+																					</td>
+
+																					<td colspan="5"
+																						th:text=${src.transactionId}>
+
+																					</td>
+
+
+
+																					<td style="text-align:right" colspan="2"
+																						th:if="${src.amountDrCr}=='DR' and ${src.validForVoucher}=='YES'">
+																						<input type="hidden"
+																							th:id="@{|ref_${stat.index+1}|}"
+																							th:value="${src.referenceId}"
+																							name="refhidden" />
+																						<input type="checkbox"
+																							th:attr="onclick='checkIndividualBox(\''+${stat.index}+'\',\''+${src.uniqueTransactionId}+'\',\''+${src.amountDrCr}+'\',\''+${src.transactionId}+'\',\''+${src.bkgVoucherStatus}+'\',\''+${src.travelType}+'\')'"
+																							name="recordchkbox"
+																							th:value="${src.uniqueTransactionId}+'|'+${src.amountDrCr}+'|'+${src.transactionId}+'|'+${src.bkgVoucherStatus}+'|'+${src.travelType}"
+																							th:id="@{|record_${stat.index}|}" />
+																					</td>
+
+
+
+
+																			<td style="text-align:right" colspan="2">
+																			<input type="text" name="recordchkbox"
+																				th:if="${src.amountDrCr}=='DR' and ${src.validForVoucher}!='YES'"
+																					th:id="@{|record_${stat.index}|}" 
+																				th:value="${src.reasonText}"
+																				style="border:none" readonly="readonly">
+																					</td>
+
+
+																					<td style="text-align:right" colspan="2"
+																						th:if="${src.amountDrCr}=='CR' and ${src.validForVoucher}=='YES'">
+																						<input type="hidden"
+																							th:id="@{|ref_${stat.index+1}|}"
+																				value="yes" name="refhidden" />
+																						<input type="checkbox"
+																							th:attr="onclick='checkIndividualBox(\''+${stat.index}+'\',\''+${src.uniqueTransactionId}+'\',\''+${src.amountDrCr}+'\',\''+${src.transactionId}+'\',\''+${src.bkgVoucherStatus}+'\',\''+${src.travelType}+'\')'"
+																							name="recordchkbox"
+																							th:value="${src.uniqueTransactionId}+'|'+${src.amountDrCr}+'|'+${src.transactionId}+'|'+${src.bkgVoucherStatus}+'|'+${src.travelType}"
+																							th:id="@{|record_${stat.index}|}" />
+																					</td>
+
+
+																					<td style="text-align:right" colspan="2"
+																						th:if="${src.amountDrCr}=='CR' and ${src.validForVoucher}!='YES' and ${src.reasonText}=='Invoice Voucher Generated'">
+																						
+																					</td>
+
+																					<td style="text-align:right" colspan="2"
+																						th:if="${src.amountDrCr}=='CR' and ${src.validForVoucher}!='YES' and ${src.reasonText}!='Invoice Voucher Generated'"
+																						th:text=${src.reasonText}>
+
+																						<input type="hidden"
+																							th:id="@{|ref_${stat.index+1}|}"
+																							th:value="${Reference_Id}"
+																							name="refhidden" />
+																						<input type="checkbox"
+																							th:attr="onclick='checkIndividualBox(\''+${stat.index}+'\',\''+${src.uniqueTransactionId}+'\',\''+${src.amountDrCr}+'\',\''+${src.transactionId}+'\',\''+${src.bkgVoucherStatus}+'\',\''+${src.travelType}+'\')'"
+																							name="recordchkbox"
+																							th:value="${src.uniqueTransactionId}+'|'+${src.amountDrCr}+'|'+${src.transactionId}+'|'+${src.bkgVoucherStatus}+'|'+${src.travelType}"
+																							th:id="@{|record_${stat.index}|}" />
+																					</td>
+
+
+																				</tr>
+
+
+																				<tr>
+																					<td class="lablevalue">Personal No.</td>
+																					<td>
+																			<span th:text="${src.personalNo}">
+																						</span>
+																						<input type="hidden"
+																							th:value="${src.personalNo}"
+																							th:id="@{|personal_no_${stat.index}|}"
+																							th:name="@{|personal_no_${stat.index}|}" />
+																					</td>
+																					<td class="lablevalue">Transaction Id</td>
+																		<td><span th:text="${src.transactionId}">
+																						</span>
+																						<input type="hidden"
+																							th:value="${src.transactionId}"
+																							th:id="@{|transaction_id_${stat.index}|}"
+																							th:name="@{|transaction_id_${stat.index}|}" />
+																					</td>
+																					<td class="lablevalue">Cancellation Ground</td>
+																		<td th:text="${src.cancellationGround}">
+																					</td>
+
+																					<td class="lablevalue">Travel Type</td>
+																					<td th:text="${src.travelType}">
+																					</td>
+																				</tr>
+																				<tr>
+																					<td class="lablevalue">Transaction Date</td>
+																		<td th:text="${src.transactionDate}">
+																					</td>
+																					<td class="lablevalue">LTC Fare</td>
+																					<td th:text="${src.ltcFare}"> </td>
+																					<td class="lablevalue">Traveler Name</td>
+																					<td
+																						th:text="${src.travelerFirstName} + ${src.travelerLastName}">
+																					</td>
+																					<td class="lablevalue">Personal First Name</td>
+																					<td
+																						th:text="${src.firstName} + ${src.lastName}">
+																					</td>
+																				</tr>
+																				<tr>
+
+																					<td class="lablevalue">Reference Id</td>
+																					<td th:text="${src.referenceId}">
+
+																					</td>
+																					<td class="lablevalue">Reference Id Date</td>
+																		<td th:text="${src.referenceIdDate}">
+																					</td>
+																					<td class="lablevalue">CDAO A/c No.</td>
+																					<td th:text="${src.cdaoAcNo}"> </td>
+																					<td class="lablevalue">Reference Id Amount</td>
+																		<td th:text="${src.referenceIdAmount}">
+																					</td>
+																				</tr>
+
+																				<tr>
+																					<td class="lablevalue">Traveler Age</td>
+																					<td th:text="${src.travelerAge}">
+																					</td>
+																					<td class="lablevalue">Unit</td>
+																					<td th:text="${src.unit}"> </td>
+																					<td class="lablevalue">Traveler Relation</td>
+																		<td th:text="${src.travelerRelation}">
+																					</td>
+																					<td class="lablevalue">PAO Name</td>
+																					<td th:text="${src.paoName}"> </td>
+																				</tr>
+
+
+																				<tr>
+																					<td class="lablevalue">Net Outstanding</td>
+																					<td>
+																			<span th:text="${src.netOutstanding}">
+																						</span>
+																						<input type="hidden"
+																							th:value="${src.netOutstanding}"
+																							th:id="@{|net_outstanding_${stat.index}|}"
+																							th:name="@{|net_outstanding_${stat.index}|}" />
+																					</td>
+
+																					<td class="lablevalue">Ticket Number</td>
+																					<td th:text="${src.ticketNo}"> </td>
+																					<td class="lablevalue">Authority No.</td>
+																					<td th:text="${src.authorityNo}">
+																					</td>
+																					<td class="lablevalue">Authority Date</td>
+																					<td th:text="${src.authorityDate}">
+																					</td>
+																				</tr>
+
+																				<tr>
+																					<td class="lablevalue">Due Amount</td>
+																					<td>
+																			<span th:text="${src.dueAmount}">
+																						</span>
+																			<input th:value="${src.dueAmount}"
+																							type="hidden"
+																							th:id="@{|due_amount_${stat.index}|}"
+																							th:name="@{|due_amount_${stat.index}|}" />
+																					</td>
+																					<td class="lablevalue">Airline PNR No</td>
+																					<td th:text="${src.airlinePnrNo}">
+																					</td>
+																					<td class="lablevalue">Cancellation Charges</td>
+																		<td th:text="${src.cancellationCharges}">
+																					</td>
+																					<td class="lablevalue">Travel Date</td>
+																					<td th:text="${src.travelDate}">
+																					</td>
+																				</tr>
+
+																				<tr>
+																					<td class="lablevalue">Sector Details</td>
+																					<td th:text="${src.sectorDetail}">
+																					</td>
+																					<td class="lablevalue">FB Number</td>
+																					<td th:text="${src.fbNo}"> </td>
+																					<td class="lablevalue">Flight Number</td>
+																					<td th:text="${src.flightNo}"> </td>
+																					<td class="lablevalue">Journey Type</td>
+																					<td th:text="${src.journeyType}">
+																					</td>
+																				</tr>
+																				</tbody>
+																			</table>
+																		</td>
+																	</tr>
+																	
+																
+																</table>
+																</form>
+															</td>
+														</tr>
+
+														<tr>
+															<td style="text-align:right;width:50%">
+															<form name ="downloadOutStandingReport" id="downloadOutStandingReport">  
+												<a href="javascript:void(0);"><input class="genbutn" type="button"
+														onclick=" doGenerate(this.form);" value="Generate Voucher" /></a>
+
+
+																<a th:href="@{/cda/getDownloadCda}" class="downbutn">Download Report</a>
+																</form>
+															</td>
+														</tr>
+														
+													</table>
+
+							</div>
+						</div>
+					</div>
+				
+			
+ 	<div class="p_anch">
+		<a href="javascript:void(0);" class="js__p_start"></a> 
+	</div>
+	<div class="p_body js__p_body js__fadeout"></div>
+	<div class="popup js__popup js__slide_top">
+		<div class="p_content" id="voucherGenerationSummaryId">
+			<table style="width:100%">
+			
+			</table>
+		</div>
+
+		<table style="display:none;width:100%" id="voucher_Ack_Close_Id" class="p_content">
+			<tr>
+									<td><a href="javascript:void(0);" class="p_close js__p_close button_ok"
+											title="Close">Close</a></td>
+			</tr>
+		</table>
+		<form name="generateOutStandingVoucher" id="generateOutStandingVoucher">
+							 <input type="hidden" name="txnsId" id="txnsId" value=""/>
+		<table style="display:none;width:100%" id="voucher_Summary_Close_Id" class="p_content">
+			<tr>
+									<td><button type="submit" class="p_close js__p_close button_ok"
+											th:formaction="@{/cda/generateOutStandingVoucherCda}" th:formmethod="post"
+			 id="confirmGeneration" >OK</button></td>
+									<td><a href="javascript:void(0);" class="p_close js__p_close button_ok"
+											title="Close">Close</a></td>
+			</tr>
+		</table>
+		</form>
+
+	</div>
+		
+		</div>
+			</div>
+
+
+		</div>
+	</section>
+	<section>
+		<div class="blank"></div>
+	</section>
+	<section>
+		<div th:insert="~{fragments/login/footer}"></div>
+	</section>
+</body>
+
+</html>

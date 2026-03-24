@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+      <td colspan="4" th:if="${jrnyType} == 0">  
+	     <table border="0" cellpadding="4" cellspacing="1" width="100%" class="formtxt">
+	      <tr>
+	        <td>
+		      <div id="journeyModeDivId"  style="display:none">
+			  </div>   
+		    </td>
+		   </tr>
+		   <tr>
+		     <td>		      
+			  <div id="airRequestXform" style="display:none" th:insert="~{MB/TravelRequest/bulkBkgRequest/airOnwardBulkBkgRequestForm}">
+			  </div>			 
+			 </td>
+		   </tr>
+		   <tr>
+		     <td>
+		       <div id="familyDetails" class="datagrid" style="display:none;"></div>
+		     </td>
+		   </tr>		  
+		   <tr>
+		     <td>
+		       <div id="partyDependentDetails" class="datagrid" style="display:none"></div>
+		     </td>
+		  </tr>	
+		
+		<input type="hidden" id="relation" name="relation" class="myRecord"/>   
+		<input type="hidden" id="familyName" name="familyName" class="myRecord"/>
+		<input type="hidden" id="gender" name="gender" class="myRecord" />
+		<input type="hidden" id="dob" name="dob" class="myRecord"/>
+		<input type="hidden" id="age" name="age" class="myRecord"/>
+		<input type="hidden" id="depSeqNo" name="depSeqNo" class="myRecord"/>
+		<input type="hidden" id="ersPrntNameVal" name="ersPrntNameVal" class="myRecord"/> 
+        <input type="hidden" id="otherRel" name="otherRel" class="myRecord"/>
+		
+		</table>
+	</td>	
+		
+  
+      <td colspan="4" th:if="${jrnyType} == 1">
+      <table border="0" cellpadding="4" cellspacing="1" width="100%" class="formtxt">
+	      <tr>
+	        <td>
+		      <div id="returnJourneyModeDivId"  style="display:none">
+			  </div>   
+		    </td>
+		   </tr>
+		   <tr>
+		     <td>
+			 
+			  <div id="airReturnRequestXform" style="display:none" th:insert="~{MB/TravelRequest/bulkBkgRequest/airReturnBulkBkgRequestForm}">
+			  </div>
+			
+	        </td>
+		   </tr>
+		   <tr>
+		     <td>
+		       <div id="returnFamilyDetails" class="datagrid" style="display:none;"></div>
+		     </td>
+		   </tr>	
+		   <tr>
+		     <td>
+		       <div id="returnPartyDependentDetails" class="datagrid" style="display:none"></div>
+		     </td>
+		  </tr>	
+		<input type="hidden" id="returnRelation" name="returnRelation" class="myRecord"/>   
+		<input type="hidden" id="returnFamilyName" name="returnFamilyName" class="myRecord"/>
+		<input type="hidden" id="returnGender" name="returnGender" class="myRecord" />
+		<input type="hidden" id="returnDOB" name="returnDOB" class="myRecord"/>
+		<input type="hidden" id="returnAge" name="returnAge" class="myRecord"/>
+		<input type="hidden" id="returnDepSeqNo" name="returnDepSeqNo" class="myRecord"/>
+		<input type="hidden" id="returnErsPrntNameVal" name="returnErsPrntNameVal" class="myRecord"/> 
+        <input type="hidden" id="returnOtherRel" name="returnOtherRel" class="myRecord"/>
+		</table>
+	</td>	
+ 
+ <script type="text/javascript">
+
+$( document ).ready(function() {
+
+initAirportList();
+
+$("#journeyDate").datetimepicker({
+		lang:'en',
+		timepicker:false,
+		format:'d/m/Y',
+		formatDate:'d/m/Y',
+			scrollMonth : false,
+    		scrollInput : false,
+    		viewDate : $('#travelStartDate').val(), 
+    		defaultDate : $('#travelStartDate').val(),
+		yearEnd: 2100,
+
+			onShow:function( input, inst ){
+				
+		         var minData=0;
+		       	 var maxData=0;
+		          if($('#return_JourneyDate').val()!="" && $('#return_JourneyDate').val()!= undefined){ 
+		             minData=$('#travelStartDate').val();
+		       	   	 maxData=$('#return_JourneyDate').val();
+		         }else{
+		             minData=$('#travelStartDate').val();
+		       	     maxData=$('#travelEndDate').val();
+		         }
+		         
+		   	    $("#journeyDate").datetimepicker("setOptions", {
+					minDate: minData});
+					
+					$("#journeyDate").datetimepicker("setOptions", {
+					maxDate: maxData});
+					 
+		  
+		   } 
+	   });
+	   
+	   $("#return_JourneyDate").datetimepicker({
+		lang:'en',
+		timepicker:false,
+		format:'d/m/Y',
+		formatDate:'d/m/Y',
+			scrollMonth : false,
+    		scrollInput : false,
+    		viewDate : $('#travelStartDate').val(), 
+    		defaultDate : $('#travelStartDate').val(),
+		yearEnd: 2100,
+
+			onShow:function( input, inst ){
+	       	   var minData=0;
+	       	   var maxData=0;
+	       	    if($('#journeyDate').val()!="" && $('#journeyDate').val()!= undefined){ 
+	       	   	 minData=$('#journeyDate').val();
+	       	   	 maxData=$('#travelEndDate').val();
+	       	   }else{
+	       	     minData=$('#travelStartDate').val();
+	       	     maxData=$('#travelEndDate').val();
+	       	   }
+	       	   
+	       	   $("#return_JourneyDate").datetimepicker("setOptions", {
+					minDate: minData});
+					
+					$("#return_JourneyDate").datetimepicker("setOptions", {
+					maxDate: maxData});
+	       	   
+	       	   
+	       	    
+		   } 
+	   });
+
+$("#onwordJourneyDate").datetimepicker({
+		lang:'en',
+		timepicker:false,
+		format:'d/m/Y',
+		formatDate:'d/m/Y',
+			scrollMonth : false,
+    		scrollInput : false,
+    		viewDate : $('#travelStartDate').val(), 
+    		defaultDate : $('#travelStartDate').val(),
+		yearEnd: 2100,
+
+			onShow:function( input, inst ){
+		         var minData=0;
+		       	 var maxData=0;
+		         if($('#returnOnwordJourneyDate').val()!="" && $('#returnOnwordJourneyDate').val()!= undefined){ 
+		             minData=$('#travelStartDate').val();
+		       	   	 maxData=$('#returnOnwordJourneyDate').val();
+		         }else{
+		             minData=$('#travelStartDate').val();
+		       	     maxData=$('#travelEndDate').val();
+		         }
+		         
+		         $("#onwordJourneyDate").datetimepicker("setOptions", {
+					minDate: minData});
+					
+					$("#onwordJourneyDate").datetimepicker("setOptions", {
+					maxDate: maxData});
+	       	   
+		   	    
+		   } 
+	  });    
+
+$("#returnOnwordJourneyDate").datetimepicker({
+		lang:'en',
+		timepicker:false,
+		format:'d/m/Y',
+		formatDate:'d/m/Y',
+			scrollMonth : false,
+    		scrollInput : false,
+    		viewDate : $('#travelStartDate').val(), 
+    		defaultDate : $('#travelStartDate').val(),
+		yearEnd: 2100,
+
+			onShow:function( input, inst ){
+	       	   var minData=0;
+	       	   var maxData=0;
+	       	    if($('#onwordJourneyDate').val()!="" && $('#onwordJourneyDate').val()!= undefined){ 
+	       	   	 minData=$('#onwordJourneyDate').val();
+	       	   	 maxData=$('#travelEndDate').val();
+	       	   }else{
+	       	     minData=$('#travelStartDate').val();
+	       	     maxData=$('#travelEndDate').val();
+	       	   }
+	       	   
+	       	    $("#returnOnwordJourneyDate").datetimepicker("setOptions", {
+					minDate: minData});
+					
+					$("#returnOnwordJourneyDate").datetimepicker("setOptions", {
+					maxDate: maxData});
+	       	   
+	       	    
+		   } 
+	   });
+	
+
+
+     $('#onwordJourneyDate').on("keypress keyup blur",function (event){
+     	 isDateChange('onwordJourneyDate');
+       });
+     $('#mixedJrnyJourneyDate1').on("keypress keyup blur",function (event){
+      	isDateChange('mixedJrnyJourneyDate1');
+       });
+     $('#mixedJrnyJourneyDate0').on("keypress keyup blur",function (event){
+      	isDateChange('mixedJrnyJourneyDate0');
+       });
+     
+      $("#advanceAmt,#hotelAmount,#conveyanceAmount,#foodAmount,#basicPay,#luggageAmt,#conveyance,#totalCtg,#distanceInKms,#approxLuggWeight")
+      .on("keypress keyup blur",function (event) {    
+           $(this).val($(this).val().replace(/[^\d].+/, ""));
+           if (event.which > 31 && (event.which < 48 || event.which > 57)) {
+                event.preventDefault();
+            }
+        });
+$("#FAA_AuthorityDate").datetimepicker({
+		lang:'en',
+		timepicker:false,
+		format:'d/m/Y',
+		formatDate:'d/m/Y',
+		scrollMonth : false,
+		scrollInput : false,
+		yearEnd: 2100,
+	 
+		maxDate:0 
+	  });	
+	  
+	   $('#returnFAA_AuthorityDate').datetimepicker({
+		lang:'en',
+		timepicker:false,
+		format:'d/m/Y',
+		formatDate:'d/m/Y',
+		scrollMonth : false,
+		scrollInput : false,
+		yearEnd: 2100,
+	 
+		maxDate:0 
+	  });
+	  
+	   $('#mixed_FAA_AuthorityDate').datetimepicker({
+		lang:'en',
+		timepicker:false,
+		format:'d/m/Y',
+		formatDate:'d/m/Y',
+		scrollMonth : false,
+		scrollInput : false,
+		yearEnd: 2100,
+	 
+		maxDate:0 
+	  });	
+	  
+	   $('#returnMixedFAA_AuthorityDate').datetimepicker({
+		lang:'en',
+		timepicker:false,
+		format:'d/m/Y',
+		formatDate:'d/m/Y',
+		scrollMonth : false,
+		scrollInput : false,
+		yearEnd: 2100,
+	 
+		maxDate:0 
+	  });
+	  $('#returnDate').datetimepicker({
+		lang:'en',
+		timepicker:false,
+		format:'d/m/Y',
+		formatDate:'d/m/Y',
+		scrollMonth : false,
+		scrollInput : false,
+		viewDate : $('#travelStartDate').val(), 
+    	defaultDate : $('#travelStartDate').val(),
+		yearEnd: 2100,
+	 	
+		onShow:function( input, inst ){
+			
+			minData=$('#travelStartDate').val();
+	       	     maxData=$('#travelEndDate').val();
+			 $("#returnOnwordJourneyDate").datetimepicker("setOptions", {
+					minDate: minData});
+					
+					$("#returnOnwordJourneyDate").datetimepicker("setOptions", {
+					maxDate: maxData});
+		
+		
+	        
+		   }            
+	  });
+	          
+});
+		   	
+</script>	
+
+ </html>
+ 

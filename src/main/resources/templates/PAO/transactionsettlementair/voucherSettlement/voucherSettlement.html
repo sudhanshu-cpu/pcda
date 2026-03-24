@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+<script th:src="@{/js/PAO/transactionsettlementair/vouchersettlement/vouchersettlement.js(random=${session.jsToken})}"></script>
+
+
+
+
+<body oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+	<div th:insert="~{fragments/header/mainHeader}"></div>
+
+	<section id="midpart" class="midpart">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-1"></div>
+				<div class="col-lg-10">
+					<form th:action="@{/pao/voucherSetDataList}" method="post" name="voucherSettlement"
+						id="voucherSettlement">
+						<div id="program" class="programBlock">
+							<div class="welcomebox" style="margin-bottom:1rem;">
+								<div class="welcomeHead">
+									<p th:text="#{pao.transactionsettlement.vouchersettlement.filter}"></p>
+
+								</div>
+								<div class="welcomecont">
+									<table id="filtersearch" class="filtersearch">
+										<tbody class="all1">
+											<tr>
+												<td th:text="#{pao.transactionsettlement.vouchersettlement.fdate}"></td>
+												<td><input name="fromBookingDate" type="text" id="frmBookingDt"
+														class="txtfldM" size="15" readonly="readonly" th:value="${searchModel.fromBookingDate}" autocomplete="off"></td>
+
+												<td th:text="#{pao.transactionsettlement.vouchersettlement.bdate}"> </td>
+												<td><input name="toBookingDate" type="text" id="toBookingDt"
+														class="txtfldM" size="15" readonly="readonly" th:value="${searchModel.toBookingDate}" autocomplete="off"></td>
+											
+												<td th:text="#{pao.transactionsettlement.vouchersettlement.vno}"> </td>
+												<td><input name="voucherNo" type="text" id="voucherNo" class="txtfldM"
+														size="15" maxlength="20" th:value="${searchModel.voucherNo}" autocomplete="off"></td>
+
+												<td th:text="#{pao.transactionsettlement.vouchersettlement.incredit}"></td>
+												<td> <input name="invoiceNo" type="text" id="invoiceNo" class="txtfldM"
+														size="15" maxlength="20" th:value="${searchModel.invoiceNo}" autocomplete="off">
+												</td>
+											</tr>
+											<tr>
+												<td th:text="#{pao.transactionsettlement.vouchersettlement.vstatus}"> </td>
+												<td>
+													<select name="statusType" class="comboM" id="statusType">
+														<option value="-1">All</option>
+
+														<option value="0" th:selected="${searchModel.statusType}==0">Open</option>
+
+														<option value="1" th:selected="${searchModel.statusType}==1">Partially Settled</option>
+
+														<option value="2" th:selected="${searchModel.statusType}==2">Fully Settled</option>
+
+														<option value="3" th:selected="${searchModel.statusType}==3">Cancelled</option>
+
+													</select>
+												</td>
+
+												<td><label th:text="#{pao.transactionsettlement.vouchersettlement.acct}"></label> <span class="mandatory">*</span></td>
+												<td>
+
+													<Input type="hidden" th:value="${groupId}"
+														name="accountOffice" id="accountOffice">
+													<Input type="text" th:value="${name}"
+														readonly="readonly" style="border:none" autocomplete="off">
+
+												</td>
+											
+												<td th:text="#{pao.transactionsettlement.vouchersettlement.provider}"> </td>
+												<td colspan="3">
+													<select name="serviceProvider" class="comboM"
+														id="serviceProviderType" style="width: 27%;">
+														<option value="">Select</option>
+
+															<option value="0" th:selected="${searchModel.serviceProvider}==0">BL</option>
+
+														<option value="1" th:selected="${searchModel.serviceProvider}==1">ATT</option>
+													</select>
+												</td>
+											</tr>
+											<tr>
+												<td colspan="8" id="downLoadFile" style="text-align:right">
+													<a href="javascript:void(0);"><input type="submit"
+															onclick="doGenerate();" value="Generate Report"
+															class="butn"></a>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+						
+						<div id="program" class="programBlock" th:unless="${#lists.isEmpty(dataList)}">
+							<div class="welcomebox" style="margin-bottom:1rem;">
+								<table class="filtersearch" id="outstandingDetailsTR">
+									<tbody class="all1">
+										<tr>
+											<td colspan="12" id="records" class="normalbgback">
+												<div id="currRecords" class="showalert">
+												</div>
+											</td>
+										</tr>
+
+										<tr>
+											
+											<td class="lablevalue" style="width:4%"> </td>
+											<td class="lablevalue" style="width:9%" th:text="#{pao.transactionsettlement.vouchersettlement.vno}"></td>
+											<td class="lablevalue" style="width:10%" th:text="#{pao.transactionsettlement.vouchersettlement.creation}"> </td>
+											<td class="lablevalue" style="width:11%" th:text="#{pao.transactionsettlement.vouchersettlement.vstatus}"> </td>
+											<td class="lablevalue" style="width:6%" th:text="#{pao.transactionsettlement.vouchersettlement.balance}"></td>
+											<td class="lablevalue" style="width:8%" th:text="#{pao.transactionsettlement.vouchersettlement.total}"> </td>
+											<td class="lablevalue" style="width:10%" th:text="#{pao.transactionsettlement.vouchersettlement.baltotal}"></td>
+											<td class="lablevalue" style="width:9%" th:text="#{pao.transactionsettlement.vouchersettlement.outstanding}"></td>
+											<td class="lablevalue" style="width:14%" th:text="#{pao.transactionsettlement.vouchersettlement.boa}"> </td>
+											<td class="lablevalue" style="width:6%" th:text="#{pao.transactionsettlement.vouchersettlement.remark}"></td>
+											<td class="lablevalue" style="width:7%" th:text="#{pao.transactionsettlement.vouchersettlement.det}"> </td>
+											<td class="lablevalue" style="text-align:center" th:text="#{pao.transactionsettlement.vouchersettlement.action}"></td>
+										</tr>
+										
+										<tbody class="all1">
+										<tr th:each= "src : ${dataList}">
+										
+										<td style="text-align:center" th:if="${src.filePath} !=null">
+										<button type ="submit" class="pdf" th:value="${src.filePath}" name="dwnFilePath" th:formaction="@{/com/downloadFile}" th:formmethod="get">PDF </button>
+										</td>
+										<td style="text-align:center" th:if="${src.filePath} ==null">
+										<button type ="button" class="pdf"  name="dwnFilePath" onclick="pdfOn();">PDF </button>
+										</td>
+
+											<!--
+										<td style="text-align:center" th:text="${src.voucherNo}">
+											</td> -->
+
+										<!--	<td style="text-align:center">
+												<a href="@{/pao/voucherDetails(voucherNo=${src.voucherNo})}"  th:text= "${src.voucherNo}"> </a>
+
+												 style="border: none ;color: mediumblue;background-color:white;text-decoration: underline;"
+
+											</td> -->
+
+											<td style="text-align:center">
+												<button th:value="${src.voucherNo}" name="voucherNumber" type="submit" style="border: none ;color: mediumblue;background-color:white;text-decoration: underline;"
+														th:formaction="@{/pao/voucherDetails}" th:formmethod="post" th:text= "${src.voucherNo}" >
+												</button>
+											</td>
+
+
+
+
+										<td style="text-align:center" th:text="${src.creationTime}"></td>
+										<td style="text-align:center" th:text="${src.voucherStatus}"></td>
+										<td style="text-align:center" th:text="${src.balanceAvailable}"></td>
+										
+										<td style="text-align:center" th:text="${src.totalAmount}"></td>
+										<td style="text-align:center" th:text="${src.balanceTotalAmount}"></td>
+										<td style="text-align:center" th:text="${src.outstandingAmount}"></td>
+										<td style="text-align:center" th:text="${src.balanceOutstandingAmount}"></td>
+										<td style="text-align:center" th:text="${src.remark}"></td>
+										<td style="text-align:center" th:text="${src.voucherDetails}"></td>
+									
+										<td style="text-align:center">
+											<button th:value="${src.voucherNo}" name ="voucherNos" type="submit" style="border: none ;color: mediumblue;background-color:white;text-decoration: underline;"
+											th:formaction="@{/pao/getDataFromVocher}" th:formmethod="post" >
+												<img th:src="@{/images/play.png}" style="height: 17px;width:19px;">
+											</button></td>
+										
+										</tr>
+										</tbody>
+									</tbody>
+								</table>
+
+							</div>
+						</div>
+						<div><div> <p th:text="${noResult}" class="errors" style="margin-bottom:0"></p></div> </div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</section>
+		<section>
+		<div class="blank"></div>
+	</section>
+	<section>
+		<div th:insert="~{fragments/login/footer}"></div>
+	</section>
+</body>
+
+</html>

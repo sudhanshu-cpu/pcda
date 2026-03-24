@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+			<div id="program" class="programBlock">
+				<div class="welcomebox" style="margin-bottom:1rem">
+					<div class="welcomeHead">
+						<p th:text="#{mb.report.user.report.userInformation}">
+
+						</p>
+					</div>
+					<div class="welcomecont">
+						<table class="filtersearch" id="userDetaisl" width="100%" cellspacing="1" cellpadding="4"
+							border="0" align="center">
+
+							<tbody class="all1" th:each="dtls:${userList}">
+
+
+								<tr align="left">
+									<td class="lablevalue"><span th:text="#{mb.report.user.report.userId}"></span></td>
+									<td th:text="${dtls.signInID}"></td>
+									<td class="lablevalue">
+										<span th:text="#{mb.report.user.report.name}"></span>
+									</td>
+									<td th:text="${dtls.firstName}+ ' ' + ${dtls.middleName}+ ' ' + ${dtls.lastName}">
+									</td>
+								</tr>
+
+								<tr align="left">
+									<td class="lablevalue"><span th:text="#{mb.report.user.report.gender}"></span></td>
+									<td th:text="${dtls.gender}"></td>
+									<td class="lablevalue"><span th:text="#{mb.report.user.report.emailId}"></span></td>
+									<td th:text="${dtls.email}"></td>
+								</tr>
+
+								<tr align="left">
+									<td class="lablevalue"><span th:text="#{mb.report.user.report.mobileNumber}"></span></td>
+									<td th:text="${dtls.mobileNo}"></td>
+									<td class="lablevalue"><span th:text="#{mb.report.user.report.categoryName}"></span></td>
+									<td th:text="${dtls.categoryName}"></td>
+								</tr>
+
+								<tr align="left">
+									<td class="lablevalue"><span th:text="#{mb.report.user.report.unitService}"></span></td>
+									<td th:text="${dtls.unitServiceName}"></td>
+									<td class="lablevalue"><span th:text="#{mb.report.user.report.travelerService}"></span></td>
+									<td th:text="${dtls.serviceName}"></td>
+								</tr>
+
+								<tr align="left">
+									<td class="lablevalue"><span th:text="#{mb.report.user.report.levelName}"></span></td>
+									<td th:text="${dtls.levelName}"></td>
+									<td class="lablevalue"><span th:text="#{mb.report.user.report.gradePay/Rank}"></span></td>
+									<td th:text="${dtls.rankName}"></td>
+								</tr>
+
+
+								<tr align="left">
+									<td class="lablevalue"><span th:text="#{mb.report.user.report.dateofBirth}"></span></td>
+									<td th:text="${dtls.dateOfBirth}"></td>
+									<td class="lablevalue"><span th:text="#{mb.report.user.report.dateofRetirement}"></span></td>
+									<td th:text="${dtls.dateOfRetirement}"></td>
+								</tr>
+
+								<tr align="left">
+									<td class="lablevalue"><span th:text="#{mb.report.user.report.DateofEnrolment}"></span></td>
+									<td th:text="${dtls.dateOfCommissioning}"></td>
+									<td class="lablevalue"><span th:text="#{mb.report.user.report.concessionVoucher }"></span></td>
+									<td th:text="${dtls.cvUsed}"></td>
+								</tr>
+
+
+								<tr align="left">
+									<td class="lablevalue"><span th:text="#{mb.report.user.report.railPayAccountOffice}"></span></td>
+									<td th:text="${dtls.accountOffice}"></td>
+									<td class="lablevalue"><span th:text="#{mb.report.user.report.airPayAccountOffice}"></span></td>
+									<td th:text="${dtls.airAccountOffice}"></td>
+								</tr>
+
+
+
+								<tr align="left">
+									<td class="lablevalue"><span th:text="#{mb.report.user.report.nrsDutyStation}"></span></td>
+									<td th:text="${dtls.nrsDutyStn}"></td>
+									<td class="lablevalue"><span th:text="#{mb.report.user.report.nrsHomeTown}"></span></td>
+									<td th:text="${dtls.homeTownNrs}"></td>
+								</tr>
+								<tr align="left">
+									<td class="lablevalue"><span th:text="#{mb.report.user.report.nrsForReservationHomeTown}">
+										</span></td>
+									<td th:text="${dtls.sprNrs}"></td>
+									<td class="lablevalue"><span th:text="#{mb.report.user.report.nraDutyStation}"></span></td>
+									<td th:text="${dtls.naDutyStn}"></td>
+								</tr>
+
+								<tr align="left">
+									<td class="lablevalue"><span th:text="#{mb.report.user.report.nraHomeTown}"></span></td>
+									<td th:text="${dtls.homeTownNa}"></td>
+									<td class="lablevalue"><span th:text="#{mb.report.user.report.nrsSPR}"></span></td>
+									<td th:text="${dtls.spr}"></td>
+								</tr>
+
+								<tr align="left">
+									<td class="lablevalue"><span th:text="#{mb.report.user.report.nrsForReservationSpr}"></span></td>
+									<td th:text="${dtls.sprNrs}"></td>
+									<td class="lablevalue"><span th:text="#{mb.report.user.report.nearestAirportSPR}"></span></td>
+									<td th:text="${dtls.sprNa}"></td>
+								</tr>
+
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<div id="program" class="programBlock">
+				<div class="welcomebox" style="margin-bottom:1rem">
+					<div class="welcomeHead">
+						<p th:text="#{mb.report.user.report.dependentDtls}">
+
+						</p>
+					</div>
+					<div class="welcomecont">
+						<table class="filtersearch" width="100%" cellspacing="1" cellpadding="4" border="0"
+							align="center">
+							<tbody class="all1" th:each="dtls:${userList}">
+
+
+								<tr class="lablevalue" align="center">
+									<td><span th:text="#{mb.report.user.report.sN}"></span></td>
+									<td><span th:text="#{mb.report.user.report.name}"></span></td>
+									<td><span th:text="#{mb.report.user.report.gender}"></span></td>
+									<td><span th:text="#{mb.report.user.report.relationShip}"> </span>
+									</td>
+									<td><span th:text="#{mb.report.user.report.martialStatus}"></span>
+									</td>
+									<td><span th:text="#{mb.report.user.report.status}"></span></td>
+
+
+									
+
+
+               <td  th:if="${dtls.serviceName}=='Navy'" ><span>GX No</span></td>
+				<td  th:if="${dtls.serviceName}=='Navy'" ><span>GX Date</span></td>
+				<td  th:if="${dtls.serviceName}=='AirForce'" ><span>POR No</span></td>		
+				<td  th:if="${dtls.serviceName}=='AirForce'" ><span>POR Date</span></td>
+				<td  th:if="${dtls.serviceName} != 'Navy' and ${dtls.serviceName} != 'AirForce'">DOII Part No</td>
+				<td  th:if="${dtls.serviceName} != 'Navy' and ${dtls.serviceName} != 'AirForce'">DOII Date</td>
+
+									<td><span th:text="#{mb.report.user.report.dateofBirth}"></span>
+									</td>
+									<td><span th:text="#{mb.report.user.report.reason}"></span></td>
+
+								</tr>
+
+								<tr th:each="fmly,stat:${dtls.familyDetails}">
+
+									<td th:text="${stat.index+1}"></td>
+									<td th:text="${fmly.firstName}+ ' ' + ${fmly.middleName}+ ' ' + ${fmly.lastName}">
+									</td>
+									<td th:text="${fmly.gender}"></td>
+									<td th:text="${fmly.relation}"></td>
+									<td th:text="${fmly.maritalStatus}"></td>
+									<td th:text="${fmly.status}"></td>
+									<td th:text="${fmly.doiipartNo}"></td>
+									<td th:text="${fmly.doiidate}"></td>
+									<td th:text="${fmly.dateOfBirth}"></td>
+									<td th:text="${fmly.reason}"></td>
+								</tr>
+
+							</tbody>
+						</table>
+
+					</div>
+				</div>
+			</div>
+
+	</body>
+
+</html>

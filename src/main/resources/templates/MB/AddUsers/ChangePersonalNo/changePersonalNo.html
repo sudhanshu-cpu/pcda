@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+<script type="text/javascript"
+	th:src="@{/js/common/epochCal.js}"></script>
+<script type="text/javascript"
+	th:src="@{/js/MB/AddUsers/ChangePersonalNo/changePNo.js(random=${session.jsToken})}"></script>
+<script type="text/javascript"
+	th:src="@{/js/common/masterDetails.js(random=${session.jsToken})}"></script>
+<script type="text/javascript"
+	th:src="@{/js/common/travellerProfile.js(random=${session.jsToken})}"></script>
+<script type="text/javascript"
+	th:src="@{/js/common/dateOfRetirement.js(random=${session.jsToken})}"></script>
+<script type="text/javascript"
+	th:src="@{/js/common/checkAlphaNumber.js(random=${session.jsToken})}"></script>
+<script type="text/javascript"
+	th:src="@{/js/MB/AddUsers/ChangePersonalNo/changePersonalno.js(random=${session.jsToken})}"></script>
+
+
+
+
+<body
+ oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+
+		<div th:insert="~{fragments/header/mainHeader}">...</div>
+
+		<section id="midpart" class="midpart">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-lg-1"></div>
+                <div class="col-lg-10">
+						
+                <form th:action="@{saveChangePno}" method="post"
+							id="changePnoForm">
+                    <div id="program" class="programBlock">
+                        <div class="welcomebox">
+                            <div class="welcomeHead">
+                             <div th:unless="${#strings.isEmpty(success)}" th:text="${success}"></div>
+                                <p th:text="#{addusers.changepersonalNo.title}">
+                                  
+                                </p>
+                            </div>
+                            <div class="welcomecont">
+                                <table class="filtersearch">
+                                    <tbody class="all1">
+                                        <tr>
+                                    <td>
+                                            <span th:text="#{addusers.changepersonalNo.uservice}"></span>
+                                                <span class="mandatory">:</span>
+                                    </td>
+                                    <td colspan="3">
+                                                <span class="mandatory" th:text="${visitorServiceName}"></span>
+                                    </td>
+                                    </tr>
+                                        <tr>
+                                            <td style="width:20%;">
+                                                <span th:text="#{addusers.changepersonalNo.tservice}"></span>
+                                                <span class="mandatory" >*</span>
+ 	    <input type="hidden" name="unitServiceId" id="serviceId" th:value="${visitorServiceId}">
+ 	    <input id="loginVisitorServiceId" name="loginVisitorServiceId" th:value="${visitorServiceId}" type="hidden">
+
+                                            </td>
+                                            <td style="width:33%;">
+                                                <select name="travelerServiceId" id="alternateService" class="combo" style="width: 70%;">
+                                                    <option value="">select</option>
+                                                    <option th:each=" src : ${changeServiceList}" th:text="${src.serviceName}" th:value="${src.serviceId}"></option>
+                                                </select>
+                                            </td>
+                                            <td style="width:25%">
+                                               <span th:text="#{addusers.changepersonalNo.cname}"></span>
+                                                <span class="mandatory">*</span>
+                                            </td>
+                                            <td>
+                                                <select id="categoryId" class="combo" style="width: 80%;" name="category">
+                                                    <option value="">select</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td >
+                                                   <span th:text="#{addusers.changepersonalNo.lname}"></span>
+                                                <span class="mandatory">*</span>
+                                            </td>
+                                            <td>
+                                                <select name="levelId" id="levelId" class="combo" style="width: 70%;" onchange="setRankLevel(this)">
+                                                    <option value="-1">select</option>
+                                                </select>
+                                                
+                                            </td>
+                                            
+                                            <td > 
+                                             <span th:text="#{addusers.changepersonalNo.gpay}"></span>
+                                                <span class="mandatory"> *</span>
+                                            </td>
+                                            <td>
+                                            	<input type="hidden" name="rankId" id="rankId">
+                                            	
+                                            	<span id="rank"></span>
+                                            </td>
+                                        </tr>
+
+ 	  <tr align="left" id="old_personal_number" >
+	  <td th:text="#{addusers.changepersonalNo.pno.new}"></td>
+	  <td colspan="5" align="left">
+	  
+   		<select name="alphaNo" id="alphaNoId" class="combo" >
+ 	  		<option value="">NA</option>
+   		</select>
+	  - <span class="mandatory">*</span> <input type="text" name="personalNo" id="personalNo" size="8"  maxlength="8" class="txtfldM" onKeyPress="testForNumericKey(event)" style="width: 28%;" autocomplete="off">
+	  - <span class="mandatory">*</span>  <input type="text" name="chkAlpha" id="chkAlpha" size="1" maxlength="1" class="extntxtfld" onKeyPress="testForCharacterKey(event)" onkeyup="this.value = this.value.toUpperCase()" style="margin: 0 3% 0 0;" autocomplete="off">
+	    <input type="button" class="butn" value="Validate Personal Number" onclick="checkAlphaNumber1();"/>
+	     
+	     
+	    <input type="hidden" id="mapPersonalNoFlag" name="mapPersonalNoFlag" value="false"/> 
+       <input type="hidden" name="userId" class="txtfldM" id="userId" size="10" readonly="readonly"/>
+        <input type="hidden" id="newPno" name="newPersonalNo"/>
+       	   <input type="hidden" id="groupString" name="groupString"/>
+        <input type="hidden" name="persnBlock" id="persnBlock"/>
+        <input type="hidden" id="loginUserUnitId" name="loginUserUnitId" th:value="${loginVisitorUnitId}" /> 
+        <input type="hidden" value="changePersonalNo" id="request_form"/>
+	 
+	  </td>
+	 </tr>
+<input type="hidden" id="validatePersonalNo" name="validatePersonalNo"/>
+	<tr id="navy_airforce_cadit" style="display:none">
+	  <td ><span th:text="#{addusers.changepersonalNo.pno}"></span></td>
+	  <td colspan="5">
+	   
+	   <span class="mandatory" id="showAirForceCadets">*
+	   <input type="text" name="airForceCadetNo" id="airForceCadetNo" size="7"  maxlength="7" class="txtfldM" onKeyPress="testForAlphanumericKey(event)" autocomplete="off" ></span>
+
+ 	   <span class="mandatory" id="showcadetNo">*
+ 	   <input type="text" name="cadetNo" id="cadetNo" size="5"  maxlength="5" class="txtfldM" onKeyPress="testForNumericKey(event)" autocomplete="off"></span>
+
+	   <span class="mandatory" id="showCadetChkAlpha">-*
+	   <input type="text" name="cadetChkAlpha" id="cadetChkAlpha" size="1" maxlength="1" class="extntxtfld" onKeyPress="testForCharacterKey(event)" onkeyup="this.value = this.value.toUpperCase()" autocomplete="off"></span>
+
+	   <span class="mandatory" id="showCourseSerialNo">-*
+	   <input type="text" name="courseSerialNo" id="courseSerialNo" size="3" maxlength="3" class="extntxtfld" onKeyPress="testForAlphanumericKey(event)" onkeyup="this.value = this.value.toUpperCase()" autocomplete="off"></span>
+	    <input type="button" class="butn" value="Validate Personal Number" onclick="checkAlphaNumber1();"/>
+	    <input type="hidden" id="mapPersonalNoFlag" name="mapPersonalNoFlag" value="false"/> 
+       <input type="hidden" name="userId" class="txtfldM" id="userId" size="10" readonly="readonly"/>
+       	   <input type="hidden" id="groupString" name="groupString"/>
+       <input type="hidden" name="persnBlock" id="persnBlock"/>
+       <input type="hidden" id="loginUserUnitId" name="loginUserUnitId" th:value="${loginVisitorUnitId}" /> 
+       <input type="hidden" value="changePersonalNo" id="request_form"/>
+
+	  </td>
+	 </tr>
+
+                                        <tr>
+                                            <td >
+                                                 <span th:text="#{addusers.changepersonalNo.rail}"></span>
+                                                <span class="mandatory">*</span>
+                                            </td>
+                                            <td>
+                                                <select name="payAcOff" id="payAcOff" class="combo" style="width: 70%;">
+                                                    <option value="-1">Select</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <span th:text="#{addusers.changepersonalNo.air}"></span>  
+                                                <span class="mandatory">*</span>
+                                            </td>
+                                            <td>
+                                                <select name="airAcOff" id="airAcOff" class="combo" style="width: 80%;">
+                                                    <option value="-1">Select</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                        <td >
+                                          <span th:text="#{addusers.changepersonalNo.dob}"></span>
+                                        <span class="mandatory">*</span>
+                                        </td>
+                                        <td colspan="3">
+                                         <div id="calendar1_container"></div>		   
+	 	   <input type="text" class="txtfldM" name="dob" size="15" id="dob"  autocomplete="off">
+	 	   <div id="calendar3_container"></div>
+                                        </td>
+                                        </tr>
+                                        <tr>
+                                          <td id="isDateOfCommission">
+                                            <span th:text="#{addusers.changepersonalNo.must}"></span>
+                                          <span class="mandatory">*</span></td>
+										 <td colspan="3">
+	 	    <input type="text" name="dateOfCom_join" id="dateOfCom_join" class="txtfldM" size="12"  autocomplete="off">
+	 	   <input type="button" class="butn" value="Fetch Old Personal No" id="mapPersonalNoBtn" name="mapPersonalNoBtn" onclick="searchPersonalNo();" />
+	 	   </td>
+
+                                        </tr>
+                                        <tr>
+                                        <td colspan="4">
+                                         <div id="mapPersonalNo"></div>
+                                        </td>
+                                        </tr>
+                                        <tr>
+                                        <td colspan="4" >
+                                        <div id="reasonDiv" style="display:none">
+			 	 <table style="width:65%" cellspacing="1" cellpadding="4" border="0" class="filtersearch">
+			 	  <tr>
+			 	   <td style="width:27.5%;padding:0" th:text="#{addusers.changepersonalNo.reason}"></td>
+			 	   <td> 
+			 	   <input type="text" class="txtfldM" name="reason" id="reason" maxlength="20" size="15" style="width:85%" autocomplete="off">
+			 	   <input type="hidden" class="txtfldM" name="oldPersonalNo" id="oldPersonalNo"/>
+			 	   </td>
+			 	   <td><input type="button" class="butn" value="Map Personal No" id="mapPersonalNoSaveBtn" name="mapPersonalNoSaveBtn" onclick="mapPersonalNo('${$formAction}', 'next')"/></td>
+			 	 </tr>  
+			 	 </table>
+		 	 </div>
+
+                                        </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                </div>
+                
+				</div>
+			</div>
+
+    </section>
+<section>
+<div class="blank"></div>
+</section>
+    <section>
+			<div th:insert="~{fragments/login/footer}"></div>
+		</section>
+
+</body>
+
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+
+	<div th:if="${responseBean.trainbtwnstnslist} != null or ${not #lists.isEmpty(responseBean.trainbtwnstnslist)}">
+	<div id="program" class="programBlock">
+                        <div class="welcomebox">
+   		<div class="welcomeHead">
+   		<p>List of Trains</p>
+   		 </div>
+                            <div class="welcomecont">
+		<table class="filtersearch">
+		<tbody class="all1">
+			<tr class="lablevalue">
+				<td></td>
+				<td>Train Name</td>
+				<td>Train No</td>
+				<td>Departs</td>
+				<td>Arrives</td>
+				<td>Runs On</td>
+			</tr>
+		
+			<tr th:each="src,iterStat : ${responseBean.trainbtwnstnslist}">
+				<td>
+					<input type="radio" name="returnSelectedTrain"
+                       th:id="'returnTrainRadio' + ${iterStat.index}"
+                       th:value="${src.trainnumber}"
+                       th:onclick="'showReturnSaveButton(' + ${iterStat.index} + ')'" />
+				</td>
+				<td th:text="${src.trainname}"></td>
+				<td th:text="${src.trainnumber}"></td>
+				<td>
+					<div th:text="${src.fromstncode}"></div>
+					<div th:text="${src.departuretime}"></div>
+				</td>
+				<td>
+					<div th:text="${src.tostncode}"></div>
+					<div th:text="${src.arrivaltime}"></div>
+				</td>
+				<td th:text="${src.runsOn}"></td>
+				  <td>
+                <button th:id="'saveBtn' + ${iterStat.index}" class="book-button" style="width:75%;margin-left:3%;"
+                 th:attr="onclick='getReturnTrainRouteStation(\''+${src.trainnumber}+'\',\''+${src.fromstncode}+'\',\''+${src.tostncode}+'\')'">Select</button>
+            </td>
+			</tr>
+			</tbody>
+		</table>
+	</div>
+	</div>
+	</div>
+	</div>
+	<div class="welcomebox" th:unless="${responseBean.trainbtwnstnslist} != null or ${not #lists.isEmpty(responseBean.trainbtwnstnslist)}">
+		<span>There has been an error encountered due to which we will not be able to proceed further.
+				This might have occurred due to one or more of the following reasons :</span>
+			<br>
+		<span th:text="${responseBean.errorMessage}"></span>
+	</div>
+
+</body>
+</html>

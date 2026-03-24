@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+<script th:src="@{/js/common/epochCal.js}"></script>
+<script th:src="@{/js/common/civillianDOR.js(random=${session.jsToken})}"></script>
+<script th:src="@{/js/common/civilianServiceTravelerProfile.js(random=${session.jsToken})}"></script>
+<script th:src="@{/js/MB/AddUsers/TravelerProfile/createCivillianTravelerProfile.js(random=${session.jsToken})}"></script>
+<script th:src="@{/js/MB/AddUsers/TravelerProfile/stationAirport.js(random=${session.jsToken})}"></script>
+
+<body>
+
+	<div th:insert="~{fragments/header/mainHeader}"></div>
+
+    <section id="midpart" class="midpart">
+            <div class="row" style="width:100%">
+				<div class="col-lg-1"></div>
+                <div class="col-lg-10">
+
+<div th:text="${errors}" class="errors"></div>
+
+				<form method="post" th:action="@{/mb/savecivillianTraveler}" id="savecivillianTravelerForm">
+
+<input th:value="${loginUserId}" name="loginUserId" type="hidden">
+
+<input type="hidden" id="relationFamilyEnum" th:value="${enumRelation}">
+<input type="hidden" id="genderFamilyEnum" th:value="${enumGender}">
+<input type="hidden" id="marStatusFamilyEnum" th:value="${enumMaritalStatus}">
+
+<input type="hidden" id="loginVisitorPaoOfficeId" name="loginVisitorPaoOfficeId" th:value="${loginVisitorPaoOfficeId}">
+<input type="hidden" id="loginVisitorUnitId" name="loginVisitorUnitId" th:value="${loginVisitorUnitId}">
+<input type="hidden" id="locationId" name="locationId" th:value="${locationId}">
+<input type="hidden" id="retireAge" name="retireAge">
+<input type="hidden" id="validatePersonalNo" name="validatePersonalNo">
+<input type="hidden" id="lastRowIndex" name="lastRowIndex" value="">
+<input type="hidden" id="famIndex" name="famIndex">
+
+<input type="hidden" id="currentYear" name="currentYear" th:value="${reqData.currentYear}">
+<input type="hidden" id="ltcAvailPreviousYear" name="ltcAvailPreviousYear" th:value="${reqData.previousYear}">
+<input type="hidden" id="currentSubBlockYear" name="currentSubBlockYear" th:value="${reqData.currentSubBlockYear}">
+<input type="hidden" id="previousSubBlockYear" name="previousSubBlockYear" th:value="${reqData.previousSubBlockYear}">
+<input type="hidden" id="isOnExtention" name="isOnExtention" value="NO">
+<input type="hidden" id="civilianPersonalNo" name="civilianPersonalNo">
+<input name="validateServiceNo" type="hidden" id="validateServiceNo" value= "false">
+
+                    <div id="program" class="programBlock">
+                        <div id="welcomebox" class="welcomebox" style="margin-bottom:1rem">
+                            <div id="welcomeHead" class="welcomeHead">
+                                <p th:text="#{mb.addusers.civiliantraveler.create}">
+                                </p>
+                            </div>
+
+                            <div id="welcomecont" class="welcomecont">
+                                <table id="filtersearch" class="filtersearch">
+                                    <tbody id="all1" class="all1">
+                                        <tr>
+                                            <td style="width:18%;">
+                                                <span th:text="#{mb.addusers.civiliantraveler.unit}"></span> <span class="mandatory">:</span>
+                                               
+                                            </td>
+                                            <td style="width:33%;">
+                                                <input class="mandatory" th:value="${reqData.serviceName}" id="loginVisitorServiceName" name="loginVisitorServiceName" readOnly>
+                                            </td>
+                                            <td style="width:25%">
+<span th:text="#{mb.addusers.armytraveler.travelerservice}"></span><span class="mandatory">*</span>
+                                            </td>
+                                            <td>
+                                                <span class="mandatory" th:text="${reqData.serviceName}"></span>
+                                                <input type="hidden" id="loginVisitorServiceId" name="loginVisitorServiceId" th:value="${visitorServiceId}">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width:25%">
+                                                <span th:text="#{mb.addusers.civiliantraveler.category}"></span>
+                                                <span class="mandatory">*</span>
+                                            </td>
+                                            <td>
+                                                <select id="categoryId" name="categoryId" class="combo" style="width: 80%;">
+                                                    <option value="">select</option>
+                                                    <option th:each="category : ${categoryList}" th:text="${category.value}" th:value="${category.key}"></option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <span th:text="#{mb.addusers.civiliantraveler.level}"></span>
+                                                <span class="mandatory">*</span>
+                                            </td>
+                                            <td>
+                                                <select id="levelId" class="combo" style="width: 70%;" onchange="setRankLevel(this)">
+                                                    <option value="-1">select</option>
+                                                </select>
+                                                <input type="hidden" id="level" name="level">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <span th:text="#{mb.addusers.civiliantraveler.pan}"></span> <span class="mandatory">*</span>
+                                            </td>
+                                            <td colspan="2" th:unless="${visitorServiceId} == 100015">
+		  		<input type="text" name="personalNo" id="personalNo" size="12"  maxlength="10" class="txtfldM" onkeyup="this.value = this.value.toUpperCase()" autocomplete="off">
+		    	<input type="button" value="Validate" class="butn" id="validatebutton" onclick="validatePanNumber();"/>  
+                                            </td>
+
+		  <td colspan="2" th:if="${visitorServiceId} == 100015">
+		  <span id="chkAlphaCGP">
+			<select name="alphaNo" id="alphaNoId" class="combo" >
+ 	  			<option value="">NA</option>
+   			</select>
+		 - <span class="mandatory">*</span> 
+		  </span>
+		    <input type="text" name="personalNo" id="personalNo" size="8"  maxlength="8" class="txtfldM" onKeyPress="testForNumericKey(event)" autocomplete="off">
+		  <span id="chkAlphaCNGP">
+		  - <span class="mandatory">*</span>  <input type="text" name="chkAlpha" id="chkAlpha" size="1" maxlength="1" class="extntxtfld" onKeyPress="testForCharacterKey(event)" onkeyup="this.value = this.value.toUpperCase()" autocomplete="off">
+		  </span>
+		    <input type="button" class="butn" value="Validate Personal Number" onclick="checkAlphaNumber1(this);">
+		  </td>
+
+                                            <td>
+                                            	<input type="hidden" name="rankId" id="rankId">
+                                            	<span id="rank" class="mandatory"></span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <span th:text="#{mb.addusers.civiliantraveler.railoffice}"></span>
+                                                <span class="mandatory">*</span>
+                                            </td>
+                                            <td>
+                                            	<input readOnly id="railOffice" class="txtfldM" th:value="${loginVisitorPaoOfficeName}">
+                                            	<input type="hidden" name="payAcOffName" th:value="${loginVisitorPaoOfficeName}">
+                                            </td>
+                                            <td>
+                                                <span th:text="#{mb.addusers.civiliantraveler.airoffice}"></span>
+                                                <span class="mandatory">*</span>
+                                            </td>
+                                            <td>
+                                            	<input readOnly id="airOffice" class="txtfldM" th:value="${loginVisitorPaoOfficeName}">
+                                            	<input type="hidden" name="airAcOffName" th:value="${loginVisitorPaoOfficeName}">
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="program1" class="programBlock">
+                        <div id="welcomebox" class="welcomebox" style="margin-bottom:1rem">
+                            <div id="welcomeHead" class="welcomeHead">
+                                <p th:text="#{mb.addusers.civiliantraveler.personaldetails}">
+                                </p>
+                            </div>
+                            <div id="welcomecont" class="welcomecont">
+                                <table id="filtersearch" class="filtersearch">
+                                    <tbody id="all1" class="all1">
+                                        <tr>
+                                            <td style="Width:25%">
+                                                <span th:text="#{mb.addusers.civiliantraveler.empname}"></span>
+                                                
+                                            </td>
+		  <td> <input type="text" class="txtfldM" maxlength="20" name="fName" placeholder="First Name" id="fName" onkeyup ="testPersonalValidationCheck();"  onblur="setPrintERSName();" autocomplete="off"></td>
+		  <td><input type="text" class="txtfldM" maxlength="20" name="mName" placeholder="Middle Name" id="mName" onblur="setPrintERSName();" autocomplete="off"></td>
+		  <td><input type="text" class="txtfldM" maxlength="20" onblur="setPrintERSName();" name="lName" placeholder="Last Name" id="lName" autocomplete="off"> <span class="mandatory">*</span></td>
+                                        </tr>
+                                        <tr>
+                                           
+                                            <td th:text="#{mb.addusers.civiliantraveler.gender}">
+                                            </td>
+                                            <td>
+                                                <input name="gender" class="peace" type="radio" value="0" checked="checked" id="male">
+                                                <span th:text="#{mb.addusers.civiliantraveler.male}"></span>
+                                                <span id="femaleHide"> <input name="gender" class="peace1" type="radio" value="1"
+                                                        id="female">
+                                                    <span th:text="#{mb.addusers.civiliantraveler.female}"></span>
+                                                </span>
+                                            </td>
+                                            <td th:text="#{mb.addusers.civiliantraveler.marstatus}">
+                                            </td>
+                                            <td>
+                                                <input name="maritalStatus" class="peace" type="radio" value="0" id="maritalStatus" onclick="setRelationFields(this.value);">
+                                                    <span th:text="#{mb.addusers.civiliantraveler.married}"></span>
+
+                                                <input name="maritalStatus" class="peace1" type="radio" value="1" id="maritalStatus"
+                                                    checked="checked" onclick="setRelationFields(this.value);">
+                                                    <span th:text="#{mb.addusers.civiliantraveler.unmarried}"></span>
+                                            </td>
+                                        </tr>
+
+	  <tr align="left" id="spouseServiceRow" style="display: none;">
+		 	   <td colspan="4"><span th:text="#{mb.addusers.civiliantraveler.isspouse}"></span>
+		 	   <input type="radio" class="peace1" name="chkForSpouseService" value="Y" onclick="setSpousePannoRow(this.value);" />YES  <input type="radio" class="peace" name="chkForSpouseService" value="N"  checked="true" onclick="setSpousePannoRow(this.value);" />NO</td>
+	  </tr>
+	  <tr align="left" id="spousePannoRow" style="display: none;">
+		   <td><span th:text="#{mb.addusers.civiliantraveler.spousepan}"></span><span class="mandatory">*</span></td> 
+	 	   <td colspan="3"><input type="text" class="txtfldM" name="spousePanNumber" id="spousePanNumber" maxlength="15" size="15" autocomplete="off"></td>
+	  </tr>
+
+                                        <tr>
+                                            <td>
+                                                   <div class="tooltip" style="padding:0">
+														<span style="font:13px arial;color:#333;" th:text="#{mb.addusers.armytraveler.ersname}"></span>
+                                                <span class="mandatory">*</span>
+															<table class="tooltiptext"
+																style="text-align: left;">
+																<tbody class="all5">
+																<tr class="lablevalue">
+																	<td nowrap="nowrap">The name that will be printed on the Rail Tickets</td>
+																</tr>
+																</tbody>
+															</table>
+														</div>
+                                            </td>
+                                            <td>
+                                                <input name="ersPrntName" type="text" class="txtfldM"
+                                                    readonly="readonly" id="ersPrntName" maxlength="15" size="15"
+                                                    style="width: 95%;">
+                                            </td>
+                                            <td>
+                                                    <span th:text="#{mb.addusers.civiliantraveler.email}"></span>
+<span class="mandatory">*</span>
+                                            </td>
+                                            <td>
+                                                <input name="email" type="text" class="txtfldM" id="email"
+                                                    maxlength="45" size="15" style="width: 90%;" 
+                                                     autocomplete="off">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                             <div class="tooltip" style="padding:0">
+                                             <span  style="font:13px arial;color:#333;">Name on Boarding Pass</span>
+														
+															<table class="tooltiptext"
+																style="text-align: left;">
+																<tbody class="all5">
+																<tr class="lablevalue">
+																	<td nowrap="nowrap">The name that will be printed on the Boarding Pass in case of Air Tickets</td>
+																</tr>
+																</tbody>
+															</table>
+														</div>
+                                        
+                                                
+                                                </td>
+                                                
+                                       <td><input type="text" id="nameOnBoardingPass" class="txtfldM" readonly="readonly" maxlength="15" size="15" style="width: 95%;" autocomplete="off"></td>
+                                      
+                                       <td th:if="${visitorServiceId} == 1000019"><div  style="padding:0">
+                                             <span  style="font:13px arial;color:#333;">Service No.</span><span class="mandatory">*</span>
+														</div></td>
+										<td  th:if="${visitorServiceId} == 1000019">
+
+											
+											<input type="text" name="civilianServiceNoPrefix" id="civilianServiceNoPrefix" size="2" maxlength="2"
+													class="txtfldM" onKeyPress="testForNumericKeyNaviCivilian(event)" autocomplete="off">
+													
+													
+											<input type="text" name="civilianServiceNo" id="civilianServiceNo" size="6" maxlength="5" class="txtfldM"
+												onKeyPress="testForNumericKeyNaviCivilian(event)" autocomplete="off">
+											<span id="chkAlphaCNGP">
+												
+												- <input type="text" name="civilianServiceNoAlpha" id="civilianServiceNoAlpha" size="1" maxlength="1"
+													class="extntxtfld" onKeyPress="testForCharacterKeyNavyCivilian(event)" onkeyup="this.value = this.value.toUpperCase()"
+													autocomplete="off">
+											</span>
+											<input type="button" class="butn" value="Validate Service No" onclick="validateCivilianServiceNo();">
+											
+										</td>
+                                       
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                    <span th:text="#{mb.addusers.civiliantraveler.dob}"></span>
+                                                <span class="mandatory">*</span>
+                                            </td>
+                                            <td>
+                                                <input name="dob" type="text" value="dd/mm/yyyy" class="txtfldM"
+                                                    size="15" id="dob" readonly="readonly" style="width: 85%;">
+                                            </td>
+                                            <td>
+                                                    <span th:text="#{mb.addusers.civiliantraveler.dor}"></span>
+                                                <span class="mandatory">*</span>
+                                            </td>
+                                            <td>
+                                                <input name="dateOfRetirement" type="text" readonly="readonly"
+                                                    class="txtfldM" id="dateOfRetirement" maxlength="15" autocomplete="off">
+	 	   		<input type="button" value="Calculate DOR" class="butn" onclick="getRetirementDate()">
+	 	   		<input type="hidden" id="dorBtnClick" value="NO">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                    <span th:text="#{mb.addusers.civiliantraveler.doen}"></span>
+                                                <span class="mandatory">*</span>
+                                            </td>
+                                            <td>
+	 	    	<input type="text" name="dateOfCom_join" id="dateOfCom_join" readonly="readonly" class="txtfldM" size="12" placeholder="dd/mm/yyyy">
+                                            </td>
+                                            <td>
+                                                    <span th:text="#{mb.addusers.civiliantraveler.mob}"></span>
+<span class="mandatory">*</span>
+                                            </td>
+                                            <td>
+                                                <input type="text" value="+91" class="txtfldM"
+                                                    maxlength="3" size="3" id="mobileNoPrefix" readonly="readonly"
+                                                    style="width: 15%;" autocomplete="off">
+                                                <input name="mobNo" type="text" class="txtfldM" minlength="10" maxlength="10"
+                                                    id="mobNo" style="width: 67%;" autocomplete="off">
+                                            </td>
+                                        </tr>
+
+
+
+	  <tr align="left" id="extensionRow" style="display: none;">
+	 	   <td width="100%" colspan="4">
+	 	   		<table width="100%" class="filtersearch">
+	 	   			<tr><td colspan="4"><b th:text="#{mb.addusers.civiliantraveler.ext}"></b></td> </tr>
+	 	   			<tr>
+	 	   				<td><span th:text="#{mb.addusers.civiliantraveler.extauth}"></span><span class="mandatory">*</span></td>
+		 	   			<td colspan="3">
+		 	   				<input type="text" name="authorityDetails" id="authorityDetails" maxlength="255" size="50" autocomplete="off">
+		 	   			 </td>
+	 	   			</tr>
+	 	   			<tr>
+	 	   				<td>
+<span th:text="#{mb.addusers.civiliantraveler.extletter}"></span>
+	 	   				<span class="mandatory">*</span></td>
+	 	   	   			<td><input type="text" class="txtfldM" name="authorityLetterNo" id="authorityLetterNo" maxlength="25" size="25" autocomplete="off"></td>
+				 	   	<td>
+<span th:text="#{mb.addusers.civiliantraveler.extletterdate}"></span>
+				 	   	<span class="mandatory">*</span></td>
+				 	   	<td><input type="text" class="txtfldM" name="authorityLetterIssueDate" size="15" id="authorityLetterIssueDate" placeholder="dd/mm/yyyy" readonly="readonly" autocomplete="off"></td>
+	 	   			</tr>
+	 	   			<tr>
+	 	   				<td>
+<span th:text="#{mb.addusers.civiliantraveler.extstartdate}"></span>
+	 	   				<span class="mandatory">*</span></td> 
+		 	   			<td><input type="text" class="txtfldM" name="extensionStartDate" size="15" id="extensionStartDate" placeholder="dd/mm/yyyy" readonly="readonly" autocomplete="off"></td>	
+	 	   				<td>
+<span th:text="#{mb.addusers.civiliantraveler.extenddate}"></span>
+	 	   				<span class="mandatory">*</span></td> 
+	 	   				<td><input type="text" class="txtfldM" name="extensionEndDate" size="15" id="extensionEndDate" placeholder="dd/mm/yyyy" readonly="readonly" autocomplete="off"></td>
+	 	   			</tr>
+	 	   			
+	 	   			
+	 	   		</table>
+	 	   </td> 
+	     </tr>
+	  
+	 	 <tr align="left">
+		 	   <td colspan="4" ><span th:text="#{mb.addusers.civiliantraveler.ltccuri}"></span> [ <span th:text="${reqData.currentYear}"></span>] <span th:text="#{mb.addusers.civiliantraveler.ltccurii}"></span> 
+		 	   <input type="radio" name="isLtcAvailCurrentYear" class="peace1" id="isLtcAvailCurrentYearY" value="Y" onclick="setBlockYearScheme(this.value);" />YES  <input type="radio" class="peace" name="isLtcAvailCurrentYear" id="isLtcAvailCurrentYearN" value="N"  checked="true" onclick="setBlockYearScheme(this.value);"/>NO</td>
+	 	 </tr>
+	 	<tr align="left">
+		 	   <td colspan="4"><span th:text="#{mb.addusers.civiliantraveler.ltsubi}"></span> [ <span th:text="${reqData.currentSubBlockYear}"></span>] <span th:text="#{mb.addusers.civiliantraveler.ltsubii}"></span>
+		 	   <input type="radio" name="isLtcAvailCurrentSubBlock" class="peace1" id="isLtcAvailCurrentSubBlockY" value="Y" onclick="setYearScheme(this.value);" />YES  <input type="radio" class="peace" name="isLtcAvailCurrentSubBlock" id="isLtcAvailCurrentSubBlockN" value="N"  checked="true" onclick="setYearScheme(this.value);"/>NO</td>
+	 	 </tr>
+	 	 <tr align="left">
+		 	   <td colspan="4"><span th:text="#{mb.addusers.civiliantraveler.ltcprei}"></span> [ <span th:text="${reqData.previousSubBlockYear}"></span>] <span th:text="#{mb.addusers.civiliantraveler.ltcpreii}"></span>
+		 	   <input type="radio" name="isLtcAvailPreviousSubBlock" class="peace1" value="Y"/>YES  <input type="radio" name="isLtcAvailPreviousSubBlock" class="peace" value="N"  checked="true"/>NO</td>
+	 	 </tr>
+	 	 
+ 		 <tr align="left">
+		 	   <td colspan="4"><span th:text="#{mb.addusers.civiliantraveler.sus}"></span>
+		 	   <input type="radio" name="chkForSuspension" value="Y" class="peace1" onclick="setSuspensionRow(this.value);" />YES  <input type="radio" class="peace" name="chkForSuspension" value="N"  checked="true" onclick="setSuspensionRow(this.value);" />NO</td>
+	 	 </tr>
+	 	 <tr align="left" id="suspensionRow" style="display: none;">
+		 	   <td colspan="4" ><span class="mandatory" th:text="#{mb.addusers.civiliantraveler.nonelig}"></span></td>
+		 </tr>
+	 	 
+	 	 <tr align="left">
+		 	   <td colspan="4"><span th:text="#{mb.addusers.civiliantraveler.abond}"></span>
+		 	   <input type="radio" name="chkForAbandoned" value="Y" class="peace1" onclick="setAbandonedRow(this.value);" />YES  <input type="radio" class="peace" name="chkForAbandoned" value="N"  checked="true" onclick="setAbandonedRow(this.value);" />NO</td>
+	 	 </tr>
+	 	 <tr align="left" id="abandonedRow" style="display: none;">
+		 	   <td colspan="4" ><span class="mandatory" th:text="#{mb.addusers.civiliantraveler.famelig}"></span></td>
+		 </tr>
+
+                                        <tr>
+                                            <td>
+                                                    <span th:text="#{mb.addusers.civiliantraveler.nrshometown}"></span>
+                                                <span class="mandatory">*</span>
+                                            </td>
+                                            <td>
+                                                <input name="hmeTwnStnNrs" type="text" class="txtfldM" id="fillStnNrs3" onkeyup="getRailStation(this, 3)" onblur="fillEmp(this, 3)" autocomplete="off">
+                                                <div class="suggestionsBox" id="suggestionsRailStation3" style="display: none">
+													<div class="suggestionList" id="autoSuggestionsListRailStation3"></div>
+												</div>
+                                            </td>
+<!--                                         </tr> -->
+<!--                                         <tr> -->
+                                          
+                                              <td>
+                                                    <span th:text="#{mb.addusers.civiliantraveler.naht}"></span>
+                                            </td>
+                                            <td colspan="3">
+                                                <input name="hmeTwnNa" type="text" class="txtfldM" autocomplete="off"
+                                                    id="fillAirport2" onkeyup="getAirport(this, 2)" onblur="fillApEm(this, 2)">
+                                                <div class="suggestionsBox" id="suggestionsAirport2" style="display: none">
+													<div class="suggestionList" id="autoSuggestionsListAirport2"></div>
+												</div>
+                                            </td>
+                                            
+                                            
+                                        </tr>
+                                        
+                                         <tr>
+                                            <td>
+                                                    <span th:text="#{mb.addusers.civiliantraveler.hometown}"></span>
+                                                <span class="mandatory">*</span>
+                                            </td>
+                                            <td>
+                                                <input name="hmeTwnStnPlace" type="text" class="txtfldM" id="fillStnNrs2" onkeyup="getRailStation(this, 2)" onblur="fillEmp(this, 2)" autocomplete="off">
+                                                <div class="suggestionsBox" id="suggestionsRailStation2" style="display: none">
+													<div class="suggestionList" id="autoSuggestionsListRailStation2"></div>
+												</div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                    <span th:text="#{mb.addusers.civiliantraveler.nrsds}"></span>
+                                                
+                                                <span class="mandatory">*</span>
+                                            </td>
+                                            <td>
+                                                <input name="dutyStnNrs" type="text" value="" class="txtfldM" id="fillStnNrs1" onkeyup="getRailStation(this, 1)" onblur="fillEmp(this, 1)" autocomplete="off">
+                                                <div class="suggestionsBox" id="suggestionsRailStation1" style="display: none">
+													<div class="suggestionList" id="autoSuggestionsListRailStation1"></div>
+												</div>
+                                            </td>
+<!--                                         </tr> -->
+<!--                                         <tr> -->
+                                            <td>
+                                                    <span th:text="#{mb.addusers.civiliantraveler.nadt}"></span>
+                                            </td>
+                                            <td>
+                                                <input name="dutyStnNa" type="text" class="txtfldM" autocomplete="off"
+                                                    id="fillAirport1" onkeyup="getAirport(this, 1)" onblur="fillApEm(this, 1)">
+                                                <div class="suggestionsBox" id="suggestionsAirport1" style="display: none">
+													<div class="suggestionList" id="autoSuggestionsListAirport1"></div>
+												</div>
+                                            </td>
+                                        </tr>
+                                    
+
+		  <tr  align="left">	 	  
+	 	   	<td colspan="4" id="isPeaceLoc">
+                                                    <span th:text="#{mb.addusers.civiliantraveler.nepost}"></span>
+                        <input type="radio" name="isUnitInPeaceLoc" class="peace1" value="Y" onclick="chkForGovtAccom('YES');">Yes
+	      		 <input type="radio"  name="isUnitInPeaceLoc" value="N" class="peace" checked="true" onclick="chkForGovtAccom('NO');">No
+	      	 </td>
+	 	  </tr>
+
+		  <tr id="isShowSpr" align="left">
+	 	   <td th:text="#{mb.addusers.civiliantraveler.spr}"></td>
+	 	   <td colspan="3">
+	 	     <div id="container">
+	 	  		<div><input type="text" class="txtfldM" name="sprPlace" autocomplete="off" id="fillStnNrs5"  onblur="fillEmp(this, 5)" onkeyup="getRailStation(this, 5)"></div>
+                                                <div class="suggestionsBox" id="suggestionsRailStation5" style="display: none">
+													<div class="suggestionList" id="autoSuggestionsListRailStation5"></div>
+	       		</div>
+	         </div> 
+	       </td>
+	 	  </tr>
+	 	  
+	 	  <tr id="isShowSpr" align="left">
+	 	   <td th:text="#{mb.addusers.civiliantraveler.sprnrs}"></td>
+	 	   <td colspan="3">
+	 	     <div id="container">
+	 	  		<div><input type="text" class="txtfldM" name="sprNrs" autocomplete="off" id="fillStnNrs6"   onblur="fillEmp(this, 6)" onkeyup="getRailStation(this, 6)"></div>
+                                                <div class="suggestionsBox" id="suggestionsRailStation6" style="display: none">
+													<div class="suggestionList" id="autoSuggestionsListRailStation6"></div>
+	       		</div>
+	       	</div> 
+	       </td>
+	 	  </tr>
+
+	 	    <tr align="left">
+		 	   <td th:text="#{mb.addusers.civiliantraveler.sprna}"></td>
+			 	   <td colspan="3">
+				 	     <div id="container">
+					 	  	 <div>
+						 	 	   <input type="text" class="txtfldM" name="sprNa" id="fillAirport7" autocomplete="off"  onkeyup="getAirport(this, 7)" onblur="fillApEm(this, 7)">
+				       	 		</div>
+                                                <div class="suggestionsBox" id="suggestionsAirport7" style="display: none">
+													<div class="suggestionList" id="autoSuggestionsListAirport7"></div>
+				       	 	 </div>
+				       	 </div> 
+			     </td>
+	 	  </tr>
+
+
+
+<!-- 	 	  <tr align="left"> -->
+<!-- 	 	      <td><span th:text="#{mb.addusers.civiliantraveler.acno}"></span><span class="mandatory" th:text="#{mb.addusers.civiliantraveler.salaryac}"></span></td> -->
+<!-- 	 	      <td colspan="3"> -->
+<!-- 	 	         <input name="accountNumber" ref="accountNumber" value="" autocomplete="off" placeholder="Account Number" id="accountNumber" class="txtfldM bindCPC" maxlength="20" onKeyPress="isNumericAllow(event);resetAccNumber()"/> -->
+<!-- 	 	         <input ref="" value="" autocomplete="off" placeholder="Re Enter Account Number" id="reAccountNumber" class="txtfldM bindCPC" maxlength="20" onKeyPress="isNumericAllow(event);" onkeyup="matchAccNumber()"> -->
+<!-- 	 	         <span class="mandatory" id="isACNumberMatch"></span> -->
+<!-- 	 	      </td> -->
+<!-- 	 	  </tr> -->
+
+<!-- 	 	  <tr align="left"> -->
+<!-- 	 	      <td><span th:text="#{mb.addusers.civiliantraveler.ifsc}"></span></td> -->
+<!-- 	 	      <td colspan="3"> -->
+<!-- 	 	         <input name="ifscCode" ref="ifscCode" value="" autocomplete="off" placeholder="IFSC Code" id="ifscCode" class="txtfldM bindCPC" maxlength="20" onKeyPress="isAlphaNumericAllow(event);resetIFSCCode();" onkeyup="this.value = this.value.toUpperCase();"> -->
+<!-- 	 	         <input ref="" value="" autocomplete="off" placeholder="Re Enter IFSC Code" id="reIFSCCode" class="txtfldM bindCPC" maxlength="20" onKeyPress="isAlphaNumericAllow(event);" onkeyup="this.value = this.value.toUpperCase();matchIFSCCode();"> -->
+<!-- 	 	         <span class="mandatory" id="isIFSCCodeMatch"></span> -->
+<!-- 	 	      </td> -->
+<!-- 	 	  </tr> -->
+
+
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="program1" class="programBlock">
+                        <div id="welcomebox" class="welcomebox" style="margin-bottom:1rem">
+                            <div id="welcomeHead" class="welcomeHead">
+                               
+                                <p th:text="#{mb.addusers.civiliantraveler.depdtl}">
+                                </p>
+                            </div>
+                            <div id="welcomecont" class="welcomecont">
+                                <table id="filtersearch" class="filtersearch">
+                                    <tbody id="all1" class="all1">
+                                        <tr>
+
+<input type="hidden" id="flag" value="false">
+<input type="hidden" id="motherCheck" name="motherCheck" value="false">
+<input type="hidden" id="fatherCheck" name="fatherCheck" value="false">
+<input type="hidden" id="stepMotherCheck" name="stepMotherCheck" value="false">
+<input type="hidden" id="stepFatherCheck" name="stepFatherCheck" value="false">
+<input type="hidden" id="spouseCheck" name="spouseCheck" value="false">
+
+                                            <td style="width:5%"><span th:text="#{mb.addusers.civiliantraveler.depfirstname}"></span> <span class="mandatory">*</span></td>
+                                            <td style="width:5%" th:text="#{mb.addusers.civiliantraveler.depmidname}"></td>
+                                            <td style="width:5%" th:text="#{mb.addusers.civiliantraveler.deplasstname}"></td>
+                                            <td style="width:5%"><span th:text="#{mb.addusers.civiliantraveler.depgender}"></span> <span class="mandatory">*</span></td>
+                                            <td style="width:5%"><span th:text="#{mb.addusers.civiliantraveler.depdob}"></span> <span class="mandatory">*</span></td>
+                                            <td style="width:5%"><span th:text="#{mb.addusers.civiliantraveler.deprel}"></span> <span class="mandatory">*</span></td>
+                                            <td style="width:5%"><span th:text="#{mb.addusers.civiliantraveler.depmarst}"></span> <span class="mandatory">*</span></td>
+                                            <td style="width:5%"><span id="DoIINo" th:text="#{mb.addusers.civiliantraveler.depdoiipart}"></span><span class="mandatory">*</span></td>
+                                            <td style="width:5%"><span id="DoIIDate" th:text="#{mb.addusers.civiliantraveler.depdoiidate}"></span><span class="mandatory">*</span></td>
+                                            <td style="width:5%"><span th:text="#{mb.addusers.civiliantraveler.depres}"></span><span class="mandatory">*</span></td>
+                                            <td style="width:5%"th:text="#{mb.addusers.civiliantraveler.depersname}"></td>
+                                            <td style="width:5%"th:text="#{mb.addusers.civiliantraveler.dephostelnrs}"></td>
+                                            <td style="width:5%"th:text="#{mb.addusers.civiliantraveler.dephostelnap}"></td>
+
+                                        </tr>
+                                        </tbody>
+                                </table>
+
+                                <table id="tblGrid" class="filtersearch" style="width:100%"></table>
+
+                                        <table class="filtersearch" style="width:100%">
+                                        <tbody>
+                                        <tr>
+                                            <td style="text-align:right">
+                                                <input type="button" id="add" value="Add" class="butn" onclick="addRow()">
+                                                <input type="button" id="delete" value="Delete" class="butn" onclick="removeRow(this.parentNode.parentNode)">
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+
+<table width="100%" cellpadding="0" cellspacing="0" class="bgborder" id="depQues" style="display:none"><tr><td>
+ <div id="program1" class="programBlock">
+                        <div id="welcomebox" class="welcomebox">
+                            <div id="welcomeHead" class="welcomeHead">
+	 <p th:text="#{question.asked.title}"></p>
+	 </div>
+	<div class="welcomecont">
+    <div>
+	<table width="100%" cellpadding="0" cellspacing="0" class="welcomebox">
+	<tbody class="all1">
+	<!-- <tr id="daughMarried" style="display:none" bgcolor="#fbfac8" align="left"><td><message key="question.asked.married.daughter"/><span class="mandatory">*</span></td></tr> -->
+ 	 <tr style="display:none" id="incmRang1" name="incmRang1">
+ 	  <td bgcolor="#fbfac8" style="width:75%"><span th:text="#{question.asked.income.range}"></span></td>
+ 	  <td><input type="radio" class="peace" id="incomeRange1"  name="incomeRange1" onclick="gotoNextQuestion('incmRang1','isSeprt');"/>Yes
+ 	      <input type="radio" class="peace1" id="incomeRange1" name="incomeRange1" onclick="closeWindow('incmRang1','no','daughMarried');"/>No</td>
+ 	  
+ 	 </tr>
+ 	 
+ 	 <tr id="isSeprt" style="display:none" align="left">
+ 	  <td bgcolor="#fbfac8" style="width:75%"><span th:text="#{question.asked.is.sep}"></span></td>
+ 	  <td><input type="radio" id="isSept1" class="peace" name="isSept1" onclick="gotoNextQuestion('isSeprt','whlyDep1');"/>Yes
+ 	      <input type="radio" id="isSept1" class="peace1" name="isSept1" onclick="closeWindow('isSeprt','no','daughMarried');"/>No</td>
+ 	  
+ 	 </tr>
+ 	 
+ 	 <tr id="whlyDep1" style="display:none" align="left">
+ 	  <td style="width:75%"><span th:text="#{question.asked.is.wholly.dependant}"></span></td>
+ 	  <td><input type="radio" class="peace" id="isDep1"  name="isDep1" onclick="gotoNextQuestion('whlyDep1','DepPerTR1');"/>Yes
+ 	  <input type="radio" id="isDep1" class="peace1" name="isDep1" onclick="closeWindow('whlyDep1','no','daughMarried');"/>No</td>
+ 	  
+ 	 </tr>
+ 	 
+ 	 <tr id="DepPerTR1" style="display:none" align="left">
+ 	  <td style="width:75%"><span th:text="#{question.asked.she.dependant.as.per.tr.rule}"></span></td>
+ 	  <td><input type="radio" class="peace" id="isDepAsTR1"  name="isDepAsTR1" onclick="closeWindow('DepPerTR1','yes','daughMarried');"/>Yes
+ 	  <input type="radio" class="peace1" id="isDepAsTR1" name="isDepAsTR1" onclick="closeWindow('whlyDep1','no','daughMarried');"/>No</td>
+ 	  
+ 	 </tr>
+ 	 </tbody>
+   </table>
+
+</div>
+
+
+<div  >
+	<table width="100%" cellpadding="0" cellspacing="0" class="filtersearch">
+	<tbody class="all1">
+ 	<!--  <tr id="broUnmarried" style="display:none"><td  ><message key="question.asked.unmarried.brother" bgcolor="#fbfac8"/><span class="mandatory">*</span></td></tr>-->
+ 	 <tr id="incmrange2" align="left" style="display:none">
+ 	 
+ 	  <td style="width:75%"><span th:text="#{question.asked.income.range}"></span></td>
+ 	  <td><input type="radio" class="peace" id="incomeRange2" value="0" name="incomeRange2" onclick="gotoNextQuestion('incmrange2','isparAlv2');"/>Yes
+ 	     <input type="radio" class="peace1" id="incomeRange2" value="1" name="incomeRange2" onclick="closeWindow('broUnmarried','no','broUnmarried');"/>No</td>
+ 	  
+ 	 </tr>
+ 	 
+ 	 <tr style="display:none" id="isparAlv2" align="left">
+ 	  <td style="width:75%"><span th:text="#{question.asked.is.parents.alive}"></span></td>
+ 	  <td><input type="radio" class="peace" id="isParAlive2" value="0" name="isParAlive2" onclick="gotoNextQuestion('isparAlv2','isParDep2');"/>Yes
+ 	      <input type="radio" class="peace1" id="isParAlive2" value="1" name="isParAlive2" onclick="gotoNextQuestion('isparAlv2','isResPers2');"/>No</td>
+ 	  
+ 	 </tr>
+ 	 
+ 	 <tr style="display:none" id="isParDep2" align="left">
+ 	  <td style="width:75%"><span th:text="#{question.asked.is.parents.dependant}"></span></td>
+ 	  <td><input type="radio" class="peace" id="isParsDep2" value="0" name="isParsDep2" onclick="gotoNextQuestion('isParDep2','DepPerTR2');"/>Yes
+ 	      <input type="radio" class="peace1" id="isParsDep2" value="1" name="isParsDep2" onclick="closeWindow('broUnmarried','no','isResPers2');"/>No</td>
+ 	  
+ 	 </tr>
+ 	 
+ 	 
+ 	 
+ 	  <tr style="display:none" id="isResPers2" align="left">
+ 	  <td style="width:75%"><span th:text="#{question.asked.is.wholly.dependant}"></span></td>
+ 	  <td><input type="radio" class="peace" id="isResPer2" name="isResPer2" value="0" onclick="gotoNextQuestion('isResPers2','DepPerTR2');"/>Yes
+ 	      <input type="radio" class="peace1" id="isResPer2" name="isResPer2" value="1" onclick="closeWindow('isResPers2','no','broUnmarried');"/>No</td>
+ 	  
+ 	 </tr>
+ 	 
+ 	   <tr style="display:none" id="DepPerTR2" align="left">
+ 	  <td style="width:75%"><span th:text="#{question.asked.he.dependant.as.per.tr.rule}"></span></td>
+ 	  <td><input type="radio" class="peace" id="isDepAsTR2" name="isDepAsTR2" value="0" onclick="closeWindow('DepPerTR2','yes','broUnmarried');"/>Yes
+ 	      <input type="radio" class="peace1" id="isDepAsTR2" name="isDepAsTR2" value="1" onclick="closeWindow('DepPerTR2','no','broUnmarried');"/>No</td>
+ 	  
+ 	 </tr>
+ 	 
+ 	 </tbody>
+   </table>
+</div>
+
+<div >
+	<table width="100%" cellpadding="0" cellspacing="0" class="filtersearch">
+ 	 <tbody class="all1">
+ 	  <!-- <tr id="sister" style="display:none"><td   bgcolor="#fbfac8"><message key="question.asked.sister" /><span class="mandatory">*</span></td></tr> -->
+ 	 <tr id="incmRange3" align="left" style="display:none"> 
+ 	 <td style="width:75%"><span th:text="#{question.asked.income.range}"></span></td>
+ 	  <td><input type="radio" class="peace" id="incomeRange3" name="incomeRange3" value="0" onclick="gotoNextQuestion('incmRange3','isParAlv3');"/>Yes
+ 	      <input type="radio" class="peace1" id="incomeRange3" value="1" name="incomeRange3"  onclick="closeWindow('incmRange3','no','sister');"/>No</td>
+ 	  
+ 	 </tr>
+ 	 
+ 	 
+ 	 
+ 	 <tr style="display:none" id="isParAlv3" align="left">
+ 	  <td style="width:75%"><span th:text="#{question.asked.is.parents.alive}"></span></td>
+ 	  <td><input type="radio" class="peace" id="isParAliv3" value="0"   name="isParAliv3" onclick="gotoNextQuestion('isParAlv3','isParDep3');"/>Yes
+ 	      <input type="radio" class="peace1" id="isParAliv3" value="1"   name="isParAliv3" onclick="gotoNextQuestion('isParAlv3','isResPers3');"/>No</td>
+      
+ 	 </tr>
+ 	 
+ 	  <tr style="display:none" id="isParDep3" align="left">
+ 	  <td style="width:75%"><span th:text="#{question.asked.is.parents.dependant}"></span></td>
+ 	  <td><input type="radio" class="peace" id="isPartDep3" value="0"   name="isPartDep3" onclick="gotoNextQuestion('isParDep3','isUnmarr3');"/>Yes
+ 	      <input type="radio" class="peace1" id="isPartDep3" value="1" name="isPartDep3" onclick="closeWindow('sister','no','isParDep3');"/>No</td>
+ 	  
+ 	 </tr>
+ 	 
+ 	  <tr style="display:none" id="isResPers3" align="left">
+ 	  <td style="width:75%"><span th:text="#{question.asked.is.wholly.dependant}"></span></td>
+ 	  <td><input type="radio" class="peace" id="isResPer3" name="isResPer3" value="0" onclick="gotoNextQuestion('isResPers3','isUnmarr3');"/>Yes
+ 	     <input type="radio" class="peace1" id="isResPer3" name="isResPer3" value="1" onclick="closeWindow('isResPers3','no','sister');"/>No</td>
+ 	  
+ 	 </tr>
+ 	 
+ 	 
+ 	 <tr style="display:none" id="isUnmarr3" align="left">
+ 	  <td style="width:75%"><span th:text="#{question.asked.she.dependant.as.per.tr.rule}"></span></td>
+ 	  <td><input type="radio" class="peace" id="isUnm3" value="0"  name="isUnm3" onclick="closeWindow('isUnmarr3','yes','sister');"/>Yes
+ 	      <input type="radio" class="peace1" id="isUnm3" value="1" name="isUnm3" onclick="closeWindow('sister','no','isUnmarr3');"/>No</td>
+ 	  
+ 	 </tr>
+ 	 </tbody>
+   </table>
+</div>
+
+
+
+<div >
+	<table width="100%" cellpadding="0" cellspacing="0" class="filtersearch">
+ 	 <tbody class="all1">
+ 	  <!-- <tr id="sisterMarried" style="display:none"><td   bgcolor="#fbfac8"><message key="question.asked.sister" /><span class="mandatory">*</span></td></tr> -->
+ 	 <tr id="incmRange5" align="left" style="display:none"> 
+ 	 <td style="width:75%"><span th:text="#{question.asked.income.range}"></span></td>
+ 	  <td><input type="radio" class="peace" id="incomeRange5" name="incomeRange5" value="0" onclick="gotoNextQuestion('incmRange5','sept5');"/>Yes
+ 	      <input type="radio" class="peace1" id="incomeRange5" value="1" name="incomeRange5"  onclick="closeWindow('incmRange5','no','sister');"/>No</td>
+ 	  
+ 	 </tr>
+ 	 
+ 	  <tr style="display:none" id="sept5" align="left">
+ 	  <td style="width:75%"><span th:text="#{question.asked.is.sep}"></span></td>
+ 	  <td><input type="radio" class="peace" id="isSep5" value="0"    name="isSep5" onclick="gotoNextQuestion('sept5','isParAlv5');"/>Yes
+ 	      <input type="radio" class="peace1" id="isSep5" value="1"   name="isSep5" onclick="closeWindow('sister','no','sept5');"/>No</td>
+      
+ 	 </tr>
+ 	 
+ 	 <tr style="display:none" id="isParAlv5" align="left">
+ 	  <td style="width:75%"><span th:text="#{question.asked.is.parents.alive}"></span></td>
+ 	  <td><input type="radio" class="peace" id="isParAliv5" value="0"   name="isParAliv5" onclick="gotoNextQuestion('isParAlv5','isParDep5');"/>Yes
+ 	      <input type="radio" class="peace1" id="isParAliv5" value="1"   name="isParAliv5" onclick="gotoNextQuestion('isParAlv5','isResPers5');"/>No</td>
+      
+ 	 </tr>
+ 	 
+ 	  <tr style="display:none" id="isParDep5" align="left">
+ 	  <td style="width:75%"><span th:text="#{question.asked.is.parents.dependant}"></span></td>
+ 	  <td><input type="radio" class="peace" id="isPartDep5" value="0"   name="isPartDep5" onclick="gotoNextQuestion('isParDep5','depPerTR5');"/>Yes
+ 	      <input type="radio" class="peace1" id="isPartDep5" value="1" name="isPartDep5" onclick="closeWindow('sister','no','isParDep3');"/>No</td>
+ 	  
+ 	 </tr>
+ 	 
+ 	  <tr style="display:none" id="isResPers5" align="left">
+ 	  <td style="width:75%"><span th:text="#{question.asked.is.wholly.dependant}"></span></td>
+ 	  <td><input type="radio" class="peace" id="isResPer5" name="isResPer5" value="0" onclick="gotoNextQuestion('isResPers5','depPerTR5');"/>Yes
+ 	     <input type="radio" class="peace1" id="isResPer5" name="isResPer5" value="1" onclick="closeWindow('isResPer5','no','sister');"/>No</td>
+ 	  
+ 	 </tr>
+ 	 
+ 	 
+ 	 <tr style="display:none" id="depPerTR5" align="left">
+ 	  <td style="width:75%"><span th:text="#{question.asked.she.dependant.as.per.tr.rule}"></span></td>
+ 	  <td><input type="radio" class="peace" id="depAsPerTR5" value="0"  name="depAsPerTR5" onclick="closeWindow('depPerTR5','yes','sister');"/>Yes
+ 	      <input type="radio" class="peace1" id="depAsPerTR5" value="1"  name="depAsPerTR5" onclick="closeWindow('sister','no','depPerTR5');"/>No</td>
+ 	  
+ 	 </tr>
+ 	 </tbody>
+   </table>
+</div>
+
+
+
+
+
+<div >
+	<table width="100%" cellpadding="0" cellspacing="0" class="filtersearch">
+	<tbody class="all1">
+	<!--  <tr id="parStepPar" style="display:none"><td   bgcolor="#fbfac8"><message key="question.asked.parents.stepParents"/><span class="mandatory">*</span></td></tr> -->
+ 	 <tr style="display:none" id="incmRange4" align="left">
+ 	  <td style="width:75%"><span th:text="#{question.asked.income.range}"></span></td>
+ 	  <td><input type="radio" class="peace" id="incomeRange4"  name="incomeRange4" onclick="gotoNextQuestion('incmRange4','isResPers4');"/>Yes
+ 	  <input type="radio" class="peace1" id="incomeRange4" name="incomeRange4" onclick="closeWindow('parStepPar','no','parStepPar');"/>No</td>
+ 	  
+ 	 </tr>
+ 	 
+ 	
+ 	 
+ 	 <tr style="display:none" id="isResPers4" align="left">
+ 	  <td style="width:75%"><span th:text="#{question.asked.is.wholly.dependant}"></span></td>
+ 	  <td><input type="radio" class="peace" id="isResPer4" name="isResPer4" onclick="gotoNextQuestion('isResPers4','depPerTR4');"/>Yes
+ 	      <input type="radio" class="peace1" id="isResPer4"  name="isResPer4" onclick="closeWindow('isResPers4','no','parStepPar');"/>No</td>
+ 	  
+ 	 </tr>
+ 	 
+ 	  <tr style="display:none" id="depPerTR4" align="left">
+ 	  <td style="width:75%"><span th:text="#{question.asked.she.dependant.as.per.tr.rule}"></span></td>
+ 	  <td><input type="radio" class="peace" id="depAsPerTR4" name="depAsPerTR4" onclick="closeWindow('depPerTR4','yes','parStepPar');"/>Yes
+ 	      <input type="radio" class="peace1" id="depAsPerTR4"  name="depAsPerTR4" onclick="closeWindow('depPerTR4','no','parStepPar');"/>No</td>
+ 	  
+ 	 </tr>
+ 	 </tbody>
+   </table>
+
+</div>
+
+<div >
+	<table width="100%" cellpadding="0" cellspacing="0" class="filtersearch">
+	<tbody class="all1">
+	<!--  <tr id="others" style="display:none"><td   bgcolor="#fbfac8"><message key="question.asked.parents.stepParents"/><span class="mandatory">*</span></td></tr> -->
+ 	 <tr style="display:none" id="incmRange6" align="left">
+ 	  <td style="width:75%"><span th:text="#{question.asked.income.range}"></span></td>
+ 	  <td><input type="radio" class="peace" id="incomeRange6"  name="incomeRange6" onclick="gotoNextQuestion('incmRange6','depPerTR6');"/>Yes
+ 	  <input type="radio" class="peace1" id="incomeRange6" name="incomeRange6" onclick="closeWindow('parStepPar','no','incmRange6');"/>No</td>
+ 	  
+ 	 </tr>
+ 	 
+ 	
+ 	 
+ 	
+ 	 
+ 	  <tr style="display:none" id="depPerTR6" align="left">
+ 	  <td style="width:75%"><span th:text="#{question.asked.she.dependant.as.per.tr.rule}"></span></td>
+ 	  <td><input type="radio" class="peace" id="depAsPerTR6" name="depAsPerTR6" onclick="closeWindow('depPerTR6','yes','parStepPar');"/>Yes
+ 	      <input type="radio" class="peace1" id="depAsPerTR6"  name="depAsPerTR6" onclick="closeWindow('depPerTR6','no','parStepPar');"/>No</td>
+ 	  
+ 	 </tr>
+ 	 </tbody>
+   </table>
+
+
+                            </div>
+                            </div>
+                            </div>
+                            </div>
+</td></tr>
+</table></div></div></div>
+
+<button type="submit" class="butn">Save</button>
+
+</form>
+</div></div>
+</section>
+	<section>
+<div class="blank"></div>
+</section>
+	<section>
+		<div th:insert="~{fragments/login/footer}"></div>
+	</section>
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+
+<script type="text/javascript">
+function trim(n)
+	{
+   		return n.replace(/^\s+|\s+$/g,'');
+	}
+	
+	function isEmpty(value)
+	{
+		return value==null||""==value;
+	}
+	
+function submitRequestForm(userId,userAlias,event,seqNo){
+
+	var reqPoolDiv=document.getElementById("reqPoolDiv");
+	var disAppDiv=document.getElementById("disApproveDiv");
+	$("#seqNo").val(seqNo);
+	$("#userId").val(userId);
+	$("#userAlias").val(userAlias);
+	$("#approvalType").val(event);
+	$("#disaproveReason").val("");
+
+	if(event=="2"){
+		$("#reqPoolDiv").hide();
+		$("#disApproveDiv").show();
+	} else if (event == "1") {
+		$("#profileApprovalForm").submit();
+	}
+
+}
+
+function doBack() {
+
+	$("#seqNo").val("");
+	$("#userId").val("");
+	$("#approvalType").val("");
+	$("#disaproveReason").val("");
+
+	$("#reqPoolDiv").show();
+	$("#disApproveDiv").hide();
+
+}
+
+function viewUser(pno) {
+
+	$("#pno").val(pno);
+	$("#viewForm").submit();
+
+}
+
+function validateSubmitRequest(event){
+	var disapproveReason = $("#disaproveReason").val();
+	if(disapproveReason == ''){
+		alert("Please Enter Reason For Disapproval");
+		event.preventDefault();
+	}else{
+		$("#profileApprovalForm").submit();
+	}
+	
+}
+
+
+</script>
+
+<body>
+
+<div th:insert="~{fragments/header/mainHeader}"></div>
+<section id="midpart" class="midpart">
+		<div class="container-fluid">
+<div class="row">
+
+					<div class="col-lg-1"></div>
+					<div class="col-lg-10">
+<form name="profileApproval" method="post" id="profileApprovalForm" th:action="@{/co/editProfileApp}">
+
+	<input type="hidden" name="seqNo" id="seqNo">
+	<input type="hidden" name="userId" id="userId">
+	<input type="hidden" name="userAlias" id="userAlias">
+	<input type="hidden" name="approvalType" id="approvalType">
+
+ 		<div id="disApproveDiv" style="display:none">
+ 		<div id="program" class="programBlock">
+                        <div class="welcomebox" style="margin-bottom:1rem">
+                            <div class="welcomeHead">
+                                <p>Profile Disapprove Reason
+                                </p>
+                            </div>
+                            <div class="welcomecont">
+ 			<table id="loginForm" class="filtersearch">
+ 				<tbody class="all1">
+ 				<tr><td style="width:20%" class="lablevalue">Reason for Disapproval Reasons</td>
+ 					<td style="width:80%">
+						<input name="disaproveReason" id="disaproveReason" value="" autocomplete="off">
+					</td>
+ 				</tr>
+ 				<tr><td colspan="2">
+					<input type="button" class="butn" value="Submit" onclick="validateSubmitRequest(event)">
+<!--                     <button class="butn" value="Submit" onclick="validateSubmitRequest(event)"></button> -->
+					<input type="button" class="butn" value="Back" onclick="doBack()">
+				</td></tr>
+				</tbody>
+ 			</table>
+ 		</div>
+ 			</div>
+ 			</div>
+ 		</div>
+
+</form>
+
+<form id="viewForm" method="post" th:action="@{/co/viewEditUser}">
+	<input type="hidden" name="userAlias" id="pno">
+</form>
+
+<FONT SIZE="4" COLOR="#CC0033">
+	<b th:text='${error}'></b>
+</FONT>
+
+ 	<div id="reqPoolDiv">
+ 	<div id="program" class="programBlock">
+                        <div class="welcomebox" style="margin-bottom:1rem">
+<!--                         <marquee><font color="red">For Grade Pay changes above Rs. 4800,  please contact DTS for approval. For detailed procedure contact helpline.</font></marquee> -->
+                            <div class="welcomeHead" style="margin-top:-7px">
+                                <p>Approve Requested Profile
+                                </p>
+                            </div>
+                            <div class="welcomecont">
+ 		<table id="loginForm" class="filtersearch">
+ 			<tbody class="all1">
+					<tr class="lablevalue" th:unless="${isError}">
+						 <td>Personal Number</td>
+						 <td>Name</td>
+						 <td>Actions</td>
+					</tr>
+ 					<tr  th:unless="${isError}" th:each="user : ${profileList}">
+ 						<td><a href="javascript:void(0);" th:attr="onclick='viewUser(\''+${user.userAlias}+'\')'">
+ 						<span th:text="${user.userAlias}"></span></a></td>
+ 						<td><span th:text="${user.name}"></span></td>
+						<td><input type="button" class="butn" value="Approve" th:attr="onclick='submitRequestForm(\''+${user.userId}+'\',\''+${user.userAlias}+'\',\'1\',\''+${user.sequence}+'\')'">
+						<input type="button" class="butn" value="Disapprove" th:attr="onclick='submitRequestForm(\''+${user.userId}+'\',\''+${user.userAlias}+'\',\'2\',\''+${user.sequence}+'\')'">
+						</td>
+				   </tr>
+ 				<tr th:if="${isError}"><td class="errormessage" colspan="9" style="text-align:center"><p th:text="${errorMessage}" class="errors" style="margin-bottom:0"></p></td></tr>
+ 		</tbody></table></div></div></div></div>
+ </div>
+ </div>
+ </div>
+ </section>
+ <section>
+<div class="blank"></div>
+</section>
+	<section>
+		<div th:insert="~{fragments/login/footer}"></div>
+	</section>
+
+<script type="text/javascript">
+
+// var disAppDiv=document.getElementById("disApproveDiv");
+// disAppDiv.style.display='none';
+
+</script>
+
+</body>
+</html>

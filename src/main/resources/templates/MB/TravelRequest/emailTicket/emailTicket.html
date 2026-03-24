@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<script type="text/javascript" th:src="@{/js/common/crypto.js}"></script>
+<head th:insert="~{fragments/login/head}"></head>
+	<style>
+#loader {
+  position:fixed;
+  top:0;
+  width:100%;
+  height:100%;
+  z-index:9999;
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #3498db;
+  width: 70px;
+  height: 70px;
+  margin: 18% 0 0 28%;
+  -webkit-animation: spin 2s linear infinite; 
+  animation: spin 2s linear infinite;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+
+</style>
+<script
+	th:src="@{/js/MB/travelRequest/emailTicket/emailTicket.js(random=${session.jsToken})}"></script>
+
+<body
+	oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+	<div th:insert="~{fragments/header/mainHeader}"></div>
+	<section id="midpart" class="midpart">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-1"></div>
+				<div class="col-lg-10">
+				
+				
+				
+					<marquee>
+						<font color="red">NOTE: </font><span style="font: 15px verdana; color: #240606;">For
+							tickets
+							for which journey date has passed PNR No(For Rail) or FB
+							Number/Order No(For Air) is required.</span>
+					</marquee>
+					<div id="program" class="programBlock">
+						<div class="welcomebox" style="margin-bottom: 1rem">
+							<div class="welcomeHead">
+								<p>Tickets Booking Details</p>
+							</div>
+							<form id="emailTktForm" th:action="@{/mb/getData}" method="post" >
+							<input type="hidden" name="groupId" th:value="${groupId}">
+							<div class="welcomecont">
+								<table class="filtersearch">
+									<tbody class="all1">
+										<tr>
+											<td style="width:12%">Personal No.<span class="mandatory">*</span></td>
+											<td style="width:18%"><input name="personalNo" type="text"
+												id="personalSearch" class="txtfldM" size="15" maxlength="20"
+												style="width: 73%;" autocomplete="off" th:value="${formData.personalNo}"></td>
+											<td style="width:16%">Travel Type<span class="mandatory">*</span></td>
+											
+											<td style="width:18%">
+												<select name="travelType" id="travelType" class="combo" onchange="getFldFunction()">
+													<option value="air" th:selected="${formData.travelType}=='air'">Air</option>
+													<option value="rail" th:selected="${formData.travelType}=='rail'">Rail</option>
+												</select>
+											</td>
+										
+											<td id="rail" align="left" style= "text-align:right; white-space: nowrap;  text-overflow: ellipsis;">PNR Number</td>
+											
+											<td id="air" align="left" style= "text-align:right; white-space: nowrap;  text-overflow: ellipsis;" >FB/Order Number</td>
+											<td style="width:18%">
+												<input name="fbOrPnr" type="text" id="fbOrPnr"
+												class="txtfldM" style="width: 73%;" autocomplete="off" th:value="${formData.fbOrPnr}">	
+										     </td>
+										
+										
+										     <td id="airPnr" align="left" style= "text-align:right; white-space: nowrap;  text-overflow: ellipsis;" >Airline PNR</td>
+											  <td style="width:18%">
+												<input name="airlinePnr" type="text" id="airlinePnr"
+												class="txtfldM" style="width: 73%;" autocomplete="off" th:value="${formData.airlinePnr}">	
+										     </td>
+										</tr>
+										<tr>
+											<td colspan="10" style="text-align:right"> <button type="button"
+													 class="butn" onclick="getTktData(this);">Submit</button></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							</form>
+						</div>
+						<form>
+						<div class="welcomebox" style="margin-bottom: 1rem" th:unless="${#lists.isEmpty(airTicket)}">
+							<div class="welcomecont" style="margin: 1px">
+								<table class="filtersearch">
+									<tbody class="all1" >
+										<tr class="lablevalue">
+											<td th:text="#{mb.ticket.mail.fbNumber}"></td>
+											<td th:text="#{mb.ticket.mail.originStation}"></td>
+											<td th:text="#{mb.ticket.mail.destStation}"></td>
+											<td th:text="#{mb.travel.request.journey.date}"></td>
+											<td th:text="#{mb.travel.request.tagged.booking.status}"></td>
+											<td th:text="#{mb.paymentMethod.address.email}"></td>
+											<td th:text="#{mb.ticket.mail.print}"></td>
+											<td th:text="#{mb.pcda.sub.booker.approve.action}"></td>
+										</tr>
+										<tr th:each="data,stat:${airTicket}">
+										
+										 <td th:text="${data.fbOrPnrNo}"></td>
+					    <td th:text="${data.originStation}"></td>
+					    <td th:text="${data.destStation}"></td>
+					    <td th:text="${data.journyDate}"></td>
+					    <td th:text="${data.status}"></td> 
+					    
+					    <td>
+					    
+					    <input th:value="${data.email}" name="email" type="text" id="mailId">
+					    
+					    </td>
+					    
+					    
+<td>
+
+
+<button type="submit" th:formaction="@{/mb/airPdfTicket}" th:formmethod="post" name="optTxnId" class="butn" th:value="${data.fbOrPnrNo}">Print</button>
+
+ <td>
+<!--  <a href="javascript:void(0);" class="link"   -->
+<!-- 					    onclick="sendAirTicketMail('${data.fbOrPnrNo}','${serviceProvider}','${personalNo}','${mailId}','${sNo}');"><font color="#006666"> Send Email </font></a> -->
+
+					     
+										
+<a href="javascript:void(0);" class="links"
+										th:attr="onclick='sendAirTicketMail(\''+${data.fbOrPnrNo}+'\',\''+${data.personalNo}+'\',\''+${data.email}+'\',\''+${stat.index}+'\')'"><font color="#006666"> Send Email </font></a></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						</form>
+						<form>
+						<div class="welcomebox" style="margin-bottom: 1rem" th:unless="${#lists.isEmpty(railTicket)}">
+							<div class="welcomecont" style="margin: 1px">
+								<table class="filtersearch">
+									<tbody class="all1" >
+										<tr class="lablevalue" style="background-color: #fbfac8">
+											<td th:text="#{mb.ticket.mail.pnrNo}"></td>
+											<td th:text="#{mb.ticket.mail.originStation}"></td>
+											<td th:text="#{mb.ticket.mail.destStation}"></td>
+											<td th:text="#{mb.travel.request.journey.date}"></td>
+											<td th:text="#{mb.travel.request.tagged.booking.status}"></td>
+											<td th:text="#{mb.paymentMethod.address.email}"></td>
+											<td th:text="#{mb.ticket.mail.print}"></td>
+											<td th:text="#{mb.pcda.sub.booker.approve.action}"></td>
+										</tr>
+										<tr th:each="src,stat:${railTicket}">
+										 <td th:text="${src.fbOrPnrNo}"></td>
+					    <td th:text="${src.originStation}"></td>
+					    <td th:text="${src.destStation}"></td>
+					    <td th:text="${src.journyDate}"></td>
+					    <td th:text="${src.status}"></td> 
+					    <td>
+					    
+					    <input th:value="${src.email}" name="email" type="text" id="mailId">
+					    
+					    </td>
+										<td>
+<!-- 										 <input type="hidden" value="23292472" name="pnr"> -->
+										<button type="submit" class="butn" th:formaction="@{/mb/railTicketPDF}" th:formmethod="post" name="bookingId" th:value="${src.bookingId}">Print</button></td>
+										 <td>
+<!-- 										 <a href="javascript:void(0);" class="link"   -->
+<!-- 			    onclick="sendRailTicketMail('${pnrNumber}','${ticket}','${personalNo}','${mailId}','${sNo}');"><font color="#006666"> Send Email </font></a></td> -->
+										
+										
+										<a href="javascript:void(0);" class="links"
+										th:attr="onclick='sendRailTicketMail(\''+${src.fbOrPnrNo}+'\',\''+${src.personalNo}+'\',\''+${src.email}+'\',\''+${stat.index}+'\',\''+${src.bookingId}+'\')'"><font color="#006666"> Send Email </font></a></td>
+										
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						</form>
+						<div>
+						<p th:text="${errorMessage}" class="errors" style="margin-bottom:0"></p>
+						</div>
+					</div>
+				
+				
+
+			</div>
+		</div>
+		</div>
+	</section>
+	
+
+<section>
+	<div class="blank"></div>
+	</section>
+	<section>
+    <div th:insert="~{fragments/login/footer}"></div>
+    </section>
+	
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{fragments/login/head}"></head>
+
+	<div th:insert="~{fragments/header/mainHeader}">...</div>
+<section id="midpart" class="midpart">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-12">
+<div th:if="${taDaClaimDetails.travelTypeId} == '100001'" th:insert="~{MB/FinalClaim/RejectedClaim/updateRejectedClaimViewForPT}"></div>
+<div th:if="${taDaClaimDetails.travelTypeId} == '100002'" th:insert="~{MB/FinalClaim/RejectedClaim/updateRejectedClaimViewForTD}"></div>
+<div th:if="${taDaClaimDetails.travelTypeId} == '100005'" th:insert="~{MB/FinalClaim/RejectedClaim/updateRejectedClaimViewForLTC}"></div>
+<div th:if="${taDaClaimDetails.travelTypeId} == '100006'" th:insert="~{MB/FinalClaim/RejectedClaim/updateRejectedClaimViewForLTC}"></div>
+<div th:if="${taDaClaimDetails.travelTypeId} == '100007'" th:insert="~{MB/FinalClaim/RejectedClaim/updateRejectedClaimViewForLTC}"></div>
+<div th:if="${taDaClaimDetails.travelTypeId} == '100008'" th:insert="~{MB/FinalClaim/RejectedClaim/updateRejectedClaimViewForLTC}"></div>
+	</div>
+			</div>
+		</div>
+	</section>
+	<section>
+	<div class="blank"></div>
+	</section>
+	<section>
+    <div th:insert="~{fragments/login/footer}"></div>
+    </section>
+</body>
+</html>

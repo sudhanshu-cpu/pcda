@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<body>
+	<section>
+
+		<div id="viewusrrepo">
+
+
+			<div class="welcomebox">
+				<div class="welcomeHead">
+					<p>
+						Transfer In & Re-Employment Info
+					</p>
+				</div>
+				<div class="welcomecont" style="margin:1px;">
+					<th>
+						<table class="filtersearch" width="100%" cellspacing="1" cellpadding="4" border="0">
+
+							<tbody class="all" th:each="src:${userList}">
+								<tr>
+									<td class="lablevalue"><span>Service Name</span></td>
+									<td th:text="${src.serviceName}"></td>
+									<td class="lablevalue"><span>Category Name</span></td>
+									<td th:text="${src.categoryName}">
+									</td>
+								</tr>
+								<tr>
+									<td class="lablevalue"><span>Level</span></td>
+									<td th:text="${src.level}" colspan="3"></td>
+
+
+								</tr>
+								<tr>
+									<td class="lablevalue"><span>Rail Pao</span></td>
+									<td th:text="${src.railPao}">
+									</td>
+									<td class="lablevalue"><span>Air Pao</span></td>
+									<td th:text="${src.airPao}"></td>
+
+								</tr>
+
+							</tbody>
+						</table>
+					</th>
+				</div>
+			</div>
+
+		</div>
+
+		<div id="program" class="programBlock">
+			<div class="welcomebox" style="margin-bottom:1rem">
+				<div class="welcomeHead">
+					<p>
+						User Details
+					</p>
+				</div>
+				<div class="welcomecont">
+					<table class="filtersearch" width="100%" cellspacing="1" cellpadding="4" border="0" align="center">
+						<tbody class="all1" th:each="dtls:${userList}">
+
+
+							<tr class="lablevalue" align="center">
+								<td><span th:text="#{mb.report.user.report.sN}"></span></td>
+								<td><span>Personal No</span></td>
+								<td><span>SOS Date</span></td>
+								<td><span>Retirement Date </span></td>
+							</tr>
+
+							<tr th:each="dtls,stat:${userList.userDetailsModel}">
+
+								<td th:text="${stat.index+1}">1</td>
+								<td th:text="${dtls.personalNo}"></td>
+								<td th:text="${dtls.sosDate}"></td>
+								<td th:text="${dtls.retirementDate}"></td>
+
+							</tr>
+
+						</tbody>
+					</table>
+
+				</div>
+			</div>
+		</div>
+
+
+
+	</section>
+</body>
+
+</html>

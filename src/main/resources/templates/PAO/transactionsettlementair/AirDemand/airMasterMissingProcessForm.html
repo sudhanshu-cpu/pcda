@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/login/head}"></head>
+
+<script type="text/javascript"
+	th:src="@{/js/PAO/transactionsettlementair/AirDemand/airMasterMissingProcessForm.js(random=${session.jsToken})}"></script>
+   
+<body oncontextmenu="javascript:alert('Mouse Right Click is blocked');false;">
+<style>
+	.bgcolor {
+    background-color:lightgreen;  
+}
+</style>
+	<div th:insert="~{fragments/header/mainHeader}"></div>
+   <section id="midpart" class="midpart">
+	<!-- Back to Air Demand Page  -->
+	<form id="airDemandReqPageForm" th:action="@{/pao/reqForAirDemandDwnl}" method="post">
+		<input type="hidden" name="event" value="back" />
+	</form>
+
+<!-- form for sending MM Request-->
+    <form name="sentReqForAirMMForm" id="sentReqForAirMMForm" th:action="@{/pao/sentReqForAirDemandMM}" method="post"> 		
+	</form>
+
+<!-- form for sending No MM Request-->
+<form name="sentNoReqForAirMMForm" id="sentNoReqForAirMMForm" th:action="@{/pao/sentNoReqForAirDemandMM}" method="post" >
+	<input type="hidden" th:value="${dwnAirReqIdMm}" id="airDmndReqIdForMm" name="airDmndReqIdForMm">
+</form>
+
+<input type="hidden" th:value="${dwnAirReqIdMm}" id="dwnAirDmndReqIdMm" name="dwnAirDmndReqIdMm">
+
+    <div id="program" class="programBlock" style="padding-left: 7.5%; width:90%">
+			<div class="welcomeHead" >
+				<p>Records For Master Missing</p>
+			</div>
+			 
+			<!-- No Records Found -->
+            <div th:if="${#lists.isEmpty(personalNoInfo)}">
+                <p colspan="2" align="center" class="errors">No records found.</p>
+            </div>
+
+        
+       <div class="programBlock" th:unless="${#lists.isEmpty(personalNoInfo)}">
+    <div class="welcomebox" style="margin-bottom:1rem;">
+        <div class="welcomecont">
+			
+            <table id="air_mm_data_info_list" class="filtersearch" width="100%" cellspacing="1" cellpadding="4" border="0" align="center">
+                <thead class="all1">
+                    <tr style="font-weight:bold">
+                        <th style=" text-align: center; ">S.No</th>
+                        <th style=" text-align: center; ">Select</th>
+                        <th style=" text-align: center; ">Personal No</th>
+                        <th style=" text-align: center; ">Name</th>
+                        <th style=" text-align: center; ">Cdao Account No</th>
+                        <th style=" text-align: center; ">Total Count</th>
+                        <th style=" text-align: center;">Comments</th>
+                    </tr>
+                </thead>
+                <tbody >
+                    <tr th:each="info, iterStat : ${personalNoInfo}">
+                        <td style="text-align: center; " th:text="${iterStat.index + 1}" th:classappend="${info.masterMiss.ordinal == 0} ? 'bgcolor' : ''"></td>
+                        <td style="text-align: center; " th:classappend="${info.masterMiss.ordinal == 0} ? 'bgcolor' : ''">
+							<input type="hidden" th:value="|${info.userId}##${info.masterMiss.ordinal}|" >
+                        </td>
+						<td style="text-align: center; " th:classappend="${info.masterMiss.ordinal == 0} ? 'bgcolor' : ''">
+							<span th:text="${info.personalNo}"></span>
+							<input type="hidden" th:id="|personalNoMM${info.userId}|" th:value="${info.personalNo}" />
+						</td>
+						<td style="text-align: center; " th:text="${info.name}" th:classappend="${info.masterMiss.ordinal == 0} ? 'bgcolor' : ''"></td>
+						<td style="text-align: center; " th:text="${info.cdaoAccountNo}" th:classappend="${info.masterMiss.ordinal == 0} ? 'bgcolor' : ''"></td>
+                        <td style="text-align: center; " th:text="${info.irlaCount}" th:classappend="${info.masterMiss.ordinal == 0} ? 'bgcolor' : ''"></td>
+                        <td th:classappend="${info.masterMiss.ordinal == 0} ? 'bgcolor' : ''">
+                            <textarea th:id="|comments_${info.userId}|" disabled="disabled" style="resize:none;width:90%;" maxlength="200" rows="1" th:text="${info.comments}" th:classappend="${info.masterMiss.ordinal == 0} ? 'bgcolor' : ''"></textarea>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+   
+            <div>
+                <table style="width:100%">
+                   <tr>
+    <td style="text-align: left;" th:if="${dwnAirRequestStatus}!=3">
+        <input class="butn" type="button" value="There Is No Master Missing" onclick="submitNoReqForAirMM();"/>
+    </td>
+    
+    <td style="text-align: right;" >
+        
+        <input class="butn" type="button" value="Submit Master Missing" onclick="submitReqForAirMM();" id="btn_air_master_missing"/>
+        <input class="butn" type="button" value="Abort" onclick="backToAirDemandReqPage();"/>
+    </td>
+</tr>
+
+                </table>
+            </div>
+		
+	</div>
+</section>
+	<!-- Footer Section -->
+	<section>
+		<div th:insert="~{fragments/login/footer}"></div>
+	</section>
+</body>
+</html>

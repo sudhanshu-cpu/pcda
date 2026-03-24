@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<script th:src="@{/js/MB/Grievance/complaintRedressal/grievance.js(random=${session.jsToken})}"></script>
+<head>
+    <meta charset="UTF-8">
+    <title>Query Status Popup</title>
+  
+
+</head>
+
+<body>
+    <div class="container-fluid" style="padding:15px; max-width:1200px;">
+        <div class="welcomebox" th:unless="${beanList}==null" style="margin-top:1rem;">
+            <div class="welcomeHead">
+                <span>Query Status History</span>
+            </div>
+            <div class="welcomecont">
+                <table class="filtersearch" style="width:100%;">
+                    <thead class="head">
+                        <tr>
+                            <th style="width:30%">Action Date</th>
+                            <th style="width:30%">Status History</th>
+                            <th style="width:30%">Remark</th>
+                        </tr>
+                    </thead>
+                    <tbody class="all1">
+                        <tr th:each="status : ${beanList}">
+                            <td th:text="${status.actionDate != null ? #dates.format(status.actionDate, 'dd-MM-yyyy HH:mm') + ' Hrs' : ''}"></td>
+                            <td th:text="${status.currentSatus.displayValue}"></td>
+                            <td th:text="${status.remark}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div th:if="${flag==true}" style="margin-top:1rem; text-align:right;">
+                    <form th:action="@{/mb/viewComplaintHistory}" method="post">
+                        <input type="hidden" name="personalNo" th:value="${personalNo}" />
+                        <button type="submit" class="butn" id="backButton">Back</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+      
+        <div th:if="${error != null}" style="margin-top:1rem; color:red;">
+            <span th:text="${error}"></span>
+        </div>
+    </div>
+
+</body>
+</html>
